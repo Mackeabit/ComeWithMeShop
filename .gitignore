@@ -35,7 +35,6 @@ out/
 
 ### VS Code ###
 .vscode/
-
 # Created by https://www.toptal.com/developers/gitignore/api/intellij,windows,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij,windows,java
 
@@ -87,12 +86,6 @@ cmake-build-*/
 
 # Mongo Explorer plugin
 .idea/**/mongoSettings.xml
-
-# File-based project format
-*.iws
-
-# IntelliJ
-out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
