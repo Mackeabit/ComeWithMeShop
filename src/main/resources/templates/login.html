@@ -1,59 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Login</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+	<title>Come With Me | Log-In</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="img/core-img/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="login-resource/css/util.css">
+	<link rel="stylesheet" type="text/css" href="login-resource/css/main.css">
+<!--===============================================================================================-->
 
-		<!-- MATERIAL DESIGN ICONIC FONT -->
-		<link rel="stylesheet" href="login-resource/fonts/material-design-iconic-font/css/material-design-iconic-font.min.css">
-		
-		<!-- STYLE CSS -->
-		<link rel="stylesheet" href="login-resource/css/style.css">
-	</head>
+	<style>
 
-	<body>
 
-		<div class="wrapper">
-			<div class="image-holder">
-				<img src="login-resource/images/registration-form-8.jpg" alt="">
-			</div>
-			<div class="form-inner">
-				<form action="">
-					<div class="form-header">
-						<h3>Log-in</h3>
-						<img src="login-resource/images/sign-up.png" alt="" class="sign-up-icon">
+
+	</style>
+
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-color: #fe4447;">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form">
+					<a href="index.html">
+					<span class="login100-form-logo">
+						<img src="img/core-img/logo.png" alt="">
+					</span>
+					</a>
+
+					<span class="login100-form-title p-b-34 p-t-27">
+						<br/>
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" name="username" placeholder="Username" autocomplete="off"/>
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
-					<div class="form-group">
-						<input type="text" class="form-control" data-validation="email" placeholder="E-mail">
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="pass" placeholder="Password" autocomplete="off"/>
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
-					<div class="form-group" >
-						<input type="password" class="form-control" placeholder="Password" data-validation="length" data-validation-length="min8">
+
+<!--					<div class="contact100-form-checkbox">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+							Remember me
+						</label>
+					</div>-->
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Login
+						</button>
+						<a href="sign-up.html">
+						<button class="login100-form-btn" type="button">
+							sign up
+						</button>
+						</a>
 					</div>
-					<button>Login</button>
-					<div class="socials">
-						<p>Sign up with social platforms</p>
-						<a href="" class="socials-icon">
-							<i class="zmdi zmdi-facebook"></i>
-						</a>
-						<a href="" class="socials-icon">
-							<i class="zmdi zmdi-instagram"></i>
-						</a>
-						<a href="" class="socials-icon">
-							<i class="zmdi zmdi-twitter"></i>
-						</a>
-						<a href="" class="socials-icon">
-							<i class="zmdi zmdi-tumblr"></i>
+
+					<div class="text-center p-t-90">
+						<a class="txt1" href="#">
+							Forgot Password?
 						</a>
 					</div>
 				</form>
 			</div>
-			
 		</div>
-		
-		<script src="login-resource/js/jquery-3.3.1.min.js"></script>
-		<script src="login-resource/js/jquery.form-validator.min.js"></script>
-		<script src="login-resource/js/main.js"></script>
-	</body>
-	<!-- This templates was made by Colorlib (https://colorlib.com) -->
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	<script src="login-resource/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="login-resource/vendor/animsition/js/animsition.min.js"></script>
+<!--===============================================================================================-->
+	<script src="login-resource/vendor/bootstrap/js/popper.js"></script>
+	<script src="login-resource/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="login-resource/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="login-resource/vendor/daterangepicker/moment.min.js"></script>
+	<script src="login-resource/vendor/daterangepicker/daterangepicker.js"></script>
+<!--===============================================================================================-->
+	<script src="login-resource/vendor/countdowntime/countdowntime.js"></script>
+<!--===============================================================================================-->
+	<script src="login-resource/js/main.js"></script>
+
+</body>
 </html>
