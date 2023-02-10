@@ -23,14 +23,14 @@ public class MemberRepositoryImpl implements MemberRepository {
 
     @Override
     public void save(MembersVO membersVO) {
-        log.info("save ==> MembersVO SAVE");
+        log.info("Member save ==> MembersVO SAVE");
         memberMapper.save(membersVO);
     }
 
     //비밀번호 수정에 사용
     @Override
     public Optional<MembersVO> findByEmail(String email) {
-        log.info("findByEmail ==> MembersVO By Email (Optional)");
+        log.info("Member findByEmail ==> MembersVO By Email (Optional)");
         Optional<MembersVO> find = memberMapper.findByEmail(email);
         return find;
     }
@@ -38,13 +38,13 @@ public class MemberRepositoryImpl implements MemberRepository {
     //회원 찾을 때 사용
     @Override
     public MembersVO findByIdx(Long member_idx) {
-        log.info("findByIdx ==> MembersVO By Idx");
+        log.info("Member findByIdx ==> MembersVO By Idx");
         return memberMapper.findByIdx(member_idx);
     }
 
     @Override
     public List<MembersVO> findAll() {
-        log.info("findAll ==> List<MembersVO>");
+        log.info("Member findAll ==> List<MembersVO>");
         return memberMapper.findAll();
     }
 }

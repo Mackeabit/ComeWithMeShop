@@ -1,7 +1,6 @@
 package mackeabit.shop.Repository;
 
 import mackeabit.shop.vo.MembersVO;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
