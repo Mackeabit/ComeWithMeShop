@@ -12,6 +12,9 @@
         insert into Members values (0, #{email}, #{pwd}, default, default, default, now())
     </insert>
 
+    <select id="emailCheck" parameterType="String" resultType="int">
+        SELECT COUNT(email) FROM Members WHERE email = #{email}
+    </select>
 
 
 </mapper>

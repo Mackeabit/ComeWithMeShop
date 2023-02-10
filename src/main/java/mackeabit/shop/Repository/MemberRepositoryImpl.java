@@ -47,4 +47,11 @@ public class MemberRepositoryImpl implements MemberRepository {
         log.info("Member findAll ==> List<MembersVO>");
         return memberMapper.findAll();
     }
+
+    @Override
+    public int emailCheck(String email) {
+        int cnt = memberMapper.emailCheck(email);
+        log.info("cnt = {}", cnt);
+        return cnt;
+    }
 }

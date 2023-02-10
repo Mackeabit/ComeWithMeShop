@@ -8,6 +8,33 @@
 		<!-- STYLE CSS -->
 		<link rel="icon" type="image/png" href="img/core-img/favicon.ico"/>
 		<link rel="stylesheet" href="signup-resource/css/style.css">
+		<!-- 제이쿼리 -->
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+		<style>
+			.dpn {
+				display: none !important;
+			}
+/*			.email_auth {width: 100%; margin-top: 10px;}
+			.email_auth input {display:inline-block; width: calc(100% - 121px); vertical-align: top; margin: 0;}
+			.email_auth_btn{
+				display: inline-block;
+				width: 115px;
+				height: 50px;
+				padding: 17px 0 15px;
+				border-radius: 6px;
+				border: solid 1px rgba(0,0,0,.15);
+				background-color: gray;
+				color: #212121;
+				font-size: 17px;
+				font-weight: bold;
+				line-height: 1;
+			}*/
+
+		</style>
+
+
+
 	</head>
 
 	<body>
@@ -19,8 +46,9 @@
 				</div>
 				<form action="">
 					<h3>Sign Up</h3>
+					<span id="email_ck_sp" class="dpn" style="margin-left:40px; color: Red;">이미 존재하는 이메일입니다.</span>
 					<div class="form-holder active">
-						<input type="text" placeholder="e-mail" class="form-control" autocomplete="off"/>
+						<input type="text" id="email" placeholder="e-mail" class="form-control" oninput="checkEmail()" autocomplete="off"/>
 					</div>
 					<div class="form-holder">
 						<input type="password" placeholder="Password" class="form-control" autocomplete="off"/>
@@ -39,6 +67,33 @@
 		<script src="signup-resource/js/jquery-3.3.1.min.js"></script>
 		<script src="signup-resource/js/main.js"></script>
 
+
+		<script>
+
+			//이메일 중복체크
+			function checkEmail() {
+
+				let email = $('#email').val();
+
+				$.ajax({
+					type : "GET",
+					url : "/emailCheck",
+					data : {email : email},
+					success: function(data){
+						console.log(data);
+						if(data > 0){//중복되는 이메일일때 동작(사용불가능 이메일)
+							$('#email_ck_sp').removeClass("dpn");
+						}else{//중복되는 이메일이 없을 때 동작(사용가능 이메일)
+							$('#email_ck_sp').addClass("dpn");
+						}
+					},
+					error: function(data){
+						alert('error : '+data);
+					}
+				});
+			}
+
+		</script>
 
 
 

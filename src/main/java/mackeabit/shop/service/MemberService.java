@@ -25,4 +25,9 @@ public class MemberService {
 
     }
 
+    public int emailCheck(String email) {
+        return repository.emailCheck(email);
+    }
+
+
 }

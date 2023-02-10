@@ -17,4 +17,6 @@ public interface MemberMapper {
 
     MembersVO findByIdx(Long member_idx);
 
+    int emailCheck(String email);
+
 }

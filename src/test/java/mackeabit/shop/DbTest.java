@@ -39,6 +39,15 @@ public class DbTest {
         Assertions.assertThat(memberRepository.findAll().size()).isEqualTo(4);
     }
 
+    @Test
+    @DisplayName("email 자동 검색")
+    void emailCheck() {
+        Assertions.assertThat(memberRepository.emailCheck("thdrudgh7775@naver.com"))
+                .isEqualTo(1);
+        Assertions.assertThat(memberRepository.emailCheck("thdh7775@naver.com"))
+                .isEqualTo(0);
+
+    }
 
 
 }

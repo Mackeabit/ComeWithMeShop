@@ -15,4 +15,6 @@ public interface MemberRepository {
 
     List<MembersVO> findAll();
 
+    int emailCheck(String email);
+
 }
