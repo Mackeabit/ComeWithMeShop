@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
 
-    void save(MembersVO membersVO);
+    int save(MembersVO membersVO);
 
     List<MembersVO> findAll();
 

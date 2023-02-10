@@ -15,21 +15,6 @@
 			.dpn {
 				display: none !important;
 			}
-/*			.email_auth {width: 100%; margin-top: 10px;}
-			.email_auth input {display:inline-block; width: calc(100% - 121px); vertical-align: top; margin: 0;}
-			.email_auth_btn{
-				display: inline-block;
-				width: 115px;
-				height: 50px;
-				padding: 17px 0 15px;
-				border-radius: 6px;
-				border: solid 1px rgba(0,0,0,.15);
-				background-color: gray;
-				color: #212121;
-				font-size: 17px;
-				font-weight: bold;
-				line-height: 1;
-			}*/
 
 		</style>
 
@@ -44,14 +29,14 @@
 				<div class="image-holder">
 					<img src="signup-resource/images/registration-form-4.jpg" alt="">
 				</div>
-				<form action="">
+				<form id="signForm" method="post">
 					<h3>Sign Up</h3>
 					<span id="email_ck_sp" class="dpn" style="margin-left:40px; color: Red;">이미 존재하는 이메일입니다.</span>
 					<div class="form-holder active">
-						<input type="text" id="email" placeholder="e-mail" class="form-control" oninput="checkEmail()" autocomplete="off"/>
+						<input type="text" id="email" name="email" placeholder="e-mail" class="form-control" oninput="checkEmail()" autocomplete="off"/>
 					</div>
 					<div class="form-holder">
-						<input type="password" id="pwd" placeholder="Password" class="form-control" autocomplete="off"/>
+						<input type="password" id="pwd" name="pwd" placeholder="Password" class="form-control" autocomplete="off"/>
 					</div>
 					<span id="pwd_ck_sp" class="dpn" style="margin-left:40px; color: Red;">비밀번호를 확인해주세요.</span>
 					<div class="form-holder">
@@ -59,7 +44,7 @@
 					</div>
 
 					<div class="form-login">
-						<button>Sign up</button>
+						<button type="button" id="form_btn">Sign up</button>
 						<p>계정을 보유하고 계신가요? <a href="/login">Login</a></p>
 					</div>
 				</form>
@@ -71,6 +56,38 @@
 
 
 		<script>
+
+			$('#form_btn').click(function () {
+
+				//Form Data 합치기
+				let formData = $('#signForm').serialize();
+				alert(formData);
+
+				$.ajax({
+					type   : "POST",
+					url    : "/signup",
+					data   : formData,
+					success: function (data) {
+						if (data == "Y") {
+							alert("회원 가입이 완료되었습니다.");
+							location.href = "/";
+						} else {
+							alert("회원 가입에 실패하였습니다.");
+							location.href = "redirect:/signup";
+						}
+					},
+					error: function (data) {
+						alert("에러 발생");
+						console.log(data);
+					}
+				});
+
+
+			});
+
+
+
+
 
 			/* 비밀번호 체크 */
 			$('#pwd_check').focusout(function (){

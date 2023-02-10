@@ -2,6 +2,7 @@ package mackeabit.shop.service;
 
 import lombok.RequiredArgsConstructor;
 import mackeabit.shop.Repository.MemberRepository;
+import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.vo.MembersVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,15 @@ public class MemberService {
 
     public int emailCheck(String email) {
         return repository.emailCheck(email);
+    }
+
+    public int saveMembers(SignUpDTO signUpDTO) {
+
+        MembersVO membersVO = new MembersVO();
+        membersVO.setEmail(signUpDTO.getEmail());
+        membersVO.setPwd(signUpDTO.getPwd());
+        int res = repository.save(membersVO);
+        return res;
     }
 
 

@@ -22,9 +22,10 @@ public class MemberRepositoryImpl implements MemberRepository {
     private final MemberMapper memberMapper;
 
     @Override
-    public void save(MembersVO membersVO) {
+    public int save(MembersVO membersVO) {
         log.info("Member save ==> MembersVO SAVE");
-        memberMapper.save(membersVO);
+        int res = memberMapper.save(membersVO);
+        return res;
     }
 
     //비밀번호 수정에 사용

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface MemberRepository {
 
-    void save(MembersVO membersVO);
+    int save(MembersVO membersVO);
 
     Optional<MembersVO> findByEmail(String email);
 
