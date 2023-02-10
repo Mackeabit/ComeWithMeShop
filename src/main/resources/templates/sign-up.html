@@ -51,11 +51,13 @@
 						<input type="text" id="email" placeholder="e-mail" class="form-control" oninput="checkEmail()" autocomplete="off"/>
 					</div>
 					<div class="form-holder">
-						<input type="password" placeholder="Password" class="form-control" autocomplete="off"/>
+						<input type="password" id="pwd" placeholder="Password" class="form-control" autocomplete="off"/>
 					</div>
+					<span id="pwd_ck_sp" class="dpn" style="margin-left:40px; color: Red;">비밀번호를 확인해주세요.</span>
 					<div class="form-holder">
-						<input type="password" placeholder="Password Check" class="form-control" style="font-size: 15px;" autocomplete="off"/>
+						<input type="password" id="pwd_check" placeholder="Password Check" class="form-control" style="font-size: 15px;" autocomplete="off"/>
 					</div>
+
 					<div class="form-login">
 						<button>Sign up</button>
 						<p>계정을 보유하고 계신가요? <a href="/login">Login</a></p>
@@ -70,7 +72,20 @@
 
 		<script>
 
-			//이메일 중복체크
+			/* 비밀번호 체크 */
+			$('#pwd_check').focusout(function (){
+				let pwd = $('#pwd').val();
+				let pwd_check = $('#pwd_check').val();
+
+				if (pwd == pwd_check) {
+					$('#pwd_ck_sp').addClass("dpn");
+				}else{
+					$('#pwd_ck_sp').removeClass("dpn");
+				}
+
+			});
+
+			/* 이메일 중복체크 */
 			function checkEmail() {
 
 				let email = $('#email').val();
