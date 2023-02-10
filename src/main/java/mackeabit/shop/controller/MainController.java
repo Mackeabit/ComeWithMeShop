@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.security.NoSuchAlgorithmException;
+
 @Controller
 @RequiredArgsConstructor
 public class MainController {
@@ -29,7 +31,7 @@ public class MainController {
     //트랜잭션 적용 전
     @PostMapping("/signup")
     @ResponseBody
-    public String signUpCheck(SignUpDTO signUpDTO) {
+    public String signUpCheck(SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
 
         int res = memberService.saveMembers(signUpDTO);
         String data = "N";

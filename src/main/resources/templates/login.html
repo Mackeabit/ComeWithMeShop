@@ -27,11 +27,8 @@
 	<link rel="stylesheet" type="text/css" href="login-resource/css/main.css">
 <!--===============================================================================================-->
 
-	<style>
-
-
-
-	</style>
+	<!-- 제이쿼리 -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
 </head>
 <body>
@@ -39,8 +36,8 @@
 	<div class="limiter">
 		<div class="container-login100" style="background-color: #fe4447;">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
-					<a href="index.html">
+				<form id="form_ck" class="login100-form validate-form">
+					<a href="/">
 					<span class="login100-form-logo">
 						<img src="img/core-img/logo.png" alt="">
 					</span>
@@ -50,13 +47,13 @@
 						<br/>
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username" autocomplete="off"/>
+					<div class="wrap-input100 validate-input" data-validate = "Enter email">
+						<input class="input100" type="text" name="email" placeholder="E-mail" autocomplete="off"/>
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Password" autocomplete="off"/>
+						<input class="input100" type="password" name="pwd" placeholder="Password" autocomplete="off"/>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -68,7 +65,7 @@
 					</div>-->
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
+						<button type="button" id="login_btn" class="login100-form-btn">
 							Login
 						</button>
 						<a href="/signup">
@@ -90,6 +87,47 @@
 
 
 	<div id="dropDownSelect1"></div>
+
+	<script>
+
+		/* 로그인 버튼 클릭 시 */
+		$('#login_btn').click(function() {
+			/* 유효성 검사 */
+			login_check();
+
+		});
+
+
+		/* 서버로 로그인 정보 체크 */
+		function login_check() {
+
+			let formData = $('#form_ck').serialize();
+
+			$.ajax({
+				type : "POST",
+				url : "/loginCheck",
+				data : formData,
+				success: function (data) {
+					if(data == "no_email"){
+						alert("존재하지 않는 이메일 입니다.");
+					}else if(data == "no_pwd"){
+						alert("비밀번호가 틀렸습니다.");
+					}else if(data == "Y"){
+						location.href="/";
+					}else{
+						alert("시스템 오류가 발생하였습니다");
+					}
+				},
+				error: function(data){
+					alert("로그인 오류");
+					console.log(data);
+				}
+			});
+
+		}
+
+	</script>
+
 
 <!--===============================================================================================-->
 	<script src="login-resource/vendor/jquery/jquery-3.2.1.min.js"></script>

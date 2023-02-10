@@ -16,5 +16,8 @@
         SELECT COUNT(email) FROM Members WHERE email = #{email}
     </select>
 
+    <select id="findByEmail" parameterType="String" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT * FROM Members WHERE email = #{email}
+    </select>
 
 </mapper>
