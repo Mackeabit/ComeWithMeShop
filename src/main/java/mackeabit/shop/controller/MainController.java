@@ -1,6 +1,7 @@
 package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
+import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.MembersVO;
@@ -10,7 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 @Controller
@@ -21,9 +24,7 @@ public class MainController {
     private final HttpServletRequest request;
 
     @RequestMapping("/")
-    public String basic(
-            @SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) MembersVO membersVO,
-            Model model) {
+    public String basic(@Login MembersVO membersVO, Model model) {
 
         if (membersVO == null) {
             return "index";
@@ -34,8 +35,14 @@ public class MainController {
         return "index";
     }
 
+    @RequestMapping("/404page")
+    public void errorPageTest(HttpServletResponse response) throws IOException {
+        response.sendError(404,"404오류");
+    }
+
     @GetMapping("/signup")
     public String signUpPage() {
+
         return "sign-up";
     }
 
