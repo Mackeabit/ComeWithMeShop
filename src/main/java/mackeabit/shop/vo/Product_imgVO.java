@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class Product_imgVO {
 
-    private Integer pd_img_idx, pd_idx;
+    private Long pd_img_idx, pd_idx;
     private String pd_img, pd_imgCt, sv_loc, sv_locCt;
 
 

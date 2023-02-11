@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class CancelVO {
 
-    private Integer cl_idx, pay_idx, member_idx;
+    private Long cl_idx, pay_idx, member_idx;
     private String cancel_date;
 
 }

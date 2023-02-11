@@ -12,6 +12,9 @@
         select * from cart
     </select>
 
+    <select id="findMemberCart" parameterType="Long" resultType="mackeabit.shop.dto.MainCartDTO">
+        select * from
+    </select>
 
     <select id="delOne" parameterType="Long" resultType="int">
         DELETE FROM cart WHERE cart_idx = #{cart_idx}

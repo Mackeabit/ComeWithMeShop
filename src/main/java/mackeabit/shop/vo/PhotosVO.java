@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class PhotosVO {
 
-    private Integer img_idx, member_idx;
+    private Long img_idx, member_idx;
     private String img_name, file_name;
 
 }

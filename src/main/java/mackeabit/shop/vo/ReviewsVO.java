@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class ReviewsVO {
 
-    private Integer Review_idx, member_idx, img_idx, pd_idx, cnt;
+    private Long Review_idx, member_idx, img_idx, pd_idx;
+    private Integer cnt;
     private Float stars;
     private String title, contents, date;
 

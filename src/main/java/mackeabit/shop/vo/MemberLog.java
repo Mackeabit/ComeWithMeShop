@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MemberLog {
 
-    private Integer member_idx;
+    private Long member_idx;
     private String login_date, delete_date;
 
 }

@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class MemberDetailVO {
 
-    private Integer member_idx, post_code, age;
+    private Integer post_code, age;
     private String address, address_detail;
+    private Long member_idx;
 
 }

@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class CartsVO {
 
-    private Integer cart_idx, member_idx, pd_idx, cart_cnt;
+    private Long cart_idx, member_idx, pd_idx, cart_cnt;
 
 }

@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class NoticesVO {
 
-    private Integer notice_idx, member_idx, img_idx, cnt;
+    private Long notice_idx, member_idx, img_idx;
+    private Integer cnt;
     private String title, contents, date;
 
 }

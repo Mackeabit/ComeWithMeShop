@@ -40,6 +40,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<ProductsVO> findAll() {
-        return null;
+        return productMapper.findAll();
     }
 }

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class ProductLogVO {
 
-    private Integer pd_idx;
+    private Long pd_idx;
     private String reg_date, modi_date;
 
 }

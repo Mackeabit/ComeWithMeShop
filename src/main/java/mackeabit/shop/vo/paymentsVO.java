@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class paymentsVO {
 
-    private Integer pay_idx, order_idx, member_idx, total_price, pay_status;
-
+    private Long pay_idx, order_idx, member_idx;
+    private Integer total_price, pay_status;
 }
