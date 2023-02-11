@@ -2,6 +2,7 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.mapper.CartMapper;
 import mackeabit.shop.vo.CartsVO;
 import org.springframework.stereotype.Repository;
@@ -39,5 +40,10 @@ public class CartRepositoryImpl implements CartRepository {
     public int delAll(Long member_idx) {
         int res = cartMapper.delAll(member_idx);
         return res;
+    }
+
+    @Override
+    public List<MainCartDTO> findMemberCart(Long member_idx) {
+        return cartMapper.findMemberCart(member_idx);
     }
 }

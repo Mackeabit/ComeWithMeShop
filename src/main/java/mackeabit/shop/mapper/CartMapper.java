@@ -1,5 +1,6 @@
 package mackeabit.shop.mapper;
 
+import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
 import mackeabit.shop.vo.MembersVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -21,4 +22,7 @@ public interface CartMapper {
 
     //장바구니 상품 전체삭제
     int delAll(Long member_idx);
+
+    List<MainCartDTO> findMemberCart(Long member_idx);
+
 }

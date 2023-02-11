@@ -40,8 +40,10 @@ public class MainController {
          */
         model.addAttribute("members", membersVO);
 
-        List<CartsVO> cartList = cartService.findAll(membersVO.getMember_idx());
-        model.addAttribute("carts", cartList);
+/*        List<CartsVO> cartList = cartService.findAll(membersVO.getMember_idx());
+        model.addAttribute("carts", cartList);*/
+
+        model.addAttribute("cartsList", membersVO.getMember_idx());
 
         return "index";
     }

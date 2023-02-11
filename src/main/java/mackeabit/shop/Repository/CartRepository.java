@@ -1,5 +1,6 @@
 package mackeabit.shop.Repository;
 
+import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
 import mackeabit.shop.vo.ProductsVO;
 
@@ -15,5 +16,7 @@ public interface CartRepository {
     int delOne(Long cart_idx);
 
     int delAll(Long member_idx);
+
+    List<MainCartDTO> findMemberCart(Long member_idx);
 
 }
