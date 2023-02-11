@@ -3,7 +3,9 @@ package mackeabit.shop.controller;
 import lombok.RequiredArgsConstructor;
 import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.SignUpDTO;
+import mackeabit.shop.service.CartService;
 import mackeabit.shop.service.MemberService;
+import mackeabit.shop.vo.CartsVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 
     private final MemberService memberService;
+    private final CartService cartService;
     private final HttpServletRequest request;
 
     @RequestMapping("/")
@@ -30,8 +34,15 @@ public class MainController {
             return "index";
         }
 
-        //세션이 있으면 model 에 담아서 홈화면으로 이동
+        /** 세션이 있으면 model 에 정보 담아서 홈화면으로 이동
+         * 회원정보 - members
+         * 장바구니 - carts
+         */
         model.addAttribute("members", membersVO);
+
+        List<CartsVO> cartList = cartService.findAll(membersVO.getMember_idx());
+        model.addAttribute("carts", cartList);
+
         return "index";
     }
 
