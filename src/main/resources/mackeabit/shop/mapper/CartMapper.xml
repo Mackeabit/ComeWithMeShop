@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mackeabit.shop.mapper.MemberMapper">
+
+    <insert id="save" parameterType="mackeabit.shop.vo.CartsVO" useGeneratedKeys="true" keyProperty="cart_idx">
+        insert into Cart values (0, #{member_idx}, #{pd_idx}, #{cart_cnt})
+    </insert>
+
+    <select id="findAll" resultType="mackeabit.shop.vo.CartsVO">
+        select * from cart
+    </select>
+
+
+    <select id="delOne" parameterType="Long" resultType="int">
+        DELETE FROM cart WHERE cart_idx = #{cart_idx}
+    </select>
+
+    <select id="delAll" parameterType="Long" resultType="int">
+        DELETE * FROM cart WHERE member_idx = #{member_idx}
+    </select>
+
+</mapper>

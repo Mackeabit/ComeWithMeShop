@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -40,56 +40,56 @@
                     <li data-toggle="collapse" data-target="#women" class="collapsed active">
                         <a href="#">Woman wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="women">
-                            <li><a href="#">Midi Dresses</a></li>
-                            <li><a href="#">Maxi Dresses</a></li>
-                            <li><a href="#">Prom Dresses</a></li>
-                            <li><a href="#">Little Black Dresses</a></li>
-                            <li><a href="#">Mini Dresses</a></li>
+                            <li><a href="#">여성 인기 상품</a></li>
+                            <li><a href="#">상의</a></li>
+                            <li><a href="#">하의</a></li>
+                            <li><a href="#">원피스</a></li>
+                            <li><a href="#">드레스 세트</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
                     <li data-toggle="collapse" data-target="#man" class="collapsed">
                         <a href="#">Man Wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="man">
-                            <li><a href="#">Man Dresses</a></li>
-                            <li><a href="#">Man Black Dresses</a></li>
-                            <li><a href="#">Man Mini Dresses</a></li>
+                            <li><a href="#">남성 인기 상품</a></li>
+                            <li><a href="#">상의</a></li>
+                            <li><a href="#">하의</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#kids" class="collapsed">
+<!--                    <li data-toggle="collapse" data-target="#kids" class="collapsed">
                         <a href="#">Children <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="kids">
                             <li><a href="#">Children Dresses</a></li>
                             <li><a href="#">Mini Dresses</a></li>
                         </ul>
-                    </li>
+                    </li>-->
                     <!-- Single Item -->
                     <li data-toggle="collapse" data-target="#bags" class="collapsed">
-                        <a href="#">Bags &amp; Purses <span class="arrow"></span></a>
+                        <a href="#">Bags &amp; SHOES <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="bags">
-                            <li><a href="#">Bags</a></li>
-                            <li><a href="#">Purses</a></li>
+                            <li><a href="#">가방</a></li>
+                            <li><a href="#">신발</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
                     <li data-toggle="collapse" data-target="#eyewear" class="collapsed">
-                        <a href="#">Eyewear <span class="arrow"></span></a>
+                        <a href="#">ACC <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="eyewear">
-                            <li><a href="#">Eyewear Style 1</a></li>
-                            <li><a href="#">Eyewear Style 2</a></li>
-                            <li><a href="#">Eyewear Style 3</a></li>
+                            <li><a href="#">모자</a></li>
+                            <li><a href="#">양말</a></li>
+                            <li><a href="#">주얼리</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#footwear" class="collapsed">
-                        <a href="#">Footwear <span class="arrow"></span></a>
+<!--                    <li data-toggle="collapse" data-target="#footwear" class="collapsed">
+                        <a href="#">SHOES <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="footwear">
                             <li><a href="#">Footwear 1</a></li>
                             <li><a href="#">Footwear 2</a></li>
                             <li><a href="#">Footwear 3</a></li>
                         </ul>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
         </div>
@@ -161,8 +161,8 @@
                             <div class="header-social-area">
                                 <!--<a href="#"><span class="karl-level">Share</span> <i class="fa fa-pinterest" aria-hidden="true"></i></a>-->
                                 <a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
-                                <a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a> <!-- 로그인 -->
-                                <!--<a href="#"><i class="fa fa-sign-out" aria-hidden="true"></i></a> &lt;!&ndash; 로그아웃 &ndash;&gt;-->
+                                <a th:if = "${session.loginMember != null}" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a> <!-- 로그아웃 -->
+                                <a th:if = "${session.loginMember == null}" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a> <!-- 로그인 -->
                                 <a href="#" id="scrollDown"><i class="fa fa-search" aria-hidden="true"></i></a> <!-- 검색 아이콘-->
                             </div>
 
@@ -188,14 +188,14 @@
 
                                     <div class="collapse navbar-collapse align-items-start collapse" id="karl-navbar">
                                         <ul class="navbar-nav animated" id="nav">
-                                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                                            <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
                                             <li class="nav-item"><a class="nav-link" href="#">Dresses</a></li>
                                             <li class="nav-item"><a class="nav-link" href="#"><span class="karl-level">hot</span> Shoes</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#">ACC</a></li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community</a>
                                                 <div class="dropdown-menu" aria-labelledby="karlDropdown">
-                                                    <a class="dropdown-item" href="index.html">Home</a>
+                                                    <a class="dropdown-item" href="/">Home</a>
                                                     <a class="dropdown-item" href="shop.html">Shop</a>
                                                     <a class="dropdown-item" href="product-details.html">Product Details</a>
                                                     <a class="dropdown-item" href="cart.html">Cart</a>

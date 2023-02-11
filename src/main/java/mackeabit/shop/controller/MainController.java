@@ -35,6 +35,8 @@ public class MainController {
         return "index";
     }
 
+
+    /* 404 테스트용 */
     @RequestMapping("/404page")
     public void errorPageTest(HttpServletResponse response) throws IOException {
         response.sendError(404,"404오류");
@@ -76,7 +78,7 @@ public class MainController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logOut() {
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -84,4 +86,8 @@ public class MainController {
         }
         return "redirect:/login";
     }
+
+
+
+
 }
