@@ -32,6 +32,10 @@ public class MemberService {
 
     }
 
+    public MembersVO findByEmail(String email) {
+        return repository.findByEmail(email).get();
+    }
+
     public int emailCheck(String email) {
         return repository.emailCheck(email);
     }
@@ -52,20 +56,35 @@ public class MemberService {
 
 
     public String checkID(SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
-        Optional<MembersVO> findMember = repository.findByEmail(signUpDTO.getEmail());
 
         String collect = sha256.encrypt(signUpDTO.getPwd() + sha256.getSALT());
+
+        Optional<MembersVO> findMember = repository.findByEmail(signUpDTO.getEmail());
+
+
+        /*repository.findByEmail(signUpDTO.getEmail())
+                .filter(m -> m.getPwd().equals(collect))
+                .orElse(null);*/
+
+        //암호화 정보 비교(로그인)
+
         String messages = "no_email";
+        
+        //이메일 체크
         if (!findMember.isEmpty()) {
             MembersVO membersVO = findMember.get();
             log.info("member = {}", membersVO.getPwd());
             log.info("collect = {}", collect);
             messages = "no_pwd";
+            
+            //비밀번호 체크(암호화)
             if (membersVO.getPwd().equals(collect)) {
 
                 messages = "Y";
             }
         }
+        
+        //결과 리턴
         return messages;
     }
 }

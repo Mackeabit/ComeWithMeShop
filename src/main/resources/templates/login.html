@@ -48,7 +48,7 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter email">
-						<input class="input100" type="text" name="email" placeholder="E-mail" autocomplete="off"/>
+						<input class="input100" type="text" id="email" name="email" placeholder="E-mail" autocomplete="off"/>
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
@@ -113,7 +113,7 @@
 					}else if(data == "no_pwd"){
 						alert("비밀번호가 틀렸습니다.");
 					}else if(data == "Y"){
-						location.href="/";
+						location.href="/loginSession?email="+$('#email').val();
 					}else{
 						alert("시스템 오류가 발생하였습니다");
 					}
