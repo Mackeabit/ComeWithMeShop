@@ -32,9 +32,6 @@ public class MainController {
     @RequestMapping("/")
     public String basic(@Login MembersVO membersVO, Model model) {
 
-
-
-
         if (membersVO == null) {
             return "index";
         }

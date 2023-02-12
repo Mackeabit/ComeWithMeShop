@@ -8,7 +8,7 @@ import lombok.Setter;
 public class MainCartDTO {
 
     private String pd_nm, sv_locCt;
-    private Integer cart_cnt;
+    private Integer cart_cnt, sell_price;
     private Long pd_idx, cart_idx;
 
 }
