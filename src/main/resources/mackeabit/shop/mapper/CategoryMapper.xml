@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mackeabit.shop.mapper.CategoryMapper">
+
+    <insert id="save" parameterType="mackeabit.shop.vo.CategorysVO" useGeneratedKeys="true" keyProperty="category_code">
+        insert into Categorys values (0, #{category_ref}, #{category_name})
+    </insert>
+
+    <select id="findAll" resultType="mackeabit.shop.vo.CategorysVO">
+        select * from categorys
+    </select>
+
+    <select id="findByName" parameterType="String" resultType="mackeabit.shop.vo.CategorysVO">
+        select * from categorys WHERE category_name = #{category_name}
+    </select>
+
+    <select id="specificCate" parameterType="Integer" resultType="mackeabit.shop.vo.CategorysVO">
+        select * from categorys WHERE category_ref = #{category_ref}
+    </select>
+
+
+
+</mapper>

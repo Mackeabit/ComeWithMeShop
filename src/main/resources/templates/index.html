@@ -128,10 +128,10 @@
                                             <li th:each="cart:${cartsList}">
                                                 <a href="#" class="image"><img th:src="|img/product-img/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
-                                                    <h6><a th:text="|${cart.pd_nm} 수량 x${cart.cart_cnt}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
+                                                    <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
                                                     <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
                                                     <p>
-                                                        <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price*cart.cart_cnt, 3, 'COMMA') + '원'}">$10</span>
+                                                        <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price, 3, 'COMMA') + '원 x '}+${cart.cart_cnt}">$10</span>
                                                     </p>
                                                 </div>
                                                 <span class="dropdown-product-remove">
@@ -473,8 +473,7 @@
                     <button class="btn" data-filter=".women">WOMAN</button>
                     <button class="btn" data-filter=".man">MAN</button>
                     <button class="btn" data-filter=".access">ACCESSORIES</button>
-                    <button class="btn" data-filter=".shoes">shoes</button>
-                    <button class="btn" data-filter=".kids">KIDS</button>
+                    <button class="btn" data-filter=".shoes">SHOES</button>
                 </div>
             </div>
 
@@ -729,7 +728,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                             </div>
                             <div class="subscribtion_form">
                                 <form action="#" method="post">
-                                    <input type="email" name="mail" class="mail" placeholder="">
+                                    <input type="text" name="mail" class="mail" placeholder="">
                                     <a name="search_bottom"><button type="submit" class="submit"><i class="fa fa-search" aria-hidden="true"></i></button></a>
                                 </form>
                             </div>

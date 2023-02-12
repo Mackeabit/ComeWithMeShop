@@ -3,6 +3,7 @@ package mackeabit.shop.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.Login;
+import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.CartService;
 import mackeabit.shop.service.MemberService;
@@ -36,9 +37,9 @@ public class MainController {
             return "index";
         }
 
-        /** 세션이 있으면 model 에 정보 담아서 홈화면으로 이동
+        /** 회원은 session, model 에 정보 담아서 홈화면으로 이동
          * 회원정보 - members
-         * 장바구니 - carts
+         * 장바구니 - cartsList
          */
         model.addAttribute("members", membersVO);
 
@@ -46,6 +47,16 @@ public class MainController {
 
 /*        List<CartsVO> cartList = cartService.findAll(membersVO.getMember_idx());
         model.addAttribute("carts", cartList);*/
+
+        HttpSession session = request.getSession();
+        List<MainCartDTO> memberCart = cartService.findMemberCart(membersVO.getMember_idx());
+
+        log.info("memberCart = {}", memberCart);
+
+        session.setAttribute(
+                SessionConst.MEMBER_CART,
+                memberCart
+        );
 
         model.addAttribute("cartsList", cartService.findMemberCart(membersVO.getMember_idx()));
 
@@ -85,8 +96,6 @@ public class MainController {
 
     @GetMapping("/loginSession")
     public String loginSession(String email) {
-
-
 
         HttpSession session = request.getSession();
         MembersVO findMember = memberService.findByEmail(email);
