@@ -128,7 +128,7 @@
                                             <li th:each="cart:${cartsList}">
                                                 <a href="#" class="image"><img th:src="|img/product-img/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
-                                                    <h6><a th:text="|${cart.pd_nm} 수량 x${cart.cart_cnt}|" href="#">Women's Fashion</a></h6>
+                                                    <h6><a th:text="|${cart.pd_nm} 수량 x${cart.cart_cnt}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
                                                     <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
                                                     <p>
                                                         <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price*cart.cart_cnt, 3, 'COMMA') + '원'}">$10</span>
@@ -159,7 +159,6 @@
                                                 for (i = 0; i < cart.length; i++) {
                                                     totalPrice+=cart[i].sell_price*cart[i].cart_cnt;
                                                 }
-                                                alert("total=" + totalPrice);
                                                 console.log(totalPrice);
                                             }
 
