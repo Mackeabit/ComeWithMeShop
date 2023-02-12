@@ -31,8 +31,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     //비밀번호 수정에 사용
     @Override
     public Optional<MembersVO> findByEmail(String email) {
-        log.info("Member findByEmail ==> MembersVO By Email (Optional)");
         Optional<MembersVO> find = memberMapper.findByEmail(email);
+        log.info("find = {}", find);
         return find;
     }
 
@@ -55,4 +55,5 @@ public class MemberRepositoryImpl implements MemberRepository {
         log.info("cnt = {}", cnt);
         return cnt;
     }
+
 }

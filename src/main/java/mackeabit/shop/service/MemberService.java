@@ -87,4 +87,5 @@ public class MemberService {
         //결과 리턴
         return messages;
     }
+
 }

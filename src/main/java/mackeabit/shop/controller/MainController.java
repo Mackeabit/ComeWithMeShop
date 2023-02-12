@@ -1,6 +1,7 @@
 package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.CartService;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MainController {
@@ -30,6 +32,9 @@ public class MainController {
     @RequestMapping("/")
     public String basic(@Login MembersVO membersVO, Model model) {
 
+
+
+
         if (membersVO == null) {
             return "index";
         }
@@ -40,10 +45,12 @@ public class MainController {
          */
         model.addAttribute("members", membersVO);
 
+        log.info("MembersVO = {}", membersVO);
+
 /*        List<CartsVO> cartList = cartService.findAll(membersVO.getMember_idx());
         model.addAttribute("carts", cartList);*/
 
-        model.addAttribute("cartsList", membersVO.getMember_idx());
+        model.addAttribute("cartsList", cartService.findMemberCart(membersVO.getMember_idx()));
 
         return "index";
     }
@@ -82,11 +89,16 @@ public class MainController {
     @GetMapping("/loginSession")
     public String loginSession(String email) {
 
+
+
         HttpSession session = request.getSession();
+        MembersVO findMember = memberService.findByEmail(email);
+
+        log.info("findMember = {}", findMember);
 
         session.setAttribute(
                 SessionConst.LOGIN_MEMBER,
-                memberService.findByEmail(email)
+                findMember
         );
         return "redirect:/";
     }

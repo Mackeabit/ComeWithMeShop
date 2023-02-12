@@ -17,4 +17,5 @@ public interface MemberRepository {
 
     int emailCheck(String email);
 
+
 }

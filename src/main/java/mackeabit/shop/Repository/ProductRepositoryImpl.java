@@ -2,9 +2,7 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mackeabit.shop.mapper.MemberMapper;
 import mackeabit.shop.mapper.ProductMapper;
-import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Repository;
 
