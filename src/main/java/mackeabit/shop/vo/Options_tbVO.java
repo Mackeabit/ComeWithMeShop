@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductOption {
+public class Options_tbVO {
 
-    private Integer option_code, option_ref;
+    private Long pd_idx, option_code;
+    private Integer option_ref;
     private String option_name;
 
 }
