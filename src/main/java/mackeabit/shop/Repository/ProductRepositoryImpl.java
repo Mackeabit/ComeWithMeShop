@@ -37,7 +37,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<ProductsVO> findAll() {
-        return productMapper.findAll();
+    public List<ProductsVO> findAll(Integer pd_idx) {
+        return productMapper.findAll(pd_idx);
     }
 }

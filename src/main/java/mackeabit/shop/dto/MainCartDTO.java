@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MainCartDTO {
 
-    private String pd_nm, sv_locCt;
+    private String pd_nm, sv_locCt, pd_size, pd_color;
     private Integer cart_cnt, sell_price;
     private Long pd_idx, cart_idx;
 

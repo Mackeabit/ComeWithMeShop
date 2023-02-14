@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mackeabit.shop.mapper.SuBMapper">
+
+    <select id="findAll" resultType="mackeabit.shop.vo.Photos_toMainVO">
+        select * from photos_tomain
+    </select>
+
+    <select id="findThings" parameterType="Integer" resultType="mackeabit.shop.vo.Photos_toMainVO">
+        select * from photos_tomain where to_use = #{to_use};
+    </select>
+
+</mapper>

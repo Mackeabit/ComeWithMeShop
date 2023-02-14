@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class paymentsVO {
+public class PaymentsVO {
 
     private Long pay_idx, order_idx, member_idx;
     private Integer total_price, pay_status;

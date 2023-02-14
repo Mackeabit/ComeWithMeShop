@@ -15,14 +15,11 @@ public class ProductService {
 
     private final ProductRepository repository;
 
-    public List<ProductsVO> findAll() {
-        return repository.findAll();
-    }
-
     public ProductsVO findOne(Long pd_idx) {
         return repository.findByIdx(pd_idx);
     }
 
-
-
+    public List<ProductsVO> findAll(Integer pd_value) {
+        return repository.findAll(pd_value);
+    }
 }

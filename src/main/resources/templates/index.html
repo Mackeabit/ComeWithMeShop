@@ -40,20 +40,20 @@
                     <li data-toggle="collapse" data-target="#women" class="collapsed active">
                         <a href="#">Woman wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="women">
-                            <li><a th:href="@{|/products/category/${cartsList.size()}|}" href="#">여성 인기 상품</a></li>
-                            <li><a href="#">상의</a></li>
-                            <li><a href="#">하의</a></li>
-                            <li><a href="#">원피스</a></li>
-                            <li><a href="#">드레스 세트</a></li>
+                            <li><a th:href="@{|products/woman/value/1?pd_value=2|}" href="#">여성 인기 상품</a></li>
+                            <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
+                            <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
+                            <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
+                            <li><a th:href="@{|/products/woman/category/7|}" href="#">드레스 세트</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
                     <li data-toggle="collapse" data-target="#man" class="collapsed">
                         <a href="#">Man Wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="man">
-                            <li><a href="#">남성 인기 상품</a></li>
-                            <li><a href="#">상의</a></li>
-                            <li><a href="#">하의</a></li>
+                            <li><a th:href="@{|/products/man/value/0?pd_value=2|}" href="#">남성 인기 상품</a></li>
+                            <li><a th:href="@{|/products/man/category/4|}" href="#">상의</a></li>
+                            <li><a th:href="@{|/products/man/category/5|}" href="#">하의</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
@@ -68,17 +68,17 @@
                     <li data-toggle="collapse" data-target="#bags" class="collapsed">
                         <a href="#">Bags &amp; SHOES <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="bags">
-                            <li><a href="#">가방</a></li>
-                            <li><a href="#">신발</a></li>
+                            <li><a th:href="@{|/products/category/11|}" href="#">가방</a></li>
+                            <li><a th:href="@{|/products/category/12|}" href="#">신발</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
                     <li data-toggle="collapse" data-target="#eyewear" class="collapsed">
                         <a href="#">ACC <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="eyewear">
-                            <li><a href="#">모자</a></li>
-                            <li><a href="#">양말</a></li>
-                            <li><a href="#">주얼리</a></li>
+                            <li><a th:href="@{|/products/category/8|}" href="#">모자</a></li>
+                            <li><a th:href="@{|/products/category/9|}" href="#">양말</a></li>
+                            <li><a th:href="@{|/products/category/10|}" href="#">주얼리</a></li>
                         </ul>
                     </li>
                     <!-- Single Item -->
@@ -114,23 +114,28 @@
                                 <!-- Cart & Menu Area -->
                                 <div class="header-cart-menu d-flex align-items-center ml-auto">
 
-                                    <!-- Cart Area 장바구니 번호-->
+                                    <!-- Cart Area 장바구니 수량-->
                                     <div class="cart">
-                                        <a href="#" id="header-cart-btn" target="_blank">
-                                            <span th:if = "${session.loginMember == null}"  class="cart_quantity">0</span>
+                                        <a th:if="${session.loginMember != null}" href="#" id="header-cart-btn" target="_blank">
                                             <span th:if = "${session.loginMember != null}" th:text="${cartsList.size()}"
                                                   class="cart_quantity">0</span>
-                                            <i class="ti-bag"></i>장바구니</a>
+                                            <i class="ti-bag">
+                                            </i>
+                                            장바구니
+                                        </a>
                                         <!-- Cart Area 장바구니 번호 구현 끝 -->
 
+                                        <!--th:if = "${session.loginMember != null}"-->
                                         <!-- Cart List Area Start 장바구니 안에 내용 -->
-                                        <ul th:if = "${session.loginMember != null}" class="cart-list">
+
+                                        <ul class="cart-list">
                                             <li th:each="cart:${cartsList}">
-                                                <a href="#" class="image"><img th:src="|img/product-img/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
+                                                <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
                                                     <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
                                                     <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
                                                     <p>
+                                                        <span style="font-size: x-small" th:text="|size : ${cart.pd_size} / color : ${cart.pd_color}|"></span><br>
                                                         <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price, 3, 'COMMA') + '원 x '}+${cart.cart_cnt}">$10</span>
                                                     </p>
                                                 </div>
@@ -138,9 +143,6 @@
                                                     <i class="icon-cross"></i>
                                                 </span>
                                             </li>
-
-
-
                                             <li class="total">
                                                 <span class="pull-right" id="priceInit"></span>
                                                 <a href="cart.html" class="btn btn-sm btn-cart">장바구니</a>
@@ -199,6 +201,7 @@
                                         <!-- Cart List Area Start 장바구니 안에 내용 -->
 
                                     </div>
+
                                     <div class="header-right-side-menu ml-15">
                                         <a href="#" id="sideMenuBtn"><i class="ti-menu" aria-hidden="true"></i></a>
                                     </div>
@@ -246,10 +249,10 @@
 
                                     <div class="collapse navbar-collapse align-items-start collapse" id="karl-navbar">
                                         <ul class="navbar-nav animated" id="nav">
-                                            <li class="nav-item active"><a class="nav-link" href="/">Best</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Clothes</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Shoes</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#"><span class="karl-level">hot</span>Accessories</a></li>
+                                            <li class="nav-item active"><a class="nav-link" th:href="@{|products/best|}" href="#">Best</a></li>
+                                            <li class="nav-item"><a class="nav-link" th:href="@{|products/category/1|}" href="#">Clothes</a></li>
+                                            <li class="nav-item"><a class="nav-link" th:href="@{|products/category/3|}" href="#">Bag & Shoes</a></li>
+                                            <li class="nav-item"><a class="nav-link" th:href="@{|products/category/2|}" href="#"><span class="karl-level">hot</span>Accessories</a></li>
                                             <li class="nav-item dropdown">
                                                 <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community</a>
                                                 <div class="dropdown-menu" aria-labelledby="karlDropdown">
@@ -281,7 +284,7 @@
             <!-- Single Discount Area -->
             <div class="single-discount-area">
                 <h5>오픈기념 무료 배송 &amp; 반품</h5>
-                <h6><a href="#">BUY NOW</a></h6>
+                <h6><a th:href="@{/products}" href="#">BUY NOW</a></h6>
             </div>
             <!-- Single Discount Area -->
             <div class="single-discount-area">
@@ -296,18 +299,18 @@
         </section>
         <!-- ****** Top Discount Area End ****** -->
 
-        <!-- ****** Welcome Slides Area Start ****** -->
+        <!-- ****** Welcome Slides Area Start ****** photos_toMain table toUse 값 = 0 -->
         <section class="welcome_area">
             <div class="welcome_slides owl-carousel">
                 <!-- Single Slide Start -->
-                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-1.jpg);">
+                <div th:each="photo : ${photoMain}" class="single_slide height-800 bg-img background-overlay" th:style="'background-image: url('+${photo.file_loc}+');'" style="background-image: url(img/bg-img/bg-1.jpg);">
                     <div class="container h-100">
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
                                 <div class="welcome_slide_text">
-                                    <h6 data-animation="bounceInDown" data-delay="0" data-duration="500ms">* 오늘 하루 무료 배송</h6>
-                                    <h2 data-animation="fadeInUp" data-delay="500ms" data-duration="500ms">패션 트렌드</h2>
-                                    <a href="#" class="btn karl-btn" data-animation="fadeInUp" data-delay="1s" data-duration="500ms">상품 보기</a>
+                                    <h6 data-animation="bounceInDown" data-delay="0" data-duration="500ms" th:text="${photo.bene}">* 오늘 하루 무료 배송</h6>
+                                    <h2 data-animation="fadeInUp" data-delay="500ms" data-duration="500ms"th:text="${photo.title}">패션 트렌드</h2>
+                                    <a th:href="@{|/products/category/${photo.category_code}|}" href="#" class="btn karl-btn" data-animation="fadeInUp" data-delay="1s" data-duration="500ms">상품 보기</a>
                                 </div>
                             </div>
                         </div>
@@ -315,7 +318,7 @@
                 </div>
 
                 <!-- Single Slide Start -->
-                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-4.jpg);">
+<!--                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-4.jpg);">
                     <div class="container h-100">
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
@@ -327,10 +330,10 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <!-- Single Slide Start -->
-                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-2.jpg);">
+<!--                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-2.jpg);">
                     <div class="container h-100">
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
@@ -342,29 +345,29 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </section>
         <!-- ****** Welcome Slides Area End ****** -->
 
-        <!-- ****** Top Catagory Area Start ****** -->
+        <!-- ****** Top Catagory Area Start ****** photos_toMain table toUse 값 = 1 -->
         <section class="top_catagory_area d-md-flex clearfix">
             <!-- Single Catagory -->
-            <div class="single_catagory_area d-flex align-items-center bg-img" style="background-image: url(img/bg-img/bg-2.jpg);">
+            <div th:each="photo2:${photoSub}" class="single_catagory_area d-flex align-items-center bg-img" th:style="'background-image: url('+${photo2.file_loc}+');'" style="background-image: url(img/bg-img/bg-2.jpg);">
                 <div class="catagory-content">
-                    <h6>악세사리</h6>
-                    <h2>Sale 30%</h2>
-                    <a href="#" class="btn karl-btn">SHOP NOW</a>
+                    <h6 th:text="${photo2.title}">악세사리</h6>
+                    <h2 th:text="${photo2.bene}">Sale 30%</h2>
+                    <a th:href="@{|/products/category/${photo2.category_code}|}" href="#" class="btn karl-btn">SHOP NOW</a>
                 </div>
             </div>
             <!-- Single Catagory -->
-            <div class="single_catagory_area d-flex align-items-center bg-img" style="background-image: url(img/bg-img/bg-3.jpg);">
+<!--            <div class="single_catagory_area d-flex align-items-center bg-img" style="background-image: url(img/bg-img/bg-3.jpg);">
                 <div class="catagory-content">
                     <h6>the new collection</h6>
                     <h2>Designer bags</h2>
-                    <a href="#" class="btn karl-btn">SHOP NOW</a>
+                    <a th:href="@{/products/category/${photo2.category_code}}" href="#" class="btn karl-btn">SHOP NOW</a>
                 </div>
-            </div>
+            </div>-->
         </section>
         <!-- ****** Top Catagory Area End ****** -->
 
@@ -455,6 +458,8 @@
         </div>
         <!-- ****** Quick View Modal Area End ****** -->
 
+        <!--새로운 상품-->
+
         <!-- ****** New Arrivals Area Start ****** -->
         <section class="new_arrivals_area section_padding_100_0 clearfix">
             <div class="container">
@@ -466,6 +471,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 필터 -->
 
             <div class="karl-projects-menu mb-100">
                 <div class="text-center portfolio-menu">
@@ -481,9 +488,10 @@
                 <div class="row karl-new-arrivals">
 
                     <!-- Single gallery Item Start -->
-                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig women" data-wow-delay="0.2s">
+                    <div th:each="pd:${newProducts}" class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig women" data-wow-delay="0.2s">
                         <!-- Product Image -->
                         <div class="product-img">
+                            <!--큰 이미지-->
                             <img src="img/product-img/product-1.jpg" alt="">
                             <div class="product-quicview">
                                 <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
@@ -491,10 +499,10 @@
                         </div>
                         <!-- Product Description -->
                         <div class="product-description">
-                            <h4 class="product-price">53,000원</h4>
+                            <h4 class="product-price">&#8361; 53,000</h4>
                             <p>CMW White 자켓</p>
                             <!-- Add to Cart -->
-                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>
+<!--                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>-->
                         </div>
                     </div>
 

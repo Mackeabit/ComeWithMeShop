@@ -7,8 +7,12 @@ import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.CartService;
 import mackeabit.shop.service.MemberService;
+import mackeabit.shop.service.ProductService;
+import mackeabit.shop.service.SubService;
 import mackeabit.shop.vo.CartsVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.Photos_toMainVO;
+import mackeabit.shop.vo.ProductsVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,11 +31,26 @@ import java.util.List;
 public class MainController {
 
     private final MemberService memberService;
+
+    private final ProductService productService;
+    private final SubService subService;
     private final CartService cartService;
     private final HttpServletRequest request;
 
     @RequestMapping("/")
     public String basic(@Login MembersVO membersVO, Model model) {
+
+        //메인 사진 받아서 model
+        List<Photos_toMainVO> photoMain = subService.findThings(0);
+        model.addAttribute("photoMain",photoMain);
+
+        //서브 사진 받아서 model
+        List<Photos_toMainVO> photoSub = subService.findThings(1);
+        model.addAttribute("photoSub",photoSub);
+
+        //신상품 받아서 model
+        List<ProductsVO> findProducts = productService.findAll(1);
+        model.addAttribute("newProducts", findProducts);
 
         if (membersVO == null) {
             return "index";

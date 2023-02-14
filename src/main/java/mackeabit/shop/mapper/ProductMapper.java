@@ -15,6 +15,6 @@ public interface ProductMapper {
 
     ProductsVO findByIdx(Long pd_idx);
 
-    List<ProductsVO> findAll();
+    List<ProductsVO> findAll(Integer pd_value);
 
 }

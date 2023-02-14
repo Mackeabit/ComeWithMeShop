@@ -4,8 +4,13 @@
 
 <mapper namespace="mackeabit.shop.mapper.ProductMapper">
 
-    <select id="findAll" resultType="mackeabit.shop.vo.ProductsVO">
+    <select id="findAll" parameterType="Integer" resultType="mackeabit.shop.vo.ProductsVO">
         select * from products
+        <where>
+           <if test="pd_value != null">
+               and pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_value = #{pd_value};
+           </if>
+        </where>
     </select>
 
 
