@@ -2,6 +2,7 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.mapper.SuBMapper;
 import mackeabit.shop.vo.Photos_toMainVO;
 import org.springframework.stereotype.Repository;
@@ -22,5 +23,10 @@ public class SubRepositoryImpl implements SubRepository{
 
     public List<Photos_toMainVO> findThings(int to_use) {
         return suBMapper.findThings(to_use);
+    }
+
+    @Override
+    public List<MainProductsDTO> mainPageProducts(Integer pd_value) {
+        return suBMapper.mainPageProducts(pd_value);
     }
 }

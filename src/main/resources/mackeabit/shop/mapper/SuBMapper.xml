@@ -12,4 +12,15 @@
         select * from photos_tomain where to_use = #{to_use};
     </select>
 
+
+    <select id="mainPageProducts" parameterType="Integer" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        <where>
+            <if test="pd_value != null">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_value = #{pd_value};
+            </if>
+        </where>
+    </select>
+
+
 </mapper>

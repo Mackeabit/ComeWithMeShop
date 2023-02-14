@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.MainCartDTO;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.CartService;
 import mackeabit.shop.service.MemberService;
@@ -48,8 +49,15 @@ public class MainController {
         List<Photos_toMainVO> photoSub = subService.findThings(1);
         model.addAttribute("photoSub",photoSub);
 
+        /**
+         * pd_value
+         * 0 : 보통
+         * 1 : 신상품
+         * 2 : 베스트 상품
+         */
+
         //신상품 받아서 model
-        List<ProductsVO> findProducts = productService.findAll(1);
+        List<MainProductsDTO> findProducts = subService.mainPageProducts(1);
         model.addAttribute("newProducts", findProducts);
 
         if (membersVO == null) {
