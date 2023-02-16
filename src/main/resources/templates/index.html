@@ -371,92 +371,8 @@
         </section>
         <!-- ****** Top Catagory Area End ****** -->
 
-        <!-- ****** Quick View Modal Area Start ****** -->
-        <div class="modal fade" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-                    <div class="modal-body">
-                        <div class="quickview_body">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-12 col-lg-5">
-                                        <div class="quickview_pro_img">
-                                            <img src="img/product-img/product-1.jpg" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-7">
-                                        <div class="quickview_pro_des">
-                                            <h4 class="title">퀵뷰페이지 상품명</h4>
-                                            <div class="top_seller_product_rating mb-15">
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                            </div>
-                                            <h5 class="price">$120.99 상품원가 <span>$130 할인가격</span></h5>
-                                            <p>상품 설명란</p>
-                                            <a href="#">상품 자세히 보기</a>
-                                        </div>
-                                        <!-- Add to Cart Form -->
-                                        <form class="cart" method="post">
-                                            <div class="quantity">
-                                                <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
-
-                                                <input type="number" class="qty-text" id="qty" step="1" min="1" max="12" name="quantity" value="1">
-
-                                                <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
-                                            </div>
-                                            <button type="submit" name="addtocart" value="5" class="cart-submit">Add to cart</button>
-                  <!--                          &lt;!&ndash; Wishlist &ndash;&gt;
-                                            <div class="modal_pro_wishlist">
-                                                <a href="wishlist.html" target="_blank"><i class="ti-heart"></i></a>
-                                            </div>
-                                            &lt;!&ndash; Compare &ndash;&gt;
-                                            <div class="modal_pro_compare">
-                                                <a href="compare.html" target="_blank"><i class="ti-stats-up"></i></a>
-                                            </div>-->
-                                        </form>
-
-                                        <div class="share_wf mt-30">
-                                            <p>Share With Friend</p>
-                                            <div class="_icon">
-                                                <!--<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
-                                                <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-                                                        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
-                                                <script>
-                                                    Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
-                                                </script>
-                                                <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
-                                                    <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png"
-                                                         alt="카카오톡 공유 보내기 버튼" />
-                                                </a>
-
-                                                <script>
-                                                    function shareMessage() {
-                                                        Kakao.Share.sendScrap({
-                                                            requestUrl: 'https://developers.kakao.com',
-                                                        });
-                                                    }
-                                                </script>
-<!--                                                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                                                <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ****** Quick View Modal Area End ****** -->
+<!--기존 퀵뷰 있던 자리-->
+<!--기존 퀵뷰 있던 자리-->
 
         <!--새로운 상품-->
 
@@ -517,7 +433,7 @@
                             <!--큰 이미지-->
                             <img th:src="${pd.sv_loc}" src="img/product-img/product-1.jpg" alt="">
                             <div class="product-quicview">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
+                                <a href="#" data-toggle="modal" th:attr="data-target='#quickview'+${pd.pd_idx}"  data-target="#quickview"><i class="ti-plus"></i></a>
                             </div>
                         </div>
                         <!-- Product Description -->
@@ -527,7 +443,124 @@
                             <!-- Add to Cart -->
 <!--                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>-->
                         </div>
+
+
+                        <!--기존에 없었음-->
+                        <!-- ****** Quick View Modal Area Start ****** -->
+                        <div class="modal fade" th:attr="id='quickview'+${pd.pd_idx}" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+
+                                    <div class="modal-body">
+                                        <div class="quickview_body">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-12 col-lg-5">
+                                                        <div class="quickview_pro_img">
+                                                            <img th:src="${pd.sv_loc}" src="img/product-img/product-1.jpg" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 col-lg-7">
+                                                        <div class="quickview_pro_des">
+                                                            <h4 class="title" th:text="${pd.pd_nm}">퀵뷰페이지 상품명</h4>
+                                                            <div class="top_seller_product_rating mb-15">
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                            </div>
+                                                            <h5 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$120.99 상품원가 <span>$130 할인가격</span></h5>
+                                                            <p th:text="${pd.pd_contents}">상품 설명란</p>
+                                                            <a href="#">상품 자세히 보기</a>
+                                                        </div>
+                                                        <!-- Add to Cart Form -->
+                                                        <form class="cart" method="post">
+                                                            <div class="quantity">
+                                                                <span class="qty-minus" th:onclick="|minus_cnt(qty${pd.pd_idx})|"><i class="fa fa-minus" aria-hidden="true"></i></span>
+
+                                                                <input type="number" class="qty-text" th:attr="id='qty'+${pd.pd_idx}" id="qty" step="1" min="1" max="12" name="quantity" value="1" readonly>
+
+                                                                <span class="qty-plus" th:onclick="|plus_cnt(qty${pd.pd_idx})|"><i class="fa fa-plus" aria-hidden="true"></i></span>
+
+                                                            </div>
+                                                            <button type="button" th:onclick="|addToCart(${pd.pd_idx})|" name="addtocart" value="5" class="cart-submit">Add to cart</button>
+                                                        </form>
+
+                                                        <div class="share_wf mt-30">
+                                                            <p>Share With Friend</p>
+                                                            <div class="_icon">
+                                                                <!--<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
+                                                                <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+                                                                        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+                                                                <script>
+                                                                    Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
+                                                                </script>
+                                                                <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+                                                                    <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png"
+                                                                         alt="카카오톡 공유 보내기 버튼" />
+                                                                </a>
+
+                                                                <script>
+                                                                    function shareMessage() {
+                                                                        Kakao.Share.sendScrap({
+                                                                            requestUrl: 'https://developers.kakao.com',
+                                                                        });
+                                                                    }
+                                                                </script>
+                                                                <!--                                                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+                                                                                                                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+                                                                                                                <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ****** Quick View Modal Area End ****** -->
+                        <!--기존에 없었음-->
                     </div>
+                    <script>
+
+                        function addToCart(id) {
+                            let idx = id;
+                            let cnt = document.getElementById('qty'+id).value;
+                            alert(idx);
+                            alert(cnt);
+
+
+                        }
+
+                        function minus_cnt(id) {
+                            alert(id);
+                            alert(id.value);
+                            if (id.value > 1 && id.value != 0) {
+                                id.value --;
+                            }
+                        }
+
+                        function plus_cnt(id) {
+                            if (id.value >= 0) {
+                                id.value ++;
+                            }
+                        }
+
+                    </script>
+<!--                    <script>
+
+                        var effect = document.getElementById('qty');
+                        var qty = effect.value;
+                        if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value&#45;&#45;;
+                        return false;
+
+                    </script>-->
 
  <!--                   &lt;!&ndash; Single gallery Item Start &ndash;&gt;
                     <div class="col-12 col-sm-6 col-md-4 single_gallery_item women wow fadeInUpBig" data-wow-delay="0.3s">
