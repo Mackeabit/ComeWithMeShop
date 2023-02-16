@@ -25,5 +25,19 @@ public class CartService {
         return repository.findMemberCart(member_idx);
     }
 
+    public String insertCart(CartsVO cartsVO) {
+        String data = "N";
+
+        if (cartsVO.getMember_idx() == null) {
+            data = "NN";
+            return data;
+        }
+
+        int save = repository.save(cartsVO);
+        if (save > 0) {
+            data = "Y";
+        }
+        return data;
+    }
 }
 

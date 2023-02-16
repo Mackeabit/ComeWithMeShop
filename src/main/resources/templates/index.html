@@ -478,11 +478,12 @@
                                                             <a href="#">상품 자세히 보기</a>
                                                         </div>
                                                         <!-- Add to Cart Form -->
-                                                        <form class="cart" method="post">
+                                                        <form th:attr="id='cart'+${pd.pd_idx}" class="cart" method="post">
                                                             <div class="quantity">
                                                                 <span class="qty-minus" th:onclick="|minus_cnt(qty${pd.pd_idx})|"><i class="fa fa-minus" aria-hidden="true"></i></span>
-
-                                                                <input type="number" class="qty-text" th:attr="id='qty'+${pd.pd_idx}" id="qty" step="1" min="1" max="12" name="quantity" value="1" readonly>
+                                                                <input type="hidden" name="pd_idx" th:value="${pd.pd_idx}">
+                                                                <input th:if="${session.loginMember != null}" type="hidden" name="member_idx" th:value="${session.loginMember.member_idx}">
+                                                                <input type="number" class="qty-text" th:attr="id='qty'+${pd.pd_idx}" id="qty" step="1" min="1" max="12" th:name="'cart_cnt'" name="quantity" value="1" readonly>
 
                                                                 <span class="qty-plus" th:onclick="|plus_cnt(qty${pd.pd_idx})|"><i class="fa fa-plus" aria-hidden="true"></i></span>
 
@@ -531,16 +532,29 @@
 
                         function addToCart(id) {
                             let idx = id;
-                            let cnt = document.getElementById('qty'+id).value;
-                            alert(idx);
-                            alert(cnt);
+                            let f = $('#cart' + id);
+                            let formData = f.serialize();
 
-
+                            $.ajax({
+                                type : "POST",
+                                url : "/cartInsert",
+                                data : formData,
+                                success: function(data){
+                                    if(data == "Y"){
+                                        alert("장바구니에 추가되었습니다.");
+                                        location.href = "/";
+                                    }else if(data == "NN"){
+                                        location.href = "/login";
+                                    }
+                                },
+                                error: function(data){
+                                    alert("회원가입 에러 발생!");
+                                    console.log(data);
+                                }
+                            });
                         }
 
                         function minus_cnt(id) {
-                            alert(id);
-                            alert(id.value);
                             if (id.value > 1 && id.value != 0) {
                                 id.value --;
                             }

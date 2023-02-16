@@ -146,6 +146,16 @@ public class MainController {
     }
 
 
+    //메인화면 장바구니 추가
+    @RequestMapping("/cartInsert")
+    @ResponseBody
+    public String cartInsert(CartsVO cartsVO) {
+
+        String data = cartService.insertCart(cartsVO);
+
+        return data;
+    }
+
 
 
 }
