@@ -22,5 +22,8 @@
         </where>
     </select>
 
+    <select id="sortAllProductsSizes" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx order by cast(p.pd_size AS unsigned), substring(p.pd_size, 1) DESC
+    </select>
 
 </mapper>

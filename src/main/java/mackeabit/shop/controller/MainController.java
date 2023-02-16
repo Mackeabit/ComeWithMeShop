@@ -45,9 +45,13 @@ public class MainController {
         List<Photos_toMainVO> photoMain = subService.findThings(0);
         model.addAttribute("photoMain",photoMain);
 
-        //서브 사진 받아서 model
+        //서브 사진 받아서 model(중복값 제거)
         List<Photos_toMainVO> photoSub = subService.findThings(1);
         model.addAttribute("photoSub",photoSub);
+
+        //중복값 포함 사진+모든 상품 조회(사이즈 정렬O)
+        List<MainProductsDTO> allProducts = subService.sortAllProductsSizes();
+        model.addAttribute("allProducts", allProducts);
 
         /**
          * pd_value

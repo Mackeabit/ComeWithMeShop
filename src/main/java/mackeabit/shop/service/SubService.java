@@ -7,6 +7,8 @@ import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -29,4 +31,10 @@ public class SubService {
         return subRepository.mainPageProducts(pd_value);
     }
 
+    /**
+     *  모든 상품 + 사진 엮어서 size 정렬 시킨 DB값
+     */
+    public List<MainProductsDTO> sortAllProductsSizes() {
+        return subRepository.sortAllProductsSizes();
+    }
 }

@@ -29,4 +29,9 @@ public class SubRepositoryImpl implements SubRepository{
     public List<MainProductsDTO> mainPageProducts(Integer pd_value) {
         return suBMapper.mainPageProducts(pd_value);
     }
+
+    @Override
+    public List<MainProductsDTO> sortAllProductsSizes() {
+        return suBMapper.sortAllProductsSizes();
+    }
 }

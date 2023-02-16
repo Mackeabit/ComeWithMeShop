@@ -23,6 +23,13 @@
     <!-- jQuery -->
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
+    <style>
+        .widget.size .widget-desc a:visited {
+                     background-color: WHITE;
+                     color: RED;
+                 }
+    </style>
+
 </head>
 
 <body>
@@ -463,6 +470,7 @@
                                                             <img th:src="${pd.sv_loc}" src="img/product-img/product-1.jpg" alt="">
                                                         </div>
                                                     </div>
+
                                                     <div class="col-12 col-lg-7">
                                                         <div class="quickview_pro_des">
                                                             <h4 class="title" th:text="${pd.pd_nm}">퀵뷰페이지 상품명</h4>
@@ -473,12 +481,25 @@
                                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                                 <i class="fa fa-star" aria-hidden="true"></i>
                                                             </div>
+
                                                             <h5 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$120.99 상품원가 <span>$130 할인가격</span></h5>
                                                             <p th:text="${pd.pd_contents}">상품 설명란</p>
-                                                            <a href="#">상품 자세히 보기</a>
+                                                            <div class="widget size mb-15">
+                                                                <h6 th:if="${pd.pd_size != null}" th:text="'Size :'" class="widget-title">Size : </h6>
+                                                                <div class="widget-desc">
+                                                                    <ul>
+                                                                        <li th:each="size:${allProducts}" th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null} and ${pd.pd_size != 'FREE'}">
+                                                                            <a href="#" th:text="${size.pd_size}">S</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <a id="checking2" th:href="@{|/products/${pd.pd_idx}|}" href="#">상품 자세히 보기</a>
                                                         </div>
+
                                                         <!-- Add to Cart Form -->
                                                         <form th:attr="id='cart'+${pd.pd_idx}" class="cart" method="post">
+
                                                             <div class="quantity">
                                                                 <span class="qty-minus" th:onclick="|minus_cnt(qty${pd.pd_idx})|"><i class="fa fa-minus" aria-hidden="true"></i></span>
                                                                 <input type="hidden" name="pd_idx" th:value="${pd.pd_idx}">
@@ -488,7 +509,9 @@
                                                                 <span class="qty-plus" th:onclick="|plus_cnt(qty${pd.pd_idx})|"><i class="fa fa-plus" aria-hidden="true"></i></span>
 
                                                             </div>
+
                                                             <button type="button" th:onclick="|addToCart(${pd.pd_idx})|" name="addtocart" value="5" class="cart-submit">Add to cart</button>
+
                                                         </form>
 
                                                         <div class="share_wf mt-30">
@@ -567,104 +590,7 @@
                         }
 
                     </script>
-<!--                    <script>
 
-                        var effect = document.getElementById('qty');
-                        var qty = effect.value;
-                        if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value&#45;&#45;;
-                        return false;
-
-                    </script>-->
-
- <!--                   &lt;!&ndash; Single gallery Item Start &ndash;&gt;
-                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item women wow fadeInUpBig" data-wow-delay="0.3s">
-                        &lt;!&ndash; Product Image &ndash;&gt;
-                        <div class="product-img">
-                            <img src="img/product-img/product-2.jpg" alt="">
-                            <div class="product-quicview">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                        &lt;!&ndash; Product Description &ndash;&gt;
-                        <div class="product-description">
-                            <h4 class="product-price">$39.90</h4>
-                            <p>Jeans midi cocktail dress</p>
-                            &lt;!&ndash; Add to Cart &ndash;&gt;
-                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>
-                        </div>
-                    </div>
-
-                    &lt;!&ndash; Single gallery Item Start &ndash;&gt;
-                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item access wow fadeInUpBig" data-wow-delay="0.4s">
-                        &lt;!&ndash; Product Image &ndash;&gt;
-                        <div class="product-img">
-                            <img src="img/product-img/product-3.jpg" alt="">
-                            <div class="product-quicview">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                        &lt;!&ndash; Product Description &ndash;&gt;
-                        <div class="product-description">
-                            <h4 class="product-price">$39.90</h4>
-                            <p>Jeans midi cocktail dress</p>
-                            &lt;!&ndash; Add to Cart &ndash;&gt;
-                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>
-                        </div>
-                    </div>
-
-                    &lt;!&ndash; Single gallery Item Start &ndash;&gt;
-                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item shoes wow fadeInUpBig" data-wow-delay="0.5s">
-                        &lt;!&ndash; Product Image &ndash;&gt;
-                        <div class="product-img">
-                            <img src="img/product-img/product-4.jpg" alt="">
-                            <div class="product-quicview">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                        &lt;!&ndash; Product Description &ndash;&gt;
-                        <div class="product-description">
-                            <h4 class="product-price">$39.90</h4>
-                            <p>Jeans midi cocktail dress</p>
-                            &lt;!&ndash; Add to Cart &ndash;&gt;
-                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>
-                        </div>
-                    </div>
-
-                    &lt;!&ndash; Single gallery Item Start &ndash;&gt;
-                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item women wow fadeInUpBig" data-wow-delay="0.6s">
-                        &lt;!&ndash; Product Image &ndash;&gt;
-                        <div class="product-img">
-                            <img src="img/product-img/product-5.jpg" alt="">
-                            <div class="product-quicview">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                        &lt;!&ndash; Product Description &ndash;&gt;
-                        <div class="product-description">
-                            <h4 class="product-price">$39.90</h4>
-                            <p>Jeans midi cocktail dress</p>
-                            &lt;!&ndash; Add to Cart &ndash;&gt;
-                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>
-                        </div>
-                    </div>
-
-                    &lt;!&ndash; Single gallery Item &ndash;&gt;
-                    <div class="col-12 col-sm-6 col-md-4 single_gallery_item kids man wow fadeInUpBig" data-wow-delay="0.7s">
-                        &lt;!&ndash; Product Image &ndash;&gt;
-                        <div class="product-img">
-                            <img src="img/product-img/product-6.jpg" alt="">
-                            <div class="product-quicview">
-                                <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
-                            </div>
-                        </div>
-                        &lt;!&ndash; Product Description &ndash;&gt;
-                        <div class="product-description">
-                            <h4 class="product-price">$39.90</h4>
-                            <p>Jeans midi cocktail dress</p>
-                            &lt;!&ndash; Add to Cart &ndash;&gt;
-                            <a href="#" class="add-to-cart-btn">ADD TO CART</a>
-                        </div>
-                    </div>-->
                 </div>
             </div>
         </section>

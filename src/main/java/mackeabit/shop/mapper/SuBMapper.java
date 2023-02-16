@@ -15,4 +15,6 @@ public interface SuBMapper {
 
     List<MainProductsDTO> mainPageProducts(Integer pd_value);
 
+    List<MainProductsDTO> sortAllProductsSizes();
+
 }

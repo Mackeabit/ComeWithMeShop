@@ -13,4 +13,5 @@ public interface SubRepository {
 
     public List<MainProductsDTO> mainPageProducts(Integer pd_value);
 
+    List<MainProductsDTO> sortAllProductsSizes();
 }
