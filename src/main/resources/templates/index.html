@@ -24,10 +24,15 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 
     <style>
-        .widget.size .widget-desc a:visited {
+/*        .widget.size .widget-desc a:visited {
                      background-color: WHITE;
                      color: RED;
-                 }
+                 }*/
+
+        .widget{
+            border-bottom: none;
+            padding-bottom: 0;
+        }
     </style>
 
 </head>
@@ -323,36 +328,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Single Slide Start -->
-<!--                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-4.jpg);">
-                    <div class="container h-100">
-                        <div class="row h-100 align-items-center">
-                            <div class="col-12">
-                                <div class="welcome_slide_text">
-                                    <h6 data-animation="fadeInDown" data-delay="0" data-duration="500ms">* 오늘 하루 무료 배송</h6>
-                                    <h2 data-animation="fadeInUp" data-delay="500ms" data-duration="500ms">Summer Collection</h2>
-                                    <a href="#" class="btn karl-btn" data-animation="fadeInLeftBig" data-delay="1s" data-duration="500ms">상품 보기</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
-
-                <!-- Single Slide Start -->
-<!--                <div class="single_slide height-800 bg-img background-overlay" style="background-image: url(img/bg-img/bg-2.jpg);">
-                    <div class="container h-100">
-                        <div class="row h-100 align-items-center">
-                            <div class="col-12">
-                                <div class="welcome_slide_text">
-                                    <h6 data-animation="fadeInDown" data-delay="0" data-duration="500ms">* 오늘 하루 무료 배송</h6>
-                                    <h2 data-animation="bounceInDown" data-delay="500ms" data-duration="500ms">Women Fashion</h2>
-                                    <a href="#" class="btn karl-btn" data-animation="fadeInRightBig" data-delay="1s" data-duration="500ms">상품 보기</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>-->
             </div>
         </section>
         <!-- ****** Welcome Slides Area End ****** -->
@@ -484,16 +459,27 @@
 
                                                             <h5 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$120.99 상품원가 <span>$130 할인가격</span></h5>
                                                             <p th:text="${pd.pd_contents}">상품 설명란</p>
-                                                            <div class="widget size mb-15">
+                                                            <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
+                                                                <h6 th:if="${pd.pd_color != null}" th:text="'color :'" class="widget-title">Color : </h6>
+                                                                <div class="widget-desc">
+                                                                    <ul>
+                                                                        <li th:each="color:${findColors}" th:if="${pd.pd_nm == color.pd_nm} and ${pd.pd_color != null}">
+                                                                            <a href="#" th:text="${color.pd_color}">RED</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
                                                                 <h6 th:if="${pd.pd_size != null}" th:text="'Size :'" class="widget-title">Size : </h6>
                                                                 <div class="widget-desc">
                                                                     <ul>
-                                                                        <li th:each="size:${allProducts}" th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null} and ${pd.pd_size != 'FREE'}">
+                                                                        <li th:each="size:${findSizes}" th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null}">
                                                                             <a href="#" th:text="${size.pd_size}">S</a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
+
                                                             <a id="checking2" th:href="@{|/products/${pd.pd_idx}|}" href="#">상품 자세히 보기</a>
                                                         </div>
 

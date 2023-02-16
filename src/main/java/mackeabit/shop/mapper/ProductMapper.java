@@ -1,5 +1,7 @@
 package mackeabit.shop.mapper;
 
+import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,4 +19,7 @@ public interface ProductMapper {
 
     List<ProductsVO> findAll(Integer pd_value);
 
+    List<SizesDTO> findSizes();
+
+    List<ColorsDTO> findColors();
 }

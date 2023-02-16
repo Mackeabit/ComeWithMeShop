@@ -14,4 +14,12 @@
     </select>
 
 
+    <select id="findColors" resultType="mackeabit.shop.dto.ColorsDTO">
+        select distinct pd_nm, pd_color from products;
+    </select>
+
+    <select id="findSizes" resultType="mackeabit.shop.dto.SizesDTO">
+        select distinct pd_nm, pd_size from products order by cast(pd_size AS unsigned), substring(pd_size, 1) DESC;
+    </select>
+
 </mapper>

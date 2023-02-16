@@ -3,6 +3,8 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
+import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Service;
 
@@ -22,4 +24,13 @@ public class ProductService {
     public List<ProductsVO> findAll(Integer pd_value) {
         return repository.findAll(pd_value);
     }
+
+    public List<ColorsDTO> findColors() {
+        return repository.findColors();
+    }
+
+    public List<SizesDTO> findSizes() {
+        return repository.findSizes();
+    }
+
 }

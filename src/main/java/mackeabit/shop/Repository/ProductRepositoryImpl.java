@@ -2,6 +2,8 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.mapper.ProductMapper;
 import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Repository;
@@ -39,5 +41,15 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<ProductsVO> findAll(Integer pd_idx) {
         return productMapper.findAll(pd_idx);
+    }
+
+    @Override
+    public List<ColorsDTO> findColors() {
+        return productMapper.findColors();
+    }
+
+    @Override
+    public List<SizesDTO> findSizes() {
+        return productMapper.findSizes();
     }
 }

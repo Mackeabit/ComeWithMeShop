@@ -1,5 +1,7 @@
 package mackeabit.shop.Repository;
 
+import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 
 import java.util.List;
@@ -16,4 +18,8 @@ public interface ProductRepository {
 //    List<ProductsVO> findAll();
 
     List<ProductsVO> findAll(Integer pd_value);
+
+    List<ColorsDTO> findColors();
+
+    List<SizesDTO> findSizes();
 }

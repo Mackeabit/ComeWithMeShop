@@ -3,17 +3,12 @@ package mackeabit.shop.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.Login;
-import mackeabit.shop.dto.MainCartDTO;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.SignUpDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.service.CartService;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
-import mackeabit.shop.vo.CartsVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.Photos_toMainVO;
-import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,15 +38,21 @@ public class MainController {
 
         //메인 사진 받아서 model
         List<Photos_toMainVO> photoMain = subService.findThings(0);
-        model.addAttribute("photoMain",photoMain);
+        model.addAttribute("photoMain", photoMain);
 
         //서브 사진 받아서 model(중복값 제거)
         List<Photos_toMainVO> photoSub = subService.findThings(1);
-        model.addAttribute("photoSub",photoSub);
+        model.addAttribute("photoSub", photoSub);
 
-        //중복값 포함 사진+모든 상품 조회(사이즈 정렬O)
+        //중복값 포함 사진+모든 상품 조회
         List<MainProductsDTO> allProducts = subService.sortAllProductsSizes();
         model.addAttribute("allProducts", allProducts);
+
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
 
         /**
          * pd_value
@@ -98,7 +99,7 @@ public class MainController {
     /* 404 테스트용 */
     @RequestMapping("/404page")
     public void errorPageTest(HttpServletResponse response) throws IOException {
-        response.sendError(404,"404오류");
+        response.sendError(404, "404오류");
     }
 
     @GetMapping("/signup")
@@ -153,13 +154,12 @@ public class MainController {
     //메인화면 장바구니 추가
     @RequestMapping("/cartInsert")
     @ResponseBody
-    public String cartInsert(CartsVO cartsVO) {
+    public String cartInsert(Model model, CartsVO cartsVO) {
 
         String data = cartService.insertCart(cartsVO);
 
+
         return data;
     }
-
-
 
 }
