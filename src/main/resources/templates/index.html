@@ -21,7 +21,8 @@
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet">
     <!-- jQuery -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
 
     <style>
 /*        .widget.size .widget-desc a:visited {
@@ -33,6 +34,24 @@
             border-bottom: none;
             padding-bottom: 0;
         }
+        .red-text{
+            background-color: #ff084e;
+            color: #fff;
+        }
+
+        .widget-desc a:focus {
+            border: 0px solid black;
+            background-color: white;
+        }
+        .widget-desc a:hover {
+            border: 0px solid black;
+            background-color: white;
+        }
+        .widget-desc a:focus {
+            background-color: white;
+            color: #fff;
+        }
+
     </style>
 
 </head>
@@ -429,7 +448,7 @@
 
                         <!--기존에 없었음-->
                         <!-- ****** Quick View Modal Area Start ****** -->
-                        <div class="modal fade" th:attr="id='quickview'+${pd.pd_idx}" id="quickview" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+                        <div class="modal fade" th:attr="id='quickview'+${pd.pd_idx}" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
@@ -460,27 +479,28 @@
                                                             <h5 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$120.99 상품원가 <span>$130 할인가격</span></h5>
                                                             <p th:text="${pd.pd_contents}">상품 설명란</p>
                                                             <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
-                                                                <h6 th:if="${pd.pd_color != null}" th:text="'color :'" class="widget-title">Color : </h6>
+                                                                <h6 th:if="${pd.pd_color != null}" th:attr="id='colors'+${pd.pd_idx}" class="widget-title">Color : </h6>
                                                                 <div class="widget-desc">
                                                                     <ul>
                                                                         <li th:each="color:${findColors}" th:if="${pd.pd_nm == color.pd_nm} and ${pd.pd_color != null}">
-                                                                            <a href="#" th:text="${color.pd_color}">RED</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                            <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
-                                                                <h6 th:if="${pd.pd_size != null}" th:text="'Size :'" class="widget-title">Size : </h6>
-                                                                <div class="widget-desc">
-                                                                    <ul>
-                                                                        <li th:each="size:${findSizes}" th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null}">
-                                                                            <a href="#" th:text="${size.pd_size}">S</a>
+                                                                            <a th:onclick="colorFn([[${color.pd_color}]],[[${pd.pd_idx}]])" href="#"  th:text="${color.pd_color}" th:value="${color.pd_color}">RED</a>
                                                                         </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
 
-                                                            <a id="checking2" th:href="@{|/products/${pd.pd_idx}|}" href="#">상품 자세히 보기</a>
+                                                            <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
+                                                                <h6 th:if="${pd.pd_size != null}" th:attr="id='sizes'+${pd.pd_idx}" class="widget-title">Size : </h6>
+                                                                <div class="widget-desc">
+                                                                    <ul>
+                                                                        <li th:each="size:${findSizes}" th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null}">
+                                                                            <a th:onclick="sizeFn([[${size.pd_size}]],[[${pd.pd_idx}]])" href="#"  th:text="${size.pd_size}">S</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                            <a th:href="@{|/products/${pd.pd_idx}|}" href="#">상품 자세히 보기</a>
                                                         </div>
 
                                                         <!-- Add to Cart Form -->
@@ -533,16 +553,48 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
+
+
+
                         <!-- ****** Quick View Modal Area End ****** -->
                         <!--기존에 없었음-->
                     </div>
+
                     <script>
+
+                        let colorPick = 'N';
+                        let sizePick = 'N';
+
+                        $(document).ready(function () {
+                            $('[id^="quickview"]').on('hidden.bs.modal', function () {
+                                colorPick = 'N';
+                                sizePick = 'N';
+                            })
+
+                        })
+
+                        function colorFn(color, id) {
+                            $('#colors' + id).text('color : ' + color);
+                            colorPick = color;
+                        }
+
+                        function sizeFn(size, id) {
+                            $('#sizes' + id).text('size : ' + size);
+                            sizePick = size;
+                        }
+
+
+
 
                         function addToCart(id) {
                             let idx = id;
                             let f = $('#cart' + id);
                             let formData = f.serialize();
+                            formData += '&pd_color=' + colorPick + '&pd_size=' + sizePick;
+
+                            alert(formData);
 
                             $.ajax({
                                 type : "POST",
