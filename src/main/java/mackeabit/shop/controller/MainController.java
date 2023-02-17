@@ -154,9 +154,56 @@ public class MainController {
     //메인화면 장바구니 추가
     @RequestMapping("/cartInsert")
     @ResponseBody
-    public String cartInsert(Model model, CartsVO cartsVO) {
+    public String cartInsert(CartInsertDTO search) {
 
-        String data = cartService.insertCart(cartsVO);
+        /* 넘어오는 데이터 예시
+        *  1. pd_idx=6&pd_nm=BLACK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=BLACK&pd_size=M
+        *  2. pd_idx=9&pd_nm=MCK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=N&pd_size=N
+        *  3. pd_idx=29&pd_nm=%EC%96%91%ED%84%B8+%EB%9D%BC%EC%9D%B8+%EB%A1%B1%EB%B6%80%EC%B8%A0&member_idx=1&cart_cnt=3&pd_color=BROWN&pd_size=240
+        *
+        * idx가 아닌 이름, 옵션들(색상, 사이즈)로 찾아야함.
+        *
+        * */
+
+        log.info("search = {}", search);
+
+        if (search.getPd_size().equals("N")) {
+            search.setPd_size(null);
+        }
+
+        if (search.getPd_color().equals("N")) {
+            search.setPd_color(null);
+        }
+
+        List<MainProductsDTO> allProducts = subService.sortAllProductsSizes();
+
+        Long pd_idx = null;
+
+        for (int i = 0; i < allProducts.size(); i++) {
+
+            String pd_nm = allProducts.get(i).getPd_nm();
+            String pd_color = allProducts.get(i).getPd_color();
+            String pd_size = allProducts.get(i).getPd_size();
+
+            log.info("getPd_color = {}", allProducts.get(i).getPd_color());
+            log.info("getPd_size = {}", allProducts.get(i).getPd_size());
+
+            if (pd_nm.equals(search.getPd_nm()) && pd_color.equals(search.getPd_color()) && pd_size.equals(search.getPd_size())) {
+                log.info("Why not used??");
+                pd_idx = allProducts.get(i).getPd_idx();
+            }
+        }
+
+        log.info("pd_idx = {}", pd_idx);
+
+        CartsVO cartsVO = new CartsVO();
+        cartsVO.setMember_idx(search.getMember_idx());
+        cartsVO.setPd_idx(pd_idx);
+        cartsVO.setCart_cnt(search.getCart_cnt());
+
+
+        String data = "Y";
+//        String data = cartService.insertCart(cartsVO);
 
 
         return data;
