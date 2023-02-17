@@ -46,4 +46,10 @@ public class CartRepositoryImpl implements CartRepository {
     public List<MainCartDTO> findMemberCart(Long member_idx) {
         return cartMapper.findMemberCart(member_idx);
     }
+
+    @Override
+    public Integer selectOne(CartsVO cartsVO) {
+        Integer res = cartMapper.selectOne(cartsVO);
+        return res;
+    }
 }

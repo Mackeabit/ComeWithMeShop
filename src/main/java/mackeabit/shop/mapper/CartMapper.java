@@ -25,4 +25,7 @@ public interface CartMapper {
 
     List<MainCartDTO> findMemberCart(Long member_idx);
 
+    //장바구니 중복 조회(셋팅한 CartsVO)
+    Integer selectOne(CartsVO cartsVO);
+
 }

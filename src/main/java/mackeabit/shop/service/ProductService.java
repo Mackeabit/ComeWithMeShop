@@ -3,6 +3,7 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
+import mackeabit.shop.dto.CartInsertDTO;
 import mackeabit.shop.dto.ColorsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
@@ -33,4 +34,7 @@ public class ProductService {
         return repository.findSizes();
     }
 
+    public Long findPd_idx(CartInsertDTO search) {
+        return repository.findPd_idx(search);
+    }
 }

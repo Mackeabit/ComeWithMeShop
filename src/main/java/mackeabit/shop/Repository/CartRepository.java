@@ -19,4 +19,6 @@ public interface CartRepository {
 
     List<MainCartDTO> findMemberCart(Long member_idx);
 
+    Integer selectOne(CartsVO cartsVO);
+
 }

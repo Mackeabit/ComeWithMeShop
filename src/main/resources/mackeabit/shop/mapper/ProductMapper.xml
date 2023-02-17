@@ -22,4 +22,19 @@
         select distinct pd_nm, pd_size from products order by cast(pd_size AS unsigned), substring(pd_size, 1) DESC;
     </select>
 
+    <select id="findPd_idx" parameterType="mackeabit.shop.dto.CartInsertDTO" resultType="Long">
+        select pd_idx from products
+        <where>
+            <if test="pd_size != null and pd_color != null">
+                and pd_nm=#{pd_nm} and pd_size=#{pd_size} and pd_color=#{pd_color}
+            </if>
+            <if test="pd_size == null and pd_color != null">
+                and pd_nm=#{pd_nm} and pd_size is null and pd_color=#{pd_color}
+            </if>
+            <if test="pd_size != null and pd_color == null">
+                and pd_nm=#{pd_nm} and pd_size=#{pd_size} and pd_color is null
+            </if>
+        </where>
+    </select>
+
 </mapper>

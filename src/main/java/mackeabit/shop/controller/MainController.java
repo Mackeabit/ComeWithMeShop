@@ -156,17 +156,26 @@ public class MainController {
     @ResponseBody
     public String cartInsert(CartInsertDTO search) {
 
+        //데이터 정상 판별
+        String data = "Y";
+
+        //0. 회원이 아니면 이용 불가능
+        if (search.getMember_idx() == null) {
+            data = "NN";
+            return data;
+        }
+
+        log.info("first search = {}", search);
+
         /* 넘어오는 데이터 예시
         *  1. pd_idx=6&pd_nm=BLACK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=BLACK&pd_size=M
         *  2. pd_idx=9&pd_nm=MCK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=N&pd_size=N
-        *  3. pd_idx=29&pd_nm=%EC%96%91%ED%84%B8+%EB%9D%BC%EC%9D%B8+%EB%A1%B1%EB%B6%80%EC%B8%A0&member_idx=1&cart_cnt=3&pd_color=BROWN&pd_size=240
         *
         * idx가 아닌 이름, 옵션들(색상, 사이즈)로 찾아야함.
         *
         * */
 
-        log.info("search = {}", search);
-
+        //1. 넘어온 데이터들에게(상품 옵션) N 값 부여되어 있으면 null 처리
         if (search.getPd_size().equals("N")) {
             search.setPd_size(null);
         }
@@ -175,36 +184,37 @@ public class MainController {
             search.setPd_color(null);
         }
 
-        List<MainProductsDTO> allProducts = subService.sortAllProductsSizes();
+        log.info("second search = {}", search);
 
-        Long pd_idx = null;
+        //2. 데이터를 통해 pd_idx 찾기(색상, 사이즈, 이름에 맞는)
+        Long pd_idx = productService.findPd_idx(search);
 
-        for (int i = 0; i < allProducts.size(); i++) {
 
-            String pd_nm = allProducts.get(i).getPd_nm();
-            String pd_color = allProducts.get(i).getPd_color();
-            String pd_size = allProducts.get(i).getPd_size();
-
-            log.info("getPd_color = {}", allProducts.get(i).getPd_color());
-            log.info("getPd_size = {}", allProducts.get(i).getPd_size());
-
-            if (pd_nm.equals(search.getPd_nm()) && pd_color.equals(search.getPd_color()) && pd_size.equals(search.getPd_size())) {
-                log.info("Why not used??");
-                pd_idx = allProducts.get(i).getPd_idx();
-            }
+        if (pd_idx == null) {
+            data = "noIdx";
+            log.error("상품 인덱스 찾기 오류 발생");
+            return data;
         }
 
-        log.info("pd_idx = {}", pd_idx);
-
+        //3. CartsVO 셋팅
         CartsVO cartsVO = new CartsVO();
         cartsVO.setMember_idx(search.getMember_idx());
         cartsVO.setPd_idx(pd_idx);
         cartsVO.setCart_cnt(search.getCart_cnt());
 
+        //4. 셋팅한 VO로 중복 조회(중복이라면 저장X)
+        Integer res = cartService.selectOne(cartsVO);
+        log.info("res = {} ", res);
 
-        String data = "Y";
-//        String data = cartService.insertCart(cartsVO);
+        if (res != null) {
+            data = "exist";
+            return data;
+        }
 
+        //4. 찾은 값을 셋팅해서 중복 조회, insert 준비
+
+
+        data = cartService.insertCart(cartsVO);
 
         return data;
     }

@@ -621,10 +621,14 @@
                                         location.href = "/";
                                     }else if(data == "NN"){
                                         location.href = "/login";
+                                    }else if (data == "exist") {
+                                        alert("이미 장바구니에 추가되어있는 상품입니다.")
+                                    }else if (data == "noIdx") {
+                                        alert("현재 상품에 대하여 관리자에게 문의해주세요.")
                                     }
                                 },
                                 error: function(data){
-                                    alert("회원가입 에러 발생!");
+                                    alert("에러 발생!");
                                     console.log(data);
                                 }
                             });

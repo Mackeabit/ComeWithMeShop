@@ -12,6 +12,10 @@
         select * from cart
     </select>
 
+    <select id="selectOne" parameterType="mackeabit.shop.vo.CartsVO" resultType="Integer">
+        select * from cart where pd_idx = #{pd_idx} and member_idx = #{member_idx}
+    </select>
+
     <select id="findMemberCart" parameterType="Long" resultType="mackeabit.shop.dto.MainCartDTO">
         select c.cart_idx, p.pd_idx, c.cart_cnt, p.pd_nm, p.sell_price, p.pd_size, p.pd_color, pi.sv_locct from cart AS c JOIN products AS p ON c.pd_idx = p.pd_idx
             JOIN product_img AS pi ON p.pd_idx = pi.pd_idx WHERE member_idx = #{member_idx};

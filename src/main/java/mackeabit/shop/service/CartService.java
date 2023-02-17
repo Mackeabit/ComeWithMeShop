@@ -26,6 +26,7 @@ public class CartService {
         return repository.findMemberCart(member_idx);
     }
 
+    //장바구니 추가
     public String insertCart(CartsVO cartsVO) {
         String data = "N";
 
@@ -40,5 +41,10 @@ public class CartService {
         }
         return data;
     }
+
+    public Integer selectOne(CartsVO cartsVO) {
+        return repository.selectOne(cartsVO);
+    }
+
 }
 
