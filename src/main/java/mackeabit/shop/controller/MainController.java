@@ -211,9 +211,6 @@ public class MainController {
             return data;
         }
 
-        //4. 찾은 값을 셋팅해서 중복 조회, insert 준비
-
-
         data = cartService.insertCart(cartsVO);
 
         return data;

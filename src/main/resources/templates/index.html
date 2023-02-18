@@ -88,13 +88,6 @@
                         </ul>
                     </li>
                     <!-- Single Item -->
-<!--                    <li data-toggle="collapse" data-target="#kids" class="collapsed">
-                        <a href="#">Children <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="kids">
-                            <li><a href="#">Children Dresses</a></li>
-                            <li><a href="#">Mini Dresses</a></li>
-                        </ul>
-                    </li>-->
                     <!-- Single Item -->
                     <li data-toggle="collapse" data-target="#bags" class="collapsed">
                         <a href="#">Bags &amp; SHOES <span class="arrow"></span></a>
@@ -112,15 +105,6 @@
                             <li><a th:href="@{|/products/category/10|}" href="#">주얼리</a></li>
                         </ul>
                     </li>
-                    <!-- Single Item -->
-<!--                    <li data-toggle="collapse" data-target="#footwear" class="collapsed">
-                        <a href="#">SHOES <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="footwear">
-                            <li><a href="#">Footwear 1</a></li>
-                            <li><a href="#">Footwear 2</a></li>
-                            <li><a href="#">Footwear 3</a></li>
-                        </ul>
-                    </li>-->
                 </ul>
             </div>
         </div>
@@ -201,37 +185,6 @@
 
                                             $('#priceInit').text("TOTAL : "+totalPrice.toLocaleString());
                                         </script>
-
-
-
-                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
-                                      <!--  <ul th:if = "${session.loginMember != null}" th:each="cart:${cartsList}" class="cart-list">
-                                            <li>
-                                                <a href="#" class="image"><img src="img/product-img/product-10.jpg" class="cart-thumb" alt=""></a>
-                                                <div class="cart-item-desc">
-                                                    <h6><a href="#">Women's Fashion</a></h6>
-                                                    <p>x2 - <span class="price">$10</span></p>
-                                                </div>
-                                                <span class="dropdown-product-remove">
-                                                    <i class="icon-cross"></i>
-                                                </span>
-                                            </li>
-
-                                            <li>
-                                                <a href="#" class="image"><img src="img/product-img/product-11.jpg" class="cart-thumb" alt=""></a>
-                                                <div class="cart-item-desc">
-                                                    <h6><a href="#">Women's Fashion</a></h6>
-                                                    <p>1x - <span class="price">$10</span></p>
-                                                </div>
-                                                <span class="dropdown-product-remove"><i class="icon-cross"></i></span>
-                                            </li>
-                                            <li class="total">
-                                                <span class="pull-right">Total: $20.00</span>
-                                                <a href="cart.html" class="btn btn-sm btn-cart">장바구니</a>
-                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">결제하기</a>
-                                            </li>
-                                        </ul>-->
-                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
 
                                     </div>
 
@@ -363,21 +316,8 @@
                     <a th:href="@{|/products/category/${photo2.category_code}|}" href="#" class="btn karl-btn">SHOP NOW</a>
                 </div>
             </div>
-            <!-- Single Catagory -->
-<!--            <div class="single_catagory_area d-flex align-items-center bg-img" style="background-image: url(img/bg-img/bg-3.jpg);">
-                <div class="catagory-content">
-                    <h6>the new collection</h6>
-                    <h2>Designer bags</h2>
-                    <a th:href="@{/products/category/${photo2.category_code}}" href="#" class="btn karl-btn">SHOP NOW</a>
-                </div>
-            </div>-->
         </section>
         <!-- ****** Top Catagory Area End ****** -->
-
-<!--기존 퀵뷰 있던 자리-->
-<!--기존 퀵뷰 있던 자리-->
-
-        <!--새로운 상품-->
 
         <!-- ****** New Arrivals Area Start ****** -->
         <section class="new_arrivals_area section_padding_100_0 clearfix">
