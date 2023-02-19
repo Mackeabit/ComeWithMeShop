@@ -51,6 +51,8 @@ public class ProductController {
         int currentPage = page;
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 
+        log.info("pr = {}",findProducts);
+
         // 페이징 정보 model 저장
         model.addAttribute("newProducts", findProducts);
         model.addAttribute("totalPages", totalPages);
