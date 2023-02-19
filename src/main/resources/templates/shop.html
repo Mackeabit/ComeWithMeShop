@@ -12,18 +12,47 @@
     <title>Come With Me | Shop</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="img/core-img/favicon.ico">
+    <link rel="icon" href="/img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
-    <link rel="stylesheet" href="css/core-style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/core-style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Responsive CSS -->
-    <link href="css/responsive.css" rel="stylesheet">
+    <link href="/css/responsive.css" rel="stylesheet">
 
     <!-- jQuery -->
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+    <style>
+        /*        .widget.size .widget-desc a:visited {
+                             background-color: WHITE;
+                             color: RED;
+                         }*/
+
+        .widget{
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .red-text{
+            background-color: #ff084e;
+            color: #fff;
+        }
+
+        .widget-desc a:focus {
+            border: 0px solid black;
+            background-color: white;
+        }
+        .widget-desc a:hover {
+            border: 0px solid black;
+            background-color: white;
+        }
+        .widget-desc a:focus {
+            background-color: white;
+            color: #fff;
+        }
+
+    </style>
 
 </head>
 
@@ -42,7 +71,7 @@
                 <li data-toggle="collapse" data-target="#women" class="collapsed active">
                     <a href="#">Woman wear <span class="arrow"></span></a>
                     <ul class="sub-menu collapse" id="women">
-                        <li><a th:href="@{|products/woman/value/1?pd_value=2|}" href="#">여성 인기 상품</a></li>
+                        <li><a th:href="@{|products/best/1|}" href="#">여성 인기 상품</a></li>
                         <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
                         <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
                         <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
@@ -53,7 +82,7 @@
                 <li data-toggle="collapse" data-target="#man" class="collapsed">
                     <a href="#">Man Wear <span class="arrow"></span></a>
                     <ul class="sub-menu collapse" id="man">
-                        <li><a th:href="@{|/products/man/value/0?pd_value=2|}" href="#">남성 인기 상품</a></li>
+                        <li><a th:href="@{|/products/best/0|}" href="#">남성 인기 상품</a></li>
                         <li><a th:href="@{|/products/man/category/4|}" href="#">상의</a></li>
                         <li><a th:href="@{|/products/man/category/5|}" href="#">하의</a></li>
                     </ul>
@@ -115,8 +144,8 @@
                                     <!-- Cart List Area Start 장바구니 안에 내용 -->
 
                                     <ul class="cart-list">
-                                        <li th:each="cart:${cartsList}">
-                                            <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
+                                        <li th:each="cart:${session.memberCart}">
+                                            <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                             <div class="cart-item-desc">
                                                 <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
                                                 <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
@@ -144,7 +173,7 @@
                                         let totalPrice = 0;
                                         /*<![CDATA[*/
                                         if ([[${session.loginMember}]] != null) {
-                                            let cart = [[${cartsList}]];
+                                            let cart = [[${session.memberCart}]];
                                             console.log(cart);
                                             for (i = 0; i < cart.length; i++) {
                                                 totalPrice+=cart[i].sell_price*cart[i].cart_cnt;
@@ -272,7 +301,7 @@
                                             <li data-toggle="collapse" data-target="#women2">
                                                 <a href="#">Woman wear</a>
                                                 <ul class="sub-menu collapse show" id="women2">
-                                                    <li><a th:href="@{|products/woman/value/1?pd_value=2|}" href="#">여성 인기 상품</a></li>
+                                                    <li><a th:href="@{|products/best/1|}" href="#">여성 인기 상품</a></li>
                                                     <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
                                                     <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
                                                     <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
@@ -283,7 +312,7 @@
                                             <li data-toggle="collapse" data-target="#man2" class="collapsed">
                                                 <a href="#">Man Wear</a>
                                                 <ul class="sub-menu collapse" id="man2">
-                                                    <li><a th:href="@{|/products/man/value/0?pd_value=2|}" href="#">남성 인기 상품</a></li>
+                                                    <li><a th:href="@{|/products/best/0|}" href="#">남성 인기 상품</a></li>
                                                     <li><a th:href="@{|/products/man/category/4|}" href="#">상의</a></li>
                                                     <li><a th:href="@{|/products/man/category/5|}" href="#">하의</a></li>
                                                 </ul>
@@ -311,6 +340,7 @@
                                 </div>
                             </div>
 
+                            <!--가격 시작-->
                             <div class="widget price mb-50">
                                 <h6 class="widget-title mb-30">Filter by Price</h6>
                                 <div class="widget-desc">
@@ -324,7 +354,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--가격 끝-->
 
+                            <!--색상 시작-->
                             <div class="widget color mb-70">
                                 <h6 class="widget-title mb-30">Filter by Color</h6>
                                 <div class="widget-desc">
@@ -338,7 +370,9 @@
                                     </ul>
                                 </div>
                             </div>
+                            <!--색상 끝-->
 
+                            <!--사이즈 시작-->
                             <div class="widget size mb-50">
                                 <h6 class="widget-title mb-30">Filter by Size</h6>
                                 <div class="widget-desc">
@@ -352,7 +386,9 @@
                                     </ul>
                                 </div>
                             </div>
+                            <!--사이즈 끝-->
 
+                            <!--추천상품 시작-->
                             <div class="widget recommended">
                                 <h6 class="widget-title mb-30">추천 상품</h6>
 
@@ -389,27 +425,151 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--추천상품 끝-->
                         </div>
                     </div>
 
+                    <!-- 상품 표시 시작 -->
                     <div class="col-12 col-md-8 col-lg-9">
                         <div class="shop_grid_product_area">
                             <div class="row">
 
                                 <!-- Single gallery Item -->
-                                <div class="col-12 col-sm-6 col-lg-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
+                                <div th:each="pd:${newProducts}" th:id="${pd.pd_idx}" th:classappend="|${pd.pd_kind} ${pd.category_code}|" class="col-12 col-sm-6 col-lg-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
+
+                                    <script>
+                                        /*<![CDATA[*/
+                                        if ([[${pd.category_code}]] > 7 && [[${pd.category_code}]] < 16 ) {
+                                            if ([[${pd.category_code}]] == 11) {
+                                                $('#[[${pd.pd_idx}]]').addClass('shoes');
+                                                $('#[[${pd.pd_idx}]]').removeClass('1');
+                                                $('#[[${pd.pd_idx}]]').removeClass('2');
+                                            } else {
+                                                $('#[[${pd.pd_idx}]]').addClass('access');
+                                                $('#[[${pd.pd_idx}]]').removeClass('1');
+                                                $('#[[${pd.pd_idx}]]').removeClass('2');
+                                            }
+                                        }
+                                        /*]]>*/
+                                    </script>
+
                                     <!-- Product Image -->
                                     <div class="product-img">
-                                        <img src="img/product-img/product-1.jpg" alt="">
+                                        <img th:src="|/${pd.sv_loc}|" src="img/product-img/product-1.jpg" alt="">
                                         <div class="product-quicview">
-                                            <a href="#" data-toggle="modal" data-target="#quickview"><i class="ti-plus"></i></a>
+                                            <a href="#" data-toggle="modal" th:attr="data-target='#quickview'+${pd.pd_idx}" data-target="#quickview"><i class="ti-plus"></i></a>
                                         </div>
                                     </div>
                                     <!-- Product Description -->
                                     <div class="product-description">
-                                        <h4 class="product-price" th:text="${pd.sell_price}">$39.90</h4>
+                                        <h4 class="product-price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$39.90</h4>
                                         <p th:text="${pd.pd_nm}">Jeans midi cocktail dress</p>
                                     </div>
+                                    <!--기존에 없었음-->
+                                    <!-- ****** Quick View Modal Area Start ****** -->
+                                    <div class="modal fade" th:attr="id='quickview'+${pd.pd_idx}" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+
+                                                <div class="modal-body">
+                                                    <div class="quickview_body">
+                                                        <div class="container">
+                                                            <div class="row">
+                                                                <div class="col-12 col-lg-5">
+                                                                    <div class="quickview_pro_img">
+                                                                        <img th:src="${pd.sv_loc}" src="img/product-img/product-1.jpg" alt="">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-12 col-lg-7">
+                                                                    <div class="quickview_pro_des">
+                                                                        <h4 class="title" th:text="${pd.pd_nm}">QuickView 상품명</h4>
+                                                                        <div class="top_seller_product_rating mb-15">
+                                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                                                        </div>
+
+                                                                        <h5 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$120.99 상품원가 <span>$130 할인가격</span></h5>
+                                                                        <p th:text="${pd.pd_contents}">상품 설명란</p>
+                                                                        <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
+                                                                            <h6 th:if="${pd.pd_color != null}" th:attr="id='colors'+${pd.pd_idx}" class="widget-title">Color : </h6>
+                                                                            <div class="widget-desc">
+                                                                                <ul>
+                                                                                    <li th:each="color:${findColors}" th:if="${pd.pd_nm == color.pd_nm} and ${pd.pd_color != null}">
+                                                                                        <a th:onclick="colorFn([[${color.pd_color}]],[[${pd.pd_idx}]])" href="#"  th:text="${color.pd_color}" th:value="${color.pd_color}">RED</a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}" class="widget size mb-15">
+                                                                            <h6 th:if="${pd.pd_size != null}" th:attr="id='sizes'+${pd.pd_idx}" class="widget-title">Size : </h6>
+                                                                            <div class="widget-desc">
+                                                                                <ul>
+                                                                                    <li th:each="size:${findSizes}" th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null}">
+                                                                                        <a th:onclick="sizeFn([[${size.pd_size}]],[[${pd.pd_idx}]])" href="#"  th:text="${size.pd_size}">S</a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <a th:href="@{|/products/${pd.pd_nm}|}" href="#">상품 자세히 보기</a>
+                                                                    </div>
+
+                                                                    <!-- Add to Cart Form -->
+                                                                    <form th:attr="id='cart'+${pd.pd_idx}" class="cart" method="post">
+
+                                                                        <div class="quantity">
+                                                                            <span class="qty-minus" th:onclick="|minus_cnt(qty${pd.pd_idx})|"><i class="fa fa-minus" aria-hidden="true"></i></span>
+                                                                            <input type="hidden" name="pd_idx" th:value="${pd.pd_idx}">
+                                                                            <input type="hidden" name="pd_nm" th:value="${pd.pd_nm}">
+                                                                            <input th:if="${session.loginMember != null}" type="hidden" name="member_idx" th:value="${session.loginMember.member_idx}">
+                                                                            <input type="number" class="qty-text" th:attr="id='qty'+${pd.pd_idx}" id="qty" step="1" min="1" max="12" th:name="'cart_cnt'" name="quantity" value="1" readonly>
+
+                                                                            <span class="qty-plus" th:onclick="|plus_cnt(qty${pd.pd_idx})|"><i class="fa fa-plus" aria-hidden="true"></i></span>
+
+                                                                        </div>
+
+                                                                        <button type="button" th:onclick="|addToCart(${pd.pd_idx})|" name="addtocart" value="5" class="cart-submit">Add to cart</button>
+
+                                                                    </form>
+
+                                                                    <div class="share_wf mt-30">
+                                                                        <p>Share With Friend</p>
+                                                                        <div class="_icon">
+                                                                            <!--<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
+                                                                            <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+                                                                                    integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+                                                                            <script>
+                                                                                Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
+                                                                            </script>
+                                                                            <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+                                                                                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png"
+                                                                                     alt="카카오톡 공유 보내기 버튼" />
+                                                                            </a>
+
+                                                                            <script>
+                                                                                function shareMessage() {
+                                                                                    Kakao.Share.sendScrap({
+                                                                                        requestUrl: 'https://developers.kakao.com',
+                                                                                    });
+                                                                                }
+                                                                            </script>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                 </div>
 
                             </div>
@@ -426,6 +586,8 @@
                         </div>
 
                     </div>
+                    <!-- 상품 표시 끝 -->
+
                 </div>
             </div>
         </section>
@@ -438,7 +600,7 @@
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="single_footer_area">
                             <div class="footer-logo">
-                                <img src="img/core-img/logo.png" alt="">
+                                <img src="/img/core-img/logo.png" alt="">
                             </div>
                             <div class="copywrite_text d-flex align-items-center">
                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -490,15 +652,15 @@
     <!-- /.wrapper end -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="/js/plugins.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/js/active.js"></script>
 </body>
 
 </html>

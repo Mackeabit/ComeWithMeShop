@@ -20,6 +20,9 @@
             <if test="pd_value != null">
                 and p.pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_value = #{pd_value};
             </if>
+            <if test="pd_value == 4">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+            </if>
         </where>
     </select>
 

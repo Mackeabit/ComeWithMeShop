@@ -6,6 +6,7 @@ import mackeabit.shop.dto.ColorsDTO;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
+import mackeabit.shop.service.SubService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,16 +23,44 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final SubService subService;
 
     @GetMapping
-    public String productAll() {
+    public String productAll(Model model) {
+
+        //신상품 받아서 model
+        List<MainProductsDTO> findProducts = subService.mainPageProducts(1);
+        model.addAttribute("newProducts", findProducts);
+
+        //상품 색상
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        //상품 사이즈
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
+
+        return "shop";
+    }
+
+    @GetMapping("/best/{pd_kind}")
+    public String bestProducts(@PathVariable Integer pd_kind, Model model) {
+        if (pd_kind == 2) {
+            //베스트 상품 전체일 경우
+        }
+
+
+
         return "shop";
     }
 
     //상품별 페이지
-    @GetMapping("/{pd_idx}")
-    public String product_detail(@PathVariable Long pd_idx, Model model) {
-        log.info("pd_idx = {}", pd_idx);
+    @GetMapping("/{pd_nm}")
+    public String product_detail(@PathVariable String  pd_nm, Model model) {
+        log.info("pd_nm = {}", pd_nm);
+
+
+
         return "product-details";
     }
 
@@ -39,6 +68,9 @@ public class ProductController {
     @GetMapping("/category/{category_ref}")
     public String product_detail(@PathVariable Integer category_ref, Model model) {
         log.info("category_ref = {}", category_ref);
+
+
+
         return "product-details";
     }
 

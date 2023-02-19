@@ -71,7 +71,7 @@
                     <li data-toggle="collapse" data-target="#women" class="collapsed active">
                         <a href="#">Woman wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="women">
-                            <li><a th:href="@{|products/woman/value/1?pd_value=2|}" href="#">여성 인기 상품</a></li>
+                            <li><a th:href="@{|products/best/1|}" href="#">여성 인기 상품</a></li>
                             <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
                             <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
                             <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
@@ -82,7 +82,7 @@
                     <li data-toggle="collapse" data-target="#man" class="collapsed">
                         <a href="#">Man Wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="man">
-                            <li><a th:href="@{|/products/man/value/0?pd_value=2|}" href="#">남성 인기 상품</a></li>
+                            <li><a th:href="@{|/products/best/0|}" href="#">남성 인기 상품</a></li>
                             <li><a th:href="@{|/products/man/category/4|}" href="#">상의</a></li>
                             <li><a th:href="@{|/products/man/category/5|}" href="#">하의</a></li>
                         </ul>
@@ -145,9 +145,9 @@
 
                                         <ul class="cart-list">
                                             <li th:each="cart:${cartsList}">
-                                                <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
+                                                <a th:href="@{|/products/${cart.pd_nm}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
-                                                    <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
+                                                    <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_nm}|}">Women's Fashion</a></h6>
                                                     <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
                                                     <p>
                                                         <span th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|size : ${cart.pd_size} / color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null">
@@ -289,7 +289,7 @@
         <section class="welcome_area">
             <div class="welcome_slides owl-carousel">
                 <!-- Single Slide Start -->
-                <div th:each="photo : ${photoMain}" class="single_slide height-800 bg-img background-overlay" th:style="'background-image: url('+${photo.file_loc}+');'" style="background-image: url(img/bg-img/bg-1.jpg);">
+                <div th:each="photo : ${photoMain}" class="single_slide height-800 bg-img background-overlay" th:style="'background-image: url(/'+${photo.file_loc}+');'" style="background-image: url(img/bg-img/bg-1.jpg);">
                     <div class="container h-100">
                         <div class="row h-100 align-items-center">
                             <div class="col-12">
@@ -309,7 +309,7 @@
         <!-- ****** Top Catagory Area Start ****** photos_toMain table toUse 값 = 1 -->
         <section class="top_catagory_area d-md-flex clearfix">
             <!-- Single Catagory -->
-            <div th:each="photo2:${photoSub}" class="single_catagory_area d-flex align-items-center bg-img" th:style="'background-image: url('+${photo2.file_loc}+');'" style="background-image: url(img/bg-img/bg-2.jpg);">
+            <div th:each="photo2:${photoSub}" class="single_catagory_area d-flex align-items-center bg-img" th:style="'background-image: url(/'+${photo2.file_loc}+');'" style="background-image: url(img/bg-img/bg-2.jpg);">
                 <div class="catagory-content">
                     <h6 th:text="${photo2.title}">Acc</h6>
                     <h2 th:text="${photo2.bene}">Sale</h2>
@@ -442,7 +442,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <a th:href="@{|/products/${pd.pd_idx}|}" href="#">상품 자세히 보기</a>
+                                                            <a th:href="@{|/products/${pd.pd_nm}|}" href="#">상품 자세히 보기</a>
                                                         </div>
 
                                                         <!-- Add to Cart Form -->
@@ -498,8 +498,6 @@
                             </div>
 
                         </div>
-
-
 
                         <!-- ****** Quick View Modal Area End ****** -->
                         <!--기존에 없었음-->
