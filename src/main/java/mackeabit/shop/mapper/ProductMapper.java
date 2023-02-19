@@ -2,6 +2,7 @@ package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.CartInsertDTO;
 import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,6 @@ public interface ProductMapper {
     List<ColorsDTO> findColors();
 
     Long findPd_idx(CartInsertDTO search);
+
+    List<MainProductsDTO> searchByName(String keyword);
 }

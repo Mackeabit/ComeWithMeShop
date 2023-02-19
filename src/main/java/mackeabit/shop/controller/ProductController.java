@@ -2,12 +2,16 @@ package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -36,5 +40,16 @@ public class ProductController {
         return "product-details";
     }
 
+    //상품 이름 검색
+    @GetMapping("/search")
+    public String products_search(Model model, String keyword) {
 
+        List<MainProductsDTO> findProducts = productService.searchByName(keyword);
+
+        log.info("search count = {}", findProducts.size());
+
+        model.addAttribute("searchResults", findProducts);
+
+        return "shop";
+    }
 }

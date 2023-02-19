@@ -2,6 +2,7 @@ package mackeabit.shop.Repository;
 
 import mackeabit.shop.dto.CartInsertDTO;
 import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 
@@ -25,4 +26,6 @@ public interface ProductRepository {
     List<SizesDTO> findSizes();
 
     Long findPd_idx(CartInsertDTO search);
+
+    List<MainProductsDTO> searchByName(String keyword);
 }

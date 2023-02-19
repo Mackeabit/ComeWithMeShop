@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.CartInsertDTO;
 import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.mapper.ProductMapper;
 import mackeabit.shop.vo.ProductsVO;
@@ -57,6 +58,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Long findPd_idx(CartInsertDTO search) {
         return productMapper.findPd_idx(search);
+    }
+
+    @Override
+    public List<MainProductsDTO> searchByName(String keyword) {
+        return productMapper.searchByName(keyword);
     }
 
 

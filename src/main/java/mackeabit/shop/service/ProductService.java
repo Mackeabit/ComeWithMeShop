@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
 import mackeabit.shop.dto.CartInsertDTO;
 import mackeabit.shop.dto.ColorsDTO;
+import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,9 @@ public class ProductService {
 
     public Long findPd_idx(CartInsertDTO search) {
         return repository.findPd_idx(search);
+    }
+
+    public List<MainProductsDTO> searchByName(String keyword) {
+        return repository.searchByName(keyword);
     }
 }

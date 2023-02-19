@@ -354,7 +354,7 @@
                             </div>
 
                             <div class="widget recommended">
-                                <h6 class="widget-title mb-30">Recommended</h6>
+                                <h6 class="widget-title mb-30">추천 상품</h6>
 
                                 <div class="widget-desc">
                                     <!-- Single Recommended Product -->
@@ -472,18 +472,21 @@
                                 <h6>Search</h6>
                             </div>
                             <div class="subscribtion_form">
-                                <form action="#" method="post">
-                                    <input type="email" name="mail" class="mail" placeholder="">
-                                    <a name="search_bottom"><button type="submit" class="submit"><i class="fa fa-search" aria-hidden="true"></i></button></a>
+                                <form action="/products/search" method="post">
+                                    <input type="text" name="keyword" class="mail" placeholder="">
+                                    <a name="search_bottom"><button id="sr_btn" type="submit" class="submit"><i class="fa fa-search" aria-hidden="true"></i></button></a>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    <!-- Single Footer Area End -->
+
                 </div>
             </div>
         </footer>
         <!-- ****** Footer Area End ****** -->
     </div>
+
     <!-- /.wrapper end -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
