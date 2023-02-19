@@ -7,14 +7,17 @@ import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 @Controller
@@ -26,11 +29,35 @@ public class ProductController {
     private final SubService subService;
 
     @GetMapping
-    public String productAll(Model model) {
+    public String productAll(Model model,@RequestParam(defaultValue = "1") int page) {
 
-        //신상품 받아서 model
-        List<MainProductsDTO> findProducts = subService.mainPageProducts(1);
+        // 페이징 정보
+        int pageSize = 9;
+        int startIndex = (page - 1) * pageSize;
+
+        // 현재 페이지와 한번에 표시할 제품 수량
+        Map<String, Object> params = new HashMap<>();
+//        params.put("pd_value", 4);
+        params.put("pageSize", pageSize);
+        params.put("startIndex", startIndex);
+
+        //신상품 받아서 model(pd_value = 4 -> 전체 조회)
+        //현재 페이지에 맞는 상품들 호출
+        List<MainProductsDTO> findProducts = subService.mainPageProductsPaged(params);
+        int totalCount = subService.countMainPageProducts();
+
+        // 페이지 정보 (총페이지 반올림, 현재 페이지)
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        int currentPage = page;
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+
+        // 페이징 정보 model 저장
         model.addAttribute("newProducts", findProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+
+
 
         //상품 색상
         List<ColorsDTO> productColors = productService.findColors();

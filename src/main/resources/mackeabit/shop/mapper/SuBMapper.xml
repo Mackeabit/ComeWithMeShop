@@ -17,17 +17,31 @@
     <select id="mainPageProducts" parameterType="Integer" resultType="mackeabit.shop.dto.MainProductsDTO">
         select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
         <where>
-            <if test="pd_value != null">
-                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_value = #{pd_value};
-            </if>
             <if test="pd_value == 4">
-                and p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm)
+            </if>
+            <if test="pd_value != null and pd_value != 4">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_value = #{pd_value}
             </if>
         </where>
     </select>
 
     <select id="sortAllProductsSizes" resultType="mackeabit.shop.dto.MainProductsDTO">
         select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx order by cast(p.pd_size AS unsigned), substring(p.pd_size, 1) DESC
+    </select>
+
+    <select id="mainPageProductsPaged" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from products p
+                          JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        where p.pd_idx in (select max(pd_idx) from products group by pd_nm)
+            limit #{pageSize} offset #{startIndex};
+    </select>
+
+    <select id="countMainPageProducts" parameterType="map" resultType="java.lang.Integer">
+        select count(*) as total
+        from products p
+                 JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
     </select>
 
 </mapper>

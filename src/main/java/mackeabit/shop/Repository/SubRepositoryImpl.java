@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.mapper.SuBMapper;
 import mackeabit.shop.vo.Photos_toMainVO;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -33,5 +35,16 @@ public class SubRepositoryImpl implements SubRepository{
     @Override
     public List<MainProductsDTO> sortAllProductsSizes() {
         return suBMapper.sortAllProductsSizes();
+    }
+
+
+    @Override
+    public List<MainProductsDTO> mainPageProductsPaged(Map<String, Object> params) {
+        return suBMapper.mainPageProductsPaged(params);
+    }
+
+    @Override
+    public int countMainPageProducts() {
+        return suBMapper.countMainPageProducts();
     }
 }

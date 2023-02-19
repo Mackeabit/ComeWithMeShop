@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -36,5 +37,14 @@ public class SubService {
      */
     public List<MainProductsDTO> sortAllProductsSizes() {
         return subRepository.sortAllProductsSizes();
+    }
+
+
+    public List<MainProductsDTO> mainPageProductsPaged(Map<String, Object> params) {
+        return subRepository.mainPageProductsPaged(params);
+    }
+
+    public int countMainPageProducts() {
+        return subRepository.countMainPageProducts();
     }
 }
