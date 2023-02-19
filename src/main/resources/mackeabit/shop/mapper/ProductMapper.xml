@@ -26,23 +26,25 @@
         select pd_idx from products
         <where>
             <if test="pd_size != null and pd_color != null">
-                and pd_nm=#{pd_nm} and pd_size=#{pd_size} and pd_color=#{pd_color}
+                and pd_nm=#{pd_nm} and pd_size=#{pd_size} and pd_color=#{pd_color};
             </if>
             <if test="pd_size == null and pd_color != null">
-                and pd_nm=#{pd_nm} and pd_size is null and pd_color=#{pd_color}
+                and pd_nm=#{pd_nm} and pd_size is null and pd_color=#{pd_color};
             </if>
             <if test="pd_size != null and pd_color == null">
-                and pd_nm=#{pd_nm} and pd_size=#{pd_size} and pd_color is null
+                and pd_nm=#{pd_nm} and pd_size=#{pd_size} and pd_color is null;
             </if>
         </where>
     </select>
 
     <select id="searchByName" parameterType="String" resultType="mackeabit.shop.dto.MainProductsDTO">
-        select *
-        from products p
-                 JOIN product_img pi ON p.pd_idx = pi.pd_idx
-        where p.pd_idx in (select max(pd_idx) from products group by pd_nm)
-          and pd_nm Like CONCAT('%', #{keyword}, '%');
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        <where>
+            <if test="keyword != null">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_nm Like CONCAT('%', #{keyword}, '%');
+            </if>
+        </where>
+
     </select>
 
 </mapper>

@@ -132,7 +132,7 @@
                                     <!-- Cart Area 장바구니 수량-->
                                     <div class="cart">
                                         <a th:if="${session.loginMember != null}" href="#" id="header-cart-btn" target="_blank">
-                                            <span th:if = "${session.loginMember != null}" th:text="${cartsList.size()}"
+                                            <span th:if = "${session.loginMember != null}" th:text="${session.memberCart.size()}"
                                                   class="cart_quantity">0</span>
                                             <i class="ti-bag">
                                             </i>
@@ -144,8 +144,8 @@
                                         <!-- Cart List Area Start 장바구니 안에 내용 -->
 
                                         <ul class="cart-list">
-                                            <li th:each="cart:${cartsList}">
-                                                <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
+                                            <li th:each="cart:${session.memberCart}">
+                                                <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
                                                     <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
                                                     <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
@@ -173,7 +173,7 @@
                                             let totalPrice = 0;
                                             /*<![CDATA[*/
                                             if ([[${session.loginMember}]] != null) {
-                                                let cart = [[${cartsList}]];
+                                                let cart = [[${session.memberCart}]];
                                                 console.log(cart);
                                                 for (i = 0; i < cart.length; i++) {
                                                     totalPrice+=cart[i].sell_price*cart[i].cart_cnt;
@@ -285,39 +285,6 @@
         </section>
         <!-- ****** Top Discount Area End ****** -->
 
-        <!-- ****** Welcome Slides Area Start ****** photos_toMain table toUse 값 = 0 -->
-        <section class="welcome_area">
-            <div class="welcome_slides owl-carousel">
-                <!-- Single Slide Start -->
-                <div th:each="photo : ${photoMain}" class="single_slide height-800 bg-img background-overlay" th:style="'background-image: url('+${photo.file_loc}+');'" style="background-image: url(img/bg-img/bg-1.jpg);">
-                    <div class="container h-100">
-                        <div class="row h-100 align-items-center">
-                            <div class="col-12">
-                                <div class="welcome_slide_text">
-                                    <h6 data-animation="bounceInDown" data-delay="0" data-duration="500ms" th:text="${photo.bene}">* 오늘 하루 무료 배송</h6>
-                                    <h2 data-animation="fadeInUp" data-delay="500ms" data-duration="500ms"th:text="${photo.title}">패션 트렌드</h2>
-                                    <a th:href="@{|/products/category/${photo.category_code}|}" href="#" class="btn karl-btn" data-animation="fadeInUp" data-delay="1s" data-duration="500ms">상품 보기</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ****** Welcome Slides Area End ****** -->
-
-        <!-- ****** Top Catagory Area Start ****** photos_toMain table toUse 값 = 1 -->
-        <section class="top_catagory_area d-md-flex clearfix">
-            <!-- Single Catagory -->
-            <div th:each="photo2:${photoSub}" class="single_catagory_area d-flex align-items-center bg-img" th:style="'background-image: url('+${photo2.file_loc}+');'" style="background-image: url(img/bg-img/bg-2.jpg);">
-                <div class="catagory-content">
-                    <h6 th:text="${photo2.title}">Acc</h6>
-                    <h2 th:text="${photo2.bene}">Sale</h2>
-                    <a th:href="@{|/products/category/${photo2.category_code}|}" href="#" class="btn karl-btn">SHOP NOW</a>
-                </div>
-            </div>
-        </section>
-        <!-- ****** Top Catagory Area End ****** -->
 
         <!-- ****** New Arrivals Area Start ****** -->
         <section class="new_arrivals_area section_padding_100_0 clearfix">
@@ -325,7 +292,8 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="section_heading text-center">
-                            <h2>New</h2>
+                            <h2 th:if="${searchResults.size() != 0}" th:text="'Result'">New</h2>
+                            <h2 th:if="${searchResults.size() == 0}" th:text="'검색 결과 없음'">New</h2>
                         </div>
                     </div>
                 </div>
@@ -353,7 +321,7 @@
 
 
                     <!-- Single gallery Item Start -->
-                    <div th:each="pd:${newProducts}" th:id="${pd.pd_idx}" th:classappend="|${pd.pd_kind} ${pd.category_code}|" class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
+                    <div th:each="pd:${searchResults}" th:id="${pd.pd_idx}" th:classappend="|${pd.pd_kind} ${pd.category_code}|" class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
 
                         <script>
                             /*<![CDATA[*/
@@ -403,7 +371,7 @@
                                                 <div class="row">
                                                     <div class="col-12 col-lg-5">
                                                         <div class="quickview_pro_img">
-                                                            <img th:src="${pd.sv_loc}" src="img/product-img/product-1.jpg" alt="">
+                                                            <img th:src="|/${pd.sv_loc}|" src="img/product-img/product-1.jpg" alt="">
                                                         </div>
                                                     </div>
 
@@ -593,93 +561,6 @@
         </section>
         <!-- ****** New Arrivals Area End ****** -->
 
-        <!-- ****** Offer Area Start ****** -->
-        <section class="offer_area height-700 section_padding_100 bg-img" style="background-image: url(img/bg-img/bg-5.jpg);">
-            <div class="container h-100">
-                <div class="row h-100 align-items-end justify-content-end">
-                    <div class="col-12 col-md-8 col-lg-6">
-                        <div class="offer-content-area wow fadeInUp" data-wow-delay="1s">
-                            <h2>White t-shirt <span class="karl-level">Hot</span></h2>
-                            <p>* 2023년 4월 1일까지 무료 배송</p>
-                            <div class="offer-product-price">
-                                <!-- 앞이 원래 금액, 뒤가 할인금액 -->
-                                <h3><span class="regular-price">$25.90</span> $15.90</h3>
-                            </div>
-                            <a href="#" class="btn karl-btn mt-30">Buy Now</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- ****** Offer Area End ****** -->
-
-        <!-- ****** Popular Brands Area Start ****** -->
-        <section class="karl-testimonials-area section_padding_100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="section_heading text-center">
-                            <h2>Review</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-8">
-                        <div class="karl-testimonials-slides owl-carousel">
-
-                            <!-- Single Testimonial Area -->
-                            <div class="single-testimonial-area text-center">
-                                <span class="quote">"</span>
-                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
-                                <div class="testimonial-info d-flex align-items-center justify-content-center">
-                                    <div class="tes-thumbnail">
-                                        <img src="img/bg-img/tes-1.jpg" alt="">
-                                    </div>
-                                    <div class="testi-data">
-                                        <p>Michelle Williams</p>
-                                        <span>Client, Los Angeles</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Single Testimonial Area -->
-                            <div class="single-testimonial-area text-center">
-                                <span class="quote">"</span>
-                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
-                                <div class="testimonial-info d-flex align-items-center justify-content-center">
-                                    <div class="tes-thumbnail">
-                                        <img src="img/bg-img/tes-1.jpg" alt="">
-                                    </div>
-                                    <div class="testi-data">
-                                        <p>Michelle Williams</p>
-                                        <span>Client, Los Angeles</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Single Testimonial Area -->
-                            <div class="single-testimonial-area text-center">
-                                <span class="quote">"</span>
-                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
-                                <div class="testimonial-info d-flex align-items-center justify-content-center">
-                                    <div class="tes-thumbnail">
-                                        <img src="img/bg-img/tes-1.jpg" alt="">
-                                    </div>
-                                    <div class="testi-data">
-                                        <p>Michelle Williams</p>
-                                        <span>Client, Los Angeles</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-        <!-- ****** Popular Brands Area End ****** -->
 
         <!-- ****** Footer Area Start ****** -->
         <footer class="footer_area">
@@ -689,7 +570,7 @@
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="single_footer_area">
                             <div class="footer-logo">
-                                <img src="img/core-img/logo.png" alt="">
+                                <img src="/img/core-img/logo.png" alt="">
                             </div>
                             <div class="copywrite_text d-flex align-items-center">
                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -743,15 +624,15 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- /.wrapper end -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="/js/plugins.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/js/active.js"></script>
 
 </body>
 

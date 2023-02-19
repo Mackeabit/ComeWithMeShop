@@ -5,7 +5,8 @@
 <mapper namespace="mackeabit.shop.mapper.SuBMapper">
 
     <select id="findAll" resultType="mackeabit.shop.vo.Photos_toMainVO">
-        select * from photos_tomain
+        select *
+        from photos_tomain;
     </select>
 
     <select id="findThings" parameterType="Integer" resultType="mackeabit.shop.vo.Photos_toMainVO">
