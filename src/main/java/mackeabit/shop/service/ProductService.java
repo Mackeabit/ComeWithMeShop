@@ -11,6 +11,7 @@ import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -41,5 +42,13 @@ public class ProductService {
 
     public List<MainProductsDTO> searchByName(String keyword) {
         return repository.searchByName(keyword);
+    }
+
+    public List<MainProductsDTO> bestProducts(Map<String, Object> params) {
+        return repository.bestProducts(params);
+    }
+
+    public int countBestProducts() {
+        return repository.countBestProducts();
     }
 }

@@ -11,6 +11,7 @@ import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -63,6 +64,16 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<MainProductsDTO> searchByName(String keyword) {
         return productMapper.searchByName(keyword);
+    }
+
+    @Override
+    public List<MainProductsDTO> bestProducts(Map<String, Object> params) {
+        return productMapper.bestProducts(params);
+    }
+
+    @Override
+    public int countBestProducts() {
+        return productMapper.countBestProducts();
     }
 
 

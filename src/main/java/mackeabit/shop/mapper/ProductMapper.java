@@ -8,6 +8,7 @@ import mackeabit.shop.vo.ProductsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -28,4 +29,8 @@ public interface ProductMapper {
     Long findPd_idx(CartInsertDTO search);
 
     List<MainProductsDTO> searchByName(String keyword);
+
+    List<MainProductsDTO> bestProducts(Map<String, Object> params);
+
+    int countBestProducts();
 }

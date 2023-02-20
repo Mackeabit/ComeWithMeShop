@@ -7,6 +7,7 @@ import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.vo.ProductsVO;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface ProductRepository {
@@ -28,4 +29,8 @@ public interface ProductRepository {
     Long findPd_idx(CartInsertDTO search);
 
     List<MainProductsDTO> searchByName(String keyword);
+
+    List<MainProductsDTO> bestProducts(Map<String, Object> params);
+
+    int countBestProducts();
 }

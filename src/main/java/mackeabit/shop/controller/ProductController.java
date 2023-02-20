@@ -7,8 +7,6 @@ import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,28 +26,34 @@ public class ProductController {
     private final ProductService productService;
     private final SubService subService;
 
+
+    public static final int PAGE_SIZE = 9;
+
     @GetMapping
     public String productAll(Model model,@RequestParam(defaultValue = "1") int page) {
 
         // 페이징 정보
-        int pageSize = 9;
-        int startIndex = (page - 1) * pageSize;
+        int startIndex = (page - 1) * PAGE_SIZE;
 
         // 현재 페이지와 한번에 표시할 제품 수량
         Map<String, Object> params = new HashMap<>();
-//        params.put("pd_value", 4);
-        params.put("pageSize", pageSize);
+        params.put("pageSize", PAGE_SIZE);
         params.put("startIndex", startIndex);
 
-        //신상품 받아서 model(pd_value = 4 -> 전체 조회)
-        //현재 페이지에 맞는 상품들 호출
+
+
+        //페이징 정보를 통해 상품들 호출
         List<MainProductsDTO> findProducts = subService.mainPageProductsPaged(params);
         int totalCount = subService.countMainPageProducts();
 
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
-        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+        int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
         int currentPage = page;
+        log.info("page = {} ", page);
         List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+
+        log.info("pageNumbers = {} ", pageNumbers);
+        log.info("totalPages = {} ", totalPages);
 
         log.info("pr = {}",findProducts);
 
@@ -58,8 +62,7 @@ public class ProductController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pageNumbers", pageNumbers);
-
-
+        model.addAttribute("nowURL", "products");
 
         //상품 색상
         List<ColorsDTO> productColors = productService.findColors();
@@ -72,13 +75,57 @@ public class ProductController {
         return "shop";
     }
 
-    @GetMapping("/best/{pd_kind}")
-    public String bestProducts(@PathVariable Integer pd_kind, Model model) {
-        if (pd_kind == 2) {
-            //베스트 상품 전체일 경우
-        }
 
 
+    @GetMapping("/best/{pd_value}/{pd_kind}")
+    public String bestProducts(@PathVariable int pd_value, @PathVariable int pd_kind, Model model, @RequestParam(defaultValue = "1") int page) {
+
+        // 페이징 정보
+        int startIndex = (page - 1) * PAGE_SIZE;
+
+        log.info("pd_value = {}", pd_value);
+        log.info("pd_kind = {}", pd_kind);
+
+        // 현재 페이지와 한번에 표시할 제품 수량
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageSize", PAGE_SIZE);
+        params.put("startIndex", startIndex);
+        //pd_value -> 0:일반상품, 1:new, 2:best
+        params.put("pd_value", pd_value);
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        params.put("pd_kind", pd_kind);
+
+        //페이징 정보를 통해 상품들 호출
+        List<MainProductsDTO> findProducts = productService.bestProducts(params);
+        int totalCount = productService.countBestProducts();
+
+        // 페이지 정보 (총페이지 반올림, 현재 페이지)
+        int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+        int currentPage = page;
+        log.info("best page = {} ", page);
+
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+
+        log.info("pageNumbers = {} ", pageNumbers);
+        log.info("totalPages = {} ", totalPages);
+
+        log.info("pr = {}",findProducts);
+
+        // 페이징 정보 model 저장
+        model.addAttribute("newProducts", findProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+        model.addAttribute("nowURL", "products/best/"+pd_value+"/"+pd_kind);
+
+
+        //상품 색상
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        //상품 사이즈
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
 
         return "shop";
     }

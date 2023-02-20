@@ -44,7 +44,26 @@
                 and p.pd_idx in (select max(pd_idx) from products group by pd_nm) AND pd_nm Like CONCAT('%', #{keyword}, '%');
             </if>
         </where>
+    </select>
 
+    <select id="bestProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from products p
+                          JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        <if test="pd_kind == 2">
+            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_value=#{pd_value}
+            limit #{pageSize} offset #{startIndex}
+        </if>
+        <if test="pd_kind != 2">
+            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind=#{pd_kind} and pd_value=#{pd_value}
+            limit #{pageSize} offset #{startIndex}
+        </if>
+    </select>
+
+    <select id="countBestProducts" parameterType="map" resultType="java.lang.Integer">
+        select count(*) as total
+        from products p
+                 JOIN product_img pi ON p.pd_idx = pi.pd_idx and pd_kind=#{pd_kind}
+        where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
     </select>
 
 </mapper>
