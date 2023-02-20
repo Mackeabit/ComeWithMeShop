@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.ColorsDTO;
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.SgPdDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
@@ -72,6 +73,12 @@ public class ProductController {
         List<SizesDTO> productSizes = productService.findSizes();
         model.addAttribute("findSizes", productSizes);
 
+        //추천 상품(랜덤)
+        List<SgPdDTO> suggestPd = productService.findSuggest(params);
+        log.info("suggestPd = {}", suggestPd);
+        model.addAttribute("suggestProducts", suggestPd);
+
+
         return "shop";
     }
 
@@ -126,6 +133,10 @@ public class ProductController {
         //상품 사이즈
         List<SizesDTO> productSizes = productService.findSizes();
         model.addAttribute("findSizes", productSizes);
+
+        //추천 상품(랜덤)
+        List<SgPdDTO> suggestPd = productService.findSuggest(params);
+        model.addAttribute("suggestPd", suggestPd);
 
         return "shop";
     }

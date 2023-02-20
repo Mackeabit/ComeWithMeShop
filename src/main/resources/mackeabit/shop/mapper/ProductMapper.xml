@@ -66,4 +66,14 @@
         where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
     </select>
 
+    <select id="findSuggest" parameterType="map" resultType="mackeabit.shop.dto.SgPdDTO">
+        select p.pd_idx, p.pd_nm, p.sell_price, pi.sv_locct from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
+    <if test="pd_kind == null">
+        and p.pd_idx in (select max(pd_idx) from products group by pd_nm) ORDER BY RAND() LIMIT 3
+    </if>
+    <if test="pd_kind != null">
+        and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind = #{pd_kind} ORDER BY RAND() LIMIT 3
+    </if>
+    </select>
+
 </mapper>

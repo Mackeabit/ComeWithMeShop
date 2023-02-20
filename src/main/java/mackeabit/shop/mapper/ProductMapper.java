@@ -1,9 +1,6 @@
 package mackeabit.shop.mapper;
 
-import mackeabit.shop.dto.CartInsertDTO;
-import mackeabit.shop.dto.ColorsDTO;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.SizesDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.ProductsVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -33,4 +30,6 @@ public interface ProductMapper {
     List<MainProductsDTO> bestProducts(Map<String, Object> params);
 
     int countBestProducts();
+
+    List<SgPdDTO> findSuggest(Map<String, Object> params);
 }

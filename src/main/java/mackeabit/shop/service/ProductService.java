@@ -3,10 +3,7 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
-import mackeabit.shop.dto.CartInsertDTO;
-import mackeabit.shop.dto.ColorsDTO;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.SizesDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +47,9 @@ public class ProductService {
 
     public int countBestProducts() {
         return repository.countBestProducts();
+    }
+
+    public List<SgPdDTO> findSuggest(Map<String, Object> params) {
+        return repository.findSuggest(params);
     }
 }

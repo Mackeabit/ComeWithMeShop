@@ -1,9 +1,6 @@
 package mackeabit.shop.Repository;
 
-import mackeabit.shop.dto.CartInsertDTO;
-import mackeabit.shop.dto.ColorsDTO;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.SizesDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.ProductsVO;
 
 import java.util.List;
@@ -33,4 +30,6 @@ public interface ProductRepository {
     List<MainProductsDTO> bestProducts(Map<String, Object> params);
 
     int countBestProducts();
+
+    List<SgPdDTO> findSuggest(Map<String, Object> params);
 }

@@ -2,10 +2,7 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mackeabit.shop.dto.CartInsertDTO;
-import mackeabit.shop.dto.ColorsDTO;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.SizesDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.ProductMapper;
 import mackeabit.shop.vo.ProductsVO;
 import org.springframework.stereotype.Repository;
@@ -74,6 +71,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int countBestProducts() {
         return productMapper.countBestProducts();
+    }
+
+    @Override
+    public List<SgPdDTO> findSuggest(Map<String, Object> params) {
+        return productMapper.findSuggest(params);
     }
 
 

@@ -348,7 +348,7 @@
                             </div>
                         </div>
 
-                        <!--가격 시작-->
+<!--                        가격 시작
                         <div class="widget price mb-50">
                             <h6 class="widget-title mb-30">Filter by Price</h6>
                             <div class="widget-desc">
@@ -366,9 +366,9 @@
                                 </div>
                             </div>
                         </div>
-                        <!--가격 끝-->
+                        가격 끝
 
-                        <!--색상 시작-->
+                        색상 시작
                         <div class="widget color mb-70">
                             <h6 class="widget-title mb-30">Filter by Color</h6>
                             <div class="widget-desc">
@@ -382,9 +382,9 @@
                                 </ul>
                             </div>
                         </div>
-                        <!--색상 끝-->
+                        색상 끝
 
-                        <!--사이즈 시작-->
+                        사이즈 시작
                         <div class="widget size mb-50">
                             <h6 class="widget-title mb-30">Filter by Size</h6>
                             <div class="widget-desc">
@@ -398,43 +398,27 @@
                                 </ul>
                             </div>
                         </div>
-                        <!--사이즈 끝-->
+                        사이즈 끝-->
 
                         <!--추천상품 시작-->
-                        <div class="widget recommended">
+                        <div th:if="${suggestProducts} != null" class="widget recommended">
                             <h6 class="widget-title mb-30">추천 상품</h6>
 
-                            <div class="widget-desc">
+                            <div th:each="sg:${suggestProducts}" class="widget-desc">
+
                                 <!-- Single Recommended Product -->
+                                <a th:href="@{|/products/${sg.pd_nm}|}">
                                 <div class="single-recommended-product d-flex mb-30">
                                     <div class="single-recommended-thumb mr-3">
-                                        <img src="/img/product-img/product-10.jpg" alt="">
+                                       <img th:src="|/${sg.sv_locCt}|" src="/img/product-img/product-10.jpg" alt="">
                                     </div>
                                     <div class="single-recommended-desc">
-                                        <h6>Men’s T-shirt</h6>
-                                        <p>$ 39.99</p>
+                                        <h6 th:text="${sg.pd_nm}">Men’s T-shirt</h6>
+                                        <p data-th-text="'&#8361;'+${#numbers.formatInteger(sg.sell_price, 3, 'COMMA')}">$ 39.99</p>
                                     </div>
                                 </div>
-                                <!-- Single Recommended Product -->
-                                <div class="single-recommended-product d-flex mb-30">
-                                    <div class="single-recommended-thumb mr-3">
-                                        <img src="/img/product-img/product-11.jpg" alt="">
-                                    </div>
-                                    <div class="single-recommended-desc">
-                                        <h6>Blue mini top</h6>
-                                        <p>$ 19.99</p>
-                                    </div>
-                                </div>
-                                <!-- Single Recommended Product -->
-                                <div class="single-recommended-product d-flex">
-                                    <div class="single-recommended-thumb mr-3">
-                                        <img src="/img/product-img/product-12.jpg" alt="">
-                                    </div>
-                                    <div class="single-recommended-desc">
-                                        <h6>Women’s T-shirt</h6>
-                                        <p>$ 39.99</p>
-                                    </div>
-                                </div>
+                                </a>
+
                             </div>
                         </div>
                         <!--추천상품 끝-->
@@ -726,17 +710,15 @@
                                                     </nav>
                                                 </div>-->
                         <div class="shop_pagination_area wow fadeInUp" data-wow-delay="1.1s">
-                            <nav aria-label="Page navigation">
+                            <nav th:with="url=${'/' + nowURL}" aria-label="Page navigation">
                                 <ul class="pagination pagination-sm">
                                     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
                                         <a class="page-link"
-                                           th:with="url=${'/' + nowURL}"
-                                           th:href="@{${url}/(page=1)}">&laquo;</a>
+                                           th:href="@{${url}(page=1)}">&laquo;</a>
                                     </li>
                                     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
                                         <a class="page-link"
-                                           th:with="url=${'/' + nowURL}"
-                                           th:href="@{${url}/(page=${currentPage - 1})}">&lt;</a>
+                                           th:href="@{${url}(page=${currentPage - 1})}">&lt;</a>
                                     </li>
                                     <li th:if="${totalPages > 1}">
                                         <ul class="pagination pagination-sm">
@@ -744,19 +726,16 @@
                                                 th:classappend="${currentPage == pageNumber} ? 'active' : ''"
                                                 th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                                                 <a class="page-link"
-                                                   th:with="url=${'/' + nowURL}"
-                                                   th:href="@{/${url}/(page=${pageNumber})}"
+                                                   th:href="@{${url}(page=${pageNumber})}"
                                                    th:text="${pageNumber}"></a>
                                             </li>
                                         </ul>
                                     </li>
                                     <li class="page-item"
-                                        th:with="url=${'/' + nowURL}"
                                         th:classappend="${currentPage >= totalPages} ? 'disabled' : ''">
-                                        <a class="page-link" th:href="@{${url}/(page=${currentPage + 1})}">&gt;</a>
+                                        <a class="page-link" th:href="@{${url}(page=${currentPage + 1})}">&gt;</a>
                                     </li>
                                     <li class="page-item"
-                                        th:with="url=${'/' + nowURL}"
                                         th:classappend="${currentPage >= totalPages} ? 'disabled' : ''">
                                         <a class="page-link" th:href="@{${url}(page=${totalPages})}">&raquo;</a>
                                     </li>
