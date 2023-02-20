@@ -29,7 +29,11 @@ public interface ProductMapper {
 
     List<MainProductsDTO> bestProducts(Map<String, Object> params);
 
-    int countBestProducts();
+    int countBestProducts(Map<String, Object> params);
 
     List<SgPdDTO> findSuggest(Map<String, Object> params);
+
+    List<MainProductsDTO> categoryProducts(Map<String, Object> params);
+
+    int countCategoryProducts(Map<String, Object> params);
 }

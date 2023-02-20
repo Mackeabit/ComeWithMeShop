@@ -69,13 +69,23 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public int countBestProducts() {
-        return productMapper.countBestProducts();
+    public int countBestProducts(Map<String, Object> params) {
+        return productMapper.countBestProducts(params);
     }
 
     @Override
     public List<SgPdDTO> findSuggest(Map<String, Object> params) {
         return productMapper.findSuggest(params);
+    }
+
+    @Override
+    public List<MainProductsDTO> categoryProducts(Map<String, Object> params) {
+        return productMapper.categoryProducts(params);
+    }
+
+    @Override
+    public int countCategoryProducts(Map<String, Object> params) {
+        return productMapper.countCategoryProducts(params);
     }
 
 

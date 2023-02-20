@@ -720,7 +720,7 @@
                                         <a class="page-link"
                                            th:href="@{${url}(page=${currentPage - 1})}">&lt;</a>
                                     </li>
-                                    <li th:if="${totalPages > 1}">
+                                    <li th:if="${totalPages >= 1}">
                                         <ul class="pagination pagination-sm">
                                             <li class="page-item"
                                                 th:classappend="${currentPage == pageNumber} ? 'active' : ''"

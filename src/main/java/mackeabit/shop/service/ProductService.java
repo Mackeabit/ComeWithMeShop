@@ -45,11 +45,19 @@ public class ProductService {
         return repository.bestProducts(params);
     }
 
-    public int countBestProducts() {
-        return repository.countBestProducts();
+    public int countBestProducts(Map<String, Object> params) {
+        return repository.countBestProducts(params);
     }
 
     public List<SgPdDTO> findSuggest(Map<String, Object> params) {
         return repository.findSuggest(params);
+    }
+
+    public List<MainProductsDTO> categoryProducts(Map<String, Object> params) {
+        return repository.categoryProducts(params);
+    }
+
+    public int countCategoryProducts(Map<String, Object> params) {
+        return repository.countCategoryProducts(params);
     }
 }

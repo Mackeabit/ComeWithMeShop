@@ -104,7 +104,7 @@ public class ProductController {
 
         //페이징 정보를 통해 상품들 호출
         List<MainProductsDTO> findProducts = productService.bestProducts(params);
-        int totalCount = productService.countBestProducts();
+        int totalCount = productService.countBestProducts(params);
 
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -152,13 +152,180 @@ public class ProductController {
     }
 
     //카테고리별 페이지
-    @GetMapping("/category/{category_ref}")
-    public String product_detail(@PathVariable Integer category_ref, Model model) {
-        log.info("category_ref = {}", category_ref);
+    @GetMapping("/category/{category_code}")
+    public String category_products(@PathVariable int category_code, Model model, @RequestParam(defaultValue = "1") int page) {
+        log.info("category_ref = {}", category_code);
+
+        // 페이징 정보
+        int startIndex = (page - 1) * PAGE_SIZE;
+
+        // 현재 페이지와 한번에 표시할 제품 수량
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageSize", PAGE_SIZE);
+        params.put("startIndex", startIndex);
 
 
 
-        return "product-details";
+        //페이징 정보를 통해 상품들 호출
+        List<MainProductsDTO> findProducts = subService.mainPageProductsPaged(params);
+        int totalCount = subService.countMainPageProducts();
+
+        // 페이지 정보 (총페이지 반올림, 현재 페이지)
+        int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+        int currentPage = page;
+        log.info("page = {} ", page);
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+
+        log.info("pageNumbers = {} ", pageNumbers);
+        log.info("totalPages = {} ", totalPages);
+
+        log.info("pr = {}",findProducts);
+
+        // 페이징 정보 model 저장
+        model.addAttribute("newProducts", findProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+        model.addAttribute("nowURL", "products");
+
+        //상품 색상
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        //상품 사이즈
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
+
+        //추천 상품(랜덤)
+        List<SgPdDTO> suggestPd = productService.findSuggest(params);
+        log.info("suggestPd = {}", suggestPd);
+        model.addAttribute("suggestProducts", suggestPd);
+
+
+        return "shop";
+    }
+
+    //카테고리별 페이지
+    @GetMapping("/woman/category/{category_code}")
+    public String womanProducts(@PathVariable int category_code, Model model, @RequestParam(defaultValue = "1") int page) {
+
+
+        // 페이징 정보
+        int startIndex = (page - 1) * PAGE_SIZE;
+
+        // 현재 페이지와 한번에 표시할 제품 수량
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        log.info("woman method = {}", category_code);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageSize", PAGE_SIZE);
+        params.put("startIndex", startIndex);
+        params.put("pd_kind", 1);
+        params.put("category_code", category_code);
+
+        //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+        //페이징 정보를 통해 상품들 호출
+        List<MainProductsDTO> findProducts = productService.categoryProducts(params);
+        int totalCount = productService.countCategoryProducts(params);
+
+        // 페이지 정보 (총페이지 반올림, 현재 페이지)
+        int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+        int currentPage = page;
+        log.info("page = {} ", page);
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+
+        log.info("pageNumbers = {} ", pageNumbers);
+        log.info("totalPages = {} ", totalPages);
+
+        log.info("pr = {}",findProducts);
+
+        // 페이징 정보 model 저장
+        model.addAttribute("newProducts", findProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+        model.addAttribute("nowURL", "products/woman/category/"+ category_code);
+
+
+        //상품 색상
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        //상품 사이즈
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
+
+        //추천 상품(랜덤)
+        List<SgPdDTO> suggestPd = productService.findSuggest(params);
+        log.info("suggestPd = {}", suggestPd);
+        model.addAttribute("suggestProducts", suggestPd);
+
+
+
+        return "shop";
+    }
+
+    //카테고리별 페이지
+    @GetMapping("/man/category/{category_code}")
+    public String manProducts(@PathVariable int category_code, Model model, @RequestParam(defaultValue = "1") int page) {
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        log.info("man method = {}", category_code);
+
+
+        // 페이징 정보
+        int startIndex = (page - 1) * PAGE_SIZE;
+
+        // 현재 페이지와 한번에 표시할 제품 수량
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        log.info("woman method = {}", category_code);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageSize", PAGE_SIZE);
+        params.put("startIndex", startIndex);
+        params.put("pd_kind", 0);
+        params.put("category_code", category_code);
+
+        //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+        //페이징 정보를 통해 상품들 호출
+        List<MainProductsDTO> findProducts = productService.categoryProducts(params);
+        int totalCount = productService.countCategoryProducts(params);
+
+        // 페이지 정보 (총페이지 반올림, 현재 페이지)
+        int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
+        int currentPage = page;
+        log.info("page = {} ", page);
+        List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+
+        log.info("pageNumbers = {} ", pageNumbers);
+        log.info("totalPages = {} ", totalPages);
+
+        log.info("pr = {}",findProducts);
+
+        // 페이징 정보 model 저장
+        model.addAttribute("newProducts", findProducts);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("pageNumbers", pageNumbers);
+        model.addAttribute("nowURL", "products/man/category/"+ category_code);
+
+
+        //상품 색상
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        //상품 사이즈
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
+
+        //추천 상품(랜덤)
+        List<SgPdDTO> suggestPd = productService.findSuggest(params);
+        log.info("suggestPd = {}", suggestPd);
+        model.addAttribute("suggestProducts", suggestPd);
+
+
+        return "shop";
     }
 
     //상품 이름 검색

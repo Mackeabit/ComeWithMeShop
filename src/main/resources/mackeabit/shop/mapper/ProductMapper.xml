@@ -76,4 +76,25 @@
     </if>
     </select>
 
+    <select id="countCategoryProducts" parameterType="map" resultType="java.lang.Integer">
+        select count(*) as total
+        from products p
+                 JOIN product_img pi ON p.pd_idx = pi.pd_idx join categorys c ON p.category_code = c.category_code
+                                                                                     and pd_kind=#{pd_kind} and p.category_code=#{category_code}
+        where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+    </select>
+
+    <select id="categoryProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx join categorys c ON p.category_code = c.category_code
+
+        <if test="pd_kind == 2">
+            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and p.category_code=#{category_code}
+            limit #{pageSize} offset #{startIndex}
+        </if>
+        <if test="pd_kind != 2">
+            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind=#{pd_kind} and p.category_code=#{category_code}
+            limit #{pageSize} offset #{startIndex}
+        </if>
+    </select>
+
 </mapper>
