@@ -154,21 +154,27 @@ public class ProductController {
     //카테고리별 페이지
     @GetMapping("/category/{category_code}")
     public String category_products(@PathVariable int category_code, Model model, @RequestParam(defaultValue = "1") int page) {
-        log.info("category_ref = {}", category_code);
+
+        log.info("category_code = {}", category_code);
 
         // 페이징 정보
         int startIndex = (page - 1) * PAGE_SIZE;
 
         // 현재 페이지와 한번에 표시할 제품 수량
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        log.info("category method = {}", category_code);
+
         Map<String, Object> params = new HashMap<>();
         params.put("pageSize", PAGE_SIZE);
         params.put("startIndex", startIndex);
+        params.put("category_code", category_code);
 
-
+        log.info("map = {}", params);
+        //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
 
         //페이징 정보를 통해 상품들 호출
-        List<MainProductsDTO> findProducts = subService.mainPageProductsPaged(params);
-        int totalCount = subService.countMainPageProducts();
+        List<MainProductsDTO> findProducts = productService.categoryProducts(params);
+        int totalCount = productService.countCategoryProducts(params);
 
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -186,7 +192,8 @@ public class ProductController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("pageNumbers", pageNumbers);
-        model.addAttribute("nowURL", "products");
+        model.addAttribute("nowURL", "products/category/"+ category_code);
+
 
         //상품 색상
         List<ColorsDTO> productColors = productService.findColors();

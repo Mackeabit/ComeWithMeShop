@@ -49,14 +49,16 @@
     <select id="bestProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
         select * from products p
                           JOIN product_img pi ON p.pd_idx = pi.pd_idx
-        <if test="pd_kind == 2">
-            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_value=#{pd_value}
-            limit #{pageSize} offset #{startIndex}
-        </if>
-        <if test="pd_kind != 2">
-            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind=#{pd_kind} and pd_value=#{pd_value}
-            limit #{pageSize} offset #{startIndex}
-        </if>
+        <where>
+            <if test="pd_kind == 2">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_value=#{pd_value}
+                limit #{pageSize} offset #{startIndex}
+            </if>
+            <if test="pd_kind != 2">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind=#{pd_kind} and pd_value=#{pd_value}
+                limit #{pageSize} offset #{startIndex}
+            </if>
+        </where>
     </select>
 
     <select id="countBestProducts" parameterType="map" resultType="java.lang.Integer">
@@ -68,33 +70,47 @@
 
     <select id="findSuggest" parameterType="map" resultType="mackeabit.shop.dto.SgPdDTO">
         select p.pd_idx, p.pd_nm, p.sell_price, pi.sv_locct from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
-    <if test="pd_kind == null">
-        and p.pd_idx in (select max(pd_idx) from products group by pd_nm) ORDER BY RAND() LIMIT 3
-    </if>
-    <if test="pd_kind != null">
-        and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind = #{pd_kind} ORDER BY RAND() LIMIT 3
-    </if>
+    <where>
+        <if test="pd_kind == null">
+            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) ORDER BY RAND() LIMIT 3
+        </if>
+        <if test="pd_kind != null">
+            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind = #{pd_kind} ORDER BY RAND() LIMIT 3
+        </if>
+    </where>
     </select>
 
     <select id="countCategoryProducts" parameterType="map" resultType="java.lang.Integer">
         select count(*) as total
         from products p
                  JOIN product_img pi ON p.pd_idx = pi.pd_idx join categorys c ON p.category_code = c.category_code
-                                                                                     and pd_kind=#{pd_kind} and p.category_code=#{category_code}
-        where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+        <where>
+            <if test="pd_kind != null">
+                and pd_kind=#{pd_kind} and p.category_code=#{category_code}
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+            </if>
+            <if test="pd_kind == null">
+                and p.category_code=#{category_code}
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+            </if>
+        </where>
     </select>
 
     <select id="categoryProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
         select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx join categorys c ON p.category_code = c.category_code
-
-        <if test="pd_kind == 2">
-            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and p.category_code=#{category_code}
-            limit #{pageSize} offset #{startIndex}
-        </if>
-        <if test="pd_kind != 2">
-            and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind=#{pd_kind} and p.category_code=#{category_code}
-            limit #{pageSize} offset #{startIndex}
-        </if>
+        <where>
+            <if test="pd_kind == null">
+                and p.category_code=#{category_code} and p.pd_idx in (select max(pd_idx) from products group by pd_nm) limit #{pageSize} offset #{startIndex}
+            </if>
+            <if test="pd_kind == 2">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and p.category_code=#{category_code}
+                limit #{pageSize} offset #{startIndex}
+            </if>
+            <if test="pd_kind != 2 and pd_kind != null">
+                and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_kind=#{pd_kind} and p.category_code=#{category_code}
+                limit #{pageSize} offset #{startIndex}
+            </if>
+        </where>
     </select>
 
 </mapper>
