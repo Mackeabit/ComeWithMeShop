@@ -48,6 +48,8 @@ public class MainController {
         List<MainProductsDTO> allProducts = subService.sortAllProductsSizes();
         model.addAttribute("allProducts", allProducts);
 
+        log.info("all Products = {}", allProducts);
+
         List<ColorsDTO> productColors = productService.findColors();
         model.addAttribute("findColors", productColors);
 
@@ -64,6 +66,9 @@ public class MainController {
         //신상품 받아서 model
         List<MainProductsDTO> findProducts = subService.mainPageProducts(1);
         model.addAttribute("newProducts", findProducts);
+
+        log.info("new Products = {}", findProducts);
+
 
         if (membersVO == null) {
             return "index";
