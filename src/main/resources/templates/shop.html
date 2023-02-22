@@ -132,7 +132,7 @@
                                 <!-- Cart Area 장바구니 수량-->
                                 <div class="cart">
                                     <a th:if="${session.loginMember != null}" href="#" id="header-cart-btn" target="_blank">
-                                            <span th:if = "${session.loginMember != null}" th:text="${cartsList.size()}"
+                                            <span th:if = "${session.loginMember != null}" th:text="${session.memberCart.size()}"
                                                   class="cart_quantity">0</span>
                                         <i class="ti-bag">
                                         </i>
