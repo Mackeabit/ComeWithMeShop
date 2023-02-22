@@ -17,7 +17,7 @@
     </select>
 
     <select id="findMemberCart" parameterType="Long" resultType="mackeabit.shop.dto.MainCartDTO">
-        select c.cart_idx, p.pd_idx, c.cart_cnt, p.pd_nm, p.sell_price, p.pd_size, p.pd_color, pi.sv_locct from cart AS c JOIN products AS p ON c.pd_idx = p.pd_idx
+        select c.cart_idx, p.pd_idx, c.cart_cnt, p.pd_nm, p.sell_price, p.pd_size, p.pd_color, pi.sv_loc, pi.sv_locct from cart AS c JOIN products AS p ON c.pd_idx = p.pd_idx
             JOIN product_img AS pi ON p.pd_idx = pi.pd_idx WHERE member_idx = #{member_idx};
     </select>
 
@@ -28,5 +28,14 @@
     <select id="delAll" parameterType="Long" resultType="int">
         DELETE * FROM cart WHERE member_idx = #{member_idx}
     </select>
+
+    <update id="updateCart" parameterType="map">
+        <if test="cart_cnt == 1">
+            UPDATE cart set cart_cnt+1 WHERE member_idx = #{member_idx} and pd_idx = #{pd_idx}
+        </if>
+        <if test="cart_cnt == -1">
+            UPDATE cart set cart_cnt-1 WHERE member_idx = #{member_idx} and pd_idx = #{pd_idx}
+        </if>
+    </update>
 
 </mapper>

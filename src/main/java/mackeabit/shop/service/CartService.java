@@ -3,12 +3,12 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.CartRepository;
-import mackeabit.shop.dto.CartInsertDTO;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -46,5 +46,16 @@ public class CartService {
         return repository.selectOne(cartsVO);
     }
 
+    public String updateCart(Map<String, Object> pd_idx) {
+
+        String data = "N";
+
+        int res = repository.updateCart(pd_idx);
+
+        if (res > 0) {
+            data = "Y";
+        }
+        return data;
+    }
 }
 

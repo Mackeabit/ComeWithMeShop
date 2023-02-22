@@ -2,10 +2,9 @@ package mackeabit.shop.Repository;
 
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
-import mackeabit.shop.vo.ProductsVO;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 public interface CartRepository {
 
@@ -21,4 +20,5 @@ public interface CartRepository {
 
     Integer selectOne(CartsVO cartsVO);
 
+    int updateCart(Map<String, Object> pd_idx);
 }

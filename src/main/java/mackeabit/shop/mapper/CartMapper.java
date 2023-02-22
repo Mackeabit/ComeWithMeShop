@@ -2,11 +2,10 @@ package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
-import mackeabit.shop.vo.MembersVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Mapper
 public interface CartMapper {
@@ -28,4 +27,5 @@ public interface CartMapper {
     //장바구니 중복 조회(셋팅한 CartsVO)
     Integer selectOne(CartsVO cartsVO);
 
+    int updateCart(Map<String, Object> pd_idx);
 }

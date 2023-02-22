@@ -8,6 +8,7 @@ import mackeabit.shop.vo.CartsVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Repository
@@ -51,5 +52,10 @@ public class CartRepositoryImpl implements CartRepository {
     public Integer selectOne(CartsVO cartsVO) {
         Integer res = cartMapper.selectOne(cartsVO);
         return res;
+    }
+
+    @Override
+    public int updateCart(Map<String, Object> pd_idx) {
+        return cartMapper.updateCart(pd_idx);
     }
 }
