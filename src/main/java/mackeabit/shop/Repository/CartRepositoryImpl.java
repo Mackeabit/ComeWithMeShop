@@ -55,7 +55,13 @@ public class CartRepositoryImpl implements CartRepository {
     }
 
     @Override
-    public int updateCart(Map<String, Object> pd_idx) {
-        return cartMapper.updateCart(pd_idx);
+    public int updateCart(Map<String, Object> params) {
+        return cartMapper.updateCart(params);
     }
+
+    @Override
+    public int delCart(Map<String, Object> params) {
+        return cartMapper.delCart(params);
+    }
+
 }

@@ -20,5 +20,7 @@ public interface CartRepository {
 
     Integer selectOne(CartsVO cartsVO);
 
-    int updateCart(Map<String, Object> pd_idx);
+    int updateCart(Map<String, Object> params);
+
+    int delCart(Map<String, Object> params);
 }

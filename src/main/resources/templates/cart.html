@@ -127,64 +127,6 @@
                                 <!-- Cart & Menu Area -->
                                 <div class="header-cart-menu d-flex align-items-center ml-auto">
 
-                                    <!-- Cart Area 장바구니 수량-->
-                                    <div class="cart">
-                                        <a th:if="${session.loginMember != null}" href="#" id="header-cart-btn" target="_blank">
-                                            <span th:if = "${session.loginMember != null}" th:text="${session.memberCart.size()}"
-                                                  class="cart_quantity">0</span>
-                                            <i class="ti-bag">
-                                            </i>
-                                            장바구니
-                                        </a>
-                                        <!-- Cart Area 장바구니 번호 구현 끝 -->
-
-                                        <!--th:if = "${session.loginMember != null}"-->
-                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
-
-                                        <ul class="cart-list">
-                                            <li th:each="cart:${session.memberCart}">
-                                                <a th:href="@{|/products/${cart.pd_nm}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
-                                                <div class="cart-item-desc">
-                                                    <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_nm}|}">Women's Fashion</a></h6>
-                                                    <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
-                                                    <p>
-                                                        <span th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|size : ${cart.pd_size} / color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null">
-                                                        <span th:if="${cart.pd_size}!=null and ${cart.pd_color}==null" style="font-size: x-small" th:text="|size : ${cart.pd_size}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}==null">
-                                                        <span th:if="${cart.pd_size}==null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}==null and ${cart.pd_color}!=null">
-                                                        <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price, 3, 'COMMA') + '원 x '}+${cart.cart_cnt}">$10</span>
-                                                    </p>
-                                                </div>
-                                                <span class="dropdown-product-remove">
-                                                    <i class="icon-cross"></i>
-                                                </span>
-                                            </li>
-                                            <li class="total">
-                                                <span class="pull-right" id="priceInit"></span>
-                                                <a href="cart.html" class="btn btn-sm btn-cart">장바구니</a>
-                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">결제하기</a>
-                                            </li>
-                                        </ul>
-                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
-
-
-                                        <script th:inline="javascript">
-                                            let totalPrice = 0;
-                                            /*<![CDATA[*/
-                                            if ([[${session.loginMember}]] != null) {
-                                                let cart = [[${session.memberCart}]];
-                                                console.log(cart);
-                                                for (i = 0; i < cart.length; i++) {
-                                                    totalPrice+=cart[i].sell_price*cart[i].cart_cnt;
-                                                }
-                                                console.log(totalPrice);
-                                            }
-
-                                            /*]]>*/
-
-                                            $('#priceInit').text("TOTAL : "+totalPrice.toLocaleString());
-                                        </script>
-
-                                    </div>
 
                                     <div class="header-right-side-menu ml-15">
                                         <a href="#" id="sideMenuBtn"><i class="ti-menu" aria-hidden="true"></i></a>
@@ -308,7 +250,7 @@
                                         <td data-th-text="${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}" class="price"><span>$49.88</span></td>
                                         <td class="qty">
                                             <div class="quantity">
-                                                <span class="qty-minus" th:onclick="|minus_cnt(qty${pd.pd_idx})|">
+                                                <span class="qty-minus" th:onclick="|minus_cnt(${pd.pd_idx})|">
                                                     <i class="fa fa-minus" aria-hidden="true"></i>
                                                 </span>
                                                 <input type="hidden" name="pd_idx"
@@ -323,7 +265,7 @@
                                                        step="1" min="1" max="12"
                                                        th:name="'cart_cnt'" name="quantity"
                                                        th:value="${pd.cart_cnt}" value="1" readonly>
-                                                <span class="qty-plus" th:onclick="|plus_cnt(qty${pd.pd_idx})|">
+                                                <span class="qty-plus" th:onclick="|plus_cnt(${pd.pd_idx})|">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </span>
                                             </div>
@@ -332,7 +274,7 @@
                                             <span>$49.88</span>
                                         </td>
                                         <td class="btn">
-                                            <span th:onclick="|delete_cart(qty${pd.pd_idx})|">
+                                            <span th:onclick="|delete_cart(${pd.pd_idx})|">
                                                 &times;
                                             </span>
                                         </td>
@@ -341,67 +283,105 @@
                             </table>
                         </div>
 
-                        <script>
-                            function minus_cnt(id) {
-                                if (id.value > 1 && id.value != 0) {
-                                    id.value--;
-                                    cntUpdate(-1);
-                                }
-                            }
 
-                            function plus_cnt(id) {
-                                if (id.value >= 0) {
-                                    id.value++;
-                                    cntUpdate(1);
-                                }
-                            }
-
-                            function delete_cart(id) {
-
-                            }
-
-                            function cntUpdate(cnt) {
-
-                                let cart_cnt = cnt;
-
-                                let formData = $('#cartUpdateForm').serialize();
-                                alert(formData);
-
-                                $.ajax({
-                                    type : "POST",
-                                    url : "/cntUpdate",
-                                    data : formData,
-                                    success: function(data){
-                                        console.log(data);
-                                        if (data == 'no_id') {
-                                            location.href = "/login";
-                                        }else if (data == 'N') {
-                                            alert("로직 오류");
-                                        } else {
-                                            location.reload();
-                                        }
-                                    },
-                                    error: function(data){
-                                        alert('error : '+data);
-                                    }
-                                });
-
-                            }
-
-                        </script>
 
                         <div class="cart-footer d-flex mt-30">
                             <div class="back-to-shop w-50">
                                 <a href="/products">쇼핑 계속 하기</a>
                             </div>
                             <div class="update-checkout w-50 text-right">
-                                <a href="clearAll()">전체 삭제</a>
+                                <a href="#" onclick="delete_cart()">전체 삭제</a>
                                 <a href="#">Update cart</a>
                             </div>
                         </div>
 
                     </div>
                 </div>
+
+                <script>
+                    /* pd_idx, member_idx 가져와야함 */
+                    function minus_cnt(id) {
+
+                        let cnt = $('#qty' + id).val();
+
+                        if (parseInt(cnt) > 1 && parseInt(cnt) != 0) {
+
+                            $('#qty' + id).val(cnt*1-1);
+
+                            cntUpdate(id, -1);
+                        }
+                    }
+
+                    function plus_cnt(id) {
+
+                        let cnt = $('#qty' + id).val();
+
+                        if (parseInt(cnt) >= 0) {
+
+                            $('#qty' + id).val(cnt*1+1);
+
+                            cntUpdate(id, 1);
+                        }
+                    }
+
+                    function delete_cart(id) {
+                        alert(id);
+
+                        if (id == null || id == '') {
+                            id = -1;
+                        }
+
+                        let formData = {'pd_idx': id, 'member_idx': [[${session.loginMember.member_idx}]]};
+
+                        $.ajax({
+                            type : "POST",
+                            url : "/delCart",
+                            data : formData,
+                            success: function(data){
+                                console.log(data);
+                                if (data == 'no_id') {
+                                    location.href = "/login";
+                                }else if (data == 'N') {
+                                    alert("로직 오류");
+                                } else {
+                                    alert("삭제가 완료되었습니다.");
+                                    location.href="/cart";
+                                }
+                            },
+                            error: function(data){
+                                alert('error : '+data);
+                            }
+                        });
+
+                    }
+
+                    function cntUpdate(id, cnt) {
+
+                        let pd_idx = id;
+                        let cart_cnt = cnt;
+
+                        let formData = {'pd_idx': pd_idx, 'cart_cnt':cart_cnt, 'member_idx': [[${session.loginMember.member_idx}]]};
+
+                        $.ajax({
+                            type : "POST",
+                            url : "/cntUpdate",
+                            data : formData,
+                            success: function(data){
+                                console.log(data);
+                                if (data == 'no_id') {
+                                    location.href = "/login";
+                                }else if (data == 'N') {
+                                    alert("로직 오류");
+                                }
+                            },
+                            error: function(data){
+                                alert('error : '+data);
+                            }
+                        });
+
+                    }
+
+                </script>
 
                 <div class="row">
                     <div class="col-12 col-md-6 col-lg-4">

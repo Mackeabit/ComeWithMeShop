@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.CartRepository;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
+import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,7 @@ import java.util.Map;
 public class CartService {
 
     private final CartRepository repository;
+
 
     public List<CartsVO> findAll(Long member_idx) {
 
@@ -46,15 +50,28 @@ public class CartService {
         return repository.selectOne(cartsVO);
     }
 
-    public String updateCart(Map<String, Object> pd_idx) {
+    public String updateCart(Map<String, Object> params) {
 
         String data = "N";
 
-        int res = repository.updateCart(pd_idx);
+        int res = repository.updateCart(params);
 
         if (res > 0) {
             data = "Y";
         }
+        return data;
+    }
+
+    public String delCart(Map<String, Object> params) {
+
+        String data = "N";
+
+        int res = repository.delCart(params);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
         return data;
     }
 }

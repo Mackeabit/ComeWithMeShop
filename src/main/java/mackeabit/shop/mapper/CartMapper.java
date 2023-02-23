@@ -27,5 +27,7 @@ public interface CartMapper {
     //장바구니 중복 조회(셋팅한 CartsVO)
     Integer selectOne(CartsVO cartsVO);
 
-    int updateCart(Map<String, Object> pd_idx);
+    int updateCart(Map<String, Object> params);
+
+    int delCart(Map<String, Object> params);
 }

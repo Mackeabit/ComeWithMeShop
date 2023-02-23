@@ -31,11 +31,23 @@
 
     <update id="updateCart" parameterType="map">
         <if test="cart_cnt == 1">
-            UPDATE cart set cart_cnt+1 WHERE member_idx = #{member_idx} and pd_idx = #{pd_idx}
+            UPDATE cart set cart_cnt=cart_cnt+1 WHERE member_idx = #{member_idx} and pd_idx = #{pd_idx}
         </if>
         <if test="cart_cnt == -1">
-            UPDATE cart set cart_cnt-1 WHERE member_idx = #{member_idx} and pd_idx = #{pd_idx}
+            UPDATE cart set cart_cnt=cart_cnt-1 WHERE member_idx = #{member_idx} and pd_idx = #{pd_idx}
         </if>
     </update>
+
+    <delete id="delCart" parameterType="map">
+        DELETE from cart
+        <where>
+            <if test="pd_idx == -1">
+                and member_idx = #{member_idx}
+            </if>
+            <if test="pd_idx != -1">
+                and member_idx = #{member_idx} and pd_idx = #{pd_idx}
+            </if>
+        </where>
+    </delete>
 
 </mapper>
