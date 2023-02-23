@@ -20,6 +20,8 @@
 
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
 
     <style>
         /*        .widget.size .widget-desc a:visited {
@@ -183,8 +185,8 @@
                                                 <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community</a>
                                                 <div class="dropdown-menu" aria-labelledby="karlDropdown">
                                                     <a class="dropdown-item" href="/">Home</a>
-                                                    <a class="dropdown-item" href="shop.html">Q&A</a>
-                                                    <a class="dropdown-item" href="product-details.html">Reviews</a>
+                                                    <a class="dropdown-item" href="/products">Q&A</a>
+                                                    <a class="dropdown-item" href="/reviews">Reviews</a>
                                                     <!--       <a class="dropdown-item" href="cart.html">Cart</a>
                                                            <a class="dropdown-item" href="checkout.html">Checkout</a>-->
                                                 </div>
@@ -270,7 +272,7 @@
                                                 </span>
                                             </div>
                                         </td>
-                                        <td class="total_price" data-th-text="${#numbers.formatInteger(pd.sell_price*pd.cart_cnt, 3, 'COMMA')}">
+                                        <td th:attr="id='pd_price'+${pd.pd_idx}" class="total_price" data-th-text="${#numbers.formatInteger(pd.sell_price*pd.cart_cnt, 3, 'COMMA')}">
                                             <span>$49.88</span>
                                         </td>
                                         <td class="btn">
@@ -278,6 +280,26 @@
                                                 &times;
                                             </span>
                                         </td>
+
+                                    <script th:inline="javascript">
+                                        let checkPrice = 0;
+
+                                        /*<![CDATA[*/
+                                        if ([[${session.loginMember}]] != null) {
+                                            let cart = [[${session.memberCart}]];
+                                            for (i = 0; i < cart.length; i++) {
+                                                checkPrice+=cart[i].sell_price*cart[i].cart_cnt;
+                                            }
+                                        }
+
+                                        /*]]>*/
+
+                                        $(document).ready(function(){
+                                            $('#checkPrice').text(checkPrice.toLocaleString()+"원");
+                                        });
+
+                                    </script>
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -291,7 +313,6 @@
                             </div>
                             <div class="update-checkout w-50 text-right">
                                 <a href="#" onclick="delete_cart()">전체 삭제</a>
-                                <a href="#">Update cart</a>
                             </div>
                         </div>
 
@@ -299,14 +320,20 @@
                 </div>
 
                 <script>
-                    /* pd_idx, member_idx 가져와야함 */
                     function minus_cnt(id) {
 
+                        //현재 상품의 수량
                         let cnt = $('#qty' + id).val();
+
+                        //현재 상품의 가격
+                        let onePrice =  $('#pd_price' + id).text().replace(/,/g, "")/cnt;
+
+                        let changeCnt = cnt*1-1;
 
                         if (parseInt(cnt) > 1 && parseInt(cnt) != 0) {
 
                             $('#qty' + id).val(cnt*1-1);
+                            $('#pd_price' + id).text((onePrice * changeCnt).toLocaleString());
 
                             cntUpdate(id, -1);
                         }
@@ -316,9 +343,14 @@
 
                         let cnt = $('#qty' + id).val();
 
+                        let onePrice =  $('#pd_price' + id).text().replace(/,/g, "")/cnt;
+
+                        let changeCnt = cnt*1+1;
+
                         if (parseInt(cnt) >= 0) {
 
                             $('#qty' + id).val(cnt*1+1);
+                            $('#pd_price' + id).text((onePrice * changeCnt).toLocaleString());
 
                             cntUpdate(id, 1);
                         }
@@ -390,7 +422,7 @@
                                 <h5>쿠폰 번호</h5>
                                 <p>아래에 쿠폰 번호를 입력해주세요.</p>
                             </div>
-                            <form action="#">
+                            <form action="/coupon" method="get">
                                 <input type="search" name="search" placeholder="#569ab15">
                                 <button type="submit">등록하기</button>
                             </form>
@@ -427,13 +459,39 @@
                             </div>
 
                             <ul class="cart-total-chart">
-                                <li><span>총 가격</span> <span>15,000</span></li>
-                                <li><span>회원 등급 할인</span> <span>- 1,000</span></li>
-                                <li><span>쿠폰 적용</span> <span>- 5,000</span></li>
-                                <li><span>배송료</span> <span>Free</span></li>
-                                <li><span><strong>총 가격</strong></span> <span><strong>9,000</strong></span></li>
+                                <li><span>총 가격</span>
+                                    <span id="checkPrice">15,000</span>
+                                </li>
+                                <li><span>회원 등급 할인</span>
+                                    <span id="gradeSale">-1,000</span>
+                                </li>
+                                <li><span>쿠폰 적용</span>
+                                    <span id="couponSale">-5,000</span>
+                                </li>
+                                <li><span>배송료</span>
+                                    <span id="sendTax">Free</span>
+                                </li>
+                                <li>
+                                    <span><strong>총 가격</strong></span>
+                                    <span id="priceInit"><strong></strong></span>
+                                </li>
                             </ul>
-                            <a href="checkout.html" class="btn karl-checkout-btn">Proceed to checkout</a>
+
+                            <script>
+
+                                $(document).ready(function(){
+
+                                    let check = $('#checkPrice').text();
+                                    let gradeSale = $('#gradeSale').text();
+                                    let couponSale = $('#couponSale').text();
+                                    let sendTax = $('sendTax').text();
+
+
+                                });
+
+                            </script>
+
+                            <a href="/checkout" class="btn karl-checkout-btn">결제하기</a>
                         </div>
                     </div>
                 </div>

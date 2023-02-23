@@ -51,6 +51,7 @@ public class CartController {
         params.put("cart_cnt", cart_cnt);
         params.put("member_idx", member_idx);
 
+
         data = cartService.updateCart(params);
 
         return data;
