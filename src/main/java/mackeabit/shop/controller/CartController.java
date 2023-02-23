@@ -52,7 +52,23 @@ public class CartController {
         params.put("member_idx", member_idx);
 
 
+
         data = cartService.updateCart(params);
+
+        HttpSession session = request.getSession();
+
+        //기존 장바구니 세션 제거
+        session.removeAttribute(SessionConst.MEMBER_CART);
+
+        //장바구니 내용 갱신후 세션 생성
+        List<MainCartDTO> memberCart = cartService.findMemberCart(member_idx);
+
+        log.info("memberCart = {}", memberCart);
+
+        session.setAttribute(
+                SessionConst.MEMBER_CART,
+                memberCart
+        );
 
         return data;
     }

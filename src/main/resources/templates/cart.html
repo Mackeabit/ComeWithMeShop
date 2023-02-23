@@ -244,7 +244,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="pd:${session.memberCart}" >
+                                <tr th:each="pd:${session.memberCart}">
                                         <td class="cart_product_img d-flex align-items-center">
                                             <a th:href="@{|/products/${pd.pd_nm}|}" href="#"><img th:src="${pd.sv_locCt}" src="img/product-img/product-9.jpg" alt="Product"></a>
                                             <h6 th:text="${pd.pd_nm}">Yellow Cocktail Dress</h6>
@@ -282,21 +282,32 @@
                                         </td>
 
                                     <script th:inline="javascript">
-                                        let checkPrice = 0;
-
-                                        /*<![CDATA[*/
-                                        if ([[${session.loginMember}]] != null) {
-                                            let cart = [[${session.memberCart}]];
-                                            for (i = 0; i < cart.length; i++) {
-                                                checkPrice+=cart[i].sell_price*cart[i].cart_cnt;
-                                            }
-                                        }
-
-                                        /*]]>*/
-
                                         $(document).ready(function(){
+
+                                            let checkPrice = 0;
+
+                                            /*<![CDATA[*/
+                                            if ([[${session.loginMember}]] != null) {
+                                                let cart = [[${session.memberCart}]];
+                                                for (let i = 0; i < cart.length; i++) {
+                                                    checkPrice+=cart[i].sell_price*cart[i].cart_cnt;
+                                                }
+                                            }
+
+                                            /*]]>*/
+
+
                                             $('#checkPrice').text(checkPrice.toLocaleString()+"원");
+
                                         });
+
+
+
+                                        function calMethod() {
+
+                                            window.location.reload();
+
+                                        }
 
                                     </script>
 
@@ -304,7 +315,6 @@
                                 </tbody>
                             </table>
                         </div>
-
 
 
                         <div class="cart-footer d-flex mt-30">
@@ -320,6 +330,8 @@
                 </div>
 
                 <script>
+
+
                     function minus_cnt(id) {
 
                         //현재 상품의 수량
@@ -404,6 +416,8 @@
                                     location.href = "/login";
                                 }else if (data == 'N') {
                                     alert("로직 오류");
+                                } else {
+                                    calMethod();
                                 }
                             },
                             error: function(data){
