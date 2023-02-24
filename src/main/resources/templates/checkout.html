@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Karl - Fashion Ecommerce Template | Checkout</title>
+    <title>Come With Me | Checkout</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="img/core-img/favicon.ico">
@@ -21,82 +21,70 @@
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet">
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+
 </head>
 
 <body>
-    <div class="catagories-side-menu">
-        <!-- Close Icon -->
-        <div id="sideMenuClose">
-            <i class="ti-close"></i>
-        </div>
-        <!--  Side Nav  -->
-        <div class="nav-side-menu">
-            <div class="menu-list">
-                <h6>Categories</h6>
-                <ul id="menu-content" class="menu-content collapse out">
-                    <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#women" class="collapsed active">
-                        <a href="#">Woman wear <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="women">
-                            <li><a href="#">Midi Dresses</a></li>
-                            <li><a href="#">Maxi Dresses</a></li>
-                            <li><a href="#">Prom Dresses</a></li>
-                            <li><a href="#">Little Black Dresses</a></li>
-                            <li><a href="#">Mini Dresses</a></li>
-                        </ul>
-                    </li>
-                    <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#man" class="collapsed">
-                        <a href="#">Man Wear <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="man">
-                            <li><a href="#">Man Dresses</a></li>
-                            <li><a href="#">Man Black Dresses</a></li>
-                            <li><a href="#">Man Mini Dresses</a></li>
-                        </ul>
-                    </li>
-                    <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#kids" class="collapsed">
-                        <a href="#">Children <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="kids">
-                            <li><a href="#">Children Dresses</a></li>
-                            <li><a href="#">Mini Dresses</a></li>
-                        </ul>
-                    </li>
-                    <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#bags" class="collapsed">
-                        <a href="#">Bags &amp; Purses <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="bags">
-                            <li><a href="#">Bags</a></li>
-                            <li><a href="#">Purses</a></li>
-                        </ul>
-                    </li>
-                    <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#eyewear" class="collapsed">
-                        <a href="#">Eyewear <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="eyewear">
-                            <li><a href="#">Eyewear Style 1</a></li>
-                            <li><a href="#">Eyewear Style 2</a></li>
-                            <li><a href="#">Eyewear Style 3</a></li>
-                        </ul>
-                    </li>
-                    <!-- Single Item -->
-                    <li data-toggle="collapse" data-target="#footwear" class="collapsed">
-                        <a href="#">Footwear <span class="arrow"></span></a>
-                        <ul class="sub-menu collapse" id="footwear">
-                            <li><a href="#">Footwear 1</a></li>
-                            <li><a href="#">Footwear 2</a></li>
-                            <li><a href="#">Footwear 3</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+<div class="catagories-side-menu">
+    <!-- Close Icon -->
+    <div id="sideMenuClose">
+        <i class="ti-close"></i>
+    </div>
+    <!--  Side Nav  -->
+    <div class="nav-side-menu">
+        <div class="menu-list">
+            <h6>Categories</h6>
+            <ul id="menu-content" class="menu-content collapse out">
+                <!-- Single Item -->
+                <li data-toggle="collapse" data-target="#women" class="collapsed active">
+                    <a href="#">Woman wear <span class="arrow"></span></a>
+                    <ul class="sub-menu collapse" id="women">
+                        <li><a th:href="@{|/products/best/2/1|}" href="#">여성 인기 상품</a></li>
+                        <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
+                        <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
+                        <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
+                        <li><a th:href="@{|/products/woman/category/7|}" href="#">드레스 세트</a></li>
+                    </ul>
+                </li>
+                <!-- Single Item -->
+                <li data-toggle="collapse" data-target="#man" class="collapsed">
+                    <a href="#">Man Wear <span class="arrow"></span></a>
+                    <ul class="sub-menu collapse" id="man">
+                        <li><a th:href="@{|/products/best/2/0|}" href="#">남성 인기 상품</a></li>
+                        <li><a th:href="@{|/products/man/category/4|}" href="#">상의</a></li>
+                        <li><a th:href="@{|/products/man/category/5|}" href="#">하의</a></li>
+                    </ul>
+                </li>
+                <!-- Single Item -->
+                <!-- Single Item -->
+                <li data-toggle="collapse" data-target="#bags" class="collapsed">
+                    <a href="#">Bags &amp; SHOES <span class="arrow"></span></a>
+                    <ul class="sub-menu collapse" id="bags">
+                        <li><a th:href="@{|/products/category/11|}" href="#">신발</a></li>
+                        <li><a th:href="@{|/products/category/12|}" href="#">가방</a></li>
+                    </ul>
+                </li>
+                <!-- Single Item -->
+                <li data-toggle="collapse" data-target="#eyewear" class="collapsed">
+                    <a href="#">ACC <span class="arrow"></span></a>
+                    <ul class="sub-menu collapse" id="eyewear">
+                        <li><a th:href="@{|/products/category/8|}" href="#">모자</a></li>
+                        <li><a th:href="@{|/products/category/9|}" href="#">양말</a></li>
+                        <li><a th:href="@{|/products/category/10|}" href="#">주얼리</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
+</div>
 
     <div id="wrapper">
 
         <!-- ****** Header Area Start ****** -->
-        <header class="header_area bg-img background-overlay-white" style="background-image: url(img/bg-img/bg-1.jpg);">
+        <!-- ****** Header Area Start ****** -->
+        <header class="header_area">
             <!-- Top Header Area Start -->
             <div class="top_header_area">
                 <div class="container h-100">
@@ -104,40 +92,73 @@
 
                         <div class="col-12 col-lg-7">
                             <div class="top_single_area d-flex align-items-center">
-                                <!-- Logo Area -->
+                                <!-- Logo Area 로고 이미지 -->
                                 <div class="top_logo">
-                                    <a href="#"><img src="img/core-img/logo.png" alt=""></a>
+                                    <a href="/"><img src="/img/core-img/logo.png" alt=""></a>
                                 </div>
+
                                 <!-- Cart & Menu Area -->
                                 <div class="header-cart-menu d-flex align-items-center ml-auto">
-                                    <!-- Cart Area -->
+
+                                    <!-- Cart Area 장바구니 수량-->
                                     <div class="cart">
-                                        <a href="#" id="header-cart-btn" target="_blank"><span class="cart_quantity">2</span> <i class="ti-bag"></i> Your Bag $20</a>
-                                        <!-- Cart List Area Start -->
+                                        <a th:if="${session.loginMember != null}" href="#" id="header-cart-btn" target="_blank">
+                                            <span th:if = "${session.loginMember != null}" th:text="${session.memberCart.size()}"
+                                                  class="cart_quantity">0</span>
+                                            <i class="ti-bag">
+                                            </i>
+                                            장바구니
+                                        </a>
+                                        <!-- Cart Area 장바구니 번호 구현 끝 -->
+
+                                        <!--th:if = "${session.loginMember != null}"-->
+                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
+
                                         <ul class="cart-list">
-                                            <li>
-                                                <a href="#" class="image"><img src="img/product-img/product-10.jpg" class="cart-thumb" alt=""></a>
+                                            <li th:each="cart:${session.memberCart}">
+                                                <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
                                                 <div class="cart-item-desc">
-                                                    <h6><a href="#">Women's Fashion</a></h6>
-                                                    <p>1x - <span class="price">$10</span></p>
+                                                    <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
+                                                    <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
+                                                    <p>
+                                                        <span th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|size : ${cart.pd_size} / color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null">
+                                                        <span th:if="${cart.pd_size}!=null and ${cart.pd_color}==null" style="font-size: x-small" th:text="|size : ${cart.pd_size}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}==null">
+                                                        <span th:if="${cart.pd_size}==null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}==null and ${cart.pd_color}!=null">
+                                                        <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price, 3, 'COMMA') + '원 x '}+${cart.cart_cnt}">$10</span>
+                                                    </p>
                                                 </div>
-                                                <span class="dropdown-product-remove"><i class="icon-cross"></i></span>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="image"><img src="img/product-img/product-11.jpg" class="cart-thumb" alt=""></a>
-                                                <div class="cart-item-desc">
-                                                    <h6><a href="#">Women's Fashion</a></h6>
-                                                    <p>1x - <span class="price">$10</span></p>
-                                                </div>
-                                                <span class="dropdown-product-remove"><i class="icon-cross"></i></span>
+                                                <span class="dropdown-product-remove">
+                                                    <i class="icon-cross"></i>
+                                                </span>
                                             </li>
                                             <li class="total">
-                                                <span class="pull-right">Total: $20.00</span>
-                                                <a href="cart.html" class="btn btn-sm btn-cart">Cart</a>
-                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">Checkout</a>
+                                                <span class="pull-right" id="priceInit"></span>
+                                                <a href="cart.html" class="btn btn-sm btn-cart">장바구니</a>
+                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">결제하기</a>
                                             </li>
                                         </ul>
+                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
+
+
+                                        <script th:inline="javascript">
+                                            let totalPrice = 0;
+                                            /*<![CDATA[*/
+                                            if ([[${session.loginMember}]] != null) {
+                                                let cart = [[${session.memberCart}]];
+                                                console.log(cart);
+                                                for (i = 0; i < cart.length; i++) {
+                                                    totalPrice+=cart[i].sell_price*cart[i].cart_cnt;
+                                                }
+                                                console.log(totalPrice);
+                                            }
+
+                                            /*]]>*/
+
+                                            $('#priceInit').text("TOTAL : "+totalPrice.toLocaleString());
+                                        </script>
+
                                     </div>
+
                                     <div class="header-right-side-menu ml-15">
                                         <a href="#" id="sideMenuBtn"><i class="ti-menu" aria-hidden="true"></i></a>
                                     </div>
@@ -156,12 +177,28 @@
                         <div class="col-12 d-md-flex justify-content-between">
                             <!-- Header Social Area -->
                             <div class="header-social-area">
-                                <a href="#"><span class="karl-level">Share</span> <i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+                                <!--<a href="#"><span class="karl-level">Share</span> <i class="fa fa-pinterest" aria-hidden="true"></i></a>-->
+                                <a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                                <a th:if = "${session.loginMember != null}" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a> <!-- 로그아웃 -->
+                                <a th:if = "${session.loginMember == null}" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a> <!-- 로그인 -->
+                                <a href="#" id="scrollDown"><i class="fa fa-search" aria-hidden="true"></i></a> <!-- 검색 아이콘-->
                             </div>
-                            <!-- Menu Area -->
+
+                            <script>
+
+                                /* 검색 아이콘 클릭시 아래로 이동 */
+
+                                $('#scrollDown').on('click', function(e){
+                                    $("html, body").animate({
+                                        scrollTop : $(document).height()
+                                    }, 800);
+                                    return false;
+                                })
+
+                            </script>
+
+
+                            <!-- Menu Area 카테고리 수평 -->
                             <div class="main-menu-area">
                                 <nav class="navbar navbar-expand-lg align-items-start">
 
@@ -169,27 +206,28 @@
 
                                     <div class="collapse navbar-collapse align-items-start collapse" id="karl-navbar">
                                         <ul class="navbar-nav animated" id="nav">
-                                            <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
+                                            <li class="nav-item active"><a class="nav-link" th:href="@{|/products/best/2/2|}" href="#">Best</a></li>
+                                            <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/1|}" href="#">Clothes</a></li>
+                                            <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/3|}" href="#">Bag & Shoes</a></li>
+                                            <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/2|}" href="#"><span class="karl-level">hot</span>Accessories</a></li>
                                             <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pages</a>
+                                                <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community</a>
                                                 <div class="dropdown-menu" aria-labelledby="karlDropdown">
-                                                    <a class="dropdown-item" href="index.html">Home</a>
-                                                    <a class="dropdown-item" href="shop.html">Shop</a>
-                                                    <a class="dropdown-item" href="product-details.html">Product Details</a>
-                                                    <a class="dropdown-item" href="cart.html">Cart</a>
-                                                    <a class="dropdown-item" href="checkout.html">Checkout</a>
+                                                    <a class="dropdown-item" href="/">Home</a>
+                                                    <a class="dropdown-item" href="shop.html">Q&A</a>
+                                                    <a class="dropdown-item" href="product-details.html">Reviews</a>
+                                                    <!--       <a class="dropdown-item" href="cart.html">Cart</a>
+                                                           <a class="dropdown-item" href="checkout.html">Checkout</a>-->
                                                 </div>
                                             </li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Dresses</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#"><span class="karl-level">hot</span> Shoes</a></li>
-                                            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+
                                         </ul>
                                     </div>
                                 </nav>
                             </div>
                             <!-- Help Line -->
                             <div class="help-line">
-                                <a href="tel:+346573556778"><i class="ti-headphone-alt"></i> +34 657 3556 778</a>
+                                <a href="tel:+82 10 4608 3902"><i class="ti-headphone-alt"></i>+82 10 4608 3902</a>
                             </div>
                         </div>
                     </div>
@@ -198,23 +236,26 @@
         </header>
         <!-- ****** Header Area End ****** -->
 
+
+        <!-- ****** Top Discount Area Start ****** -->
         <section class="top-discount-area d-md-flex align-items-center">
             <!-- Single Discount Area -->
             <div class="single-discount-area">
-                <h5>Free Shipping &amp; Returns</h5>
-                <h6><a href="#">BUY NOW</a></h6>
+                <h5>오픈기념 무료 배송 &amp; 반품</h5>
+                <h6><a th:href="@{/products}" href="#">BUY NOW</a></h6>
             </div>
             <!-- Single Discount Area -->
             <div class="single-discount-area">
-                <h5>20% Discount for all dresses</h5>
-                <h6>USE CODE: Colorlib</h6>
+                <h5>모든 상품 20% 할인 쿠폰</h5>
+                <h6>쿠폰번호 : CMWPR23</h6>
             </div>
             <!-- Single Discount Area -->
             <div class="single-discount-area">
-                <h5>20% Discount for students</h5>
-                <h6>USE CODE: Colorlib</h6>
+                <h5>선착순 100명 50% 할인 쿠폰</h5>
+                <h6>쿠폰 번호 : CMW23PR</h6>
             </div>
         </section>
+        <!-- ****** Top Discount Area End ****** -->
 
         <!-- ****** Checkout Area Start ****** -->
         <div class="checkout_area section_padding_100">
@@ -225,37 +266,31 @@
                         <div class="checkout_details_area mt-50 clearfix">
 
                             <div class="cart-page-heading">
-                                <h5>Billing Address</h5>
-                                <p>Enter your cupone code</p>
+                                <h5>주문서 작성</h5>
+                                <p>*는 필수 작성 사항입니다.</p>
                             </div>
 
                             <form action="#" method="post">
                                 <div class="row">
-                                    <div class="col-md-6 mb-3">
+<!--                                    <div class="col-md-6 mb-3">
                                         <label for="first_name">First Name <span>*</span></label>
                                         <input type="text" class="form-control" id="first_name" value="" required>
-                                    </div>
+                                    </div>-->
+
+<!--                                    <th:block th:if="${session.loginMember.email == null}">-->
                                     <div class="col-md-6 mb-3">
-                                        <label for="last_name">Last Name <span>*</span></label>
-                                        <input type="text" class="form-control" id="last_name" value="" required>
+                                        <label for="email"><span>*</span> 이메일 인증</label>
+                                        <input type="text" class="form-control" id="email" value="" required autocomplete="off" style="width: 300px">
+                                    </div>
+                                    <div class="col-md-6 mb-3" style="margin-top: 25px; padding-left: 50px">
+                                        <a href="#" class="btn karl-checkout-btn" id="email-verification-button">인증코드 받기</a>
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <label for="company">Company Name</label>
-                                        <input type="text" class="form-control" id="company" value="">
+                                        <label for="email_code"><span>*</span> 인증 번호</label>
+                                        <input type="text" class="form-control" id="email_code" value="" required autocomplete="off">
                                     </div>
-                                    <div class="col-12 mb-3">
-                                        <label for="country">Country <span>*</span></label>
-                                        <select class="custom-select d-block w-100" id="country">
-                                        <option value="usa">United States</option>
-                                        <option value="uk">United Kingdom</option>
-                                        <option value="ger">Germany</option>
-                                        <option value="fra">France</option>
-                                        <option value="ind">India</option>
-                                        <option value="aus">Australia</option>
-                                        <option value="bra">Brazil</option>
-                                        <option value="cana">Canada</option>
-                                    </select>
-                                    </div>
+<!--                                    </th:block>-->
+
                                     <div class="col-12 mb-3">
                                         <label for="street_address">Address <span>*</span></label>
                                         <input type="text" class="form-control mb-3" id="street_address" value="">
@@ -266,23 +301,11 @@
                                         <input type="text" class="form-control" id="postcode" value="">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <label for="city">Town/City <span>*</span></label>
-                                        <input type="text" class="form-control" id="city" value="">
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <label for="state">Province <span>*</span></label>
-                                        <input type="text" class="form-control" id="state" value="">
-                                    </div>
-                                    <div class="col-12 mb-3">
                                         <label for="phone_number">Phone No <span>*</span></label>
                                         <input type="number" class="form-control" id="phone_number" min="0" value="">
                                     </div>
-                                    <div class="col-12 mb-4">
-                                        <label for="email_address">Email Address <span>*</span></label>
-                                        <input type="email" class="form-control" id="email_address" value="">
-                                    </div>
 
-                                    <div class="col-12">
+<!--                                    <div class="col-12">
                                         <div class="custom-control custom-checkbox d-block mb-2">
                                             <input type="checkbox" class="custom-control-input" id="customCheck1">
                                             <label class="custom-control-label" for="customCheck1">Terms and conitions</label>
@@ -295,7 +318,7 @@
                                             <input type="checkbox" class="custom-control-input" id="customCheck3">
                                             <label class="custom-control-label" for="customCheck3">Subscribe to our newsletter</label>
                                         </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                             </form>
                         </div>
@@ -305,20 +328,36 @@
                         <div class="order-details-confirmation">
 
                             <div class="cart-page-heading">
-                                <h5>Your Order</h5>
+                                <h5>상품 확인</h5>
                                 <p>The Details</p>
                             </div>
 
                             <ul class="order-details-form mb-4">
-                                <li><span>Product</span> <span>Total</span></li>
-                                <li><span>Cocktail Yellow dress</span> <span>$59.90</span></li>
-                                <li><span>Subtotal</span> <span>$59.90</span></li>
-                                <li><span>Shipping</span> <span>Free</span></li>
-                                <li><span>Total</span> <span>$59.90</span></li>
+                                <li>
+                                    <span>상품명</span>
+                                    <span>Cocktail Yellow dress 외 1개</span>
+                                </li>
+                                <li>
+                                    <span>전체 금액</span>
+                                    <span>$59.90</span>
+                                </li>
+                                <li>
+                                    <span>쿠폰</span>
+                                    <span>-2,000원</span>
+                                </li>
+                                <li>
+                                    <span>배송료</span>
+                                    <span>Free</span>
+                                </li>
+
+                                <li>
+                                    <span>결제 금액</span>
+                                    <span>$59.90</span>
+                                </li>
                             </ul>
 
 
-                            <div id="accordion" role="tablist" class="mb-4">
+<!--                            <div id="accordion" role="tablist" class="mb-4">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="headingOne">
                                         <h6 class="mb-0">
@@ -368,7 +407,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
                             <a href="#" class="btn karl-checkout-btn">Place Order</a>
                         </div>
@@ -465,6 +504,73 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="js/plugins.js"></script>
     <!-- Active js -->
     <script src="js/active.js"></script>
+
+<script>
+
+
+    // 이메일 인증 버튼 요소를 가져옵니다.
+    let emailVerificationButton = document.getElementById('email-verification-button');
+
+    let checkingButton = false;
+
+
+    // 이메일 인증 함수를 정의합니다.
+    function verifyEmail() {
+        // 이메일 입력 필드 요소를 가져옵니다.
+        let emailInput = document.getElementById('email');
+
+        // 이메일 주소가 유효한지 확인합니다.
+        if (!emailInput.checkValidity()) {
+            alert('유효한 이메일 주소를 입력해주세요.');
+            return;
+        }
+
+        // 인증 버튼 요소를 비활성화합니다.
+        emailVerificationButton.removeEventListener('click', verifyEmail);
+        // emailVerificationButton.classList.add('disabled');
+
+        // 남은 시간(3분)을 나타내는 변수를 선언합니다.
+        let remainingTime = 180;
+
+        // 카운트다운 함수를 정의합니다.
+        function countdown() {
+            // remainingTime을 1초 감소시킵니다.
+            remainingTime--;
+
+            // 남은 시간을 분과 초로 분리합니다.
+            let minutes = Math.floor(remainingTime / 60);
+            let seconds = remainingTime % 60;
+
+            // 인증 버튼의 텍스트를 업데이트합니다.
+            emailVerificationButton.textContent = `${minutes}분 ${seconds}초`;
+
+            // 남은 시간이 0이면 카운트다운을 중지합니다.
+            if (remainingTime === 0) {
+                clearInterval(intervalId);
+                emailVerificationButton.textContent = '만료되었습니다';
+                emailVerificationButton.classList.remove('disabled');
+                emailVerificationButton.addEventListener('click', verifyEmail);
+            }
+        }
+
+        // 카운트다운 함수를 1초마다 실행합니다.
+        let intervalId = setInterval(countdown, 1000);
+
+        // 인증 버튼을 한 번 더 클릭하면 카운트다운을 취소합니다.
+        emailVerificationButton.addEventListener('click', () => {
+            clearInterval(intervalId);
+            emailVerificationButton.textContent = '인증하기';
+            emailVerificationButton.classList.remove('disabled');
+            emailVerificationButton.addEventListener('click', verifyEmail);
+        });
+
+
+
+    }
+    // 인증 버튼에 이벤트 리스너를 추가합니다.
+    emailVerificationButton.addEventListener('click', verifyEmail);
+
+</script>
 
 </body>
 
