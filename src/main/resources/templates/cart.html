@@ -298,6 +298,9 @@
 
 
                                             $('#checkPrice').text(checkPrice.toLocaleString()+"원");
+                                            $('#checkPriceInput').val(checkPrice.toLocaleString());
+
+
 
                                         });
 
@@ -369,7 +372,6 @@
                     }
 
                     function delete_cart(id) {
-                        alert(id);
 
                         if (id == null || id == '') {
                             id = -1;
@@ -474,16 +476,17 @@
 
                             <ul class="cart-total-chart">
                                 <li><span>총 가격</span>
-                                    <span id="checkPrice">15,000</span>
+                                    <span id="checkPrice"></span>
+                                    <input type="hidden" id="checkPriceInput"></input>
                                 </li>
                                 <li><span>회원 등급 할인</span>
-                                    <span id="gradeSale">-1,000</span>
+                                    <span id="gradeSale"></span>
                                 </li>
                                 <li id="liCoupon"><span>쿠폰 적용</span>
-                                    <span id="couponSale">-5,000</span>
+                                    <span id="couponSale"></span>
                                 </li>
                                 <li id="liTax"><span>배송료</span>
-                                    <span id="sendTax">Free</span>
+                                    <span id="sendTax"></span>
                                 </li>
                                 <li>
                                     <span><strong>총 가격</strong></span>
@@ -492,6 +495,9 @@
                             </ul>
 
                             <script>
+
+
+
 
                                 // 배송 옵션 체크 유무 확인용
                                 let checkPointTax = false;
@@ -544,26 +550,37 @@
                                     $('#liCoupon').hide();
 
 
+                                    //등급별 할인
                                     let gradeCode = [[${session.loginMember.grade_code}]];
+
+                                    //현재 총 가격(할인전)
+                                    let ori_price = $('#checkPriceInput').val();
+                                    let price = ori_price.replace(/,/g, "");
 
                                     switch (gradeCode) {
                                         case 0:
                                             /*NORMAL, 1%*/
-                                            $('#gradeSale').text();
+                                            $('#gradeSale').text("-"+(price*0.01).toLocaleString()+"원");
                                             break;
                                         case 1:
                                             /*SILVER, 2%*/
-                                            $('#gradeSale').text();
+                                            $('#gradeSale').text("-"+(price*0.02).toLocaleString()+"원");
                                             break;
                                         case 2:
                                             /*GOLD, 3%*/
-                                            $('#gradeSale').text();
+                                            $('#gradeSale').text("-"+(price*0.03).toLocaleString()+"원");
                                             break;
                                         case 3:
                                             /*VIP, 5%*/
-                                            $('#gradeSale').text();
+                                            $('#gradeSale').text("-"+(price*0.05).toLocaleString()+"원");
                                             break;
-                                    }
+                                    }//switch
+
+                                    alert($('#gradeSale').text());
+
+
+
+
 
 
                                     let check = $('#checkPrice').text();
