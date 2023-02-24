@@ -436,9 +436,9 @@
                                 <h5>쿠폰 번호</h5>
                                 <p>아래에 쿠폰 번호를 입력해주세요.</p>
                             </div>
-                            <form action="/coupon" method="get">
-                                <input type="search" name="search" placeholder="#569ab15">
-                                <button type="submit">등록하기</button>
+                            <form id="couponForm" action="/coupon" method="get">
+                                <input type="search" name="coupon_number" placeholder="#569ab15">
+                                <button id="coupon_check" type="button">등록하기</button>
                             </form>
                         </div>
                     </div>
@@ -450,17 +450,17 @@
                             </div>
 
                             <div class="custom-control custom-radio mb-30">
-                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input">
-                                <label class="custom-control-label d-flex align-items-center justify-content-between" for="customRadio1"><span>당일 새벽 배송</span><span>$4.99</span></label>
+                                <input type="radio" id="customRadio1" name="customRadio" class="custom-control-input" onclick="shipping(5000)">
+                                <label class="custom-control-label d-flex align-items-center justify-content-between" for="customRadio1"><span>당일 새벽 배송</span><span>&#8361; 5,000</span></label>
                             </div>
 
                             <div class="custom-control custom-radio mb-30">
-                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input">
-                                <label class="custom-control-label d-flex align-items-center justify-content-between" for="customRadio2"><span>당일 배송</span><span>$1.99</span></label>
+                                <input type="radio" id="customRadio2" name="customRadio" class="custom-control-input" onclick="shipping(3000)">
+                                <label class="custom-control-label d-flex align-items-center justify-content-between" for="customRadio2"><span>당일 배송</span><span>&#8361; 3,000</span></label>
                             </div>
 
                             <div class="custom-control custom-radio">
-                                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input">
+                                <input type="radio" id="customRadio3" name="customRadio" class="custom-control-input" onclick="shipping(0)">
                                 <label class="custom-control-label d-flex align-items-center justify-content-between" for="customRadio3"><span>일반 배송</span><span>Free</span></label>
                             </div>
                         </div>
@@ -479,10 +479,10 @@
                                 <li><span>회원 등급 할인</span>
                                     <span id="gradeSale">-1,000</span>
                                 </li>
-                                <li><span>쿠폰 적용</span>
+                                <li id="liCoupon"><span>쿠폰 적용</span>
                                     <span id="couponSale">-5,000</span>
                                 </li>
-                                <li><span>배송료</span>
+                                <li id="liTax"><span>배송료</span>
                                     <span id="sendTax">Free</span>
                                 </li>
                                 <li>
@@ -493,12 +493,83 @@
 
                             <script>
 
+                                // 배송 옵션 체크 유무 확인용
+                                let checkPointTax = false;
+
+                                function shipping(id) {
+                                    $('#sendTax').text(id.toLocaleString() + "원");
+                                    $('#liTax').show();
+                                    checkPointTax = true;
+                                }
+
+                                function couponData(data) {
+                                    $('#liCoupon').text(data.toLocaleString() + "원");
+                                    $('#liCoupon').show();
+                                }
+
+                                $('#coupon_check').on('click', function () {
+
+                                    let formData = $('#couponForm').serialize();
+
+                                    $.ajax({
+                                        type   : "POST",
+                                        url    : "/couponSearch",
+                                        data   : formData,
+                                        success: function (data) {
+                                            if (data == "Y") {
+                                                alert("쿠폰이 정상적으로 등록되었습니다.");
+                                                //정상 처리 로직
+                                                //총결과에 포함
+                                                couponData();
+                                                return false;
+                                            } else if (data == "NN") {
+                                                alert("등록되지 않은 쿠폰 번호 입니다.");
+                                                return false;
+                                            } else if (data == "exist") {
+                                                alert("이미 사용한 쿠폰 번호 입니다.");
+                                                return false;
+                                            }
+                                        },
+                                        error  : function (data) {
+                                            alert("에러 발생!");
+                                            console.log(data);
+                                        }
+                                    });
+
+                                });
+
+
                                 $(document).ready(function(){
+                                    $('#liTax').hide();
+                                    $('#liCoupon').hide();
+
+
+                                    let gradeCode = [[${session.loginMember.grade_code}]];
+
+                                    switch (gradeCode) {
+                                        case 0:
+                                            /*NORMAL, 1%*/
+                                            $('#gradeSale').text();
+                                            break;
+                                        case 1:
+                                            /*SILVER, 2%*/
+                                            $('#gradeSale').text();
+                                            break;
+                                        case 2:
+                                            /*GOLD, 3%*/
+                                            $('#gradeSale').text();
+                                            break;
+                                        case 3:
+                                            /*VIP, 5%*/
+                                            $('#gradeSale').text();
+                                            break;
+                                    }
+
 
                                     let check = $('#checkPrice').text();
                                     let gradeSale = $('#gradeSale').text();
                                     let couponSale = $('#couponSale').text();
-                                    let sendTax = $('sendTax').text();
+                                    let sendTax = $('#sendTax').text();
 
 
                                 });

@@ -27,4 +27,22 @@ public class MemberController {
         return memberService.checkID(signUpDTO);
     }
 
+    @RequestMapping("/coupon")
+    @ResponseBody
+    public String couponCK(String coupon_number) {
+
+        String data = "N";
+
+        if (coupon_number.equals("") || coupon_number == null) {
+            return data;
+        }
+
+        /*
+        *  쿠폰 조회 후, 할인 가격 String data 로 받아오는 로직 만들 것
+        * */
+
+        data = "2000";
+
+        return data;
+    }
 }
