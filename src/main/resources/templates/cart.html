@@ -440,7 +440,7 @@
                             </div>
                             <form id="couponForm" action="/coupon" method="get">
                                 <input type="search" name="coupon_number" placeholder="#569ab15">
-                                <button id="coupon_check" type="button">등록하기</button>
+                                <button id="coupon_check" type="button" style="cursor: pointer">등록하기</button>
                             </form>
                         </div>
                     </div>
@@ -474,8 +474,8 @@
                                 <p>할인 및 쿠폰 적용 총 금액</p>
                             </div>
 
-                            <ul class="cart-total-chart">
-                                <li><span>총 가격</span>
+                            <ul id="totalInfo" class="cart-total-chart">
+                                <li><span>전체 가격</span>
                                     <span id="checkPrice"></span>
                                     <input type="hidden" id="checkPriceInput"></input>
                                 </li>
@@ -489,28 +489,78 @@
                                     <span id="sendTax"></span>
                                 </li>
                                 <li>
-                                    <span><strong>총 가격</strong></span>
+                                    <span><strong>결제 금액</strong></span>
                                     <span id="priceInit"><strong></strong></span>
                                 </li>
                             </ul>
 
                             <script>
-
-
-
-
                                 // 배송 옵션 체크 유무 확인용
                                 let checkPointTax = false;
+                                let checkPointCoupon = false;
+
+                                //회원등급별 할인가
+                                let grade_price =0;
+
+                                //배송료
+                                let shipping_price = 0;
+
+                                //쿠폰 할인
+                                let coupon_price = 0;
+
+
+                                function totalCal() {
+                                    //전체 가격, 할인, 배송료, 쿠폰, 결제 금액
+
+                                    //전체 가격
+                                    let ori_price = $('#checkPriceInput').val();
+                                    let after_price = ori_price.replace(/,/g, "");
+
+                                    let totalCheckOut = (after_price - grade_price - shipping_price - coupon_price);
+
+                                    //총결제금액
+                                    $('#priceInit').text(totalCheckOut.toLocaleString() + "원");
+
+                                    alert($('#priceInit').text());
+
+
+                                }
+
+
 
                                 function shipping(id) {
-                                    $('#sendTax').text(id.toLocaleString() + "원");
-                                    $('#liTax').show();
+
                                     checkPointTax = true;
+
+                                    shipping_price = id;
+
+                                    $('#sendTax').text("-"+id.toLocaleString() + "원");
+                                    $('#liTax').show();
+
+                                    //총액 계산
+                                    totalCal();
+
+
                                 }
 
                                 function couponData(data) {
-                                    $('#liCoupon').text(data.toLocaleString() + "원");
+
+                                    if (isNaN(data)) {
+                                        //true 일 경우 문자이므로 alert
+                                        alert("쿠폰 등록에 문제가 생겼습니다. 관리자에게 문의해주세요");
+                                        return false;
+                                    }
+
+                                    checkPointCoupon = true;
+
+                                    coupon_price = data;
+
+                                    $('#couponSale').text("-" + data.toLocaleString() + "원");
                                     $('#liCoupon').show();
+
+                                    //총액 계산
+                                    totalCal();
+
                                 }
 
                                 $('#coupon_check').on('click', function () {
@@ -519,20 +569,18 @@
 
                                     $.ajax({
                                         type   : "POST",
-                                        url    : "/couponSearch",
+                                        url    : "/coupon",
                                         data   : formData,
                                         success: function (data) {
-                                            if (data == "Y") {
-                                                alert("쿠폰이 정상적으로 등록되었습니다.");
-                                                //정상 처리 로직
-                                                //총결과에 포함
-                                                couponData();
-                                                return false;
-                                            } else if (data == "NN") {
+                                            if (data == "N") {
                                                 alert("등록되지 않은 쿠폰 번호 입니다.");
                                                 return false;
                                             } else if (data == "exist") {
                                                 alert("이미 사용한 쿠폰 번호 입니다.");
+                                                return false;
+                                            } else {
+                                                alert("쿠폰이 정상적으로 등록되었습니다.");
+                                                couponData(data);
                                                 return false;
                                             }
                                         },
@@ -561,32 +609,26 @@
                                         case 0:
                                             /*NORMAL, 1%*/
                                             $('#gradeSale').text("-"+(price*0.01).toLocaleString()+"원");
+                                            grade_price = (price*0.01);
                                             break;
                                         case 1:
                                             /*SILVER, 2%*/
                                             $('#gradeSale').text("-"+(price*0.02).toLocaleString()+"원");
+                                            grade_price = (price*0.02);
                                             break;
                                         case 2:
                                             /*GOLD, 3%*/
                                             $('#gradeSale').text("-"+(price*0.03).toLocaleString()+"원");
+                                            grade_price = (price*0.03);
                                             break;
                                         case 3:
                                             /*VIP, 5%*/
                                             $('#gradeSale').text("-"+(price*0.05).toLocaleString()+"원");
+                                            grade_price = (price*0.05);
                                             break;
                                     }//switch
 
-                                    alert($('#gradeSale').text());
-
-
-
-
-
-
-                                    let check = $('#checkPrice').text();
-                                    let gradeSale = $('#gradeSale').text();
-                                    let couponSale = $('#couponSale').text();
-                                    let sendTax = $('#sendTax').text();
+                                    totalCal();
 
 
                                 });
