@@ -9,6 +9,7 @@ import mackeabit.shop.service.MemberService;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
 import mackeabit.shop.vo.*;
+import mackeabit.shop.web.DiscountPercent;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -222,8 +223,93 @@ public class MainController {
     }
 
     @RequestMapping("/checkout")
-    public String checkOut() {
+    public String checkOut(Model model, Integer pd_idx, CheckOutDTO checkOutDTO) {
+
+        String title = "";
+
+        //할인, 쿠폰 등 적용 전 금액
+        int beforePrice = 0;
+
+        //할인, 쿠폰 등 적용 후 금액
+        int totalPrice = 0;
+
+        if (pd_idx != null) {
+            //상품페이지에서 결제를 눌렀을 때(단일 상품 즉시 결제),
+            //productService.findByPd_idx(pd_idx);
+
+        }
+
+        //장바구니에서 결제를 눌렀을 때,
+        HttpSession session = request.getSession();
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        List<MainCartDTO> memberCart = cartService.findMemberCart(attribute.getMember_idx());
+
+
+
+        for (int i = 0; i < memberCart.size(); i++) {
+
+            beforePrice += memberCart.get(i).getSell_price() * memberCart.get(i).getCart_cnt();
+
+        }
+
+
+        if (memberCart.size() > 1) {
+            title = memberCart.get(0).getPd_nm() + "외 " + memberCart.size();
+        } else {
+            title = memberCart.get(0).getPd_nm();
+        }
+
+        //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드 추가할 것.
+
+        //회원등급에 따른 할인
+        int sales = calculateGrade(attribute.getGrade_code(), beforePrice);
+
+        //모든 할인 적용한 결재 금액
+        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - 2000 - sales;
+
+        /**
+         *  차례대로
+         *  - 상품명
+         *  - 전체 가격
+         *  - 쿠폰 할인
+         *  - 배송료 (이미 받아와서 들어가 있음)
+         *  - 총 결제 금액
+         */
+        checkOutDTO.setTitle(title);
+        checkOutDTO.setPd_price(beforePrice);
+        checkOutDTO.setCoupon_price(2000);
+        checkOutDTO.setTotal_price(totalPrice);
+
+        model.addAttribute("checkOutInfo", checkOutDTO);
 
         return "checkout";
+    }
+
+    //등급별 할인 메서드
+    private int calculateGrade(Integer grade_code, int beforePrice) {
+
+        int discountPercent = 0;
+
+        switch (grade_code) {
+
+            case 0:
+                discountPercent = DiscountPercent.NORMAL;
+                break;
+            case 1:
+                discountPercent = DiscountPercent.SILVER;
+                break;
+            case 2:
+                discountPercent = DiscountPercent.GOLD;
+                break;
+            case 3:
+                discountPercent = DiscountPercent.VIP;
+                break;
+
+        }
+
+        int sales = beforePrice * discountPercent / 100;
+
+        return sales;
     }
 }

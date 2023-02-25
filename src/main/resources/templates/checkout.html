@@ -502,6 +502,8 @@
 
         if (check_code == write_code) {
             alert("이메일 인증이 정상적으로 진행되었습니다.");
+            emailVerificationButton.textContent = '인증 완료';
+            emailVerificationButton.removeEventListener('click', verifyEmail);
         } else {
             alert("인증코드가 일치하지 않습니다.");
         }
@@ -546,6 +548,7 @@
             // 남은 시간이 0이면 카운트다운을 중지합니다.
             if (remainingTime === 0) {
                 checkPoint = false;
+                check_code = "";
                 clearInterval(intervalId);
                 emailVerificationButton.textContent = '만료되었습니다';
                 emailVerificationButton.classList.remove('disabled');
@@ -559,6 +562,7 @@
         // 인증 버튼을 한 번 더 클릭하면 카운트다운을 취소합니다.
         emailVerificationButton.addEventListener('click', () => {
             checkPoint = false;
+            check_code = "";
             clearInterval(intervalId);
             emailVerificationButton.textContent = '인증하기';
             emailVerificationButton.classList.remove('disabled');

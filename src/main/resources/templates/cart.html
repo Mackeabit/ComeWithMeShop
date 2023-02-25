@@ -439,7 +439,7 @@
                                 <p>아래에 쿠폰 번호를 입력해주세요.</p>
                             </div>
                             <form id="couponForm" action="/coupon" method="get">
-                                <input type="search" name="coupon_number" placeholder="#569ab15">
+                                <input id="coupon_code" type="search" name="coupon_number" placeholder="#569ab15">
                                 <button id="coupon_check" type="button" style="cursor: pointer">등록하기</button>
                             </form>
                         </div>
@@ -508,6 +508,13 @@
                                 //쿠폰 할인
                                 let coupon_price = 0;
 
+                                function throwInfo() {
+
+                                    let coupon = $('#coupon_code').val();
+
+                                    location.href = "/checkout?shipping_price="+shipping_price+"&coupon_code="+coupon+"&member_idx="+[[${session.session.loginMember.member_idx}]];
+
+                                }
 
                                 function totalCal() {
                                     //전체 가격, 할인, 배송료, 쿠폰, 결제 금액
@@ -635,7 +642,7 @@
 
                             </script>
 
-                            <a href="/checkout" class="btn karl-checkout-btn">결제하기</a>
+                            <a href="#" onclick="throwInfo()" class="btn karl-checkout-btn">결제하기</a>
                         </div>
                     </div>
                 </div>
