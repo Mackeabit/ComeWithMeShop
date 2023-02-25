@@ -173,12 +173,12 @@ public class MainController {
         log.info("first search = {}", search);
 
         /* 넘어오는 데이터 예시
-        *  1. pd_idx=6&pd_nm=BLACK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=BLACK&pd_size=M
-        *  2. pd_idx=9&pd_nm=MCK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=N&pd_size=N
-        *
-        * idx가 아닌 이름, 옵션들(색상, 사이즈)로 찾아야함.
-        *
-        * */
+         *  1. pd_idx=6&pd_nm=BLACK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=BLACK&pd_size=M
+         *  2. pd_idx=9&pd_nm=MCK+T-SHIRT&member_idx=1&cart_cnt=2&pd_color=N&pd_size=N
+         *
+         * idx가 아닌 이름, 옵션들(색상, 사이즈)로 찾아야함.
+         *
+         * */
 
         //1. 넘어온 데이터들에게(상품 옵션) N 값 부여되어 있으면 null 처리
         if (search.getPd_size().equals("N")) {
@@ -221,4 +221,9 @@ public class MainController {
         return data;
     }
 
+    @RequestMapping("/checkout")
+    public String checkOut() {
+
+        return "checkout";
+    }
 }

@@ -280,14 +280,14 @@
 <!--                                    <th:block th:if="${session.loginMember.email == null}">-->
                                     <div class="col-md-6 mb-3">
                                         <label for="email"><span>*</span> 이메일 인증</label>
-                                        <input type="text" class="form-control" id="email" value="" required autocomplete="off" style="width: 300px">
+                                        <input type="text" class="form-control" id="email" value="" autocomplete="off" style="width: 300px">
                                     </div>
                                     <div class="col-md-6 mb-3" style="margin-top: 25px; padding-left: 50px">
                                         <a href="#" class="btn karl-checkout-btn" id="email-verification-button">인증코드 받기</a>
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label for="email_code"><span>*</span> 인증 번호</label>
-                                        <input type="text" class="form-control" id="email_code" value="" required autocomplete="off">
+                                        <input type="text" class="form-control" id="email_code" value="" autocomplete="off">
                                     </div>
 <!--                                    </th:block>-->
 
@@ -426,12 +426,12 @@
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="single_footer_area">
                             <div class="footer-logo">
-                                <img src="img/core-img/logo.png" alt="">
+                                <img src="/img/core-img/logo.png" alt="">
                             </div>
                             <div class="copywrite_text d-flex align-items-center">
                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a> &amp; distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
                             </div>
                         </div>
                     </div>
@@ -440,10 +440,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
                                 <li><a href="#">About</a></li>
-                                <li><a href="#">Blog</a></li>
                                 <li><a href="#">Faq</a></li>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -451,10 +448,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
-                                <li><a href="#">My Account</a></li>
-                                <li><a href="#">Shipping</a></li>
-                                <li><a href="#">Our Policies</a></li>
-                                <li><a href="#">Afiliates</a></li>
+                                <li><a href="#">마이 페이지</a></li>
+                                <li><a href="#">Community</a></li>
                             </ul>
                         </div>
                     </div>
@@ -462,31 +457,18 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                     <div class="col-12 col-lg-5">
                         <div class="single_footer_area">
                             <div class="footer_heading mb-30">
-                                <h6>Subscribe to our newsletter</h6>
+                                <h6>Search</h6>
                             </div>
                             <div class="subscribtion_form">
-                                <form action="#" method="post">
-                                    <input type="email" name="mail" class="mail" placeholder="Your email here">
-                                    <button type="submit" class="submit">Subscribe</button>
+                                <form action="/products/search" method="get">
+                                    <input type="text" name="keyword" class="mail" placeholder="">
+                                    <a name="search_bottom"><button id="sr_btn" type="submit" class="submit"><i class="fa fa-search" aria-hidden="true"></i></button></a>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="line"></div>
+                    <!-- Single Footer Area End -->
 
-                <!-- Footer Bottom Area Start -->
-                <div class="footer_bottom_area">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="footer_social_area text-center">
-                                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </footer>
@@ -508,14 +490,31 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script>
 
 
+    let checkPoint = false;
+    let check_code = "";
     // 이메일 인증 버튼 요소를 가져옵니다.
     let emailVerificationButton = document.getElementById('email-verification-button');
 
-    let checkingButton = false;
+    //PWD / PWD2 확인
+    $('#email_code').focusout(function(){
 
+        let write_code = $('#email_code').val();
+
+        if (check_code == write_code) {
+            alert("이메일 인증이 정상적으로 진행되었습니다.");
+        } else {
+            alert("인증코드가 일치하지 않습니다.");
+        }
+
+    });
 
     // 이메일 인증 함수를 정의합니다.
     function verifyEmail() {
+
+        alert("verifyEmail");
+        alert(check_code);
+
+
         // 이메일 입력 필드 요소를 가져옵니다.
         let emailInput = document.getElementById('email');
 
@@ -546,6 +545,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
             // 남은 시간이 0이면 카운트다운을 중지합니다.
             if (remainingTime === 0) {
+                checkPoint = false;
                 clearInterval(intervalId);
                 emailVerificationButton.textContent = '만료되었습니다';
                 emailVerificationButton.classList.remove('disabled');
@@ -558,6 +558,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
         // 인증 버튼을 한 번 더 클릭하면 카운트다운을 취소합니다.
         emailVerificationButton.addEventListener('click', () => {
+            checkPoint = false;
             clearInterval(intervalId);
             emailVerificationButton.textContent = '인증하기';
             emailVerificationButton.classList.remove('disabled');
@@ -567,8 +568,50 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 
     }
+
+    function serverEmail() {
+
+        alert("serverEmail");
+
+        // 이메일 입력 필드 요소를 가져옵니다.
+        let emailInput = document.getElementById('email');
+
+        let email = $('#email').val();
+
+        let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+        if (checkPoint) {
+            verifyEmail();
+            return false;
+        }
+
+        checkPoint = true;
+
+        // 이메일 주소가 유효한지 확인합니다.
+        if (!regExp.test(email)) {
+            alert('유효한 이메일 주소를 입력해주세요.');
+            return;
+        }
+
+        $.ajax({
+            type : "POST",
+            url : "/emailCheck",
+            data : {email:email},
+            success: function (data) {
+                check_code = data.code;
+                verifyEmail();
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+
+    }
+
+
+
     // 인증 버튼에 이벤트 리스너를 추가합니다.
-    emailVerificationButton.addEventListener('click', verifyEmail);
+    emailVerificationButton.addEventListener('click', serverEmail);
 
 </script>
 
