@@ -88,4 +88,16 @@ public class MemberService {
         return messages;
     }
 
+    public String  changeEmailCheck(Long member_idx) {
+
+        String data = "N";
+
+        int res = repository.changeEmailCheck(member_idx);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }

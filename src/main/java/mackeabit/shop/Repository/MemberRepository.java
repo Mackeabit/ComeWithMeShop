@@ -18,4 +18,5 @@ public interface MemberRepository {
     int emailCheck(String email);
 
 
+    int changeEmailCheck(Long member_idx);
 }

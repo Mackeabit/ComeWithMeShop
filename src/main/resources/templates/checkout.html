@@ -272,7 +272,7 @@
 
                             <div class="cart-page-heading">
                                 <h5>주문서 작성</h5>
-                                <p>*는 필수 작성 사항입니다.</p>
+                                <p>Order Details</p>
                             </div>
 
                             <form action="#" method="post">
@@ -282,9 +282,9 @@
                                         <input type="text" class="form-control" id="first_name" value="" required>
                                     </div>-->
 
-<!--                                    <th:block th:if="${session.loginMember.email == null}">-->
+                                    <th:block id="check_email" th:if="${session.loginMember.email_ck != -1}">
                                     <div class="col-md-6 mb-3">
-                                        <label for="email"><span>*</span> 이메일 인증</label>
+                                        <label for="email"><span>*</span> 이메일 인증 <span>(최초 1회만 진행하시면 됩니다.)</span></label>
                                         <input type="text" class="form-control" id="email" value="" autocomplete="off" style="width: 300px">
                                     </div>
                                     <div class="col-md-6 mb-3" style="margin-top: 25px; padding-left: 50px">
@@ -294,7 +294,18 @@
                                         <label for="email_code"><span>*</span> 인증 번호</label>
                                         <input type="text" class="form-control" id="email_code" value="" autocomplete="off">
                                     </div>
-<!--                                    </th:block>-->
+                                    </th:block>
+
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="last_name"><span>*</span> 성</label>
+                                        <input type="text" class="form-control" id="last_name" value="" required>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="first_name"><span>*</span> 이름</label>
+                                        <input type="text" class="form-control" id="first_name" value="" required>
+                                    </div>
+
 
                                     <div class="col-12 mb-3">
                                         <label for="street_address"><span>*</span> 주소</label>
@@ -338,8 +349,17 @@
 
                                     <div class="col-12 mb-3">
                                         <label for="phone_number"><span>*</span> 핸드폰 번호</label>
-                                        <input type="number" class="form-control" id="phone_number" min="0" value="">
+                                        <input type="text" class="form-control" id="phone_number" min="0" value="" onkeypress="inNumber();" placeholder="숫자만 입력해주세요.">
                                     </div>
+
+                                    <script>
+                                        function inNumber(){
+                                            if(event.keyCode<48 || event.keyCode>57){
+                                                event.returnValue=false;
+                                            }
+                                        }
+                                    </script>
+
 
 <!--                                    <div class="col-12">
                                         <div class="custom-control custom-checkbox d-block mb-2">
@@ -455,6 +475,9 @@
 
                             <script th:inline="javascript">
 
+                                let name = $('#last_name').val() + $('#first_name').val();
+                                let tel = $('#phone_number').val();
+
                                 /*<![CDATA[*/
 
                                 /* IMPORT 결제 API */
@@ -466,64 +489,71 @@
                                     alert("requestPay");
 
                                     IMP.request_pay({
-                                        pg: "kcp.{상점ID}",
+                                        pg: "kakao",
                                         pay_method: "card",
-                                        merchant_uid: "ORD20180131-0000011",   // 주문번호
+                                        merchant_uid: 'merchant_' + new Date().getTime(),   // 주문번호
                                         name: /*[[${checkOutInfo.title}]]*/,
                                         amount: /*[[${checkOutInfo.total_price}]]*/,                         // 숫자 타입
-                                        buyer_email: "gildong@gmail.com",
-                                        buyer_name: "홍길동",
-                                        buyer_tel: "010-4242-4242",
-                                        buyer_addr: "서울특별시 강남구 신사동",
-                                        buyer_postcode: "01181"
-                                    }, function (rsp) { // callback
-                                        if (rsp.success) {
-                                            // 결제 성공 시 로직
-                                        } else {
-                                            // 결제 실패 시 로직
-                                        }
+                                        buyer_email: /*[[${session.loginMember.email}]]*/,
+                                        buyer_name: name,
+                                        buyer_tel: tel,
+                                        buyer_addr: /*[[${memberInfo.address}]]*/,
+                                        buyer_postcode: /*[[${memberInfo.postcode}]]*/
+                                    },function(rsp) {
+                                        console.log(rsp);
+                                        // 결제검증
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "/verifyIamport/" + rsp.imp_uid
+                                        }).done(function(data) {
+
+                                            console.log(data);
+
+                                            // 위의 rsp.paid_amount 와 data.response.amount를 비교한후 로직 실행 (import 서버검증)
+                                            if(rsp.paid_amount == data.response.amount){
+                                                alert("결제 및 결제 검증완료");
+
+                                                let payCode = rsp.imp_uid;
+                                                let order_mi = rsp.merchant_uid;
+
+                                                order_forward(payCode, order_mi);
+
+                                            } else {
+                                                alert("결제 실패");
+                                            }
+                                        });
                                     });
                                 }
                                 /*]]>*/
 
-                               /* function requestPay() {
+/*                                function (rsp) { // callback
+                                    if (rsp.success) {
+                                        // 결제 성공 시 로직
+                                        let msg = '결제가 완료되었습니다.';
+                                        msg += '고유ID : ' + rsp.imp_uid; //결제번호
+                                        msg += '상점 거래ID : ' + rsp.merchant_uid; //가맹점 아이디
+                                        msg += '결제 금액 : ' + rsp.paid_amount; // 결제 금액
 
-                                    /!*        let num = ${total};
-                                            let cnt = ${fn:length(cartList)};
-                                            if(cnt > 0){
-                                                nm = "${cartList[0].pd_nm} 등 ${fn:length(cartList)}개";
-                                            }else{
-                                                nm = "${product.pd_nm}";
-                                            }*!/
+                                        let payCode = rsp.imp_uid;
+                                        let order_mi = rsp.merchant_uid;
 
-                                    // IMP.request_pay(param, callback) 결제창 호출
-                                    IMP.request_pay({ // param
-                                        pg: "kakao",
-                                        pay_method: "card",
-                                        merchant_uid: 'merchant_' + new Date().getTime(),
-                                        name: pd_nm,
-                                        amount: totalPrice,
-                                        buyer_email: "[[${session.loginMember.email}]]",
-                                        buyer_name: "[[${session.loginMember.email}]]",
-                                        // buyer_tel: "[[${session.loginMember.email}]]",
-                                        // buyer_addr: "${user.user_addr}",
-                                        // buyer_postcode: "${user.user_postcode}"
-                                    }, function (rsp) { // callback
-                                        if (rsp.success) {
-                                            // 결제 성공 시 로직,
-                                            let msg = '결제가 완료되었습니다.';
-                                            msg += '고유ID : ' + rsp.imp_uid; //결제번호
-                                            msg += '상점 거래ID : ' + rsp.merchant_uid; //가맹점 아이디
-                                            msg += '결제 금액 : ' + rsp.paid_amount; // 결제 금액
+                                        order_forward(payCode, order_mi);
+
+                                    } else {
+                                        // 결제 실패 시 로직
+                                        let msg = '결제에 실패하였습니다.';
+                                        msg += '에러내용 : ' + rsp.error_msg;
+                                    }
+                                });*/
+
+                                function order_forward(payCode, order_mi) {
 
 
-                                        } else {
-                                            // 결제 실패 시 로직,
-                                            let msg = '결제에 실패하였습니다.';
-                                            msg += '에러내용 : ' + rsp.error_msg;
-                                        }
-                                    });
-                                }*/
+
+                                }
+
+
+
 
                             </script>
                         </div>
@@ -592,20 +622,6 @@
     </div>
     <!-- /.wrapper end -->
 
-<script>
-
-
-
-
-
-
-    /* KAKAO ADDRESS */
-
-
-
-
-</script>
-
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
@@ -625,15 +641,46 @@
     // 이메일 인증 버튼 요소를 가져옵니다.
     let emailVerificationButton = document.getElementById('email-verification-button');
 
-    //PWD / PWD2 확인
+    //이메일 체크
     $('#email_code').focusout(function(){
 
         let write_code = $('#email_code').val();
 
         if (check_code == write_code) {
-            alert("이메일 인증이 정상적으로 진행되었습니다.");
-            emailVerificationButton.textContent = '인증 완료';
-            emailVerificationButton.removeEventListener('click', verifyEmail);
+
+            if (check_code == "") {
+                alert("이메일 인증을 진행해주세요.");
+                $("#email").focus(); //상세입력 포커싱
+                return false;
+            }
+
+            $.ajax({
+                type : "POST",
+                url : "/emailCode",
+                data : {member_idx:[[${session.loginMember.member_idx}]]},
+                success: function (data) {
+
+                    if (data == "N") {
+                        alert("이메일 인증 중 오류가 발생하였습니다. 관리자에게 문의하세요.");
+                    }else if (data == "Y") {
+                        alert("이메일 인증이 정상적으로 진행되었습니다.");
+                        emailVerificationButton.textContent = '인증 완료';
+                        emailVerificationButton.removeEventListener('click', verifyEmail);
+                        $('#check_email').hide();
+                        return false;
+                    } else if (data == "diff id") {
+                        alert("현재 계정 상태가 정상적이지 않습니다. 관리자에게 문의하세요.");
+                    } else {
+                        console.log(data);
+                    }
+
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+
+
         } else {
             alert("인증코드가 일치하지 않습니다.");
         }

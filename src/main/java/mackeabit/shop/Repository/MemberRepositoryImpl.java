@@ -56,4 +56,9 @@ public class MemberRepositoryImpl implements MemberRepository {
         return cnt;
     }
 
+    @Override
+    public int changeEmailCheck(Long member_idx) {
+        return memberMapper.changeEmailCheck(member_idx);
+    }
+
 }

@@ -19,4 +19,5 @@ public interface MemberMapper {
 
     int emailCheck(String email);
 
+    int changeEmailCheck(Long member_idx);
 }

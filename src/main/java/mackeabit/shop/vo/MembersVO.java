@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class MembersVO {
 
     private String email, pwd, sign_date;
-    private Integer grade_code, member_point, member_status;
+    private Integer grade_code, member_point, member_status, email_ck;
     private Long member_idx;
 
 }

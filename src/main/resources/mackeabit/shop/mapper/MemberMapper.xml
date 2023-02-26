@@ -20,4 +20,8 @@
         SELECT * FROM Members WHERE email = #{email}
     </select>
 
+    <update id="changeEmailCheck" parameterType="Long">
+        UPDATE Members set email_ck = 0 where member_idx = #{member_idx}
+    </update>
+
 </mapper>
