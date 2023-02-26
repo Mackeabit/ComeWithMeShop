@@ -512,7 +512,7 @@
 
                                     let coupon = $('#coupon_code').val();
 
-                                    location.href = "/checkout?shipping_price="+shipping_price+"&coupon_code="+coupon+"&member_idx="+[[${session.session.loginMember.member_idx}]];
+                                    location.href = "/checkout?shipping_price="+shipping_price+"&coupon_code="+coupon+"&member_idx="+[[${session.loginMember.member_idx}]];
 
                                 }
 
@@ -528,7 +528,6 @@
                                     //총결제금액
                                     $('#priceInit').text(totalCheckOut.toLocaleString() + "원");
 
-                                    alert($('#priceInit').text());
 
 
                                 }

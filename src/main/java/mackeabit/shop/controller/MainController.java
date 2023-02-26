@@ -255,7 +255,7 @@ public class MainController {
 
 
         if (memberCart.size() > 1) {
-            title = memberCart.get(0).getPd_nm() + "외 " + memberCart.size();
+            title = memberCart.get(0).getPd_nm() + " 등 " + memberCart.size() + "개";
         } else {
             title = memberCart.get(0).getPd_nm();
         }
@@ -274,11 +274,13 @@ public class MainController {
          *  - 전체 가격
          *  - 쿠폰 할인
          *  - 배송료 (이미 받아와서 들어가 있음)
+         *  - 회원 등급 할인
          *  - 총 결제 금액
          */
         checkOutDTO.setTitle(title);
         checkOutDTO.setPd_price(beforePrice);
-        checkOutDTO.setCoupon_price(2000);
+        checkOutDTO.setCoupon_price(-2000);
+        checkOutDTO.setGrade_sale(-sales);
         checkOutDTO.setTotal_price(totalPrice);
 
         model.addAttribute("checkOutInfo", checkOutDTO);

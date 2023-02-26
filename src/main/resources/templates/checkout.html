@@ -24,6 +24,11 @@
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+    <!-- 카카오 주소 API -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <!-- iamport.payment.js -->
+    <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
 
 <body>
@@ -292,16 +297,47 @@
 <!--                                    </th:block>-->
 
                                     <div class="col-12 mb-3">
-                                        <label for="street_address">Address <span>*</span></label>
-                                        <input type="text" class="form-control mb-3" id="street_address" value="">
+                                        <label for="street_address"><span>*</span> 주소</label>
+                                        <input type="text" oninput="send();" class="form-control mb-3" id="street_address" value="">
                                         <input type="text" class="form-control" id="street_address2" value="">
                                     </div>
                                     <div class="col-12 mb-3">
-                                        <label for="postcode">Postcode <span>*</span></label>
-                                        <input type="text" class="form-control" id="postcode" value="">
+                                        <label for="postcode"><span>*</span> 우편 번호 (자동으로 작성됩니다.)</label>
+                                        <input type="text" class="form-control" id="postcode" value="" readonly>
                                     </div>
+
+                                    <script>
+
+                                        let add_ck = false;
+
+                                        document.getElementById("street_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                                            alert("지도 발생");
+                                            //카카오 지도 발생
+                                            new daum.Postcode({
+                                                oncomplete: function(data) { //선택시 입력값 세팅
+                                                    document.getElementById("postcode").value = data.zonecode;//우편번호
+                                                    document.getElementById("street_address").value = data.address; // 주소 넣기
+                                                    $('#street_address2').focus(); //상세입력 포커싱
+                                                }
+                                            }).open();
+                                        });
+
+                                        function send() {
+                                            new daum.Postcode({
+                                                oncomplete: function(data) { //선택시 입력값 세팅
+                                                    document.getElementById("postcode").value = data.zonecode;//우편번호
+                                                    document.getElementById("street_address").value = data.address; // 주소 넣기
+                                                    $("#street_address2").focus(); //상세입력 포커싱
+                                                }
+                                            }).open();
+                                        }
+
+
+
+                                    </script>
+
                                     <div class="col-12 mb-3">
-                                        <label for="phone_number">Phone No <span>*</span></label>
+                                        <label for="phone_number"><span>*</span> 핸드폰 번호</label>
                                         <input type="number" class="form-control" id="phone_number" min="0" value="">
                                     </div>
 
@@ -335,24 +371,30 @@
                             <ul class="order-details-form mb-4">
                                 <li>
                                     <span>상품명</span>
-                                    <span>Cocktail Yellow dress 외 1개</span>
+                                    <span th:text="${checkOutInfo.title}">Cocktail Yellow dress 외 1개</span>
                                 </li>
                                 <li>
-                                    <span>전체 금액</span>
-                                    <span>$59.90</span>
+                                    <span>전체 가격</span>
+                                    <span th:text="${#numbers.formatInteger(checkOutInfo.pd_price, 3, 'COMMA')}+'원'">$59.90</span>
                                 </li>
                                 <li>
-                                    <span>쿠폰</span>
-                                    <span>-2,000원</span>
+                                    <span>쿠폰 할인</span>
+                                    <span th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 3, 'COMMA')}+'원'">-2,000원</span>
                                 </li>
                                 <li>
                                     <span>배송료</span>
-                                    <span>Free</span>
+                                    <span th:if="${checkOutInfo.shipping_price != 'Free'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'">Free</span>
+                                    <span th:if="${checkOutInfo.shipping_price == 'Free'}">Free</span>
                                 </li>
 
                                 <li>
-                                    <span>결제 금액</span>
-                                    <span>$59.90</span>
+                                    <span>회원 등급 할인</span>
+                                    <span th:text="${#numbers.formatInteger(checkOutInfo.grade_sale, 3, 'COMMA')}+'원'">$59.90</span>
+                                </li>
+
+                                <li>
+                                    <span>최종 결제 금액</span>
+                                    <span th:text="${#numbers.formatInteger(checkOutInfo.total_price, 3, 'COMMA')}+'원'">$59.90</span>
                                 </li>
                             </ul>
 
@@ -409,7 +451,81 @@
                                 </div>
                             </div>-->
 
-                            <a href="#" class="btn karl-checkout-btn">Place Order</a>
+                            <a href="#" id="pay_input" class="btn karl-checkout-btn" onclick="requestPay()">Place Order</a>
+
+                            <script th:inline="javascript">
+
+                                /*<![CDATA[*/
+
+                                /* IMPORT 결제 API */
+                                const IMP = window.IMP; // 생략 가능
+                                IMP.init('imp59352402'); // 예: imp00000000
+
+                                function requestPay() {
+
+                                    alert("requestPay");
+
+                                    IMP.request_pay({
+                                        pg: "kcp.{상점ID}",
+                                        pay_method: "card",
+                                        merchant_uid: "ORD20180131-0000011",   // 주문번호
+                                        name: /*[[${checkOutInfo.title}]]*/,
+                                        amount: /*[[${checkOutInfo.total_price}]]*/,                         // 숫자 타입
+                                        buyer_email: "gildong@gmail.com",
+                                        buyer_name: "홍길동",
+                                        buyer_tel: "010-4242-4242",
+                                        buyer_addr: "서울특별시 강남구 신사동",
+                                        buyer_postcode: "01181"
+                                    }, function (rsp) { // callback
+                                        if (rsp.success) {
+                                            // 결제 성공 시 로직
+                                        } else {
+                                            // 결제 실패 시 로직
+                                        }
+                                    });
+                                }
+                                /*]]>*/
+
+                               /* function requestPay() {
+
+                                    /!*        let num = ${total};
+                                            let cnt = ${fn:length(cartList)};
+                                            if(cnt > 0){
+                                                nm = "${cartList[0].pd_nm} 등 ${fn:length(cartList)}개";
+                                            }else{
+                                                nm = "${product.pd_nm}";
+                                            }*!/
+
+                                    // IMP.request_pay(param, callback) 결제창 호출
+                                    IMP.request_pay({ // param
+                                        pg: "kakao",
+                                        pay_method: "card",
+                                        merchant_uid: 'merchant_' + new Date().getTime(),
+                                        name: pd_nm,
+                                        amount: totalPrice,
+                                        buyer_email: "[[${session.loginMember.email}]]",
+                                        buyer_name: "[[${session.loginMember.email}]]",
+                                        // buyer_tel: "[[${session.loginMember.email}]]",
+                                        // buyer_addr: "${user.user_addr}",
+                                        // buyer_postcode: "${user.user_postcode}"
+                                    }, function (rsp) { // callback
+                                        if (rsp.success) {
+                                            // 결제 성공 시 로직,
+                                            let msg = '결제가 완료되었습니다.';
+                                            msg += '고유ID : ' + rsp.imp_uid; //결제번호
+                                            msg += '상점 거래ID : ' + rsp.merchant_uid; //가맹점 아이디
+                                            msg += '결제 금액 : ' + rsp.paid_amount; // 결제 금액
+
+
+                                        } else {
+                                            // 결제 실패 시 로직,
+                                            let msg = '결제에 실패하였습니다.';
+                                            msg += '에러내용 : ' + rsp.error_msg;
+                                        }
+                                    });
+                                }*/
+
+                            </script>
                         </div>
                     </div>
 
@@ -475,6 +591,20 @@
         <!-- ****** Footer Area End ****** -->
     </div>
     <!-- /.wrapper end -->
+
+<script>
+
+
+
+
+
+
+    /* KAKAO ADDRESS */
+
+
+
+
+</script>
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
     <script src="js/jquery/jquery-2.2.4.min.js"></script>
