@@ -20,6 +20,10 @@
         SELECT * FROM Members WHERE email = #{email}
     </select>
 
+    <select id="memberDetailOne" parameterType="Long" resultType="mackeabit.shop.vo.MemberDetailVO">
+        SELECT * FROM Members_detail WHERE member_idx = #{member_idx}
+    </select>
+
     <update id="changeEmailCheck" parameterType="Long">
         UPDATE Members set email_ck = 0 where member_idx = #{member_idx}
     </update>

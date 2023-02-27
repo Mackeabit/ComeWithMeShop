@@ -3,6 +3,7 @@ package mackeabit.shop.Repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.mapper.MemberMapper;
+import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import org.springframework.stereotype.Repository;
 
@@ -59,6 +60,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public int changeEmailCheck(Long member_idx) {
         return memberMapper.changeEmailCheck(member_idx);
+    }
+
+    @Override
+    public MemberDetailVO memberDetailOne(Long member_idx) {
+        return memberMapper.memberDetailOne(member_idx);
     }
 
 }

@@ -1,5 +1,6 @@
 package mackeabit.shop.mapper;
 
+import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,4 +21,6 @@ public interface MemberMapper {
     int emailCheck(String email);
 
     int changeEmailCheck(Long member_idx);
+
+    MemberDetailVO memberDetailOne(Long member_idx);
 }

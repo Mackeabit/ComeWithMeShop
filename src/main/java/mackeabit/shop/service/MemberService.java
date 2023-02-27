@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.MemberRepository;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.security256.SHA256;
+import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import org.springframework.stereotype.Service;
 
@@ -99,5 +100,9 @@ public class MemberService {
         }
 
         return data;
+    }
+
+    public MemberDetailVO memberDetailOne(Long member_idx) {
+        return repository.memberDetailOne(member_idx);
     }
 }

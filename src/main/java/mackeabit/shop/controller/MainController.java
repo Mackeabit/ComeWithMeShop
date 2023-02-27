@@ -225,6 +225,9 @@ public class MainController {
     @RequestMapping("/checkout")
     public String checkOut(Model model, Integer pd_idx, CheckOutDTO checkOutDTO) {
 
+        log.info("shipping = {}",checkOutDTO.getShipping_price());
+
+
         String title = "";
 
         //할인, 쿠폰 등 적용 전 금액
@@ -233,13 +236,14 @@ public class MainController {
         //할인, 쿠폰 등 적용 후 금액
         int totalPrice = 0;
 
+        //1. 상품페이지에서 결제를 눌렀을 때 --> 배송, 쿠폰 적용페이지로 먼저 가기
         if (pd_idx != null) {
             //상품페이지에서 결제를 눌렀을 때(단일 상품 즉시 결제),
             //productService.findByPd_idx(pd_idx);
 
         }
 
-        //장바구니에서 결제를 눌렀을 때,
+        //2. 장바구니에서 결제를 눌렀을 때,
         HttpSession session = request.getSession();
         MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
@@ -283,7 +287,22 @@ public class MainController {
         checkOutDTO.setGrade_sale(-sales);
         checkOutDTO.setTotal_price(totalPrice);
 
+
+        //3. 필요한 회원정보 조회하기 (Members 테이블 + Members_detail 테이블 조인)
+        MemberDetailVO detailOne = memberService.memberDetailOne(attribute.getMember_idx());
+
+        log.info("detailOne is null? = {}", detailOne);
+
+        if (detailOne == null) {
+            detailOne = new MemberDetailVO();
+            log.info("detailOne is null2 ? = {}", detailOne);
+
+        }
+
+        log.info("shipping = {}",checkOutDTO.getShipping_price());
+
         model.addAttribute("checkOutInfo", checkOutDTO);
+        model.addAttribute("memberInfo", detailOne);
 
         return "checkout";
     }

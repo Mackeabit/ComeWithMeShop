@@ -1,5 +1,6 @@
 package mackeabit.shop.Repository;
 
+import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface MemberRepository {
 
 
     int changeEmailCheck(Long member_idx);
+
+    MemberDetailVO memberDetailOne(Long member_idx);
 }

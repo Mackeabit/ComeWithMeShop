@@ -138,8 +138,8 @@
                                             </li>
                                             <li class="total">
                                                 <span class="pull-right" id="priceInit"></span>
-                                                <a href="cart.html" class="btn btn-sm btn-cart">장바구니</a>
-                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">결제하기</a>
+                                                <a href="/cart" class="btn btn-sm btn-cart">장바구니</a>
+                                                <a href="/checkout" class="btn btn-sm btn-checkout">결제하기</a>
                                             </li>
                                         </ul>
                                         <!-- Cart List Area Start 장바구니 안에 내용 -->
@@ -282,7 +282,7 @@
                                         <input type="text" class="form-control" id="first_name" value="" required>
                                     </div>-->
 
-                                    <th:block id="check_email" th:if="${session.loginMember.email_ck != -1}">
+                                    <th:block id="check_email" th:if="${session.loginMember.email_ck} == -1">
                                     <div class="col-md-6 mb-3">
                                         <label for="email"><span>*</span> 이메일 인증 <span>(최초 1회만 진행하시면 됩니다.)</span></label>
                                         <input type="text" class="form-control" id="email" value="" autocomplete="off" style="width: 300px">
@@ -309,12 +309,12 @@
 
                                     <div class="col-12 mb-3">
                                         <label for="street_address"><span>*</span> 주소</label>
-                                        <input type="text" oninput="send();" class="form-control mb-3" id="street_address" value="">
-                                        <input type="text" class="form-control" id="street_address2" value="">
+                                        <input type="text" oninput="send();" class="form-control mb-3" th:attr="value=${(memberInfo.address != null) ? memberInfo.address : ''}" id="street_address" value="">
+                                        <input type="text" class="form-control" id="street_address2" th:attr="value=${(memberInfo.address_detail != null) ? memberInfo.address_detail : ''}" value="">
                                     </div>
                                     <div class="col-12 mb-3">
                                         <label for="postcode"><span>*</span> 우편 번호 (자동으로 작성됩니다.)</label>
-                                        <input type="text" class="form-control" id="postcode" value="" readonly>
+                                        <input type="text" class="form-control" id="postcode" th:attr="value=${(memberInfo.post_code != null) ? memberInfo.post_code : ''}" value="" readonly>
                                     </div>
 
                                     <script>
@@ -322,7 +322,6 @@
                                         let add_ck = false;
 
                                         document.getElementById("street_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
-                                            alert("지도 발생");
                                             //카카오 지도 발생
                                             new daum.Postcode({
                                                 oncomplete: function(data) { //선택시 입력값 세팅
@@ -397,14 +396,14 @@
                                     <span>전체 가격</span>
                                     <span th:text="${#numbers.formatInteger(checkOutInfo.pd_price, 3, 'COMMA')}+'원'">$59.90</span>
                                 </li>
-                                <li>
+                                <li th:if="${checkOutInfo.coupon_price != '0'}">
                                     <span>쿠폰 할인</span>
                                     <span th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 3, 'COMMA')}+'원'">-2,000원</span>
                                 </li>
                                 <li>
                                     <span>배송료</span>
-                                    <span th:if="${checkOutInfo.shipping_price != 'Free'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'">Free</span>
-                                    <span th:if="${checkOutInfo.shipping_price == 'Free'}">Free</span>
+                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'">Free</span>
+                                    <span th:if="${checkOutInfo.shipping_price == 'Free' or checkOutInfo.shipping_price == '0'}">Free</span>
                                 </li>
 
                                 <li>
@@ -480,13 +479,15 @@
 
                                 /*<![CDATA[*/
 
+                                let address1 = $('#street_address').val();
+                                let address2 = $('#street_address2').val();
+                                let postcode = $('#postcode').val();
+
                                 /* IMPORT 결제 API */
                                 const IMP = window.IMP; // 생략 가능
                                 IMP.init('imp59352402'); // 예: imp00000000
 
                                 function requestPay() {
-
-                                    alert("requestPay");
 
                                     IMP.request_pay({
                                         pg: "kakao",
@@ -497,8 +498,8 @@
                                         buyer_email: /*[[${session.loginMember.email}]]*/,
                                         buyer_name: name,
                                         buyer_tel: tel,
-                                        buyer_addr: /*[[${memberInfo.address}]]*/,
-                                        buyer_postcode: /*[[${memberInfo.postcode}]]*/
+                                        buyer_addr: address1+address2,
+                                        buyer_postcode: postcode
                                     },function(rsp) {
                                         console.log(rsp);
                                         // 결제검증
@@ -548,7 +549,25 @@
 
                                 function order_forward(payCode, order_mi) {
 
+                                    let formData =
 
+                                    $.ajax({
+                                        type : "POST",
+                                        url : "/creatOrder",
+                                        data : formData,
+                                        success: function(data){
+                                            if(data == "Y"){
+                                                alert("주문이 완료되었습니다.");
+                                                location.href="/project/payCompli.do";
+                                            }else{
+                                                alert("주문 실패");
+                                            }
+                                        },
+                                        error: function(data){
+                                            alert("주문 에러 발생!");
+                                            console.log(data);
+                                        }
+                                    });
 
                                 }
 
