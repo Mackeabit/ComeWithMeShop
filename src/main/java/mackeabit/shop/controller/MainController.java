@@ -249,6 +249,7 @@ public class MainController {
 
         List<MainCartDTO> memberCart = cartService.findMemberCart(attribute.getMember_idx());
 
+        model.addAttribute("memberCart", memberCart);
 
 
         for (int i = 0; i < memberCart.size(); i++) {
@@ -300,6 +301,7 @@ public class MainController {
         }
 
         log.info("shipping = {}",checkOutDTO.getShipping_price());
+
 
         model.addAttribute("checkOutInfo", checkOutDTO);
         model.addAttribute("memberInfo", detailOne);

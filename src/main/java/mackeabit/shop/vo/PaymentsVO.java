@@ -8,5 +8,5 @@ import lombok.Setter;
 public class PaymentsVO {
 
     private Long pay_idx, order_idx, member_idx;
-    private Integer total_price, pay_status;
+    private Integer total_price, pay_status, pay_code;
 }

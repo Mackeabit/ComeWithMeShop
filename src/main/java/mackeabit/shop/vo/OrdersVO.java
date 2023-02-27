@@ -7,8 +7,7 @@ import lombok.Setter;
 @Setter
 public class OrdersVO {
 
-    private Long order_idx, member_idx, pd_idx, order_mi,
-            now_price;
-    private String address, order_date;
+    private Long order_idx, member_idx, pd_idx, now_price;
+    private String address, order_date, order_mi;
 
 }

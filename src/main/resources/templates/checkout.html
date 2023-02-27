@@ -413,7 +413,7 @@
 
                                 <li>
                                     <span>최종 결제 금액</span>
-                                    <span th:text="${#numbers.formatInteger(checkOutInfo.total_price, 3, 'COMMA')}+'원'">$59.90</span>
+                                    <span id="finTotalPrice" th:text="${#numbers.formatInteger(checkOutInfo.total_price, 3, 'COMMA')}+'원'">$59.90</span>
                                 </li>
                             </ul>
 
@@ -471,6 +471,7 @@
                             </div>-->
 
                             <a href="#" id="pay_input" class="btn karl-checkout-btn" onclick="requestPay()">Place Order</a>
+                            <input id="checkMemberCart" type="hidden" th:attr="value=${(memberCart == null) ? 0 : ''}" value="" >
 
                             <script th:inline="javascript">
 
@@ -549,7 +550,59 @@
 
                                 function order_forward(payCode, order_mi) {
 
-                                    let formData =
+                                    alert("payCode = " + payCode);
+                                    alert("order_mi = " + order_mi);
+
+                                    /* 장바구니 -> 결제 페이지
+                                    *  1. memberCart 가 null 이 아니면 동작
+                                    *  2. memberCart.cart_idx 를 통해 결제가 모두 완료되었을 경우 장바구니 삭제
+                                    *  */
+
+                                    let checkingForward = $('#checkMemberCart').val();
+
+                                    if (checkingForward != 0) {
+                                        //현재 페이지가 장바구니에서 넘어온 정보가 아닐 경우
+
+
+
+                                    }
+
+                                    if (checkingForward == 0) {
+                                        //현재 페이지가 장바구니에서 넘어온 정보일 경우
+
+
+
+
+                                    }
+
+                                    /* 주문서 작성
+                                    *  1. order_idx --> 자동증가
+                                    *  2. order_mi = order_mi
+                                    *  3. member_idx = session memberIdx 값
+                                    *  4. pd_idx = memberCart -> memberCart.pd_idx 로 조회
+                                    *  5. now_price = memberCart -> memberCart.sell_price 로 조회
+                                    *  6. address = address1 + address2
+                                    *  7. order_date = SQL 문에서 now() 로 작성
+                                    *  */
+
+                                    /* 결제 작성
+                                    *  1. pay_idx --> 자동증가
+                                    *  2. order_mi --> order_mi
+                                    *  3. member_idx --> session.memberIdx 값
+                                    *  4. total_price --> $('#finTotalPrice').val() 로 작성
+                                    *  5. pay_status --> -1 (결제완료)
+                                    *  6. pay_code --> 결제코드 payCode 받아와서 사용
+                                    * */
+
+
+
+                                    /* 상품 페이지 -> 주문양식 -> 결제 페이지
+                                    *
+                                    *
+                                    *  */
+
+
+                                    let formData = "";
 
                                     $.ajax({
                                         type : "POST",
