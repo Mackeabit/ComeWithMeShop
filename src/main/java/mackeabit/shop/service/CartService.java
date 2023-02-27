@@ -5,11 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.CartRepository;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.vo.CartsVO;
-import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +70,10 @@ public class CartService {
         }
 
         return data;
+    }
+
+    public int delAll(Long member_idx) {
+        return repository.delAll(member_idx);
     }
 }
 

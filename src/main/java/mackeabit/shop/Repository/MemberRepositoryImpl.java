@@ -67,4 +67,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.memberDetailOne(member_idx);
     }
 
+    @Override
+    public int insertDetails(MemberDetailVO memberDetailVO) {
+        return memberMapper.insertDetails(memberDetailVO);
+    }
+
+
 }

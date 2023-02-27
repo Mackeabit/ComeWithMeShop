@@ -17,6 +17,6 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public int saveAll(List<OrdersVO> createOrders) {
-        return orderMapper.save(createOrders);
+        return orderMapper.saveAll(createOrders);
     }
 }

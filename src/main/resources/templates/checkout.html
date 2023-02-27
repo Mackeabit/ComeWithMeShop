@@ -394,101 +394,82 @@
                                 </li>
                                 <li>
                                     <span>전체 가격</span>
-                                    <span th:text="${#numbers.formatInteger(checkOutInfo.pd_price, 3, 'COMMA')}+'원'">$59.90</span>
+                                    <span th:text="${#numbers.formatInteger(checkOutInfo.pd_price, 3, 'COMMA')}+'원'"></span>
                                 </li>
-                                <li th:if="${checkOutInfo.coupon_price != '0'}">
-                                    <span>쿠폰 할인</span>
-                                    <span th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 3, 'COMMA')}+'원'">-2,000원</span>
+                                <li th:if="${checkOutInfo.coupon_price != 0}">
+                                    <span th:if="${checkOutInfo.coupon_price != 0}">쿠폰 할인</span>
+                                    <span th:if="${checkOutInfo.coupon_price != 0}" th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 3, 'COMMA')}+'원'"></span>
                                 </li>
                                 <li>
                                     <span>배송료</span>
-                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'">Free</span>
+                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'"></span>
                                     <span th:if="${checkOutInfo.shipping_price == 'Free' or checkOutInfo.shipping_price == '0'}">Free</span>
                                 </li>
 
                                 <li>
                                     <span>회원 등급 할인</span>
-                                    <span th:text="${#numbers.formatInteger(checkOutInfo.grade_sale, 3, 'COMMA')}+'원'">$59.90</span>
+                                    <span th:if="${checkOutInfo.pd_price >= 1000}" th:text="${#numbers.formatInteger(checkOutInfo.grade_sale, 3, 'COMMA')}+'원'"></span>
+                                    <span th:if="${checkOutInfo.pd_price <= 1000}" th:text="${checkOutInfo.grade_sale}+'원'"></span>
                                 </li>
 
-                                <li>
+                                <li th:if="${checkOutInfo.total_price >= 1000}">
                                     <span>최종 결제 금액</span>
-                                    <span id="finTotalPrice" th:text="${#numbers.formatInteger(checkOutInfo.total_price, 3, 'COMMA')}+'원'">$59.90</span>
+                                    <span id="finTotalPrice" th:text="${#numbers.formatInteger(checkOutInfo.total_price, 3, 'COMMA')}+'원'"></span>
+                                </li>
+                                <li th:if="${checkOutInfo.total_price <= 1000}">
+                                    <span>최종 결제 금액</span>
+                                    <span id="finTotalPrice2" th:text="${checkOutInfo.total_price}+'원'"></span>
                                 </li>
                             </ul>
 
 
-<!--                            <div id="accordion" role="tablist" class="mb-4">
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingOne">
-                                        <h6 class="mb-0">
-                                            <a data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"><i class="fa fa-circle-o mr-3"></i>Paypal</a>
-                                        </h6>
-                                    </div>
-
-                                    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingTwo">
-                                        <h6 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-circle-o mr-3"></i>cash on delievery</a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis in veritatis officia inventore, tempore provident dignissimos.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingThree">
-                                        <h6 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-circle-o mr-3"></i>credit card</a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quo sint repudiandae suscipit ab soluta delectus voluptate, vero vitae</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingFour">
-                                        <h6 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour"><i class="fa fa-circle-o mr-3"></i>direct bank transfer</a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapseFour" class="collapse show" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est cum autem eveniet saepe fugit, impedit magni.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>-->
-
                             <a href="#" id="pay_input" class="btn karl-checkout-btn" onclick="requestPay()">Place Order</a>
                             <input id="checkMemberCart" type="hidden" th:attr="value=${(memberCart == null) ? 0 : ''}" value="" >
 
+                            <form id="cart_pd_form">
+                                <input type="hidden" id="order_mi" name="order_mi">
+                                <input type="hidden" id="pay_code" name="pay_code">
+                                <input type="hidden" id="ttPrice" name="total_price" th:value="${checkOutInfo.total_price}">
+                                <input type="hidden" id="ttAddress" name="address">
+                            </form>
+
+                            <form id="insertDetail">
+                                <input type="hidden" id="address1" name="address">
+                                <input type="hidden" id="address2" name="address_detail">
+                                <input type="hidden" id="postNumb" name="post_code">
+                            </form>
+
+
                             <script th:inline="javascript">
 
-                                let name = $('#last_name').val() + $('#first_name').val();
-                                let tel = $('#phone_number').val();
+                                let name;
+                                let tel;
 
                                 /*<![CDATA[*/
 
-                                let address1 = $('#street_address').val();
-                                let address2 = $('#street_address2').val();
-                                let postcode = $('#postcode').val();
+                                let address1;
+                                let address2;
+                                let postcode;
+
 
                                 /* IMPORT 결제 API */
                                 const IMP = window.IMP; // 생략 가능
                                 IMP.init('imp59352402'); // 예: imp00000000
 
                                 function requestPay() {
+
+                                    name = $('#last_name').val() + $('#first_name').val();
+                                    tel = $('#phone_number').val();
+                                    address1 = $('#street_address').val();
+                                    address2 = $('#street_address2').val();
+                                    postcode  = $('#postcode').val();
+
+                                    alert(name);
+                                    alert(tel);
+                                    alert(address1);
+                                    alert(address2);
+
+
 
                                     IMP.request_pay({
                                         pg: "kakao",
@@ -502,6 +483,7 @@
                                         buyer_addr: address1+address2,
                                         buyer_postcode: postcode
                                     },function(rsp) {
+
                                         console.log(rsp);
                                         // 결제검증
                                         $.ajax({
@@ -509,6 +491,7 @@
                                             url : "/verifyIamport/" + rsp.imp_uid
                                         }).done(function(data) {
 
+                                            alert(data);
                                             console.log(data);
 
                                             // 위의 rsp.paid_amount 와 data.response.amount를 비교한후 로직 실행 (import 서버검증)
@@ -517,6 +500,16 @@
 
                                                 let payCode = rsp.imp_uid;
                                                 let order_mi = rsp.merchant_uid;
+
+                                                //formData 셋팅(결제)
+                                                $('#order_mi').val(order_mi);
+                                                $('#pay_code').val(payCode);
+                                                $('#ttAddress').val(address1 + address2);
+
+                                                //formData 셋팅(회원 주소)
+                                                $('#address1').val(address1);
+                                                $('#address2').val(address2);
+                                                $('#postNumb').val(postcode);
 
                                                 order_forward(payCode, order_mi);
 
@@ -527,26 +520,6 @@
                                     });
                                 }
                                 /*]]>*/
-
-/*                                function (rsp) { // callback
-                                    if (rsp.success) {
-                                        // 결제 성공 시 로직
-                                        let msg = '결제가 완료되었습니다.';
-                                        msg += '고유ID : ' + rsp.imp_uid; //결제번호
-                                        msg += '상점 거래ID : ' + rsp.merchant_uid; //가맹점 아이디
-                                        msg += '결제 금액 : ' + rsp.paid_amount; // 결제 금액
-
-                                        let payCode = rsp.imp_uid;
-                                        let order_mi = rsp.merchant_uid;
-
-                                        order_forward(payCode, order_mi);
-
-                                    } else {
-                                        // 결제 실패 시 로직
-                                        let msg = '결제에 실패하였습니다.';
-                                        msg += '에러내용 : ' + rsp.error_msg;
-                                    }
-                                });*/
 
                                 function order_forward(payCode, order_mi) {
 
@@ -569,58 +542,67 @@
 
                                     if (checkingForward == 0) {
                                         //현재 페이지가 장바구니에서 넘어온 정보일 경우
+                                        /*
+                                        String order_mi,
+                                        String pay_code,
+                                        String address,
+                                        Integer total_price
+                                        */
 
 
 
+                                        let response = confirm("기본 주소지로 등록하시겠습니까?");
+                                        if (response) {
 
-                                    }
+                                            let detailForm = $('#insertDetail').serialize();
+                                            alert(detailForm);
 
-                                    /* 주문서 작성
-                                    *  1. order_idx --> 자동증가
-                                    *  2. order_mi = order_mi
-                                    *  3. member_idx = session memberIdx 값
-                                    *  4. pd_idx = memberCart -> memberCart.pd_idx 로 조회
-                                    *  5. now_price = memberCart -> memberCart.sell_price 로 조회
-                                    *  6. address = address1 + address2
-                                    *  7. order_date = SQL 문에서 now() 로 작성
-                                    *  */
-
-                                    /* 결제 작성
-                                    *  1. pay_idx --> 자동증가
-                                    *  2. order_mi --> order_mi
-                                    *  3. member_idx --> session.memberIdx 값
-                                    *  4. total_price --> $('#finTotalPrice').val() 로 작성
-                                    *  5. pay_status --> -1 (결제완료)
-                                    *  6. pay_code --> 결제코드 payCode 받아와서 사용
-                                    * */
-
-
-
-                                    /* 상품 페이지 -> 주문양식 -> 결제 페이지
-                                    *
-                                    *
-                                    *  */
+                                            //OK버튼
+                                            $.ajax({
+                                                type : "POST",
+                                                url : "/addressInsert",
+                                                data : detailForm,
+                                                success: function(data){
+                                                    if(data == "Y"){
+                                                        alert("정상적으로 등록되었습니다.");
+                                                    }else{
+                                                        alert("등록 실패");
+                                                    }
+                                                },
+                                                error: function(data){
+                                                    alert("등록 에러 발생!");
+                                                    console.log(data);
+                                                }
+                                            });//response ajax
+                                        }//response if
 
 
-                                    let formData = "";
+                                        let formData = $('#cart_pd_form').serialize();
 
-                                    $.ajax({
-                                        type : "POST",
-                                        url : "/creatOrder",
-                                        data : formData,
-                                        success: function(data){
-                                            if(data == "Y"){
-                                                alert("주문이 완료되었습니다.");
-                                                location.href="/project/payCompli.do";
-                                            }else{
-                                                alert("주문 실패");
+                                        alert(formData);
+
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "/payAndOrderCart",
+                                            data : formData,
+                                            success: function(data){
+                                                if(data == "Y"){
+                                                    alert("주문이 완료되었습니다.");
+                                                    location.href="/";
+                                                }else{
+                                                    alert("주문 실패");
+                                                }
+                                            },
+                                            error: function(data){
+                                                alert("주문 에러 발생!");
+                                                console.log(data);
                                             }
-                                        },
-                                        error: function(data){
-                                            alert("주문 에러 발생!");
-                                            console.log(data);
-                                        }
-                                    });
+                                        });//cart_ajax
+
+                                    }//cart_if
+
+
+
 
                                 }
 

@@ -3,11 +3,13 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.OrderRepository;
+import mackeabit.shop.Repository.PayRepository;
 import mackeabit.shop.Repository.SubRepositoryImpl;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.OrdersVO;
+import mackeabit.shop.vo.PaymentsVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,23 +31,24 @@ import java.util.Map;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final PayRepository payRepository;
     private final HttpServletRequest request;
     private final CartService cartService;
 
     @Transactional
-    public String saveAll(String order_mi, String pay_code, String address, Long total_price) {
+    public String saveAll(String order_mi, String pay_code, String address, Integer total_price) {
 
-        String data = "Y";
+        String data = "RollbackCheck";
 
-        //주문서 작성과 결제 작성 해주는 로직 메서드
-        orderAndPayMethod(order_mi, pay_code, address, total_price);
+        //주문서 작성, 결제 작성, 장바구니 비우기 로직 메서드
+        data = orderAndPayMethod(order_mi, pay_code, address, total_price);
 
-        data = rollbackCatch();
+//        data = rollbackCatch();
 
         return data;
     }
 
-    private String rollbackCatch() {
+/*    private String rollbackCatch() {
         String data = "";
 
         TransactionSynchronizationManager.registerSynchronization(
@@ -58,10 +62,11 @@ public class OrderService {
                 });
 
         return data;
-    }
+    }*/
 
-    private void orderAndPayMethod(String order_mi, String pay_code, String address, Long total_price) {
+    private String orderAndPayMethod(String order_mi, String pay_code, String address, Integer total_price) {
 
+        String data = "";
 
         /* 주문서 작성
          *  1. order_idx --> 자동증가
@@ -118,13 +123,38 @@ public class OrderService {
         //5. Insert 갯수와 List size 를 비교해서 검증, 주문서 작성 완료
         if (res == createOrders.size()) {
 
-            log.error("payAndOrderCart Method Insert Error -> Insert = {}, Success = {}", res, createOrders.size());
+            log.error("payAndOrderCart Method Orders Insert Error -> Insert = {}, Success = {}", createOrders.size(), res);
 
         }
 
-        /* 결제 작성 */
+        /* 결제 작성 (무조건 1개, order_mi 를 기준으로 INSERT) */
+        PaymentsVO paymentsVO = new PaymentsVO();
+        paymentsVO.setMember_idx(member_idx);
+        paymentsVO.setOrder_mi(order_mi);
+        paymentsVO.setPay_code(pay_code);
+        paymentsVO.setTotal_price(total_price);
 
+        int payRes = payRepository.save(paymentsVO);
 
+        if (payRes > 0) {
+            //INSERT 확인
+            log.info("payAndOrderCart Method Payments Insert Success -> Insert = {}", payRes);
 
+            //결제 INSERT 정상이면, 장바구니 비우기
+            int delCnt = cartService.delAll(member_idx);
+
+            if (delCnt != memberCart.size()) {
+                log.error("payAndOrderCart Method Cart Del Error -> del = {}, DelSuccess = {}", createOrders.size(), delCnt);
+            }
+
+            data = "Y";
+
+        }
+        return data;
     }
+
+
+
+
+
 }

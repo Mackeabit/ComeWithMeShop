@@ -7,8 +7,11 @@ import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +27,7 @@ public class MemberService {
 //    }
 
     private final MemberRepository repository;
+    private final HttpServletRequest request;
 
     private final SHA256 sha256;
 
@@ -104,5 +108,23 @@ public class MemberService {
 
     public MemberDetailVO memberDetailOne(Long member_idx) {
         return repository.memberDetailOne(member_idx);
+    }
+
+
+    public String insertDetails(MemberDetailVO memberDetailVO) {
+        String data = "N";
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        memberDetailVO.setMember_idx(attribute.getMember_idx());
+
+        int res = repository.insertDetails(memberDetailVO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
     }
 }

@@ -271,7 +271,8 @@ public class MainController {
         int sales = calculateGrade(attribute.getGrade_code(), beforePrice);
 
         //모든 할인 적용한 결재 금액
-        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - 2000 - sales;
+        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - sales;
+//        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - 쿠폰 - sales;
 
         /**
          *  차례대로
@@ -284,7 +285,8 @@ public class MainController {
          */
         checkOutDTO.setTitle(title);
         checkOutDTO.setPd_price(beforePrice);
-        checkOutDTO.setCoupon_price(-2000);
+        checkOutDTO.setCoupon_price(0);
+//        checkOutDTO.setCoupon_price(-2000);
         checkOutDTO.setGrade_sale(-sales);
         checkOutDTO.setTotal_price(totalPrice);
 

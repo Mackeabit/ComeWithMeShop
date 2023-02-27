@@ -22,4 +22,6 @@ public interface MemberRepository {
     int changeEmailCheck(Long member_idx);
 
     MemberDetailVO memberDetailOne(Long member_idx);
+
+    int insertDetails(MemberDetailVO memberDetailVO);
 }

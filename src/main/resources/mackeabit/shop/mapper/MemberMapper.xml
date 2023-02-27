@@ -28,4 +28,8 @@
         UPDATE Members set email_ck = 0 where member_idx = #{member_idx}
     </update>
 
+    <insert id="insertDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
+        insert into Members_detail values (#{member_idx}, #{post_code}, #{address}, #{address_detail})
+    </insert>
+
 </mapper>

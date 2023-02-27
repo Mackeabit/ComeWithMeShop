@@ -3,7 +3,9 @@ package mackeabit.shop.controller;
 import lombok.RequiredArgsConstructor;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.MemberService;
+import mackeabit.shop.vo.MemberDetailVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,11 +40,18 @@ public class MemberController {
         }
 
         /*
-        *  쿠폰 조회 후, 할인 가격 String data 로 받아오는 로직 만들 것
-        * */
+         *  쿠폰 조회 후, 할인 가격 String data 로 받아오는 로직 만들 것
+         * */
 
         data = "2000";
 
         return data;
+    }
+
+
+    @PostMapping("/addressInsert")
+    @ResponseBody
+    public String addressInsert(MemberDetailVO memberDetailVO) {
+        return memberService.insertDetails(memberDetailVO);
     }
 }
