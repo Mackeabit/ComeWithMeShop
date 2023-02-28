@@ -32,7 +32,7 @@ public class PayController {
     private final HttpServletRequest request;
     private final OrderService orderService;
 
-    @RequestMapping("/payAndOrderCart")
+/*    @RequestMapping("/payAndOrderCart")
     @ResponseBody
     public String payAndOrderCart(String order_mi, String pay_code, String address, Integer total_price) {
 
@@ -41,7 +41,7 @@ public class PayController {
         data = orderService.saveAll(order_mi, pay_code, address, total_price);
 
         return data;
-    }
+    }*/
 
 
 
@@ -88,17 +88,26 @@ public class PayController {
 
             // 스크립트 계산 금액과 DB 실제 금액이 다를 때
             if (totalDBPrice != amount) {
+                log.info("totalDBPrice != amount --> {}, {}",totalDBPrice, amount);
                 paymentService.payMentCancle(token, orderInfo.getImpUid(), amount, "결제 금액 오류");
                 return new ResponseEntity<String>("결제 금액 오류, 결제 취소", HttpStatus.BAD_REQUEST);
             }
 
-            // 정상 결제일 경우
-/*
-            orderService.order(cartList, orderInfo, user);
-            session.removeAttribute("cartList");
-*/
+            // 정상 결제일 경우 트랜잭션 로직 실행
+            String data = "N";
 
-            return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
+            if (orderInfo.getPd_idx() == null) {
+                log.info("pd_idx = {}", orderInfo.getPd_idx());
+                data = orderService.saveAll(orderInfo.getOrder_mi(), orderInfo.getPay_code(), orderInfo.getAddress(), orderInfo.getAddress_detail(),orderInfo.getTotal_price());
+            } else if (orderInfo.getPd_idx() != null) {
+                data = "Not Yet";
+            }
+
+            if (data.equals("Y")) {
+                log.info("data = {}", data);
+                session.removeAttribute(SessionConst.MEMBER_CART);
+                return new ResponseEntity<>("주문이 완료되었습니다", HttpStatus.OK);
+            }
 
         } catch (Exception e) {
             paymentService.payMentCancle(token, orderInfo.getImpUid(), amount, "결제 에러");
@@ -106,8 +115,9 @@ public class PayController {
         }
 
 
+        log.info("The End of completeOrders Method");
 
-//        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //등급별 할인 메서드

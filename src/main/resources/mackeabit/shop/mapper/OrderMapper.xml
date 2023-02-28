@@ -9,9 +9,9 @@
     </insert>
 
     <insert id="saveAll" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="order_idx">
-        insert into orders values (order_mi, member_idx, total_price, pay_status, pay_code)
+        insert into orders (order_mi, member_idx, pd_idx, now_price, address, address_detail, order_date) values
         <foreach collection="list" item="item" separator=",">
-            (#{order_mi}, #{member_idx}, #{pd_idx}, #{now_price}, #{address}, now())
+            (#{item.order_mi}, #{item.member_idx}, #{item.pd_idx}, #{item.now_price}, #{item.address}, #{item.address_detail}, now())
         </foreach>
     </insert>
 

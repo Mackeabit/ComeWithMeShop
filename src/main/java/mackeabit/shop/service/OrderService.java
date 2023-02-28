@@ -36,14 +36,17 @@ public class OrderService {
     private final CartService cartService;
 
     @Transactional
-    public String saveAll(String order_mi, String pay_code, String address, Integer total_price) {
+    public String saveAll(String order_mi, String pay_code, String address, String address_detail, Integer total_price) {
 
         String data = "RollbackCheck";
 
+        log.info("Enter saveAll");
+
         //주문서 작성, 결제 작성, 장바구니 비우기 로직 메서드
-        data = orderAndPayMethod(order_mi, pay_code, address, total_price);
+        data = orderAndPayMethod(order_mi, pay_code, address, address_detail, total_price);
 
 //        data = rollbackCatch();
+        log.info("out saveAll date is = {}", data);
 
         return data;
     }
@@ -64,7 +67,9 @@ public class OrderService {
         return data;
     }*/
 
-    private String orderAndPayMethod(String order_mi, String pay_code, String address, Integer total_price) {
+    private String orderAndPayMethod(String order_mi, String pay_code, String address, String address_detail, Integer total_price) {
+
+        log.info("Enter orderAndPayMethod");
 
         String data = "";
 
@@ -89,6 +94,7 @@ public class OrderService {
 
 
         /* 주문서 작성 */
+        log.info("주문서 작성 시작");
         //1. 현재 유저 정보를 얻어온다.
         HttpSession session = request.getSession(false);
         MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
@@ -98,27 +104,34 @@ public class OrderService {
         List<MainCartDTO> memberCart = cartService.findMemberCart(member_idx);
 
         //3. INSERT 객체 준비(주문서)
+        /* order_idx (자동증가), order_mi, member_idx, pd_idx, now_price, address, address_detail, order_date */
+
+
 
         List<OrdersVO> createOrders = new ArrayList<>();
 
-        OrdersVO ordersVO = new OrdersVO();
-        ordersVO.setOrder_mi(order_mi);
-        ordersVO.setMember_idx(member_idx);
-        ordersVO.setAddress(address);
-        ordersVO.setNow_price(total_price);
-
         for (int i = 0; i < memberCart.size(); i++) {
 
-            //OrdersVO 에 값 셋팅하기(재사용)
+            OrdersVO ordersVO = new OrdersVO();
+            ordersVO.setOrder_mi(order_mi);
+            ordersVO.setMember_idx(member_idx);
+            ordersVO.setAddress(address);
+            ordersVO.setAddress_detail(address_detail);
             ordersVO.setPd_idx(memberCart.get(i).getPd_idx());
+            ordersVO.setNow_price(memberCart.get(i).getSell_price());
 
             //List 삽입
             createOrders.add(ordersVO);
+
+            log.info("pd_idx = {}",memberCart.get(i).getPd_idx());
+            log.info("List = {}", createOrders.get(i));
 
         }
 
         //4. 준비된 List 를 통해 INSERT 진행
         int res = orderRepository.saveAll(createOrders);
+        log.info("주문서 저장한 res = {}", res);
+        log.info("createOrders.size()", createOrders.size());
 
         //5. Insert 갯수와 List size 를 비교해서 검증, 주문서 작성 완료
         if (res == createOrders.size()) {
@@ -127,16 +140,22 @@ public class OrderService {
 
         }
 
-        /* 결제 작성 (무조건 1개, order_mi 를 기준으로 INSERT) */
+        /* 결제 작성 (무조건 한번만 작성, order_mi 를 기준으로 INSERT) */
+        /* pay_idx (자동증가), order_mi, member_idx, total_price, pay_status, pay_code */
+        log.info("결제 작성 시작");
         PaymentsVO paymentsVO = new PaymentsVO();
-        paymentsVO.setMember_idx(member_idx);
         paymentsVO.setOrder_mi(order_mi);
-        paymentsVO.setPay_code(pay_code);
+        paymentsVO.setMember_idx(member_idx);
         paymentsVO.setTotal_price(total_price);
+        paymentsVO.setPay_code(pay_code);
 
         int payRes = payRepository.save(paymentsVO);
 
+        log.info("결제 작성 res = {}", payRes);
+
+
         if (payRes > 0) {
+            log.info("payRes > 0 = {}", payRes);
             //INSERT 확인
             log.info("payAndOrderCart Method Payments Insert Success -> Insert = {}", payRes);
 
@@ -144,12 +163,19 @@ public class OrderService {
             int delCnt = cartService.delAll(member_idx);
 
             if (delCnt != memberCart.size()) {
+                log.info("if delCnt = {}", delCnt);
                 log.error("payAndOrderCart Method Cart Del Error -> del = {}, DelSuccess = {}", createOrders.size(), delCnt);
             }
+
+            log.info("delCnt = {}", delCnt);
 
             data = "Y";
 
         }
+
+        log.info("Last payRes = {}", payRes);
+
+
         return data;
     }
 

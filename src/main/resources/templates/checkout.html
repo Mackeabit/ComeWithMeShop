@@ -427,6 +427,7 @@
 
                             <a href="#" id="pay_input" class="btn karl-checkout-btn" onclick="requestPay()">Place Order</a>
                             <input id="checkMemberCart" type="hidden" th:attr="value=${(memberCart == null) ? 0 : ''}" value="" >
+                            <input id="checkAddress" type="hidden" th:attr="value=${(memberInfo.address == null) ? 0 : ''}" value="" >
 
                             <form id="cart_pd_form">
                                 <input type="hidden" id="order_mi" name="order_mi">
@@ -503,15 +504,13 @@
                                             infoJson.impUid = rsp.imp_uid;
                                             infoJson.merchant_uid = rsp.merchant_uid;
 
-                                            alert(" 단순 결제 성공 ");
-
                                             let payCode = rsp.imp_uid;
                                             let order_mi = rsp.merchant_uid;
 
                                             //formData 셋팅(결제)
                                             $('#order_mi').val(order_mi);
                                             $('#pay_code').val(payCode);
-                                            $('#ttAddress').val(address1 + address2);
+                                            $('#ttAddress').val(address1 + ' / ' + address2);
 
                                             //formData 셋팅(회원 주소)
                                             $('#address1').val(address1);
@@ -523,11 +522,8 @@
                                             alert("rsp.imp_uid = " + rsp.imp_uid);
                                             alert("rsp.merchant_uid = " + rsp.merchant_uid);
 
-
+                                            //검증 및 검증 성공시 로직 처리
                                             paymentComplete(infoJson, payCode, order_mi);
-
-
-
 
                                         } else {
                                             //단순 결제 실패
@@ -552,15 +548,7 @@
                                                 let payCode = rsp.imp_uid;
                                                 let order_mi = rsp.merchant_uid;
 
-                                                //formData 셋팅(결제)
-                                                $('#order_mi').val(order_mi);
-                                                $('#pay_code').val(payCode);
-                                                $('#ttAddress').val(address1 + address2);
 
-                                                //formData 셋팅(회원 주소)
-                                                $('#address1').val(address1);
-                                                $('#address2').val(address2);
-                                                $('#postNumb').val(postcode);
 
                                                 order_forward(payCode, order_mi);
 
@@ -575,67 +563,38 @@
 
                                 function paymentComplete(infoJson, payCode, order_mi) {
 
-                                    alert("new 검증");
+                                    let checkingAddress = $('#checkAddress').val();
 
 
-                                    alert("payCode = " + payCode);
-                                    alert("order_mi = " + order_mi);
-                                    alert("data = " + infoJson);
+                                    //주소지 등록 여부 ajax
+                                    if (checkingAddress == 0) {
 
+                                        let response = confirm("기본 주소지로 등록하시겠습니까?");
+                                        if (response) {
 
-/*                                    let response = confirm("기본 주소지로 등록하시겠습니까?");
-                                    if (response) {
+                                            let detailForm = $('#insertDetail').serialize();
+                                            alert(detailForm);
 
-                                        let detailForm = $('#insertDetail').serialize();
-                                        alert(detailForm);
-
-                                        //OK버튼
-                                        $.ajax({
-                                            type : "POST",
-                                            url : "/addressInsert",
-                                            data : detailForm,
-                                            success: function(data){
-                                                if(data == "Y"){
-                                                    alert("정상적으로 등록되었습니다.");
-                                                }else{
-                                                    alert("등록 실패");
+                                            //OK버튼
+                                            $.ajax({
+                                                type : "POST",
+                                                url : "/addressInsert",
+                                                data : detailForm,
+                                                success: function(data){
+                                                    if(data == "Y"){
+                                                        alert("정상적으로 등록되었습니다.");
+                                                    }else{
+                                                        alert("등록 실패");
+                                                    }
+                                                },
+                                                error: function(data){
+                                                    alert("등록 에러 발생!");
+                                                    console.log(data);
                                                 }
-                                            },
-                                            error: function(data){
-                                                alert("등록 에러 발생!");
-                                                console.log(data);
-                                            }
-                                        });//response ajax
-                                    }//response if*/
+                                            });//response ajax
+                                        }//response if
 
-
-
-
-                                    $.ajax({
-                                        url   : "/completeOrders",
-                                        method: "POST",
-                                        data  : infoJson,
-                                    })
-                                    .done(function (result) {
-                                        // messageSend();
-                                        //검증에 성공하면 DB 저장
-                                        // order_forward(payCode, order_mi);
-                                        swal({
-                                            text: result,
-                                            closeOnClickOutside: false
-                                        })
-                                        .then(function (){
-                                                location.replace("/");
-                                            })
-                                    })//done
-                                    .fail(function (){
-                                            alert("결제 금액 오류로 인해 결제가 취소 되었습니다.");
-                                            location.replace("/");
-                                        })
-
-                                }
-
-                                function order_forward(payCode, order_mi) {
+                                    }//주소지 등록여부 판단 if
 
 
 
@@ -649,20 +608,38 @@
                                     if (checkingForward != 0) {
                                         //현재 페이지가 장바구니에서 넘어온 정보가 아닐 경우
 
-
-
                                     }
 
                                     if (checkingForward == 0) {
                                         //현재 페이지가 장바구니에서 넘어온 정보일 경우
                                         /*
-                                        String order_mi,
-                                        String pay_code,
-                                        String address,
-                                        Integer total_price
+                            <form id="cart_pd_form">
+                                <input type="hidden" id="order_mi" name="order_mi">
+                                <input type="hidden" id="pay_code" name="pay_code">
+                                <input type="hidden" id="ttPrice" name="total_price" th:value="${checkOutInfo.total_price}">
+                                <input type="hidden" id="ttAddress" name="address">
+                            </form>
+
                                         */
 
+/*                                      merchant_uid: 'merchant_' + new Date().getTime(),
+                                        name : /!*[[${checkOutInfo.title}]]*!/,
+                                        amount : /!*[[${checkOutInfo.total_price}]]*!/,
+                                        buyer_email : /!*[[${session.loginMember.email}]]*!/,
+                                        buyer_name: name,
+                                        buyer_addr1: address1,
+                                        buyer_addr2: address2,
+                                        shipping_price:/!*[[${checkOutInfo.shipping_price}]]*!/,
+                                        buyer_tel: tel,
+                                        buyer_postcode: postcode*/
 
+                                        //값 추가
+                                        infoJson.order_mi = $('#order_mi').val();
+                                        infoJson.pay_code = $('#pay_code').val();
+                                        infoJson.total_price = $('#ttPrice').val();
+                                        infoJson.address = $('#address1').val();
+                                        infoJson.address_detail = $('#address2').val();
+/*
 
 
 
@@ -688,10 +665,37 @@
                                             }
                                         });//cart_ajax
 
-                                    }//cart_if
+                                    }//cart_if*/
 
 
 
+
+                                    //검증 및 성공 로직처리 ajax
+                                    $.ajax({
+                                        url   : "/completeOrders",
+                                        method: "POST",
+                                        data  : infoJson,
+                                    })
+                                    .done(function (result) {
+/*
+                                        //검증에 성공하면 DB 저장 -> /completeOrders 안에 넣어둠
+                                        order_forward(payCode, order_mi);*/
+
+                                        //결제 성공 알림 메세지 및 메인페이지로 이동
+                                        swal({
+                                            text: result,
+                                            closeOnClickOutside: false
+                                        })
+                                        .then(function (){
+                                                location.replace("/");
+                                            })
+                                    })//done
+                                    .fail(function (){
+                                            alert("결제 금액 오류로 인해 결제가 취소 되었습니다.");
+                                            // location.replace("/");
+                                        })
+
+                                }
 
                                 }
 

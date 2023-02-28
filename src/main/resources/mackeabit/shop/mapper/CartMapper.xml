@@ -25,9 +25,9 @@
         DELETE FROM cart WHERE cart_idx = #{cart_idx}
     </select>
 
-    <select id="delAll" parameterType="Long" resultType="int">
-        DELETE * FROM cart WHERE member_idx = #{member_idx}
-    </select>
+    <delete id="delAll" parameterType="Long">
+        DELETE FROM cart WHERE member_idx = #{member_idx}
+    </delete>
 
     <update id="updateCart" parameterType="map">
         <if test="cart_cnt == 1">
