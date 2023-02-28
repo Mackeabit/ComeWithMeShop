@@ -244,7 +244,7 @@ public class MainController {
         }
 
         //2. 장바구니에서 결제를 눌렀을 때,
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         List<MainCartDTO> memberCart = cartService.findMemberCart(attribute.getMember_idx());

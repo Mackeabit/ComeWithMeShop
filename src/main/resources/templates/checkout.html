@@ -21,6 +21,8 @@
     <!-- Responsive CSS -->
     <link href="css/responsive.css" rel="stylesheet">
 
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -442,11 +444,12 @@
 
                             <script th:inline="javascript">
 
-                                let name;
-                                let tel;
+
 
                                 /*<![CDATA[*/
 
+                                let name;
+                                let tel;
                                 let address1;
                                 let address2;
                                 let postcode;
@@ -469,21 +472,69 @@
                                     alert(address1);
                                     alert(address2);
 
+                                    let infoJson ={
+                                        merchant_uid: 'merchant_' + new Date().getTime(),
+                                        name : /*[[${checkOutInfo.title}]]*/,
+                                        amount : /*[[${checkOutInfo.total_price}]]*/,
+                                        buyer_email : /*[[${session.loginMember.email}]]*/,
+                                        buyer_name: name,
+                                        buyer_addr1: address1,
+                                        buyer_addr2: address2,
+                                        shipping_price:/*[[${checkOutInfo.shipping_price}]]*/,
+                                        buyer_tel: tel,
+                                        buyer_postcode: postcode
+                                    }
 
 
                                     IMP.request_pay({
                                         pg: "kakao",
                                         pay_method: "card",
-                                        merchant_uid: 'merchant_' + new Date().getTime(),   // 주문번호
-                                        name: /*[[${checkOutInfo.title}]]*/,
-                                        amount: /*[[${checkOutInfo.total_price}]]*/,                         // 숫자 타입
-                                        buyer_email: /*[[${session.loginMember.email}]]*/,
-                                        buyer_name: name,
-                                        buyer_tel: tel,
-                                        buyer_addr: address1+address2,
-                                        buyer_postcode: postcode
+                                        merchant_uid: 'merchant_' + new Date().getTime(),
+                                        name: infoJson.name,
+                                        amount: infoJson.amount,
+                                        buyer_email: infoJson.buyer_email,
+                                        buyer_name: infoJson.buyer_name,
+                                        buyer_tel: infoJson.buyer_tel,
+                                        buyer_addr: infoJson.buyer_addr1 + infoJson.buyer_addr2,
+                                        buyer_postcode: infoJson.buyer_postcode
                                     },function(rsp) {
+                                        if(rsp.success) {
+                                            //단순 결제 성공
+                                            infoJson.impUid = rsp.imp_uid;
+                                            infoJson.merchant_uid = rsp.merchant_uid;
 
+                                            alert(" 단순 결제 성공 ");
+
+                                            let payCode = rsp.imp_uid;
+                                            let order_mi = rsp.merchant_uid;
+
+                                            //formData 셋팅(결제)
+                                            $('#order_mi').val(order_mi);
+                                            $('#pay_code').val(payCode);
+                                            $('#ttAddress').val(address1 + address2);
+
+                                            //formData 셋팅(회원 주소)
+                                            $('#address1').val(address1);
+                                            $('#address2').val(address2);
+                                            $('#postNumb').val(postcode);
+
+
+                                            alert("data = " + infoJson.buyer_addr2);
+                                            alert("rsp.imp_uid = " + rsp.imp_uid);
+                                            alert("rsp.merchant_uid = " + rsp.merchant_uid);
+
+
+                                            paymentComplete(infoJson, payCode, order_mi);
+
+
+
+
+                                        } else {
+                                            //단순 결제 실패
+                                            alert("결제에 실패하였습니다. 잠시 후 다시 시도해주세요.");
+
+                                        }
+/*
                                         console.log(rsp);
                                         // 결제검증
                                         $.ajax({
@@ -515,16 +566,78 @@
 
                                             } else {
                                                 alert("결제 실패");
+                                                rsp.status(400).send();
                                             }
-                                        });
+                                        });*/
                                     });
                                 }
                                 /*]]>*/
 
-                                function order_forward(payCode, order_mi) {
+                                function paymentComplete(infoJson, payCode, order_mi) {
+
+                                    alert("new 검증");
+
 
                                     alert("payCode = " + payCode);
                                     alert("order_mi = " + order_mi);
+                                    alert("data = " + infoJson);
+
+
+/*                                    let response = confirm("기본 주소지로 등록하시겠습니까?");
+                                    if (response) {
+
+                                        let detailForm = $('#insertDetail').serialize();
+                                        alert(detailForm);
+
+                                        //OK버튼
+                                        $.ajax({
+                                            type : "POST",
+                                            url : "/addressInsert",
+                                            data : detailForm,
+                                            success: function(data){
+                                                if(data == "Y"){
+                                                    alert("정상적으로 등록되었습니다.");
+                                                }else{
+                                                    alert("등록 실패");
+                                                }
+                                            },
+                                            error: function(data){
+                                                alert("등록 에러 발생!");
+                                                console.log(data);
+                                            }
+                                        });//response ajax
+                                    }//response if*/
+
+
+
+
+                                    $.ajax({
+                                        url   : "/completeOrders",
+                                        method: "POST",
+                                        data  : infoJson,
+                                    })
+                                    .done(function (result) {
+                                        // messageSend();
+                                        //검증에 성공하면 DB 저장
+                                        // order_forward(payCode, order_mi);
+                                        swal({
+                                            text: result,
+                                            closeOnClickOutside: false
+                                        })
+                                        .then(function (){
+                                                location.replace("/");
+                                            })
+                                    })//done
+                                    .fail(function (){
+                                            alert("결제 금액 오류로 인해 결제가 취소 되었습니다.");
+                                            location.replace("/");
+                                        })
+
+                                }
+
+                                function order_forward(payCode, order_mi) {
+
+
 
                                     /* 장바구니 -> 결제 페이지
                                     *  1. memberCart 가 null 이 아니면 동작
@@ -551,30 +664,6 @@
 
 
 
-                                        let response = confirm("기본 주소지로 등록하시겠습니까?");
-                                        if (response) {
-
-                                            let detailForm = $('#insertDetail').serialize();
-                                            alert(detailForm);
-
-                                            //OK버튼
-                                            $.ajax({
-                                                type : "POST",
-                                                url : "/addressInsert",
-                                                data : detailForm,
-                                                success: function(data){
-                                                    if(data == "Y"){
-                                                        alert("정상적으로 등록되었습니다.");
-                                                    }else{
-                                                        alert("등록 실패");
-                                                    }
-                                                },
-                                                error: function(data){
-                                                    alert("등록 에러 발생!");
-                                                    console.log(data);
-                                                }
-                                            });//response ajax
-                                        }//response if
 
 
                                         let formData = $('#cart_pd_form').serialize();
