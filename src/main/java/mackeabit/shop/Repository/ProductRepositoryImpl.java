@@ -88,5 +88,15 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productMapper.countCategoryProducts(params);
     }
 
+    @Override
+    public List<MainProductsDTO> topCategoryProducts(Map<String, Object> params) {
+        return productMapper.topCategoryProducts(params);
+    }
+
+    @Override
+    public int topCountCategoryProducts(Map<String, Object> params) {
+        return productMapper.topCountCategoryProducts(params);
+    }
+
 
 }

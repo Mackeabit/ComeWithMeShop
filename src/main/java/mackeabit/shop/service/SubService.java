@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.SubRepositoryImpl;
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import org.springframework.stereotype.Service;
 
@@ -46,5 +47,10 @@ public class SubService {
 
     public int countMainPageProducts() {
         return subRepository.countMainPageProducts();
+    }
+
+    public CategorysVO findCategories(int category_code) {
+        CategorysVO categorysVO = subRepository.findCategories(category_code);
+        return categorysVO;
     }
 }

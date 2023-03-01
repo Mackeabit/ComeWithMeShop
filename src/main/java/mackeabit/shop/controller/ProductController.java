@@ -8,10 +8,12 @@ import mackeabit.shop.dto.SgPdDTO;
 import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
+import mackeabit.shop.vo.CategorysVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -146,6 +148,8 @@ public class ProductController {
     public String product_detail(@PathVariable String  pd_nm, Model model) {
         log.info("pd_nm = {}", pd_nm);
 
+//        productService.findByPd_nm(pd_nm);
+
 
 
         return "product-details";
@@ -155,26 +159,65 @@ public class ProductController {
     @GetMapping("/category/{category_code}")
     public String category_products(@PathVariable int category_code, Model model, @RequestParam(defaultValue = "1") int page) {
 
-        log.info("category_code = {}", category_code);
-
         // 페이징 정보
         int startIndex = (page - 1) * PAGE_SIZE;
 
-        // 현재 페이지와 한번에 표시할 제품 수량
-        //pd_kind -> 0:남자, 1:여자, 2:남녀
-        log.info("category method = {}", category_code);
-
+        // Query 정보를 담을 Map
         Map<String, Object> params = new HashMap<>();
-        params.put("pageSize", PAGE_SIZE);
-        params.put("startIndex", startIndex);
-        params.put("category_code", category_code);
 
-        log.info("map = {}", params);
-        //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+        // Query 에 따라 나온 count를 담는다.
+        int totalCount = 0;
 
-        //페이징 정보를 통해 상품들 호출
-        List<MainProductsDTO> findProducts = productService.categoryProducts(params);
-        int totalCount = productService.countCategoryProducts(params);
+        // Query 에 따라 나온 상품들을 담는다.
+        List<MainProductsDTO> findProducts = new ArrayList<>();
+
+        // 카테고리의 category_ref 를 조회 (최상위인지 아닌지 판단)
+        CategorysVO categorysVO = subService.findCategories(category_code);
+
+        log.info("Category_name = {}", categorysVO.getCategory_name());
+        log.info("Category_ref = {}", categorysVO.getCategory_ref());
+
+        // 카테고리 최상위 유무에 따라 map 에 담는 것이 달라진다.
+        if (categorysVO.getCategory_ref() == null) {
+
+            //최상위 카테고리일 경우
+
+            // 현재 페이지와 한번에 표시할 제품 수량
+            //pd_kind -> 0:남자, 1:여자, 2:남녀
+            log.info("최상위 카테고리 코드 = {}", category_code);
+
+            params.put("pageSize", PAGE_SIZE);
+            params.put("startIndex", startIndex);
+            params.put("category_code", category_code);
+
+            log.info("map = {}", params);
+            //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+            //페이징 정보를 통해 상품들 호출
+            findProducts = productService.topCategoryProducts(params);
+            totalCount = productService.topCountCategoryProducts(params);
+
+
+        } else {
+
+            //하위 카테고리 코드 일 경우
+
+            // 현재 페이지와 한번에 표시할 제품 수량
+            //pd_kind -> 0:남자, 1:여자, 2:남녀
+            log.info("하위 카테고리 코드 = {}", category_code);
+
+            params.put("pageSize", PAGE_SIZE);
+            params.put("startIndex", startIndex);
+            params.put("category_code", category_code);
+
+            log.info("map = {}", params);
+            //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+            //페이징 정보를 통해 상품들 호출
+            findProducts = productService.categoryProducts(params);
+            totalCount = productService.countCategoryProducts(params);
+
+        }
 
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -220,21 +263,62 @@ public class ProductController {
         // 페이징 정보
         int startIndex = (page - 1) * PAGE_SIZE;
 
-        // 현재 페이지와 한번에 표시할 제품 수량
-        //pd_kind -> 0:남자, 1:여자, 2:남녀
-        log.info("woman method = {}", category_code);
-
+        // Query 정보를 담을 Map
         Map<String, Object> params = new HashMap<>();
-        params.put("pageSize", PAGE_SIZE);
-        params.put("startIndex", startIndex);
-        params.put("pd_kind", 1);
-        params.put("category_code", category_code);
 
-        //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+        // Query 에 따라 나온 count를 담는다.
+        int totalCount = 0;
 
-        //페이징 정보를 통해 상품들 호출
-        List<MainProductsDTO> findProducts = productService.categoryProducts(params);
-        int totalCount = productService.countCategoryProducts(params);
+        // Query 에 따라 나온 상품들을 담는다.
+        List<MainProductsDTO> findProducts = new ArrayList<>();
+
+        // 카테고리의 category_ref 를 조회 (최상위인지 아닌지 판단)
+        CategorysVO categorysVO = subService.findCategories(category_code);
+
+        log.info("Category_name = {}", categorysVO.getCategory_name());
+        log.info("Category_ref = {}", categorysVO.getCategory_ref());
+
+        // 카테고리 최상위 유무에 따라 map 에 담는 것이 달라진다.
+        if (categorysVO.getCategory_ref() == null) {
+
+            //최상위 카테고리일 경우
+
+            // 현재 페이지와 한번에 표시할 제품 수량
+            //pd_kind -> 0:남자, 1:여자, 2:남녀
+            log.info("최상위 카테고리 코드 = {}", category_code);
+
+            params.put("pageSize", PAGE_SIZE);
+            params.put("startIndex", startIndex);
+            params.put("category_code", category_code);
+
+            log.info("map = {}", params);
+            //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+            //페이징 정보를 통해 상품들 호출
+            findProducts = productService.topCategoryProducts(params);
+            totalCount = productService.topCountCategoryProducts(params);
+
+
+        } else {
+
+            //하위 카테고리 코드 일 경우
+
+            // 현재 페이지와 한번에 표시할 제품 수량
+            //pd_kind -> 0:남자, 1:여자, 2:남녀
+            log.info("하위 카테고리 코드 = {}", category_code);
+
+            params.put("pageSize", PAGE_SIZE);
+            params.put("startIndex", startIndex);
+            params.put("category_code", category_code);
+
+            log.info("map = {}", params);
+            //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+            //페이징 정보를 통해 상품들 호출
+            findProducts = productService.categoryProducts(params);
+            totalCount = productService.countCategoryProducts(params);
+
+        }
 
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
@@ -276,28 +360,65 @@ public class ProductController {
     //카테고리별 페이지
     @GetMapping("/man/category/{category_code}")
     public String manProducts(@PathVariable int category_code, Model model, @RequestParam(defaultValue = "1") int page) {
-        //pd_kind -> 0:남자, 1:여자, 2:남녀
-        log.info("man method = {}", category_code);
-
-
         // 페이징 정보
         int startIndex = (page - 1) * PAGE_SIZE;
 
-        // 현재 페이지와 한번에 표시할 제품 수량
-        //pd_kind -> 0:남자, 1:여자, 2:남녀
-        log.info("woman method = {}", category_code);
-
+        // Query 정보를 담을 Map
         Map<String, Object> params = new HashMap<>();
-        params.put("pageSize", PAGE_SIZE);
-        params.put("startIndex", startIndex);
-        params.put("pd_kind", 0);
-        params.put("category_code", category_code);
 
-        //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+        // Query 에 따라 나온 count를 담는다.
+        int totalCount = 0;
 
-        //페이징 정보를 통해 상품들 호출
-        List<MainProductsDTO> findProducts = productService.categoryProducts(params);
-        int totalCount = productService.countCategoryProducts(params);
+        // Query 에 따라 나온 상품들을 담는다.
+        List<MainProductsDTO> findProducts = new ArrayList<>();
+
+        // 카테고리의 category_ref 를 조회 (최상위인지 아닌지 판단)
+        CategorysVO categorysVO = subService.findCategories(category_code);
+
+        log.info("Category_name = {}", categorysVO.getCategory_name());
+        log.info("Category_ref = {}", categorysVO.getCategory_ref());
+
+        // 카테고리 최상위 유무에 따라 map 에 담는 것이 달라진다.
+        if (categorysVO.getCategory_ref() == null) {
+
+            //최상위 카테고리일 경우
+
+            // 현재 페이지와 한번에 표시할 제품 수량
+            //pd_kind -> 0:남자, 1:여자, 2:남녀
+            log.info("최상위 카테고리 코드 = {}", category_code);
+
+            params.put("pageSize", PAGE_SIZE);
+            params.put("startIndex", startIndex);
+            params.put("category_code", category_code);
+
+            log.info("map = {}", params);
+            //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+            //페이징 정보를 통해 상품들 호출
+            findProducts = productService.topCategoryProducts(params);
+            totalCount = productService.topCountCategoryProducts(params);
+
+
+        } else {
+
+            //하위 카테고리 코드 일 경우
+
+            // 현재 페이지와 한번에 표시할 제품 수량
+            //pd_kind -> 0:남자, 1:여자, 2:남녀
+            log.info("하위 카테고리 코드 = {}", category_code);
+
+            params.put("pageSize", PAGE_SIZE);
+            params.put("startIndex", startIndex);
+            params.put("category_code", category_code);
+
+            log.info("map = {}", params);
+            //쿼리문 대충 만들어놓음, 이용해서 코드 연결하기
+
+            //페이징 정보를 통해 상품들 호출
+            findProducts = productService.categoryProducts(params);
+            totalCount = productService.countCategoryProducts(params);
+
+        }
 
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);

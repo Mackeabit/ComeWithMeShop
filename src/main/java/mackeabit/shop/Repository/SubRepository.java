@@ -1,6 +1,7 @@
 package mackeabit.shop.Repository;
 
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface SubRepository {
     List<MainProductsDTO> mainPageProductsPaged(Map<String, Object> params);
 
     int countMainPageProducts();
+
+    CategorysVO findCategories(int category_code);
 }

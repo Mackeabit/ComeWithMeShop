@@ -1,6 +1,7 @@
 package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -22,4 +23,6 @@ public interface SuBMapper {
     List<MainProductsDTO> mainPageProductsPaged(Map<String, Object> params);
 
     int countMainPageProducts();
+
+    CategorysVO findCategories(int category_code);
 }

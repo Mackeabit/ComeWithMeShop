@@ -36,4 +36,8 @@ public interface ProductRepository {
     List<MainProductsDTO> categoryProducts(Map<String, Object> params);
 
     int countCategoryProducts(Map<String, Object> params);
+
+    List<MainProductsDTO> topCategoryProducts(Map<String, Object> params);
+
+    int topCountCategoryProducts(Map<String, Object> params);
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.mapper.SuBMapper;
+import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
@@ -46,5 +47,10 @@ public class SubRepositoryImpl implements SubRepository{
     @Override
     public int countMainPageProducts() {
         return suBMapper.countMainPageProducts();
+    }
+
+    @Override
+    public CategorysVO findCategories(int category_code) {
+        return suBMapper.findCategories(category_code);
     }
 }

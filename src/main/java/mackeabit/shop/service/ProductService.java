@@ -60,4 +60,12 @@ public class ProductService {
     public int countCategoryProducts(Map<String, Object> params) {
         return repository.countCategoryProducts(params);
     }
+
+    public List<MainProductsDTO> topCategoryProducts(Map<String, Object> params) {
+        return repository.topCategoryProducts(params);
+    }
+
+    public int topCountCategoryProducts(Map<String, Object> params) {
+        return repository.topCountCategoryProducts(params);
+    }
 }

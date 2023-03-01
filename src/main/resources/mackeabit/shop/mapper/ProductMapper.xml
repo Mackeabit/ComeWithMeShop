@@ -113,4 +113,31 @@
         </where>
     </select>
 
+    <select id="topCategoryProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
+        SELECT *
+        FROM products p
+        JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        JOIN categorys c ON p.category_code = c.category_code
+        WHERE p.category_code IN (SELECT category_code FROM categorys WHERE category_ref = #{category_code} OR category_code = #{category_code})
+        AND p.pd_idx IN (SELECT MAX(pd_idx) FROM products GROUP BY pd_nm)
+        <if test="pd_kind != null">
+            AND pd_kind = #{pd_kind}
+        </if>
+        LIMIT #{pageSize} OFFSET #{startIndex}
+    </select>
+
+    <select id="topCountCategoryProducts" parameterType="map" resultType="java.lang.Integer">
+        select count(*) as total
+        from products p
+        join product_img pi on p.pd_idx = pi.pd_idx
+        join categorys c on p.category_code = c.category_code
+        where (p.category_code = #{category_code}
+        or c.category_ref = #{category_code})
+        <if test="pd_kind != null">
+            and pd_kind = #{pd_kind}
+        </if>
+        and p.pd_idx in (select max(pd_idx) from products group by pd_nm);
+    </select>
+
+
 </mapper>
