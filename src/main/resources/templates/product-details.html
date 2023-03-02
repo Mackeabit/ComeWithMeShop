@@ -38,7 +38,7 @@
                 <li data-toggle="collapse" data-target="#women" class="collapsed active">
                     <a href="#">Woman wear <span class="arrow"></span></a>
                     <ul class="sub-menu collapse" id="women">
-                        <li><a th:href="@{|products/woman/value/1?pd_value=2|}" href="#">여성 인기 상품</a></li>
+                        <li><a th:href="@{|products/best/2/1|}" href="#">여성 인기 상품</a></li>
                         <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
                         <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
                         <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
@@ -49,7 +49,7 @@
                 <li data-toggle="collapse" data-target="#man" class="collapsed">
                     <a href="#">Man Wear <span class="arrow"></span></a>
                     <ul class="sub-menu collapse" id="man">
-                        <li><a th:href="@{|/products/man/value/0?pd_value=2|}" href="#">남성 인기 상품</a></li>
+                        <li><a th:href="@{|/products/best/2/0|}" href="#">남성 인기 상품</a></li>
                         <li><a th:href="@{|/products/man/category/4|}" href="#">상의</a></li>
                         <li><a th:href="@{|/products/man/category/5|}" href="#">하의</a></li>
                     </ul>
@@ -202,7 +202,7 @@
 
                                 <div class="collapse navbar-collapse align-items-start collapse" id="karl-navbar">
                                     <ul class="navbar-nav animated" id="nav">
-                                        <li class="nav-item active"><a class="nav-link" th:href="@{|products/best|}" href="#">Best</a></li>
+                                        <li class="nav-item active"><a class="nav-link" th:href="@{|products/best/2/2|}" href="#">Best</a></li>
                                         <li class="nav-item"><a class="nav-link" th:href="@{|products/category/1|}" href="#">Clothes</a></li>
                                         <li class="nav-item"><a class="nav-link" th:href="@{|products/category/3|}" href="#">Bag & Shoes</a></li>
                                         <li class="nav-item"><a class="nav-link" th:href="@{|products/category/2|}" href="#"><span class="karl-level">hot</span>Accessories</a></li>
@@ -230,8 +230,9 @@
             </div>
         </div>
     </header>
-        <!-- ****** Header Area End ****** -->
+    <!-- ****** Header Area End ****** -->
 
+    <!-- ****** Top Discount Area Start ****** -->
     <section class="top-discount-area d-md-flex align-items-center">
         <!-- Single Discount Area -->
         <div class="single-discount-area">
@@ -249,6 +250,7 @@
             <h6>쿠폰 번호 : CMW23PR</h6>
         </div>
     </section>
+    <!-- ****** Top Discount Area End ****** -->
 
         <!-- <<<<<<<<<<<<<<<<<<<< Breadcumb Area Start <<<<<<<<<<<<<<<<<<<< -->
         <div class="breadcumb_area">
@@ -257,8 +259,6 @@
                     <div class="col-12">
                         <ol class="breadcrumb d-flex align-items-center">
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Dresses</a></li>
-                            <li class="breadcrumb-item active">Long Dress</li>
                         </ol>
                         <!-- btn -->
                         <a href="/" class="backToHome d-block"><i class="fa fa-angle-double-left"></i> Back to Category</a>
@@ -480,7 +480,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="section_heading text-center">
-                            <h2>related Products</h2>
+                            <h2>관련 상품</h2>
                         </div>
                     </div>
                 </div>
@@ -502,7 +502,6 @@
                                     <h4 class="product-price">$39.90</h4>
                                     <p>Jeans midi cocktail dress</p>
                                     <!-- Add to Cart -->
-                                    <a href="#" class="add-to-cart-btn">ADD TO CART</a>
                                 </div>
                             </div>
 

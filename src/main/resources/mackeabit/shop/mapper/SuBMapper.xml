@@ -5,7 +5,7 @@
 <mapper namespace="mackeabit.shop.mapper.SuBMapper">
 
     <select id="findCategories" parameterType="Integer" resultType="mackeabit.shop.vo.CategorysVO">
-        select * from category where category_code = #{category_code}
+        select * from categorys where category_code = #{category_code}
     </select>
 
     <select id="findAll" resultType="mackeabit.shop.vo.Photos_toMainVO">

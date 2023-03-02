@@ -139,5 +139,11 @@
         and p.pd_idx in (select max(pd_idx) from products group by pd_nm);
     </select>
 
+    <select id="findByPd_nm" parameterType="String" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
+            join categorys c ON p.category_code = c.category_code
+                 where pd_nm = #{pd_nm};
+    </select>
+
 
 </mapper>

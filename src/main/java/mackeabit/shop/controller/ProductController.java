@@ -148,7 +148,14 @@ public class ProductController {
     public String product_detail(@PathVariable String  pd_nm, Model model) {
         log.info("pd_nm = {}", pd_nm);
 
-//        productService.findByPd_nm(pd_nm);
+        //해당하는 이름의 상품들 가져오기 (List 뽑아오기)
+        List<MainProductsDTO> productsDTOList = productService.findByPd_nm(pd_nm);
+
+        //model(상품 담기)
+        model.addAttribute("productsList", productsDTOList);
+
+        //연관 상품 검색 (검색 기준 :
+
 
 
 

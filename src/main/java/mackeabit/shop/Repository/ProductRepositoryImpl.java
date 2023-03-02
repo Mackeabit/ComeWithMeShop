@@ -98,5 +98,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productMapper.topCountCategoryProducts(params);
     }
 
+    @Override
+    public List<MainProductsDTO> findByPd_nm(String pd_nm) {
+        return productMapper.findByPd_nm(pd_nm);
+    }
+
 
 }

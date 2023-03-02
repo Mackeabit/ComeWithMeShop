@@ -68,4 +68,8 @@ public class ProductService {
     public int topCountCategoryProducts(Map<String, Object> params) {
         return repository.topCountCategoryProducts(params);
     }
+
+    public List<MainProductsDTO> findByPd_nm(String pd_nm) {
+        return repository.findByPd_nm(pd_nm);
+    }
 }

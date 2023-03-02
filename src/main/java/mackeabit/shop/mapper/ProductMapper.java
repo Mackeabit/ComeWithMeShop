@@ -40,4 +40,6 @@ public interface ProductMapper {
     List<MainProductsDTO> topCategoryProducts(Map<String, Object> params);
 
     int topCountCategoryProducts(Map<String, Object> params);
+
+    List<MainProductsDTO> findByPd_nm(String pd_nm);
 }
