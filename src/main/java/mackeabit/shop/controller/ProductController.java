@@ -151,12 +151,28 @@ public class ProductController {
         //해당하는 이름의 상품들 가져오기 (List 뽑아오기)
         List<MainProductsDTO> productsDTOList = productService.findByPd_nm(pd_nm);
 
-        //model(상품 담기)
+        if (productsDTOList == null) {
+            //이름이 맞는 상품이 없다면 되돌리기
+            return "/";
+        }
+
+        //model(해당 상품 담기)
         model.addAttribute("productsList", productsDTOList);
 
-        //연관 상품 검색 (검색 기준 :
+        //연관 상품 검색 (검색 기준 : 카테고리)
+        List<MainProductsDTO> recommendList = productService.findRecommendProducts(productsDTOList.get(0).getCategory_code());
+
+        //model(추천 상품 담기)
+        model.addAttribute("recommendList", recommendList);
 
 
+        //상품 색상(전체, 타임리프로 해당 상품 색상 빼옴)
+        List<ColorsDTO> productColors = productService.findColors();
+        model.addAttribute("findColors", productColors);
+
+        //상품 사이즈(전체, 타임리프로 해당 상품 사이즈 빼옴)
+        List<SizesDTO> productSizes = productService.findSizes();
+        model.addAttribute("findSizes", productSizes);
 
 
         return "product-details";

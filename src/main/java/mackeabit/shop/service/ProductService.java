@@ -72,4 +72,8 @@ public class ProductService {
     public List<MainProductsDTO> findByPd_nm(String pd_nm) {
         return repository.findByPd_nm(pd_nm);
     }
+
+    public List<MainProductsDTO> findRecommendProducts(Integer category_code) {
+        return repository.findRecommendProducts(category_code);
+    }
 }

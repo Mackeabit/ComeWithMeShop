@@ -103,5 +103,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productMapper.findByPd_nm(pd_nm);
     }
 
+    @Override
+    public List<MainProductsDTO> findRecommendProducts(Integer category_code) {
+        return productMapper.findRecommendProducts(category_code);
+    }
+
 
 }
