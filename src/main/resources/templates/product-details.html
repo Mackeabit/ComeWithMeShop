@@ -21,6 +21,34 @@
     <!-- Responsive CSS -->
     <link href="/css/responsive.css" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
+    <style>
+        .widget{
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .red-text{
+            background-color: #ff084e;
+            color: #fff;
+        }
+
+        .widget-desc a:focus {
+            border: 0px solid black;
+            background-color: white;
+        }
+        .widget-desc a:hover {
+            border: 0px solid black;
+            background-color: white;
+        }
+        .widget-desc a:focus {
+            background-color: white;
+            color: #fff;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -129,8 +157,8 @@
                                         </li>
                                         <li class="total">
                                             <span class="pull-right" id="priceInit"></span>
-                                            <a href="cart.html" class="btn btn-sm btn-cart">장바구니</a>
-                                            <a href="checkout-1.html" class="btn btn-sm btn-checkout">결제하기</a>
+                                            <a href="/cart" class="btn btn-sm btn-cart">장바구니</a>
+                                            <a href="/checkout" class="btn btn-sm btn-checkout">결제하기</a>
                                         </li>
                                     </ul>
                                     <!-- Cart List Area Start 장바구니 안에 내용 -->
@@ -261,7 +289,7 @@
                             <li class="breadcrumb-item"><a href="/">Home</a></li>
                         </ol>
                         <!-- btn -->
-                        <a href="/products" class="backToHome d-block"><i class="fa fa-angle-double-left"></i> Back to Category</a>
+                        <a href="/products" class="backToHome d-block"><i class="fa fa-angle-double-left"></i> Back to Products</a>
                     </div>
                 </div>
             </div>
@@ -278,7 +306,7 @@
                             <div id="product_details_slider" class="carousel slide" data-ride="carousel">
 
                                 <ol class="carousel-indicators">
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(/img/product-img/product-9.jpg);">
+                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" th:style="'background-image: url(/'+${product.sv_loc}+')'" style="background-image: url(/img/product-img/product-9.jpg);">
                                     </li>
 <!--                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/img/product-img/product-2.jpg);">
                                     </li>
@@ -290,8 +318,8 @@
 
                                 <div class="carousel-inner">
                                     <div class="carousel-item active">
-                                        <a class="gallery_img" href="/img/product-img/product-9.jpg">
-                                        <img class="d-block w-100" src="/img/product-img/product-9.jpg" alt="First slide">
+                                        <a class="gallery_img" th:href="|/${product.sv_loc}|" href="/img/product-img/product-9.jpg">
+                                        <img class="d-block w-100" th:src="|/${product.sv_loc}|" src="/img/product-img/product-9.jpg" alt="First slide">
                                     </a>
                                     </div>
 <!--                                    <div class="carousel-item">
@@ -317,11 +345,11 @@
                     <div class="col-12 col-md-6">
                         <div class="single_product_desc">
 
-                            <h4 class="title"><a href="#">Long Yellow Dress</a></h4>
+                            <h4 class="title"><a href="#" th:text="${product.pd_nm}">Long Yellow Dress</a></h4>
 
-                            <h4 class="price"></h4>
+                            <h4 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(product.sell_price, 3, 'COMMA')}"></h4>
 
-                            <p class="available">재고 수량: <span class="text-muted">In Stock</span></p>
+<!--                            <p class="available">재고 수량: <span class="text-muted" id="pd_cnt"></span></p>-->
 
                             <div class="single_product_ratings mb-15">
                                 <i class="fa fa-star" aria-hidden="true"></i>
@@ -330,8 +358,41 @@
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 <i class="fa fa-star-o" aria-hidden="true"></i>
                             </div>
+                            <div th:if="${product.pd_size != null} or ${product.pd_color != null}"
+                                 class="widget size mb-50">
+                                <h6 th:if="${product.pd_color != null}"
+                                    id="mainColors"
+                                    class="widget-title">Color : </h6>
+                                <div class="widget-desc">
+                                    <ul>
+                                        <li th:each="color:${findColors}"
+                                            th:if="${product.pd_nm == color.pd_nm} and ${product.pd_color != null}">
+                                            <a th:onclick="mainColorFn([[${color.pd_color}]])"
+                                               href="#"
+                                               th:text="${color.pd_color}"
+                                               th:value="${color.pd_color}" style="width: auto;"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
 
-                            <div class="widget size mb-50">
+                            <div th:if="${product.pd_size != null} or ${product.pd_color != null}"
+                                 class="widget size mb-50">
+                                <h6 th:if="${product.pd_size != null}"
+                                    id="mainSizes"
+                                    class="widget-title">Size : </h6>
+                                <div class="widget-desc">
+                                    <ul>
+                                        <li th:each="size:${findSizes}"
+                                            th:if="${product.pd_nm == size.pd_nm} and ${product.pd_size != null}">
+                                            <a th:onclick="mainSizeFn([[${size.pd_size}]])"
+                                               href="#"
+                                               th:text="${size.pd_size}">S</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+<!--                            <div class="widget size mb-50">
                                 <h6 class="widget-title">Size</h6>
                                 <div class="widget-desc">
                                     <ul>
@@ -343,70 +404,276 @@
                                         <li><a href="#">42</a></li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div>-->
 
                             <!-- Add to Cart Form -->
-                            <form class="cart clearfix mb-50 d-flex" method="post">
+                            <form id="mainCart" class="cart"
+                                  method="post">
+
                                 <div class="quantity">
-                                    <span class="qty-minus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) effect.value--;return false;"><i class="fa fa-minus" aria-hidden="true"></i></span>
-                                    <input type="number" class="qty-text" id="qty" step="1" min="1" max="12" name="quantity" value="1">
-                                    <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
+
+                                    <span class="qty-minus" th:onclick="|mainPlus_cnt(main${product.pd_idx})|">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </span>
+                                    <input type="hidden" name="pd_idx"
+                                           th:value="${product.pd_idx}">
+                                    <input type="hidden" name="pd_nm"
+                                           th:value="${product.pd_nm}">
+                                    <input th:if="${session.loginMember != null}"
+                                           type="hidden" name="member_idx"
+                                           th:value="${session.loginMember.member_idx}">
+                                    <input type="number" class="qty-text" th:attr="id='main'+${product.pd_idx}"
+                                           id="main" step="1" min="1" max="12"
+                                           th:name="'cart_cnt'" name="quantity"
+                                           value="1" readonly>
+                                    <span class="qty-plus" th:onclick="|mainMinus_cnt(main${product.pd_idx})|">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </span>
+
+
                                 </div>
-                                <button type="submit" name="addtocart" value="5" class="btn cart-submit d-block">Add to cart</button>
+
+                                <button type="button"
+                                        onclick="mainAddToCart()"
+                                        value="5"
+                                        class="cart-submit">Add to cart
+                                </button>
+
                             </form>
+                            <!-- Add to Cart Form -->
+
 
                             <div id="accordion" role="tablist">
                                 <div class="card">
                                     <div class="card-header" role="tab" id="headingOne">
                                         <h6 class="mb-0">
-                                            <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Information</a>
+                                            <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">상품 설명</a>
                                         </h6>
                                     </div>
 
                                     <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
                                         <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin pharetra tempor so dales. Phasellus sagittis auctor gravida. Integ er bibendum sodales arcu id te mpus. Ut consectetur lacus.</p>
-                                            <p>Approx length 66cm/26" (Based on a UK size 8 sample) Mixed fibres</p>
-                                            <p>The Model wears a UK size 8/ EU size 36/ US size 4 and her height is 5'8"</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" role="tab" id="headingTwo">
-                                        <h6 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Cart Details</a>
-                                        </h6>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion">
-                                        <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo quis in veritatis officia inventore, tempore provident dignissimos nemo, nulla quaerat. Quibusdam non, eos, voluptatem reprehenderit hic nam! Laboriosam, sapiente! Praesentium.</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia magnam laborum eaque.</p>
+                                            <p th:text="${product.pd_contents}"></p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-header" role="tab" id="headingThree">
                                         <h6 class="mb-0">
-                                            <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">shipping &amp; Returns</a>
+                                            <a class="collapsed" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">배송료 설명</a>
                                         </h6>
                                     </div>
                                     <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion">
                                         <div class="card-body">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse quo sint repudiandae suscipit ab soluta delectus voluptate, vero vitae, tempore maxime rerum iste dolorem mollitia perferendis distinctio. Quibusdam laboriosam rerum distinctio. Repudiandae fugit odit, sequi id!</p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae qui maxime consequatur laudantium temporibus ad et. A optio inventore deleniti ipsa.</p>
+                                            <p>배송료 : 표준 배송, 당일 배송, 당일 새벽 배송으로 나누어집니다.</p>
+                                            <p>상품 결제창에서 옵션을 선택하실 수 있습니다.</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
+
+                        <script>
+
+
+                            let mainColorPick = 'N';
+                            let mainSizePick = 'N';
+
+
+                            function mainColorFn(color) {
+                                $('#mainColors').text('color : ' + color);
+                                mainColorPick = color;
+                            }
+
+                            function mainSizeFn(size) {
+
+                                $('#mainSizes').text('size : ' + size);
+                                mainSizePick = size;
+                            }
+
+
+                            function mainAddToCart() {
+                                let f = $('#mainCart');
+                                let formData = f.serialize();
+                                formData += '&pd_color=' + mainColorPick + '&pd_size=' + mainSizePick;
+
+                                alert(formData);
+
+                                $.ajax({
+                                    type   : "POST",
+                                    url    : "/cartInsert",
+                                    data   : formData,
+                                    success: function (data) {
+                                        if (data == "Y") {
+                                            alert("장바구니에 추가되었습니다.");
+                                            location.href = "/";
+                                        } else if (data == "NN") {
+                                            location.href = "/login";
+                                        } else if (data == "exist") {
+                                            alert("이미 장바구니에 추가되어있는 상품입니다.")
+                                        } else if (data == "noIdx") {
+                                            alert("현재 상품에 대하여 관리자에게 문의해주세요.")
+                                        }
+                                    },
+                                    error  : function (data) {
+                                        alert("에러 발생!");
+                                        console.log(data);
+                                    }
+                                });
+                            }
+
+                            function mainMinus_cnt(id) {
+                                if (id.value > 1 && id.value != 0) {
+                                    id.value--;
+                                }
+                            }
+
+                            function mainPlus_cnt(id) {
+                                if (id.value >= 0) {
+                                    id.value++;
+                                }
+                            }
+
+                        </script>
+
                     </div>
                 </div>
             </div>
         </section>
         <!-- <<<<<<<<<<<<<<<<<<<< Single Product Details Area End >>>>>>>>>>>>>>>>>>>>>>>>> -->
 
+    <th:block th:each="pd:${recommendList}">
+    <!-- ****** Quick View Modal Area Start ****** -->
+    <div class="modal fade" th:attr="id='quickview'+${pd.pd_idx}" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
 
+                <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <div class="modal-body">
+                    <div class="quickview_body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 col-lg-5">
+                                    <div class="quickview_pro_img">
+                                        <img th:src="|/${pd.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-7">
+                                    <div class="quickview_pro_des">
+                                        <h4 class="title" th:text="${pd.pd_nm}"></h4>
+                                        <div class="top_seller_product_rating mb-15">
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                        </div>
+                                        <h5 class="price"
+                                            data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">
+                                            $120.99 상품원가 <span>$130 할인가격</span></h5>
+                                        <p th:text="${pd.pd_contents}">상품 설명란</p>
+                                        <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}"
+                                             class="widget size mb-15">
+                                            <h6 th:if="${pd.pd_color != null}"
+                                                th:attr="id='colors'+${pd.pd_idx}"
+                                                class="widget-title">Color : </h6>
+                                            <div class="widget-desc">
+                                                <ul>
+                                                    <li th:each="color:${findColors}"
+                                                        th:if="${pd.pd_nm == color.pd_nm} and ${pd.pd_color != null}">
+                                                        <a th:onclick="colorFn([[${color.pd_color}]],[[${pd.pd_idx}]])"
+                                                           href="#"
+                                                           th:text="${color.pd_color}"
+                                                           th:value="${color.pd_color}">RED</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}"
+                                             class="widget size mb-15">
+                                            <h6 th:if="${pd.pd_size != null}"
+                                                th:attr="id='sizes'+${pd.pd_idx}"
+                                                class="widget-title">Size : </h6>
+                                            <div class="widget-desc">
+                                                <ul>
+                                                    <li th:each="size:${findSizes}"
+                                                        th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null}">
+                                                        <a th:onclick="sizeFn([[${size.pd_size}]],[[${pd.pd_idx}]])"
+                                                           href="#"
+                                                           th:text="${size.pd_size}">S</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <a th:href="@{|/products/${pd.pd_nm}|}" href="#">상품
+                                            자세히 보기</a>
+                                    </div>
+
+                                    <!-- Add to Cart Form -->
+                                    <form th:attr="id='cart'+${pd.pd_idx}" class="cart"
+                                          method="post">
+
+                                        <div class="quantity">
+                                            <span class="qty-minus"
+                                                  th:onclick="|minus_cnt(qty${pd.pd_idx})|">
+                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </span>
+                                            <input type="hidden" name="pd_idx"
+                                                   th:value="${pd.pd_idx}">
+                                            <input type="hidden" name="pd_nm"
+                                                   th:value="${pd.pd_nm}">
+                                            <input th:if="${session.loginMember != null}"
+                                                   type="hidden" name="member_idx"
+                                                   th:value="${session.loginMember.member_idx}">
+                                            <input type="number" class="qty-text" th:attr="id='qty'+${pd.pd_idx}"
+                                                   id="qty" step="1" min="1" max="12"
+                                                   th:name="'cart_cnt'" name="quantity"
+                                                   value="1" readonly>
+
+                                            <span class="qty-plus"
+                                                  th:onclick="|plus_cnt(qty${pd.pd_idx})|">
+                                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </span>
+
+                                        </div>
+
+                                        <button type="button"
+                                                th:onclick="|addToCart(${pd.pd_idx})|"
+                                                name="addtocart" value="5"
+                                                class="cart-submit">Add to cart
+                                        </button>
+
+                                    </form>
+
+                                    <div class="share_wf mt-30">
+                                        <p>Share With Friend</p>
+                                        <div class="_icon">
+                                            <!--<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
+                                            <a id="copyBtn"
+                                               href="#" th:onclick="copyText([[${pd.pd_nm}]])">
+                                                <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png"
+                                                     alt="카카오톡 공유 보내기 버튼"/>
+                                            </a>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </th:block>
+    <!-- ****** Quick View Modal Area End ****** -->
 
 
         <section class="you_may_like_area clearfix">
@@ -424,7 +691,8 @@
                         <div class="you_make_like_slider owl-carousel">
 
                             <!-- Single gallery Item -->
-                            <div  th:each="pd:${recommendList}"  class="single_gallery_item">
+                            <div th:each="pd:${recommendList}" class="single_gallery_item">
+
                                 <!-- Product Image -->
                                 <div class="product-img">
                                     <img th:src="|/${pd.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
@@ -435,237 +703,13 @@
                                 </div>
                                 <!-- Product Description -->
                                 <div class="product-description">
-                                    <h4 class="product-price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">
-                                        $39.90</h4>
-                                    <p th:text="${pd.pd_nm}">Jeans midi cocktail dress</p>
-                                    <!-- Add to Cart -->
+                                    <h4 class="product-price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}"></h4>
+                                    <p th:text="${pd.pd_nm}"></p>
                                 </div>
 
-                                <!-- ****** Quick View Modal Area Start ****** -->
-                                <div class="modal fade" th:attr="id='quickview'+${pd.pd_idx}" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-
-                                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-
-                                            <div class="modal-body">
-                                                <div class="quickview_body">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-12 col-lg-5">
-                                                                <div class="quickview_pro_img">
-                                                                    <img th:src="|/${pd.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-lg-7">
-                                                                <div class="quickview_pro_des">
-                                                                    <h4 class="title" th:text="${pd.pd_nm}"></h4>
-                                                                    <div class="top_seller_product_rating mb-15">
-                                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                                        <i class="fa fa-star" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <h5 class="price"
-                                                                        data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">
-                                                                        $120.99 상품원가 <span>$130 할인가격</span></h5>
-                                                                    <p th:text="${pd.pd_contents}">상품 설명란</p>
-                                                                    <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}"
-                                                                         class="widget size mb-15">
-                                                                        <h6 th:if="${pd.pd_color != null}"
-                                                                            th:attr="id='colors'+${pd.pd_idx}"
-                                                                            class="widget-title">Color : </h6>
-                                                                        <div class="widget-desc">
-                                                                            <ul>
-                                                                                <li th:each="color:${findColors}"
-                                                                                    th:if="${pd.pd_nm == color.pd_nm} and ${pd.pd_color != null}">
-                                                                                    <a th:onclick="colorFn([[${color.pd_color}]],[[${pd.pd_idx}]])"
-                                                                                       href="#"
-                                                                                       th:text="${color.pd_color}"
-                                                                                       th:value="${color.pd_color}">RED</a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <div th:if="${pd.pd_size != null} or ${pd.pd_color != null}"
-                                                                         class="widget size mb-15">
-                                                                        <h6 th:if="${pd.pd_size != null}"
-                                                                            th:attr="id='sizes'+${pd.pd_idx}"
-                                                                            class="widget-title">Size : </h6>
-                                                                        <div class="widget-desc">
-                                                                            <ul>
-                                                                                <li th:each="size:${findSizes}"
-                                                                                    th:if="${pd.pd_nm == size.pd_nm} and ${pd.pd_size != null}">
-                                                                                    <a th:onclick="sizeFn([[${size.pd_size}]],[[${pd.pd_idx}]])"
-                                                                                       href="#"
-                                                                                       th:text="${size.pd_size}">S</a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <a th:href="@{|/products/${pd.pd_nm}|}" href="#">상품
-                                                                        자세히 보기</a>
-                                                                </div>
-
-                                                                <!-- Add to Cart Form -->
-                                                                <form th:attr="id='cart'+${pd.pd_idx}" class="cart"
-                                                                      method="post">
-
-                                                                    <div class="quantity">
-                                                                        <span class="qty-minus"
-                                                                              th:onclick="|minus_cnt(qty${pd.pd_idx})|">
-                                                                            <i class="fa fa-minus" aria-hidden="true"></i>
-                                                                        </span>
-                                                                        <input type="hidden" name="pd_idx"
-                                                                               th:value="${pd.pd_idx}">
-                                                                        <input type="hidden" name="pd_nm"
-                                                                               th:value="${pd.pd_nm}">
-                                                                        <input th:if="${session.loginMember != null}"
-                                                                               type="hidden" name="member_idx"
-                                                                               th:value="${session.loginMember.member_idx}">
-                                                                        <input type="number" class="qty-text" th:attr="id='qty'+${pd.pd_idx}"
-                                                                               id="qty" step="1" min="1" max="12"
-                                                                               th:name="'cart_cnt'" name="quantity"
-                                                                               value="1" readonly>
-
-                                                                        <span class="qty-plus"
-                                                                              th:onclick="|plus_cnt(qty${pd.pd_idx})|">
-                                                                            <i class="fa fa-plus" aria-hidden="true"></i>
-                                                                        </span>
-
-                                                                    </div>
-
-                                                                    <button type="button"
-                                                                            th:onclick="|addToCart(${pd.pd_idx})|"
-                                                                            name="addtocart" value="5"
-                                                                            class="cart-submit">Add to cart
-                                                                    </button>
-
-                                                                </form>
-
-                                                                <div class="share_wf mt-30">
-                                                                    <p>Share With Friend</p>
-                                                                    <div class="_icon">
-                                                                        <!--<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
-                                                                        <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-                                                                                integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
-                                                                                crossorigin="anonymous"></script>
-                                                                        <script>
-                                                                            Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
-                                                                        </script>
-                                                                        <a id="kakaotalk-sharing-btn"
-                                                                           href="javascript:shareMessage()">
-                                                                            <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png"
-                                                                                 alt="카카오톡 공유 보내기 버튼"/>
-                                                                        </a>
-
-                                                                        <script>
-                                                                            function shareMessage() {
-                                                                                Kakao.Share.sendScrap({
-                                                                                    requestUrl: 'https://developers.kakao.com',
-                                                                                });
-                                                                            }
-                                                                        </script>
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- ****** Quick View Modal Area End ****** -->
                             </div>
 
 
-                            <script>
-
-
-                                let colorPick = 'N';
-                                let sizePick = 'N';
-
-                                $(document).ready(function () {
-
-                                    /* Modal 창이 닫히면 실행 */
-                                    $('[id^="quickview"]').on('hidden.bs.modal', function () {
-
-                                        /* 1. 사이즈, 색상 변수 값 모두 초기화 */
-                                        colorPick = 'N';
-                                        sizePick = 'N';
-
-                                        /* 2. 선택한 수량 초기화(1) */
-                                        $('[id^="qty"]').val(1);
-
-                                        /* 3. 입력된 size : , color : 값 초기화 */
-                                        $('[id^="sizes"]').text('size : ');
-                                        $('[id^="colors"]').text('color : ');
-
-                                    });
-                                });
-
-                                function colorFn(color, id) {
-                                    $('#colors' + id).text('color : ' + color);
-                                    colorPick = color;
-                                }
-
-                                function sizeFn(size, id) {
-
-                                    $('#sizes' + id).text('size : ' + size);
-                                    sizePick = size;
-                                }
-
-
-                                function addToCart(id) {
-                                    let idx = id;
-                                    let f = $('#cart' + id);
-                                    let formData = f.serialize();
-                                    formData += '&pd_color=' + colorPick + '&pd_size=' + sizePick;
-
-                                    alert(formData);
-
-                                    $.ajax({
-                                        type   : "POST",
-                                        url    : "/cartInsert",
-                                        data   : formData,
-                                        success: function (data) {
-                                            if (data == "Y") {
-                                                alert("장바구니에 추가되었습니다.");
-                                                location.href = "/";
-                                            } else if (data == "NN") {
-                                                location.href = "/login";
-                                            } else if (data == "exist") {
-                                                alert("이미 장바구니에 추가되어있는 상품입니다.")
-                                            } else if (data == "noIdx") {
-                                                alert("현재 상품에 대하여 관리자에게 문의해주세요.")
-                                            }
-                                        },
-                                        error  : function (data) {
-                                            alert("에러 발생!");
-                                            console.log(data);
-                                        }
-                                    });
-                                }
-
-                                function minus_cnt(id) {
-                                    if (id.value > 1 && id.value != 0) {
-                                        id.value--;
-                                    }
-                                }
-
-                                function plus_cnt(id) {
-                                    if (id.value >= 0) {
-                                        id.value++;
-                                    }
-                                }
-
-                            </script>
 
                         </div>
 
@@ -675,6 +719,136 @@
             </div>
         </section>
 
+
+    <script type="text/javascript">
+
+        function copyText(text) {
+            var copyText = 'http://localhost:9387/products/'+text;
+            navigator.clipboard.writeText(copyText).then(function() {
+                alert("텍스트가 복사되었습니다!");
+            }, function() {
+                alert("복사에 실패하였습니다.");
+            });
+        }
+
+
+        /*<![CDATA[*/
+
+        /*]]>*/
+
+        //실제 도메인이 없어서 사용불가.
+        // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+        /*
+                                                        Kakao.init('b1ed3cf490b7a8f2ae5d33b76faec2ef');
+                                                        function kakaoShare() {
+                                                            Kakao.Link.sendDefault({
+                                                                objectType: 'feed',
+                                                                content: {
+                                                                    title: 'ComeWithMe',
+                                                                    description: '국내 최다 규모의 쇼핑몰 ComeWithMe 입니다.',
+                                                                    imageUrl: 'http://localhost:9387/products/[[${product.pd_nm}]]',
+                                                                    link: {
+                                                                        mobileWebUrl: 'http://localhost:9387/products/[[${product.pd_nm}]]',
+                                                                        webUrl: 'http://localhost:9387/products/[[${product.pd_nm}]]',
+                                                                    },
+                                                                },
+                                                                buttons: [
+                                                                    {
+                                                                        title: '웹으로 보기',
+                                                                        link: {
+                                                                            mobileWebUrl: 'http://localhost:9387/products/[[${product.pd_nm}]]',
+                                                                            webUrl: 'http://localhost:9387/products/[[${product.pd_nm}]]',
+                                                                        },
+                                                                    },
+                                                                ],
+                                                                // 카카오톡 미설치 시 카카오톡 설치 경로이동
+                                                                installTalk: true,
+                                                            })
+                                                        }
+        */
+    </script>
+
+    <script>
+
+
+        let colorPick = 'N';
+        let sizePick = 'N';
+
+        $(document).ready(function () {
+
+            /* Modal 창이 닫히면 실행 */
+            $('[id^="quickview"]').on('hidden.bs.modal', function () {
+
+                /* 1. 사이즈, 색상 변수 값 모두 초기화 */
+                colorPick = 'N';
+                sizePick = 'N';
+
+                /* 2. 선택한 수량 초기화(1) */
+                $('[id^="qty"]').val(1);
+
+                /* 3. 입력된 size : , color : 값 초기화 */
+                $('[id^="sizes"]').text('size : ');
+                $('[id^="colors"]').text('color : ');
+
+            });
+        });
+
+        function colorFn(color, id) {
+            $('#colors' + id).text('color : ' + color);
+            colorPick = color;
+        }
+
+        function sizeFn(size, id) {
+
+            $('#sizes' + id).text('size : ' + size);
+            sizePick = size;
+        }
+
+
+        function addToCart(id) {
+            let idx = id;
+            let f = $('#cart' + id);
+            let formData = f.serialize();
+            formData += '&pd_color=' + colorPick + '&pd_size=' + sizePick;
+
+            alert(formData);
+
+            $.ajax({
+                type   : "POST",
+                url    : "/cartInsert",
+                data   : formData,
+                success: function (data) {
+                    if (data == "Y") {
+                        alert("장바구니에 추가되었습니다.");
+                        location.href = "/";
+                    } else if (data == "NN") {
+                        location.href = "/login";
+                    } else if (data == "exist") {
+                        alert("이미 장바구니에 추가되어있는 상품입니다.")
+                    } else if (data == "noIdx") {
+                        alert("현재 상품에 대하여 관리자에게 문의해주세요.")
+                    }
+                },
+                error  : function (data) {
+                    alert("에러 발생!");
+                    console.log(data);
+                }
+            });
+        }
+
+        function minus_cnt(id) {
+            if (id.value > 1 && id.value != 0) {
+                id.value--;
+            }
+        }
+
+        function plus_cnt(id) {
+            if (id.value >= 0) {
+                id.value++;
+            }
+        }
+
+    </script>
     <!-- ****** Footer Area Start ****** -->
     <footer class="footer_area">
         <div class="container">

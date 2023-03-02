@@ -156,8 +156,11 @@ public class ProductController {
             return "/";
         }
 
+        //상품이 있다면 하나만 담기
+        MainProductsDTO product = productsDTOList.get(0);
+
         //model(해당 상품 담기)
-        model.addAttribute("productsList", productsDTOList);
+        model.addAttribute("product", product);
 
         //연관 상품 검색 (검색 기준 : 카테고리)
         List<MainProductsDTO> recommendList = productService.findRecommendProducts(productsDTOList.get(0).getCategory_code());
