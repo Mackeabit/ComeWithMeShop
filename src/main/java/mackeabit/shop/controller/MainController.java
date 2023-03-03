@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -112,6 +114,13 @@ public class MainController {
     public String signUpPage() {
 
         return "sign-up";
+    }
+
+    @GetMapping("/myPage")
+    public String myPage() {
+
+
+        return "myPage";
     }
 
     //트랜잭션 적용 전

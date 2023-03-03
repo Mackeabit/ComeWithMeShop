@@ -165,7 +165,6 @@
                                             <li class="total">
                                                 <span class="pull-right" id="priceInit"></span>
                                                 <a href="/cart" class="btn btn-sm btn-cart">장바구니</a>
-                                                <a href="checkout-1.html" class="btn btn-sm btn-checkout">결제하기</a>
                                             </li>
                                         </ul>
                                         <!-- Cart List Area Start 장바구니 안에 내용 -->
@@ -209,7 +208,7 @@
                             <!-- Header Social Area -->
                             <div class="header-social-area">
                                 <!--<a href="#"><span class="karl-level">Share</span> <i class="fa fa-pinterest" aria-hidden="true"></i></a>-->
-                                <a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                                <a href="/myPage"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
                                 <a th:if = "${session.loginMember != null}" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a> <!-- 로그아웃 -->
                                 <a th:if = "${session.loginMember == null}" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a> <!-- 로그인 -->
                                 <a href="#" id="scrollDown"><i class="fa fa-search" aria-hidden="true"></i></a> <!-- 검색 아이콘-->
@@ -713,7 +712,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
-                                <li><a href="#">마이 페이지</a></li>
+                                <li><a href="/myPage">마이 페이지</a></li>
                                 <li><a href="#">Community</a></li>
                                 <!--<li><a href="#">Shipping</a></li>-->
                                 <!--<li><a href="#">Our Policies</a></li>-->
