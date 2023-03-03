@@ -35,6 +35,7 @@ Coded by www.creative-tim.com
 </head>
 
 <body class="">
+
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
@@ -75,7 +76,7 @@ Coded by www.creative-tim.com
             </a>
           </li>
           <li>
-            <a href="./user.html">
+            <a href="/myPage/memberInfo">
               <i class="nc-icon nc-single-02"></i>
               <p>개인정보 수정</p>
             </a>
@@ -113,7 +114,12 @@ Coded by www.creative-tim.com
                 <span class="navbar-toggler-bar bar3"></span>
               </button>
             </div>
-            <a class="navbar-brand" href="javascript:;">주문 현황</a>
+            <div class="top_single_area d-flex align-items-center" style="display: flex; justify-content: center; position: absolute; align-items: center; top: 0; left: 0; right: 0; padding-top: 10px;">
+              <!-- Logo Area 로고 이미지 -->
+              <div class="top_logo">
+                <a href="/"><img src="/img/core-img/logo.png" alt=""></a>
+              </div>
+            </div>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-bar navbar-kebab"></span>
@@ -180,7 +186,7 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">장바구니</p>
-                      <p class="card-title">5<p>
+                      <p class="card-title">5 개<p>
                     </div>
                   </div>
                 </div>
@@ -269,8 +275,8 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-<!--                  <i class="fa fa-calendar-check-o"></i>
-                  다음 등급까지 10만원-->
+                  <i class="fa fa-calendar-check-o"></i>
+                  다음 등급 : GOLD
                 </div>
               </div>
             </div>
@@ -281,11 +287,86 @@ Coded by www.creative-tim.com
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Users Behavior</h5>
+                <h5 class="card-title">나의 게시글</h5>
                 <p class="card-category">24 Hours performance</p>
               </div>
               <div class="card-body ">
-                <canvas id=chartHours width="400" height="100"></canvas>
+                <!--<canvas id=chartHours width="400" height="100"></canvas>-->
+                <div class="table-responsive">
+                  <table class="table">
+
+                    <thead class=" text-primary">
+                    <th>상품 이름</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                    <th class="text-right">답변유무</th>
+                    </thead>
+
+<!-- 글 작성 기록이 없다면 보여줄 것
+                    <tbody>
+                    <tr>
+                      <td>최근 24시간 내에 글을 작성한 기록이 없습니다.</td>
+                    </tr>
+                    </tbody>
+-->
+
+                    <tbody>
+
+                    <tr>
+                      <td>WHITE T-SHIRTS</td>
+                      <td>잘썼어요</td>
+                      <td>2023.03.01</td>
+                      <td class="text-right">O</td>
+                    </tr>
+
+                    <tr>
+                      <td>BLACK T-SHIRTS</td>
+                      <td>너무 만족스러워요.</td>
+                      <td>2023.02.19</td>
+                      <td class="text-right">X</td>
+                    </tr>
+
+                    <tr>
+                      <td>Sage Rodriguez</td>
+                      <td>Netherlands</td>
+                      <td>Baileux</td>
+                      <td class="text-right">$56,142</td>
+                    </tr>
+
+                    <tr>
+                      <td>Philip Chaney</td>
+                      <td>Korea, South</td>
+                      <td>Overland Park</td>
+                      <td class="text-right">$38,735</td>
+                    </tr>
+                    <tr>
+                      <td>Philip Chaney</td>
+                      <td>Korea, South</td>
+                      <td>Overland Park</td>
+                      <td class="text-right">$38,735</td>
+                    </tr>
+                    <tr>
+                      <td>Philip Chaney</td>
+                      <td>Korea, South</td>
+                      <td>Overland Park</td>
+                      <td class="text-right">$38,735</td>
+                    </tr>
+                    <tr>
+                      <td>Philip Chaney</td>
+                      <td>Korea, South</td>
+                      <td>Overland Park</td>
+                      <td class="text-right">$38,735</td>
+                    </tr>
+                    <tr>
+                      <td>Philip Chaney</td>
+                      <td>Korea, South</td>
+                      <td>Overland Park</td>
+                      <td class="text-right">$38,735</td>
+                    </tr>
+
+                    </tbody>
+                  </table>
+                </div>
               </div>
               <div class="card-footer ">
                 <hr>
@@ -296,7 +377,7 @@ Coded by www.creative-tim.com
             </div>
           </div>
         </div>
-        <div class="row">
+<!--        <div class="row">
           <div class="col-md-4">
             <div class="card ">
               <div class="card-header ">
@@ -341,16 +422,15 @@ Coded by www.creative-tim.com
               </div>
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
       <footer class="footer footer-black  footer-white ">
         <div class="container-fluid">
           <div class="row">
             <nav class="footer-nav">
               <ul>
-                <li><a href="https://www.creative-tim.com" target="_blank">Creative Tim</a></li>
-                <li><a href="https://www.creative-tim.com/blog" target="_blank">Blog</a></li>
-                <li><a href="https://www.creative-tim.com/license" target="_blank">Licenses</a></li>
+                <li><a href="/" target="_blank">Main</a></li>
+                <li><a href="/" target="_blank">Product</a></li>
               </ul>
             </nav>
             <div class="credits ml-auto">
@@ -379,12 +459,12 @@ Coded by www.creative-tim.com
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! -->
   <script src="/assets/demo/demo.js"></script>
-  <script>
+<!--  <script>
     $(document).ready(function() {
       // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
       demo.initChartsPages();
     });
-  </script>
+  </script>-->
 </body>
 
 </html>

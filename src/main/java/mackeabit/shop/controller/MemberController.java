@@ -5,6 +5,7 @@ import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.MemberDetailVO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -54,4 +55,21 @@ public class MemberController {
     public String addressInsert(MemberDetailVO memberDetailVO) {
         return memberService.insertDetails(memberDetailVO);
     }
+
+
+    @GetMapping("/myPage")
+    public String myPage() {
+        return "myPage";
+    }
+
+    @GetMapping("/myPage/memberInfo")
+    public String memberInfo() {
+
+        return "memberInfo";
+    }
+
+
+
+
+
 }

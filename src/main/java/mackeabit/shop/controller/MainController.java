@@ -116,12 +116,6 @@ public class MainController {
         return "sign-up";
     }
 
-    @GetMapping("/myPage")
-    public String myPage() {
-
-
-        return "myPage";
-    }
 
     //트랜잭션 적용 전
     @PostMapping("/signup")
