@@ -32,4 +32,15 @@
         insert into Members_detail values (#{member_idx}, #{post_code}, #{address}, #{address_detail})
     </insert>
 
+    <select id="findOrders" parameterType="Long" resultType="mackeabit.shop.dto.MainProductsDTO">
+        select * from orders o JOIN products p ON p.pd_idx = o.pd_idx join product_img pi ON p.pd_idx = pi.pd_idx
+                 where member_idx = #{member_idx}
+                   and order_date >= DATE_SUB(NOW(), INTERVAL 1 DAY)
+                       order by o.order_idx desc;
+    </select>
+
+    <select id="findPayments" parameterType="Long" resultType="mackeabit.shop.dto.MyPagePayDTO">
+        select * from payments as p, orders as o where p.order_mi=o.order_mi and p.member_idx = #{member_idx} order by order_date desc;
+    </select>
+
 </mapper>

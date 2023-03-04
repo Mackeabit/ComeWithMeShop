@@ -45,8 +45,7 @@ Coded by www.creative-tim.com
           </div>
           <!-- <p>CT</p> -->
         </a>
-        <a href="/" class="simple-text logo-normal">
-          사용자 이름
+        <a href="/" class="simple-text logo-normal" th:text="${session.loginMember.email.substring(0, session.loginMember.email.indexOf('@'))}">
         </a>
       </div>
       <div class="sidebar-wrapper">
@@ -184,22 +183,33 @@ Coded by www.creative-tim.com
                     </div>
                   </div>
                   <div class="col-7 col-md-8">
+                    <a href="/cart" style="color: black; text-decoration: none;">
                     <div class="numbers">
                       <p class="card-category">장바구니</p>
-                      <p class="card-title">5 개<p>
+                      <p class="card-title" th:text="${session.memberCart.size()} + ' 개'">5 개<p>
                     </div>
+                    </a>
                   </div>
                 </div>
               </div>
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o"></i>
-                  2022.02.28
+                  <i class="fa fa-calendar-check-o" id="today_date"></i>
                 </div>
               </div>
             </div>
           </div>
+
+          <script type="text/javascript">
+            var today = new Date();
+            var year = today.getFullYear();
+            var month = ("0" + (today.getMonth() + 1)).slice(-2);
+            var day = ("0" + today.getDate()).slice(-2);
+
+            var dateElement = document.getElementById("today_date");
+            dateElement.textContent = year + "." + month + "." + day;
+          </script>
 
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
@@ -213,7 +223,7 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">결제 완료</p>
-                      <p class="card-title">5 건<p>
+                      <p class="card-title" th:text="${payList.complete_cnt}+' 건'">5 건<p>
                     </div>
                   </div>
                 </div>
@@ -221,8 +231,7 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o"></i>
-                  2022.02.28
+                  <i class="fa fa-calendar-check-o" th:text="${#dates.format(payList.complete_date, 'yyyy-MM-dd')}"></i>
                 </div>
               </div>
             </div>
@@ -240,7 +249,7 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">결제 취소</p>
-                      <p class="card-title">3 건<p>
+                      <p class="card-title" th:text="${payList.cancel_cnt}+' 건'">3 건<p>
                     </div>
                   </div>
                 </div>
@@ -248,8 +257,7 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o"></i>
-                  2022.02.28
+                  <i class="fa fa-calendar-check-o" th:text="${#dates.format(payList.cancel_date, 'yyyy-MM-dd')}"></i>
                 </div>
               </div>
             </div>
@@ -267,7 +275,7 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">현재 등급</p>
-                      <p class="card-title">SILVER<p>
+                      <p class="card-title" id="gradeName">SILVER<p>
                     </div>
                   </div>
                 </div>
@@ -275,19 +283,47 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o"></i>
-                  다음 등급 : GOLD
+                  <i class="fa fa-calendar-check-o" id="nextGrade">다음 등급 : GOLD</i>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        <script type="text/javascript" defer>
+          function setNextGrade() {
+            var gradeCode = /*[[${session.loginMember.grade_code}]]*/;
+            var nextGrade = "";
+            switch (gradeCode) {
+              case 0:
+                document.getElementById("gradeName").textContent = "NORMAL";
+                nextGrade = "다음 등급 : SILVER";
+                break;
+              case 1:
+                document.getElementById("gradeName").textContent = "SILVER";
+                nextGrade = "다음 등급 : GOLD";
+                break;
+              case 2:
+                document.getElementById("gradeName").textContent = "GOLD";
+                nextGrade = "다음 등급 : VIP";
+                break;
+              case 3:
+                document.getElementById("gradeName").textContent = "VIP";
+                nextGrade = "최고등급";
+                break;
+              default:
+                document.getElementById("gradeName").textContent = "UNKNOWN";
+                nextGrade = "UNKNOWN";
+                break;
+            }
+            document.getElementById("nextGrade").textContent = nextGrade;
+          }
+        </script>
         <div class="row">
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">나의 게시글</h5>
+                <h5 class="card-title">나의 주문 현황</h5>
                 <p class="card-category">24 Hours performance</p>
               </div>
               <div class="card-body ">
@@ -296,74 +332,25 @@ Coded by www.creative-tim.com
                   <table class="table">
 
                     <thead class=" text-primary">
+                    <th>상품</th>
                     <th>상품 이름</th>
-                    <th>제목</th>
-                    <th>작성일</th>
-                    <th class="text-right">답변유무</th>
+                    <th>상품 금액</th>
+                    <th class="text-right">주문 날짜</th>
                     </thead>
 
-<!-- 글 작성 기록이 없다면 보여줄 것
-                    <tbody>
+                    <tbody th:if="${orderList.size() == 0}">
                     <tr>
-                      <td>최근 24시간 내에 글을 작성한 기록이 없습니다.</td>
+                      <td>최근 24시간 내에 주문한 기록이 없습니다.</td>
                     </tr>
                     </tbody>
--->
 
-                    <tbody>
-
+                    <tbody th:if="${orderList.size() != 0}" th:each="pd:${orderList}">
                     <tr>
-                      <td>WHITE T-SHIRTS</td>
-                      <td>잘썼어요</td>
-                      <td>2023.03.01</td>
-                      <td class="text-right">O</td>
+                      <td><img th:src="|${pd.sv_locCt}|" src="img/product-img/acc-1cart.jpg" alt="" style="max-width: 100px; height: 100px;"></td>
+                      <td th:text="${pd.pd_nm}">WHITE T-SHIRTS</td>
+                      <td th:text="${pd.sell_price}+'원'">2,000원</td>
+                      <td class="text-right" th:text="${#dates.format(pd.order_date, 'yyyy-MM-dd')}"></td>
                     </tr>
-
-                    <tr>
-                      <td>BLACK T-SHIRTS</td>
-                      <td>너무 만족스러워요.</td>
-                      <td>2023.02.19</td>
-                      <td class="text-right">X</td>
-                    </tr>
-
-                    <tr>
-                      <td>Sage Rodriguez</td>
-                      <td>Netherlands</td>
-                      <td>Baileux</td>
-                      <td class="text-right">$56,142</td>
-                    </tr>
-
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td class="text-right">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td class="text-right">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td class="text-right">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td class="text-right">$38,735</td>
-                    </tr>
-                    <tr>
-                      <td>Philip Chaney</td>
-                      <td>Korea, South</td>
-                      <td>Overland Park</td>
-                      <td class="text-right">$38,735</td>
-                    </tr>
-
                     </tbody>
                   </table>
                 </div>
@@ -371,7 +358,7 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-history"></i> Updated 3 minutes ago
+                  <i class="fa fa-history"> Updated 3 minutes ago</i>
                 </div>
               </div>
             </div>
@@ -465,6 +452,9 @@ Coded by www.creative-tim.com
       demo.initChartsPages();
     });
   </script>-->
+  <script type="text/javascript">
+    setNextGrade();
+  </script>
 </body>
 
 </html>

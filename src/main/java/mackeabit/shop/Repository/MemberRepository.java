@@ -1,5 +1,7 @@
 package mackeabit.shop.Repository;
 
+import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.MyPagePayDTO;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 
@@ -24,4 +26,8 @@ public interface MemberRepository {
     MemberDetailVO memberDetailOne(Long member_idx);
 
     int insertDetails(MemberDetailVO memberDetailVO);
+
+    List<MainProductsDTO> findOrders(Long member_idx);
+
+    List<MyPagePayDTO> findPayments(Long member_idx);
 }

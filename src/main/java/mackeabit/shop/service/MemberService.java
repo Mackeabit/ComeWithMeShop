@@ -3,6 +3,8 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.MemberRepository;
+import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.MyPagePayDTO;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.MemberDetailVO;
@@ -126,5 +128,13 @@ public class MemberService {
         }
 
         return data;
+    }
+
+    public List<MainProductsDTO> findOrders(Long member_idx) {
+        return repository.findOrders(member_idx);
+    }
+
+    public List<MyPagePayDTO> findPayments(Long member_idx) {
+        return repository.findPayments(member_idx);
     }
 }
