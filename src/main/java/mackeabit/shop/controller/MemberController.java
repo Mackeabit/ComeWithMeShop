@@ -128,6 +128,18 @@ public class MemberController {
 
         MemberDetailVO memberDetailVO = memberService.findMemberDetailByMemberIdx(attribute.getMember_idx());
 
+        log.info("memberDetailVO = {}", memberDetailVO);
+
+        if (memberDetailVO == null) {
+
+            //타임리프 변수 처리를 위해 null 값 셋팅
+
+            memberDetailVO = new MemberDetailVO();
+            memberDetailVO.setAddress("");
+            memberDetailVO.setAddress_detail("");
+            memberDetailVO.setPost_code(null);
+        }
+
         model.addAttribute("members_detail", memberDetailVO);
 
         return "memberInfo";
