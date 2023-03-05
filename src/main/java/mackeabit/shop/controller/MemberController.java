@@ -126,7 +126,11 @@ public class MemberController {
         return "memberInfo";
     }
 
+    @GetMapping("/myPage/orders")
+    public String myPageOrder() {
 
+        return "myOrders";
+    }
 
 
 

@@ -32,49 +32,56 @@ Coded by www.creative-tim.com
   <link href="/assets/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="/assets/demo/demo.css" rel="stylesheet" />
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+  <!-- 카카오 주소 API -->
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<!--
+  <style>
+    .dpn {
+      display: none !important;
+    }
+
+  </style>
+-->
+
 </head>
 
 <body class="">
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
-        <a href="/" class="simple-text logo-mini">
+        <a href="/myPage/memberInfo" class="simple-text logo-mini">
           <div class="logo-image-small">
             <img src="/assets/img/logo-small.png">
           </div>
           <!-- <p>CT</p> -->
         </a>
-        <a href="/" class="simple-text logo-normal">
-          사용자 이름
+        <a href="/myPage/memberInfo" class="simple-text logo-normal" th:text="${session.loginMember.email.substring(0, session.loginMember.email.indexOf('@'))}">
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="active ">
+          <li>
             <a href="/myPage">
               <i class="nc-icon nc-bank"></i>
               <p>마이 페이지</p>
             </a>
           </li>
           <li>
-            <a href="./icons.html">
+            <a href="/myPage/orders">
               <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
+              <p>결제 내역</p>
             </a>
           </li>
           <li>
-            <a href="./map.html">
-              <i class="nc-icon nc-pin-3"></i>
-              <p>Maps</p>
-            </a>
-          </li>
-          <li>
-            <a href="./notifications.html">
+            <a href="/myPage/orders">
               <i class="nc-icon nc-bell-55"></i>
-              <p>Notifications</p>
+              <p>주문 목록</p>
             </a>
           </li>
-          <li>
+          <li class="active ">
             <a href="/myPage/memberInfo">
               <i class="nc-icon nc-single-02"></i>
               <p>개인정보 수정</p>
@@ -185,61 +192,7 @@ Coded by www.creative-tim.com
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
                         <label>Email (변경불가)</label>
-                        <input type="text" class="form-control" disabled="" placeholder="Email" value="Creative Code Inc.">
-                      </div>
-                    </div>
-                  </div>
-<!--                  <div class="row">
-                    <div class="col-md-6 pr-1">
-                      <div class="form-group">
-                        <label>First Name</label>
-                        <input type="text" class="form-control" placeholder="Company" value="Chet">
-                      </div>
-                    </div>
-                    <div class="col-md-6 pl-1">
-                      <div class="form-group">
-                        <label>Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name" value="Faker">
-                      </div>
-                    </div>
-                  </div>-->
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>PassWord</label>
-                        <input type="password" class="form-control" placeholder="변경하실 비밀번호를 입력해주세요.">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Check PassWord</label>
-                        <input type="password" class="form-control" placeholder="비밀번호 확인">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Address</label>
-                        <input type="text" class="form-control" placeholder="주소 찾기">
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-md-5 pr-1">
-                      <div class="form-group">
-<!--                        <label>Address</label>-->
-                        <input type="text" class="form-control" placeholder="상세 주소">
-                      </div>
-                    </div>
-                    <div class="col-md-4 pl-1">
-                      <div class="form-group">
-                        <input type="number" class="form-control" placeholder="우편 번호">
+                        <input type="text" class="form-control" disabled="" placeholder="Email" th:value="${session.loginMember.email}" value="">
                       </div>
                     </div>
                   </div>
@@ -248,24 +201,142 @@ Coded by www.creative-tim.com
                     <div class="col-md-4 pr-1">
                       <div class="form-group">
                         <label>회원 등급</label>
-                        <input type="text" class="form-control" value="SILVER" disabled="">
+                        <input type="text" class="form-control" id="gradeName" disabled="">
                       </div>
                     </div>
                     <div class="col-md-4 px-1">
                       <div class="form-group">
                         <label>회원 포인트</label>
-                        <input type="text" class="form-control" value="0" disabled="">
+                        <input type="text" class="form-control" th:value="${session.loginMember.member_point}" value="0" disabled="">
+                      </div>
+                    </div>
+                  </div>
+
+                  <script type="text/javascript" defer>
+                    function setNextGrade() {
+                      var gradeCode = [[${session.loginMember.grade_code}]];
+                      switch (gradeCode) {
+                        case 0:
+                          $('#gradeName').val('NORMAL');
+                          break;
+                        case 1:
+                          $('#gradeName').val('SILVER');
+                          break;
+                        case 2:
+                          $('#gradeName').val('GOLD');
+                          break;
+                        case 3:
+                          $('#gradeName').val('VIP');
+                          break;
+                        default:
+                          $('#gradeName').val('UNKNOWN');
+                          break;
+                      }
+                    }
+                  </script>
+
+                  <!--                  <div class="row">
+                                      <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                          <label>First Name</label>
+                                          <input type="text" class="form-control" placeholder="Company" value="Chet">
+                                        </div>
+                                      </div>
+                                      <div class="col-md-6 pl-1">
+                                        <div class="form-group">
+                                          <label>Last Name</label>
+                                          <input type="text" class="form-control" placeholder="Last Name" value="Faker">
+                                        </div>
+                                      </div>
+                                    </div>-->
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>PassWord</label>
+                        <input type="password" id="pwd" class="form-control" placeholder="변경하실 비밀번호를 입력해주세요.">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Check PassWord</label>
+                        <input type="password" id="pwd_check" class="form-control" placeholder="비밀번호 확인">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="street_address" name="address" class="form-control" placeholder="주소 찾기">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-5 pr-1">
+                      <div class="form-group">
+<!--                        <label>Address</label>-->
+                        <input type="text" name="address_detail" class="form-control" placeholder="상세 주소">
+                      </div>
+                    </div>
+                    <div class="col-md-4 pl-1">
+                      <div class="form-group">
+                        <input type="text" id="postcode" name="post_code" class="form-control" placeholder="우편 번호" readonly>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round">Update Profile</button>
+                      <button type="button" class="btn btn-primary btn-round">Update Profile</button>
                     </div>
                   </div>
-
                 </form>
+
+                <script>
+
+                  let add_ck = false;
+
+                  document.getElementById("street_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
+                    //카카오 지도 발생
+                    new daum.Postcode({
+                      oncomplete: function(data) { //선택시 입력값 세팅
+                        document.getElementById("postcode").value = data.zonecode;//우편번호
+                        document.getElementById("street_address").value = data.address; // 주소 넣기
+                        $('#street_address2').focus(); //상세입력 포커싱
+                      }
+                    }).open();
+                  });
+
+                  function send() {
+                    new daum.Postcode({
+                      oncomplete: function(data) { //선택시 입력값 세팅
+                        document.getElementById("postcode").value = data.zonecode;//우편번호
+                        document.getElementById("street_address").value = data.address; // 주소 넣기
+                        $("#street_address2").focus(); //상세입력 포커싱
+                      }
+                    }).open();
+                  }
+
+                  /* 비밀번호 체크 */
+                  $('#pwd_check').focusout(function (){
+                    let pwd = $('#pwd').val();
+                    let pwd_check = $('#pwd_check').val();
+
+                    if (pwd == pwd_check) {
+                    }else {
+                      alert("비밀번호를 확인해주세요.");
+                    }
+
+                  });
+
+
+                </script>
+
               </div>
             </div>
           </div>
@@ -306,6 +377,9 @@ Coded by www.creative-tim.com
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="/assets/js/paper-dashboard.min.js?v=2.0.1" type="text/javascript"></script><!-- Paper Dashboard DEMO methods, don't include it in your project! -->
   <script src="/assets/demo/demo.js"></script>
+  <script type="text/javascript">
+    setNextGrade();
+  </script>
 </body>
 
 </html>

@@ -39,27 +39,27 @@ Coded by www.creative-tim.com
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <div class="logo">
-        <a href="/" class="simple-text logo-mini">
+        <a href="/myPage/memberInfo" class="simple-text logo-mini">
           <div class="logo-image-small">
             <img src="/assets/img/logo-small.png">
           </div>
           <!-- <p>CT</p> -->
         </a>
-        <a href="/" class="simple-text logo-normal" th:text="${session.loginMember.email.substring(0, session.loginMember.email.indexOf('@'))}">
+        <a href="/myPage/memberInfo" class="simple-text logo-normal" th:text="${session.loginMember.email.substring(0, session.loginMember.email.indexOf('@'))}">
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="active ">
-            <a href="./myPage.html">
+            <a href="/myPage">
               <i class="nc-icon nc-bank"></i>
               <p>마이 페이지</p>
             </a>
           </li>
           <li>
-            <a href="./icons.html">
+            <a href="/myPage/orders">
               <i class="nc-icon nc-diamond"></i>
-              <p>Icons</p>
+              <p>결제 내역</p>
             </a>
           </li>
           <li>
@@ -69,9 +69,9 @@ Coded by www.creative-tim.com
             </a>
           </li>
           <li>
-            <a href="./notifications.html">
+            <a href="/myPage/orders">
               <i class="nc-icon nc-bell-55"></i>
-              <p>Notifications</p>
+              <p>주문 목록</p>
             </a>
           </li>
           <li>
@@ -172,6 +172,7 @@ Coded by www.creative-tim.com
       </nav>
       <!-- End Navbar -->
       <div class="content">
+        <br>
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card card-stats">
@@ -231,7 +232,8 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o" th:text="${#dates.format(payList.complete_date, 'yyyy-MM-dd')}"></i>
+                  <i class="fa fa-calendar-check-o" th:if="${payList.complete_cnt != 0}" th:text="${#dates.format(payList.complete_date, 'yyyy-MM-dd')}"></i>
+                  <i th:if="${payList.complete_cnt == 0}" th:text="'결제 내역이 없습니다.'"></i>
                 </div>
               </div>
             </div>
@@ -257,7 +259,8 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o" th:text="${#dates.format(payList.cancel_date, 'yyyy-MM-dd')}"></i>
+                  <i class="fa fa-calendar-check-o" th:if="${payList.cancel_cnt != 0}" th:text="${#dates.format(payList.cancel_date, 'yyyy-MM-dd')}"></i>
+                  <i th:if="${payList.cancel_cnt == 0}" th:text="'최근 취소 내역이 없습니다.'"></i>
                 </div>
               </div>
             </div>
@@ -275,7 +278,7 @@ Coded by www.creative-tim.com
                   <div class="col-7 col-md-8">
                     <div class="numbers">
                       <p class="card-category">현재 등급</p>
-                      <p class="card-title" id="gradeName">SILVER<p>
+                      <p class="card-title" id="gradeName"><p>
                     </div>
                   </div>
                 </div>
@@ -283,7 +286,7 @@ Coded by www.creative-tim.com
               <div class="card-footer ">
                 <hr>
                 <div class="stats">
-                  <i class="fa fa-calendar-check-o" id="nextGrade">다음 등급 : GOLD</i>
+                  <i id="nextGrade"></i>
                 </div>
               </div>
             </div>
@@ -292,7 +295,7 @@ Coded by www.creative-tim.com
 
         <script type="text/javascript" defer>
           function setNextGrade() {
-            var gradeCode = /*[[${session.loginMember.grade_code}]]*/;
+            var gradeCode = [[${session.loginMember.grade_code}]];
             var nextGrade = "";
             switch (gradeCode) {
               case 0:
@@ -319,6 +322,9 @@ Coded by www.creative-tim.com
             document.getElementById("nextGrade").textContent = nextGrade;
           }
         </script>
+        <br>
+        <br>
+        <br>
         <div class="row">
           <div class="col-md-12">
             <div class="card ">
@@ -332,7 +338,7 @@ Coded by www.creative-tim.com
                   <table class="table">
 
                     <thead class=" text-primary">
-                    <th>상품</th>
+                    <th>상품이미지</th>
                     <th>상품 이름</th>
                     <th>상품 금액</th>
                     <th class="text-right">주문 날짜</th>
@@ -356,10 +362,12 @@ Coded by www.creative-tim.com
                 </div>
               </div>
               <div class="card-footer ">
+<!--
                 <hr>
                 <div class="stats">
                   <i class="fa fa-history"> Updated 3 minutes ago</i>
                 </div>
+-->
               </div>
             </div>
           </div>
@@ -415,12 +423,14 @@ Coded by www.creative-tim.com
         <div class="container-fluid">
           <div class="row">
             <nav class="footer-nav">
+              <br>
               <ul>
                 <li><a href="/" target="_blank">Main</a></li>
                 <li><a href="/" target="_blank">Product</a></li>
               </ul>
             </nav>
             <div class="credits ml-auto">
+              <br>
               <span class="copyright">
                 © <script>
                   document.write(new Date().getFullYear())
