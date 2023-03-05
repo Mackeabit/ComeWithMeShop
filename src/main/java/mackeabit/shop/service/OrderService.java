@@ -36,14 +36,14 @@ public class OrderService {
     private final CartService cartService;
 
     @Transactional
-    public String saveAll(String order_mi, String pay_code, String address, String address_detail, Integer total_price) {
+    public String saveAll(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code) {
 
         String data = "RollbackCheck";
 
         log.info("Enter saveAll");
 
         //주문서 작성, 결제 작성, 장바구니 비우기 로직 메서드
-        data = orderAndPayMethod(order_mi, pay_code, address, address_detail, total_price);
+        data = orderAndPayMethod(order_mi, pay_code, address, address_detail, total_price, shipping_code);
 
 //        data = rollbackCatch();
         log.info("out saveAll date is = {}", data);
@@ -67,7 +67,7 @@ public class OrderService {
         return data;
     }*/
 
-    private String orderAndPayMethod(String order_mi, String pay_code, String address, String address_detail, Integer total_price) {
+    private String orderAndPayMethod(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code) {
 
         log.info("Enter orderAndPayMethod");
 
@@ -119,6 +119,7 @@ public class OrderService {
             ordersVO.setAddress_detail(address_detail);
             ordersVO.setPd_idx(memberCart.get(i).getPd_idx());
             ordersVO.setNow_price(memberCart.get(i).getSell_price());
+            ordersVO.setShipping_code(shipping_code);
 
             //List 삽입
             createOrders.add(ordersVO);

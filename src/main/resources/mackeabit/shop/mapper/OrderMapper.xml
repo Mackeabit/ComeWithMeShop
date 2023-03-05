@@ -5,13 +5,13 @@
 <mapper namespace="mackeabit.shop.mapper.OrderMapper">
 
     <insert id="save" parameterType="map" useGeneratedKeys="true" keyProperty="order_idx">
-        insert into orders values(0, #{order_mi}, #{member_idx}, #{pd_idx}, #{now_price}, #{address}, now())
+        insert into orders values(0, #{order_mi}, #{member_idx}, #{pd_idx}, #{now_price}, #{address}, now(), #{shipping_code})
     </insert>
 
     <insert id="saveAll" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="order_idx">
-        insert into orders (order_mi, member_idx, pd_idx, now_price, address, address_detail, order_date) values
+        insert into orders (order_mi, member_idx, pd_idx, now_price, address, address_detail, order_date, shipping_code) values
         <foreach collection="list" item="item" separator=",">
-            (#{item.order_mi}, #{item.member_idx}, #{item.pd_idx}, #{item.now_price}, #{item.address}, #{item.address_detail}, now())
+            (#{item.order_mi}, #{item.member_idx}, #{item.pd_idx}, #{item.now_price}, #{item.address}, #{item.address_detail}, now(), #{item.shipping_code})
         </foreach>
     </insert>
 

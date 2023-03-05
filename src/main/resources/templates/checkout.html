@@ -405,6 +405,7 @@
                                     <span>배송료</span>
                                     <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'"></span>
                                     <span th:if="${checkOutInfo.shipping_price == 'Free' or checkOutInfo.shipping_price == '0'}">Free</span>
+                                    <input type="hidden" id="shipping_code" th:value="${checkOutInfo.shipping_code}">
                                 </li>
 
                                 <li>
@@ -453,6 +454,7 @@
                                 let address1;
                                 let address2;
                                 let postcode;
+                                let shipping_code;
 
 
                                 /* IMPORT 결제 API */
@@ -466,6 +468,7 @@
                                     address1 = $('#street_address').val();
                                     address2 = $('#street_address2').val();
                                     postcode  = $('#postcode').val();
+                                    shipping_code  = $('#shipping_code').val();
 
                                     alert(name);
                                     alert(tel);
@@ -638,6 +641,7 @@
                                         infoJson.total_price = $('#ttPrice').val();
                                         infoJson.address = $('#address1').val();
                                         infoJson.address_detail = $('#address2').val();
+                                        infoJson.shipping_code = $('#shipping_code').val();
 /*
 
 

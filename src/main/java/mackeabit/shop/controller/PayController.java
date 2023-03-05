@@ -98,7 +98,7 @@ public class PayController {
 
             if (orderInfo.getPd_idx() == null) {
                 log.info("pd_idx = {}", orderInfo.getPd_idx());
-                data = orderService.saveAll(orderInfo.getOrder_mi(), orderInfo.getPay_code(), orderInfo.getAddress(), orderInfo.getAddress_detail(),orderInfo.getTotal_price());
+                data = orderService.saveAll(orderInfo.getOrder_mi(), orderInfo.getPay_code(), orderInfo.getAddress(), orderInfo.getAddress_detail(),orderInfo.getTotal_price(), orderInfo.getShipping_code());
             } else if (orderInfo.getPd_idx() != null) {
                 data = "Not Yet";
             }

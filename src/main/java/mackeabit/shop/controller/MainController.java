@@ -230,6 +230,9 @@ public class MainController {
 
         log.info("shipping = {}",checkOutDTO.getShipping_price());
 
+        int shipping_code = shippingCode(checkOutDTO.getShipping_price());
+
+        checkOutDTO.setShipping_code(shipping_code);
 
         String title = "";
 
@@ -312,6 +315,26 @@ public class MainController {
         model.addAttribute("memberInfo", detailOne);
 
         return "checkout";
+    }
+
+    private int shippingCode(String shipping_price) {
+
+        int shipping_code = 0;
+
+        switch (shipping_price) {
+
+            case "0":
+                break;
+            case "3000":
+                shipping_code = 1;
+                break;
+            case "5000":
+                shipping_code = 2;
+                break;
+
+        }
+
+        return shipping_code;
     }
 
     //등급별 할인 메서드
