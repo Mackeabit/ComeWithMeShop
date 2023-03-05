@@ -43,4 +43,8 @@
         select * from payments as p, orders as o where p.order_mi=o.order_mi and p.member_idx = #{member_idx} order by order_date desc;
     </select>
 
+    <select id="findMemberDetailByMemberIdx" parameterType="Long" resultType="mackeabit.shop.vo.MemberDetailVO">
+        select * from members_detail where member_idx = #{member_idx};
+    </select>
+
 </mapper>

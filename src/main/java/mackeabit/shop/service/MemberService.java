@@ -137,4 +137,8 @@ public class MemberService {
     public List<MyPagePayDTO> findPayments(Long member_idx) {
         return repository.findPayments(member_idx);
     }
+
+    public MemberDetailVO findMemberDetailByMemberIdx(Long member_idx) {
+        return repository.findMemberDetailByMemberIdx(member_idx);
+    }
 }

@@ -84,5 +84,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.findPayments(member_idx);
     }
 
+    @Override
+    public MemberDetailVO findMemberDetailByMemberIdx(Long member_idx) {
+        return memberMapper.findMemberDetailByMemberIdx(member_idx);
+    }
+
 
 }

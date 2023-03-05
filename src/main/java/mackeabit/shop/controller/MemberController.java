@@ -121,7 +121,14 @@ public class MemberController {
     }
 
     @GetMapping("/myPage/memberInfo")
-    public String memberInfo() {
+    public String memberInfo(Model model) {
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        MemberDetailVO memberDetailVO = memberService.findMemberDetailByMemberIdx(attribute.getMember_idx());
+
+        model.addAttribute("members_detail", memberDetailVO);
 
         return "memberInfo";
     }

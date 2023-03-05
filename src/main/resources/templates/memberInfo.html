@@ -37,14 +37,15 @@ Coded by www.creative-tim.com
   <!-- 카카오 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<!--
   <style>
-    .dpn {
-      display: none !important;
+    #info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
     }
 
   </style>
--->
 
 </head>
 
@@ -186,7 +187,7 @@ Coded by www.creative-tim.com
                 <h5 class="card-title">개인정보 수정</h5>
               </div>
               <div class="card-body">
-                <form>
+                <form id="memberInfoForm">
 
                   <div class="row">
                     <div class="col-md-5 pr-1">
@@ -249,6 +250,15 @@ Coded by www.creative-tim.com
                                         </div>
                                       </div>
                                     </div>-->
+                  <hr>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label id="info">아래 문항들은 변경이 필요한 경우에만 입력해주세요.</label>
+                      </div>
+                    </div>
+                  </div>
+
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
@@ -271,7 +281,7 @@ Coded by www.creative-tim.com
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Address</label>
-                        <input type="text" id="street_address" name="address" class="form-control" placeholder="주소 찾기">
+                        <input type="text" id="street_address" name="address" th:value="${members_detail.address}" class="form-control" placeholder="주소 찾기">
                       </div>
                     </div>
                   </div>
@@ -280,19 +290,19 @@ Coded by www.creative-tim.com
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
 <!--                        <label>Address</label>-->
-                        <input type="text" name="address_detail" class="form-control" placeholder="상세 주소">
+                        <input type="text" name="address_detail" th:value="${members_detail.address_detail}" class="form-control" placeholder="상세 주소">
                       </div>
                     </div>
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
-                        <input type="text" id="postcode" name="post_code" class="form-control" placeholder="우편 번호" readonly>
+                        <input type="text" id="postcode" name="post_code" th:value="${members_detail.post_code}" class="form-control" placeholder="우편 번호" readonly>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button type="button" class="btn btn-primary btn-round">Update Profile</button>
+                      <button id="update_btn" type="button" class="btn btn-primary btn-round">Update Profile</button>
                     </div>
                   </div>
                 </form>

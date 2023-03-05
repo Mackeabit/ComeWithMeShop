@@ -30,4 +30,6 @@ public interface MemberRepository {
     List<MainProductsDTO> findOrders(Long member_idx);
 
     List<MyPagePayDTO> findPayments(Long member_idx);
+
+    MemberDetailVO findMemberDetailByMemberIdx(Long member_idx);
 }
