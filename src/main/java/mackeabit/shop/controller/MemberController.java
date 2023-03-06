@@ -93,11 +93,11 @@ public class MemberController {
 
             if (payList.get(i).getPay_status() == -1) {
                 complete_cnt++;
-            } else if (payList.get(i).getPay_status() == 1){
+            } else if (payList.get(i).getPay_status() == 1) {
                 cancel_cnt++;
             }
 
-            if (payList.get(i).getPay_status() == -1&&check1) {
+            if (payList.get(i).getPay_status() == -1 && check1) {
                 complete_date = payList.get(i).getOrder_date();
             } else if (payList.get(i).getPay_status() == 1 & check2) {
                 cancel_date = payList.get(i).getOrder_date();
@@ -193,5 +193,9 @@ public class MemberController {
         return myOrderList;
     }
 
+    @GetMapping("myPage/pays")
+    public String myPagePayList() {
 
+        return "myPayList";
+    }
 }

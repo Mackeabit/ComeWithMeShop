@@ -58,13 +58,13 @@ Coded by www.creative-tim.com
             <p>마이 페이지</p>
           </a>
         </li>
-        <li class="active ">
+        <li>
           <a href="/myPage/orders">
             <i class="nc-icon nc-bell-55"></i>
             <p>주문 목록</p>
           </a>
         </li>
-        <li>
+        <li class="active ">
           <a href="/myPage/pays">
             <i class="nc-icon nc-diamond"></i>
             <p>결제 내역</p>
@@ -74,6 +74,18 @@ Coded by www.creative-tim.com
           <a href="/myPage/memberInfo">
             <i class="nc-icon nc-single-02"></i>
             <p>개인정보 수정</p>
+          </a>
+        </li>
+        <li>
+          <a href="./tables.html">
+            <i class="nc-icon nc-tile-56"></i>
+            <p>Table List</p>
+          </a>
+        </li>
+        <li>
+          <a href="./typography.html">
+            <i class="nc-icon nc-caps-small"></i>
+            <p>Typography</p>
           </a>
         </li>
         <!--          <li class="active-pro">
@@ -161,8 +173,8 @@ Coded by www.creative-tim.com
           <div class="col-md-8 ml-auto mr-auto">
             <div class="card card-upgrade">
               <div class="card-header text-center">
-                <h4 class="card-title">주문 목록</h4>
-                  <p class="card-category">Order List</p>
+                <h4 class="card-title">결제 목록</h4>
+                  <p class="card-category">주문 번호</p>
               </div>
               <div class="card-body">
                 <div class="table-responsive table-upgrade">
@@ -170,21 +182,51 @@ Coded by www.creative-tim.com
                     <thead>
                       <th class="text-center">구매 상품</th>
                       <th class="text-center">상품 이름</th>
-                      <th class="text-center">주문 번호</th>
-                      <th class="text-center">상품 가격</th>
                       <th class="text-center">구매 수량</th>
                     </thead>
-                    <tbody th:each="order : ${myOrderList}">
+                    <tbody>
                     <tr>
-                      <td class="text-center"><img th:src="|/${order.sv_locCt}|"></td>
-                      <td class="text-center" th:text="${order.pd_nm}"></td>
-                      <td class="text-center" th:text="${order.order_mi}"></td>
-                      <td class="text-center" th:text="${order.sell_price}"></td>
-                      <td class="text-center" th:text="${order.order_cart_cnt}"></td>
+                      <td class="text-center"><img src="/img/product-img/acc-1cart.jpg"></td>
+                      <td class="text-center">테스트용 악세사리</td>
+                      <td class="text-center">3</td>
                     </tr>
-                    </tbody>
-                    <tbody id="order_tbody" th:each="order : ${myOrderList}">
-                    </tbody>
+                    <tr>
+                      <td class="text-center"><img src="/img/product-img/acctest-1cart.jpg"></td>
+                      <td class="text-center">테스트용 악세사리2</td>
+                      <td class="text-center">3</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center"><img src="/img/product-img/acctest-2cart.jpg"></td>
+                      <td class="text-center">테스트용 악세사리3</td>
+                      <td class="text-center">2</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center"><img src="/img/product-img/mantest-1cart.jpg"></td>
+                      <td class="text-center">테스트용 옷</td>
+                      <td class="text-center">1</td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">배송료</td>
+                      <td class="text-center">1,000원</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">총 결제 금액</td>
+                      <td class="text-center">21,000원</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center">결제 상태</td>
+                      <td class="text-center">결제 완료</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td class="text-center"></td>
+                      <td class="text-center"></td>
+                      <td class="text-center">
+                        <a href="#" class="btn btn-round btn-primary">환불 요청</a>
+                      </td>
+                    </tr>
 
                   </table>
                 </div>
@@ -194,67 +236,6 @@ Coded by www.creative-tim.com
         </div>
       </div>
 
-
-<!--    <script>
-      $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-          // 서버에 추가 데이터 요청하기
-          var limit = 4; // 한 번에 가져올 데이터 수
-          var offset = $("tbody tr").length; // 현재 노출된 데이터 수
-          $.ajax({
-            type: "GET",
-            url: "/myPage/orders",
-            data: {limit: limit, offset: offset},
-            success: function(data) {
-              // 데이터 추가하기
-              $("tbody").append(data);
-            }
-          });
-        }
-      });
-    </script>-->
-
-
-    <script>
-
-
-
-
-
-    </script>
-
-    <script>
-      $(document).ready(function() {
-        let offset = 2; // 초기 페이지
-
-        $(window).scroll(function() {
-
-          if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-            $.ajax({
-              url: "/myPage/orders/data?offset=" + offset,
-              type: "GET",
-              success: function(data) {
-                $.each(data, function(index, order) {
-                  var tr = $("<tr>");
-                  tr.append($("<td>").addClass("text-center").append($("<img>").attr("src", "/" + order.sv_locCt)));
-                  tr.append($("<td>").addClass("text-center").text(order.pd_nm));
-                  tr.append($("<td>").addClass("text-center").text(order.order_mi));
-                  tr.append($("<td>").addClass("text-center").text(order.sell_price));
-                  tr.append($("<td>").addClass("text-center").text(order.order_cart_cnt));
-                  tr.append($("</tr>"));
-                  $("#order_tbody").append(tr);
-                });
-                offset++; // 다음 페이지로 이동
-              },
-              error: function(jqXHR, textStatus, errorThrown) {
-                console.log(textStatus, errorThrown);
-              }
-            });
-          }
-        });
-      });
-
-    </script>
 
     <footer class="footer footer-black  footer-white ">
       <div class="container-fluid">
