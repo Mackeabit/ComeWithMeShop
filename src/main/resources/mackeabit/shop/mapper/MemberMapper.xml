@@ -47,4 +47,12 @@
         select * from members_detail where member_idx = #{member_idx};
     </select>
 
+    <update id="updateDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
+        update members_detail set post_code=#{post_code}, address=#{address}, address_detail=#{address_detail} where member_idx=#{member_idx}
+    </update>
+
+    <update id="updateMembers" parameterType="mackeabit.shop.vo.MembersVO">
+        update members set pwd=#{pwd} where member_idx = #{member_idx}
+    </update>
+
 </mapper>

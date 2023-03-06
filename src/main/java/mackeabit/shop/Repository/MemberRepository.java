@@ -32,4 +32,8 @@ public interface MemberRepository {
     List<MyPagePayDTO> findPayments(Long member_idx);
 
     MemberDetailVO findMemberDetailByMemberIdx(Long member_idx);
+
+    int updateMembers(MembersVO membersVO);
+
+    int updateDetails(MemberDetailVO memberDetailVO);
 }

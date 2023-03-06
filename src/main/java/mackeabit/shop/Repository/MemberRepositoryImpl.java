@@ -89,5 +89,15 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.findMemberDetailByMemberIdx(member_idx);
     }
 
+    @Override
+    public int updateMembers(MembersVO membersVO) {
+        return memberMapper.updateMembers(membersVO);
+    }
+
+    @Override
+    public int updateDetails(MemberDetailVO memberDetailVO) {
+        return memberMapper.updateDetails(memberDetailVO);
+    }
+
 
 }

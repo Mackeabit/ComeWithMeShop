@@ -2,14 +2,13 @@ package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.MyPageDTO;
-import mackeabit.shop.dto.MyPagePayDTO;
-import mackeabit.shop.dto.SignUpDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.web.SessionConst;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
@@ -144,6 +144,27 @@ public class MemberController {
 
         return "memberInfo";
     }
+
+    @PostMapping("/myPage/memberInfo")
+    public ResponseEntity<String> insertMemberInfo(MemberDetailVO memberDetailVO, String pwd) {
+
+        log.info("pwd = {}", pwd);
+
+        try {
+            String data = memberService.updateMyPageDetails(memberDetailVO, pwd);
+
+            if (data.equals("Y")) {
+                return new ResponseEntity<>("정보 수정이 완료되었습니다.", HttpStatus.OK);
+            }
+
+        } catch (Exception e) {
+            return new ResponseEntity<String>("정보 수정 중 오류가 발생하였습니다. 잠시 후 재시도 해주세요.", HttpStatus.BAD_REQUEST);
+        }
+
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping("/myPage/orders")
     public String myPageOrder() {

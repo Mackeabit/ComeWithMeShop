@@ -11,6 +11,7 @@ import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -141,4 +142,44 @@ public class MemberService {
     public MemberDetailVO findMemberDetailByMemberIdx(Long member_idx) {
         return repository.findMemberDetailByMemberIdx(member_idx);
     }
+
+    @Transactional
+    public String updateMyPageDetails(MemberDetailVO memberDetailVO, String pwd) throws NoSuchAlgorithmException {
+        String data = "N";
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        memberDetailVO.setMember_idx(attribute.getMember_idx());
+
+        log.info("memberDetail = {}", memberDetailVO);
+
+
+        int res = 0;
+
+        if (pwd != null) {
+
+            log.info("pwd change");
+
+            MembersVO membersVO = new MembersVO();
+            membersVO.setMember_idx(attribute.getMember_idx());
+            membersVO.setPwd(sha256.encrypt(
+                    pwd + sha256.getSALT()
+            ));
+
+            res += repository.updateMembers(membersVO);
+            res += repository.updateDetails(memberDetailVO);
+        } else if (pwd == null){
+            log.info("member_detail change");
+            res = repository.updateDetails(memberDetailVO);
+        }
+
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
+
 }

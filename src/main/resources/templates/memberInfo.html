@@ -36,6 +36,7 @@ Coded by www.creative-tim.com
   <script src="https://code.jquery.com/jquery-latest.js"></script>
   <!-- 카카오 주소 API -->
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   <style>
     #info {
@@ -187,7 +188,6 @@ Coded by www.creative-tim.com
                 <h5 class="card-title">개인정보 수정</h5>
               </div>
               <div class="card-body">
-                <form id="memberInfoForm">
 
                   <div class="row">
                     <div class="col-md-5 pr-1">
@@ -254,7 +254,7 @@ Coded by www.creative-tim.com
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
-                        <label id="info">아래 문항들은 변경이 필요한 경우에만 입력해주세요.</label>
+                        <label id="info">변경이 필요한 문항만 입력해주세요.</label>
                       </div>
                     </div>
                   </div>
@@ -277,11 +277,12 @@ Coded by www.creative-tim.com
                     </div>
                   </div>
 
-                  <div class="row">
+                <form id="memberInfoForm">
+                <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Address</label>
-                        <input type="text" id="street_address" name="address" class="form-control" placeholder="주소 찾기">
+                        <input type="text" id="street_address" name="address" th:value="${members_detail.address}" class="form-control" placeholder="주소 찾기">
                       </div>
                     </div>
                   </div>
@@ -290,12 +291,12 @@ Coded by www.creative-tim.com
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
 <!--                        <label>Address</label>-->
-                        <input type="text" id="street_address2" name="address_detail" class="form-control" placeholder="상세 주소">
+                        <input type="text" id="street_address2" name="address_detail" th:value="${members_detail.address_detail}" class="form-control" placeholder="상세 주소">
                       </div>
                     </div>
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
-                        <input type="text" id="postcode" name="post_code" class="form-control" placeholder="우편 번호" readonly>
+                        <input type="text" id="postcode" name="post_code" th:attr="value=${(members_detail.post_code == null) ? '' : members_detail.post_code}" class="form-control" placeholder="우편 번호" readonly>
                       </div>
                     </div>
                   </div>
@@ -309,15 +310,7 @@ Coded by www.creative-tim.com
 
                 <script>
 
-                    function setInfo() {
-
-                      document.getElementById("street_address").value = /*[[${members_detail.address}]]*/;
-                      document.getElementById("street_address2").value = /*[[${members_detail.address_detail}]]*/;
-                      document.getElementById("postcode").value = /*[[${members_detail.post_code}]]*/;
-
-                    }
-
-                  let add_ck = false;
+                  let add_ck = true;
 
                   document.getElementById("street_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
                     //카카오 지도 발생
@@ -325,6 +318,7 @@ Coded by www.creative-tim.com
                       oncomplete: function(data) { //선택시 입력값 세팅
                         document.getElementById("postcode").value = data.zonecode;//우편번호
                         document.getElementById("street_address").value = data.address; // 주소 넣기
+                        document.getElementById("street_address2").value = '';
                         $('#street_address2').focus(); //상세입력 포커싱
                       }
                     }).open();
@@ -335,6 +329,7 @@ Coded by www.creative-tim.com
                       oncomplete: function(data) { //선택시 입력값 세팅
                         document.getElementById("postcode").value = data.zonecode;//우편번호
                         document.getElementById("street_address").value = data.address; // 주소 넣기
+                        document.getElementById("street_address2").value = '';
                         $("#street_address2").focus(); //상세입력 포커싱
                       }
                     }).open();
@@ -346,12 +341,58 @@ Coded by www.creative-tim.com
                     let pwd_check = $('#pwd_check').val();
 
                     if (pwd == pwd_check) {
+                      add_ck = true;
                     }else {
+                      add_ck = false;
                       alert("비밀번호를 확인해주세요.");
                     }
 
                   });
 
+
+                  $('#update_btn').on('click', function () {
+
+                    let pwd = $('#pwd').val();
+                    let pwd2 = $('#pwd_check').val();
+
+                    if (!add_ck) {
+                      alert("비밀번호를 확인해주세요.");
+                      return false;
+                    }
+
+                    //주소 정보
+                    let formDate = $('#memberInfoForm').serialize();
+
+                    if (pwd != '' && pwd2 != '' && add_ck) {
+                      formDate += '&pwd=' + pwd;
+                    }
+
+                    alert(formDate);
+
+                    //검증 및 성공 로직처리 ajax
+                    $.ajax({
+                      url   : "/myPage/memberInfo",
+                      method: "POST",
+                      data  : formDate,
+                    })
+                      .done(function (result) {
+
+                          //결제 성공 알림 메세지 및 메인페이지로 이동
+                          swal({
+                            text: result,
+                            closeOnClickOutside: false
+                          })
+                        .then(function (){
+                          window.location.href = "/myPage/memberInfo";
+                        })
+                      })//done
+                      .fail(function (){
+                        alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 재시도 해주세요.");
+                        // location.replace("/");
+                      })
+
+
+                  });//클릭 처리
 
                 </script>
 
@@ -397,7 +438,6 @@ Coded by www.creative-tim.com
   <script src="/assets/demo/demo.js"></script>
   <script type="text/javascript">
     setNextGrade();
-    setInfo();
   </script>
 </body>
 
