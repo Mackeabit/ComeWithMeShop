@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.MemberRepository;
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.MyOrdersDTO;
 import mackeabit.shop.dto.MyPagePayDTO;
 import mackeabit.shop.dto.SignUpDTO;
 import mackeabit.shop.security256.SHA256;
@@ -182,4 +183,11 @@ public class MemberService {
         return data;
     }
 
+    public List<MyOrdersDTO> myOrdersList() {
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        return repository.myOrdersList(attribute.getMember_idx());
+    }
 }

@@ -3,6 +3,7 @@ package mackeabit.shop.Repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.MyOrdersDTO;
 import mackeabit.shop.dto.MyPagePayDTO;
 import mackeabit.shop.mapper.MemberMapper;
 import mackeabit.shop.vo.MemberDetailVO;
@@ -97,6 +98,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public int updateDetails(MemberDetailVO memberDetailVO) {
         return memberMapper.updateDetails(memberDetailVO);
+    }
+
+    @Override
+    public List<MyOrdersDTO> myOrdersList(Long member_idx) {
+        return memberMapper.myOrdersList(member_idx);
     }
 
 

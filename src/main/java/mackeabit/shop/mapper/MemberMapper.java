@@ -1,6 +1,7 @@
 package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.MyOrdersDTO;
 import mackeabit.shop.dto.MyPagePayDTO;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
@@ -37,4 +38,6 @@ public interface MemberMapper {
     int updateMembers(MembersVO membersVO);
 
     int updateDetails(MemberDetailVO memberDetailVO);
+
+    List<MyOrdersDTO> myOrdersList(Long member_idx);
 }

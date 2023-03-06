@@ -120,6 +120,7 @@ public class OrderService {
             ordersVO.setPd_idx(memberCart.get(i).getPd_idx());
             ordersVO.setNow_price(memberCart.get(i).getSell_price());
             ordersVO.setShipping_code(shipping_code);
+            ordersVO.setOrder_cart_cnt(memberCart.get(i).getCart_cnt());
 
             //List 삽입
             createOrders.add(ordersVO);

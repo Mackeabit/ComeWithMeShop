@@ -167,7 +167,11 @@ public class MemberController {
 
 
     @GetMapping("/myPage/orders")
-    public String myPageOrder() {
+    public String myPageOrder(Model model) {
+
+        List<MyOrdersDTO> myOrderList = memberService.myOrdersList();
+
+        model.addAttribute("myOrderList", myOrderList);
 
         return "myOrders";
     }
