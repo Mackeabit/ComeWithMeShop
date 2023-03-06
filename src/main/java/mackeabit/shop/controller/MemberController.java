@@ -11,10 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
@@ -166,6 +163,7 @@ public class MemberController {
     }
 
 
+/*
     @GetMapping("/myPage/orders")
     public String myPageOrder(Model model) {
 
@@ -175,7 +173,25 @@ public class MemberController {
 
         return "myOrders";
     }
+*/
 
+    @GetMapping("/myPage/orders")
+    public String myPageOrder(Model model, @RequestParam(defaultValue = "4") int limit, @RequestParam(defaultValue = "1") int offset) {
+
+
+        List<MyOrdersDTO> myOrderList = memberService.myOrdersList(limit, (offset - 1) * limit);
+        model.addAttribute("myOrderList", myOrderList);
+        model.addAttribute("offset", offset);
+        return "myOrders";
+    }
+
+    @GetMapping("/myPage/orders/data")
+    @ResponseBody
+    public List<MyOrdersDTO> myPageOrderData(@RequestParam(defaultValue = "4") int limit, @RequestParam(defaultValue = "1") int offset) {
+        log.info("myPage Paging Infinity");
+        List<MyOrdersDTO> myOrderList = memberService.myOrdersList(limit, (offset - 1) * limit);
+        return myOrderList;
+    }
 
 
 }

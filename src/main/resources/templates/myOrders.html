@@ -186,17 +186,18 @@ Coded by www.creative-tim.com
                       <th class="text-center">상품 가격</th>
                       <th class="text-center">구매 수량</th>
                     </thead>
-                    <tbody th:each="order:${myOrderList}">
-
-                      <tr>
-                        <td class="text-center"><img th:src="|/${order.sv_locCt}|" src="/img/product-img/acc-1cart.jpg"></td>
-                        <td class="text-center" th:text="${order.pd_nm}">WHITE T-SHIRTS</td>
-                        <td class="text-center" th:text="${order.order_mi}">mi_123123142</td>
-                        <td class="text-center" th:text="${order.sell_price}">2000원</td>
-                        <td class="text-center" th:text="${order.order_cart_cnt}">3개</td>
-                      </tr>
-
+                    <tbody th:each="order : ${myOrderList}">
+                    <tr>
+                      <td class="text-center"><img th:src="|/${order.sv_locCt}|"></td>
+                      <td class="text-center" th:text="${order.pd_nm}"></td>
+                      <td class="text-center" th:text="${order.order_mi}"></td>
+                      <td class="text-center" th:text="${order.sell_price}"></td>
+                      <td class="text-center" th:text="${order.order_cart_cnt}"></td>
+                    </tr>
                     </tbody>
+                    <tbody id="order_tbody" th:each="order : ${myOrderList}">
+                    </tbody>
+
                   </table>
                 </div>
               </div>
@@ -204,6 +205,69 @@ Coded by www.creative-tim.com
           </div>
         </div>
       </div>
+
+
+<!--    <script>
+      $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+          // 서버에 추가 데이터 요청하기
+          var limit = 4; // 한 번에 가져올 데이터 수
+          var offset = $("tbody tr").length; // 현재 노출된 데이터 수
+          $.ajax({
+            type: "GET",
+            url: "/myPage/orders",
+            data: {limit: limit, offset: offset},
+            success: function(data) {
+              // 데이터 추가하기
+              $("tbody").append(data);
+            }
+          });
+        }
+      });
+    </script>-->
+
+
+    <script>
+
+
+
+
+
+    </script>
+
+    <script>
+      $(document).ready(function() {
+        let offset = 2; // 초기 페이지
+
+        $(window).scroll(function() {
+
+          if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+            $.ajax({
+              url: "/myPage/orders/data?offset=" + offset,
+              type: "GET",
+              success: function(data) {
+                $.each(data, function(index, order) {
+                  var tr = $("<tr>");
+                  tr.append($("<td>").addClass("text-center").append($("<img>").attr("src", "/" + order.sv_locCt)));
+                  tr.append($("<td>").addClass("text-center").text(order.pd_nm));
+                  tr.append($("<td>").addClass("text-center").text(order.order_mi));
+                  tr.append($("<td>").addClass("text-center").text(order.sell_price));
+                  tr.append($("<td>").addClass("text-center").text(order.order_cart_cnt));
+                  tr.append($("</tr>"));
+                  $("#order_tbody").append(tr);
+                });
+                offset++; // 다음 페이지로 이동
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+              }
+            });
+          }
+        });
+      });
+
+    </script>
+
     <footer class="footer footer-black  footer-white ">
       <div class="container-fluid">
         <div class="row">

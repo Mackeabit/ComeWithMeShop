@@ -7,6 +7,7 @@ import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface MemberRepository {
@@ -38,5 +39,5 @@ public interface MemberRepository {
 
     int updateDetails(MemberDetailVO memberDetailVO);
 
-    List<MyOrdersDTO> myOrdersList(Long member_idx);
+    List<MyOrdersDTO> myOrdersList(Map<String, Object> params);
 }

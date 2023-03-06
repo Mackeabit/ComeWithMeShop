@@ -55,10 +55,19 @@
         update members set pwd=#{pwd} where member_idx = #{member_idx}
     </update>
 
-    <select id="myOrdersList" parameterType="Long" resultType="mackeabit.shop.dto.MyOrdersDTO">
+<!--    <select id="myOrdersList" parameterType="Long" resultType="mackeabit.shop.dto.MyOrdersDTO">
         select * from orders o JOIN products p ON p.pd_idx = o.pd_idx join product_img pi ON p.pd_idx = pi.pd_idx
         where member_idx = #{member_idx}
         order by o.order_idx desc;
+    </select>-->
+
+    <select id="myOrdersList" parameterType="map" resultType="mackeabit.shop.dto.MyOrdersDTO">
+        select * from orders o
+          JOIN products p ON p.pd_idx = o.pd_idx
+          join product_img pi ON p.pd_idx = pi.pd_idx
+        where member_idx = #{member_idx}
+        order by o.order_idx desc
+            limit #{limit} offset #{offset};
     </select>
 
 </mapper>

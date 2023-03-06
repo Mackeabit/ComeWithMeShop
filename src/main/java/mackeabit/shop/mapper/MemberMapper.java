@@ -8,6 +8,7 @@ import mackeabit.shop.vo.MembersVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -39,5 +40,5 @@ public interface MemberMapper {
 
     int updateDetails(MemberDetailVO memberDetailVO);
 
-    List<MyOrdersDTO> myOrdersList(Long member_idx);
+    List<MyOrdersDTO> myOrdersList(Map<String, Object> params);
 }

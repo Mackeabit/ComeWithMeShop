@@ -11,6 +11,7 @@ import mackeabit.shop.vo.MembersVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -101,8 +102,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<MyOrdersDTO> myOrdersList(Long member_idx) {
-        return memberMapper.myOrdersList(member_idx);
+    public List<MyOrdersDTO> myOrdersList(Map<String, Object> params) {
+        return memberMapper.myOrdersList(params);
     }
 
 

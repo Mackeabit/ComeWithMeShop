@@ -11,7 +11,7 @@
     <insert id="saveAll" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="order_idx">
         insert into orders (order_mi, member_idx, pd_idx, now_price, address, address_detail, order_date, shipping_code, order_cart_cnt) values
         <foreach collection="list" item="item" separator=",">
-            (#{item.order_mi}, #{item.member_idx}, #{item.pd_idx}, #{item.now_price}, #{item.address}, #{item.address_detail}, now(), #{item.shipping_code}, #{order_cart_cnt})
+            (#{item.order_mi}, #{item.member_idx}, #{item.pd_idx}, #{item.now_price}, #{item.address}, #{item.address_detail}, now(), #{item.shipping_code}, #{item.order_cart_cnt})
         </foreach>
     </insert>
 

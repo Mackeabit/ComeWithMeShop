@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -183,11 +185,24 @@ public class MemberService {
         return data;
     }
 
-    public List<MyOrdersDTO> myOrdersList() {
+/*    public List<MyOrdersDTO> myOrdersList() {
 
         HttpSession session = request.getSession(false);
         MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         return repository.myOrdersList(attribute.getMember_idx());
+    }*/
+
+    public List<MyOrdersDTO> myOrdersList(int limit, int offset) {
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_idx", attribute.getMember_idx());
+        params.put("limit", limit);
+        params.put("offset", offset);
+
+        return repository.myOrdersList(params);
     }
+
 }
