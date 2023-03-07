@@ -316,7 +316,7 @@ Coded by www.creative-tim.com
               </div>
               <div class="card-body ">
                 <!--<canvas id=chartHours width="400" height="100"></canvas>-->
-                <div class="table-responsive">
+                <div class="table-responsive" th:style="${orderList.size() == 0 ? 'padding-bottom: 100px;' : ''}">
                   <table class="table">
 
                     <thead class=" text-primary">

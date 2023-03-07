@@ -3,6 +3,7 @@ package mackeabit.shop.Repository;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.Members_logVO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,4 +54,6 @@ public interface MemberRepository {
     List<MembersVO> findDeleteCandidates(LocalDateTime deleteCutoffTime);
 
     int realDelete(MembersVO member);
+
+    int saveMember_log(Members_logVO members_logVO);
 }

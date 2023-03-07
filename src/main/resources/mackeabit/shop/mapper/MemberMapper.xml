@@ -9,7 +9,7 @@
     </select>
 
     <insert id="save" parameterType="mackeabit.shop.vo.MembersVO" useGeneratedKeys="true" keyProperty="member_idx">
-        insert into Members values (0, #{email}, #{pwd}, default, default, default, now())
+        insert into Members values (0, #{email}, #{pwd}, default, default, default, now(), default, null)
     </insert>
 
     <select id="emailCheck" parameterType="String" resultType="int">
@@ -30,6 +30,10 @@
 
     <insert id="insertDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
         insert into Members_detail values (#{member_idx}, #{post_code}, #{address}, #{address_detail})
+    </insert>
+
+    <insert id="saveMember_log" parameterType="mackeabit.shop.vo.Members_logVO" useGeneratedKeys="true" keyProperty="ml_idx">
+        INSERT INTO members_log values (0, #{member_idx}, now(), #{login_ip})
     </insert>
 
     <select id="findOrders" parameterType="Long" resultType="mackeabit.shop.dto.MainProductsDTO">

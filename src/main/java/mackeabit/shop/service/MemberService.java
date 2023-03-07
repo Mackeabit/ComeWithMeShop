@@ -7,6 +7,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.Members_logVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,10 +84,26 @@ public class MemberService {
             log.info("collect = {}", collect);
             messages = "no_pwd";
             
-            //비밀번호 체크(암호화)
+            //비밀번호 체크(암호화 비교)
             if (membersVO.getPwd().equals(collect)) {
 
-                messages = "Y";
+                //Member_log 작성 (로그인 기록, IP)
+                String ipAddress = request.getRemoteAddr();
+
+                Members_logVO members_logVO = new Members_logVO();
+                members_logVO.setMember_idx(membersVO.getMember_idx());
+                members_logVO.setLogin_ip(ipAddress);
+
+                int result = repository.saveMember_log(members_logVO);
+
+                messages = "no_logSave";
+
+                if (result > 0) {
+                    messages = "Y";
+                } else {
+                    log.error("no_logSave METHOD IS checkID");
+                }
+
             }
         }
         

@@ -204,6 +204,13 @@ public class MemberController {
         List<MyOrdersDTO> myOrderList = memberService.myOrdersList(limit, (offset - 1) * limit);
         model.addAttribute("myOrderList", myOrderList);
         model.addAttribute("offset", offset);
+
+        log.info("myOrderList = {}", myOrderList);
+
+        if (myOrderList == null || myOrderList.isEmpty()) {
+            return "myNoOrderList";
+        }
+
         return "myOrders";
     }
 
@@ -220,8 +227,8 @@ public class MemberController {
 
         List<MyPayAndOrderDTO> myPayAndOrderList = memberService.myPayAndOrderList(level);
 
-        if (myPayAndOrderList == null) {
-            return "myPayList";
+        if (myPayAndOrderList == null || myPayAndOrderList.isEmpty()) {
+            return "myNoPayList";
         }
 
         model.addAttribute("myPayList", myPayAndOrderList);

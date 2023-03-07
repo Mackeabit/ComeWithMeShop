@@ -3,6 +3,7 @@ package mackeabit.shop.mapper;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.Members_logVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;
@@ -54,4 +55,6 @@ public interface MemberMapper {
     List<MembersVO> findDeleteCandidates(LocalDateTime deleteCutoffTime);
 
     int realDelete(MembersVO member);
+
+    int saveMember_log(Members_logVO members_logVO);
 }

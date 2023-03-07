@@ -6,6 +6,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.MemberMapper;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.Members_logVO;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -138,6 +139,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public int realDelete(MembersVO member) {
         return memberMapper.realDelete(member);
+    }
+
+    @Override
+    public int saveMember_log(Members_logVO members_logVO) {
+        return memberMapper.saveMember_log(members_logVO);
     }
 
 
