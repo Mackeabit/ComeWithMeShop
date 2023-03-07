@@ -65,6 +65,32 @@ public class MemberController {
         return memberService.insertDetails(memberDetailVO);
     }
 
+    @GetMapping("/delMember")
+    public String delPage() {
+
+        return "delAccountPage";
+    }
+
+    @PostMapping("/delMember")
+    @ResponseBody
+    public String delMembers(SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
+
+        String data = memberService.checkID(signUpDTO);
+
+
+        if (data.equals("Y")) {
+            //이메일, 패스워드 체크를 통과했다면 회원 탈퇴(update)
+            data = memberService.updateMemberStatus(signUpDTO);
+
+        } else {
+            return data;
+        }
+
+
+        return data;
+    }
+
+
 
     @GetMapping("/myPage")
     public String myPage(Model model) {

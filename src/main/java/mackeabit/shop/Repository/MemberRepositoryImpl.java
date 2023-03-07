@@ -2,15 +2,13 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.MyOrdersDTO;
-import mackeabit.shop.dto.MyPagePayDTO;
-import mackeabit.shop.dto.MyPayAndOrderDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.MemberMapper;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -115,6 +113,31 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public List<MyPayAndOrderDTO> findPayAndOrder(Map<String, Object> params) {
         return memberMapper.findPayAndOrder(params);
+    }
+
+    @Override
+    public int updateMemberStatus(SignUpDTO signUpDTO) {
+        return memberMapper.updateMemberStatus(signUpDTO);
+    }
+
+    @Override
+    public List<MembersVO> findByDelete_dateBefore(LocalDateTime minusDays) {
+        return memberMapper.findByDelete_dateBefore(minusDays);
+    }
+
+    @Override
+    public int delete(MembersVO membersVO) {
+        return memberMapper.delete(membersVO);
+    }
+
+    @Override
+    public List<MembersVO> findDeleteCandidates(LocalDateTime deleteCutoffTime) {
+        return memberMapper.findDeleteCandidates(deleteCutoffTime);
+    }
+
+    @Override
+    public int realDelete(MembersVO member) {
+        return memberMapper.realDelete(member);
     }
 
 

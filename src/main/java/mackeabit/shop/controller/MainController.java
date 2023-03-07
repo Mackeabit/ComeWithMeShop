@@ -160,6 +160,7 @@ public class MainController {
     }
 
     @PostMapping("/cancelRequestPay")
+    @ResponseBody
     public String cancelRequestPay(Long pay_idx) {
         return subService.cancelRequestPay(pay_idx);
     }

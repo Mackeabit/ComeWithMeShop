@@ -47,6 +47,10 @@
         select * from members_detail where member_idx = #{member_idx};
     </select>
 
+    <update id="updateMemberStatus" parameterType="mackeabit.shop.dto.SignUpDTO">
+        UPDATE members SET member_status = 2 where email = #{email}
+    </update>
+
     <update id="updateDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
         update members_detail set post_code=#{post_code}, address=#{address}, address_detail=#{address_detail} where member_idx=#{member_idx}
     </update>
@@ -80,5 +84,25 @@
             join payments pay ON pay.order_mi = o.order_mi
                  where pay.member_idx =#{member_idx} and pay.order_mi = #{order_mi} order by pay_idx desc;
     </select>
+
+    <select id="findByDelete_dateBefore" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT *
+        FROM members
+        WHERE delete_date &lt; #{minusDays}
+    </select>
+
+    <select id="findDeleteCandidates" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT *
+        FROM members
+        WHERE member_status = 2 AND delete_date IS NOT NULL AND delete_date &lt; #{deleteCutoffTime}
+    </select>
+
+    <update id="delete" parameterType="mackeabit.shop.vo.MembersVO">
+        UPDATE members SET member_status = -1 WHERE member_idx = ${member_idx}
+    </update>
+
+    <delete id="realDelete" parameterType="mackeabit.shop.vo.MembersVO">
+        DELETE FROM members WHERE member_idx=#{member_idx}
+    </delete>
 
 </mapper>

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Slf4j
@@ -239,5 +240,37 @@ public class MemberService {
         }
 
         return findList;
+    }
+
+    public String updateMemberStatus(SignUpDTO signUpDTO) {
+
+        /* 1. 회원 계정 상태 변환
+        *  2. 회원 탈퇴 날짜 작성 */
+
+        String data = "N";
+
+        int res = repository.updateMemberStatus(signUpDTO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
+
+    public List<MembersVO> findByDelete_dateBefore(LocalDateTime minusDays) {
+        return repository.findByDelete_dateBefore(minusDays);
+    }
+
+    public int delete(MembersVO membersVO) {
+        return repository.delete(membersVO);
+    }
+
+    public List<MembersVO> findDeleteCandidates(LocalDateTime deleteCutoffTime) {
+        return repository.findDeleteCandidates(deleteCutoffTime);
+    }
+
+    public int realDelete(MembersVO member) {
+        return repository.realDelete(member);
     }
 }

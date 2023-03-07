@@ -1,13 +1,11 @@
 package mackeabit.shop.mapper;
 
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.MyOrdersDTO;
-import mackeabit.shop.dto.MyPagePayDTO;
-import mackeabit.shop.dto.MyPayAndOrderDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,4 +44,14 @@ public interface MemberMapper {
     List<String> findOrder_mi(Long member_idx);
 
     List<MyPayAndOrderDTO> findPayAndOrder(Map<String, Object> params);
+
+    int updateMemberStatus(SignUpDTO signUpDTO);
+
+    List<MembersVO> findByDelete_dateBefore(LocalDateTime minusDays);
+
+    int delete(MembersVO membersVO);
+
+    List<MembersVO> findDeleteCandidates(LocalDateTime deleteCutoffTime);
+
+    int realDelete(MembersVO member);
 }
