@@ -70,4 +70,15 @@
             limit #{limit} offset #{offset};
     </select>
 
+    <select id="findOrder_mi" parameterType="Long" resultType="String">
+        select distinct order_mi from payments where member_idx = #{member_idx} order by pay_idx desc;
+    </select>
+
+    <select id="findPayAndOrder" parameterType="map" resultType="mackeabit.shop.dto.MyPayAndOrderDTO">
+        select * from orders o JOIN products p ON p.pd_idx = o.pd_idx
+            join product_img pi ON p.pd_idx = pi.pd_idx
+            join payments pay ON pay.order_mi = o.order_mi
+                 where pay.member_idx =#{member_idx} and pay.order_mi = #{order_mi} order by pay_idx desc;
+    </select>
+
 </mapper>

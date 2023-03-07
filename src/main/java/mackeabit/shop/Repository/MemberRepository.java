@@ -3,6 +3,7 @@ package mackeabit.shop.Repository;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.MyOrdersDTO;
 import mackeabit.shop.dto.MyPagePayDTO;
+import mackeabit.shop.dto.MyPayAndOrderDTO;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 
@@ -40,4 +41,8 @@ public interface MemberRepository {
     int updateDetails(MemberDetailVO memberDetailVO);
 
     List<MyOrdersDTO> myOrdersList(Map<String, Object> params);
+
+    List<String> findOrder_mi(Long member_idx);
+
+    List<MyPayAndOrderDTO> findPayAndOrder(Map<String, Object> params);
 }

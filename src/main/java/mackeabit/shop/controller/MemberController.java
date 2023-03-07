@@ -13,15 +13,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -188,14 +184,38 @@ public class MemberController {
     @GetMapping("/myPage/orders/data")
     @ResponseBody
     public List<MyOrdersDTO> myPageOrderData(@RequestParam(defaultValue = "4") int limit, @RequestParam(defaultValue = "1") int offset) {
-        log.info("myPage Paging Infinity");
+        log.info("myOrderPage Paging Infinity");
         List<MyOrdersDTO> myOrderList = memberService.myOrdersList(limit, (offset - 1) * limit);
         return myOrderList;
     }
 
     @GetMapping("myPage/pays")
-    public String myPagePayList() {
+    public String myPagePayList(Model model,@RequestParam(defaultValue = "0") int level) {
+
+        List<MyPayAndOrderDTO> myPayAndOrderList = memberService.myPayAndOrderList(level);
+
+        if (myPayAndOrderList == null) {
+            return "myPayList";
+        }
+
+        model.addAttribute("myPayList", myPayAndOrderList);
 
         return "myPayList";
     }
+
+    @GetMapping("myPage/pays/data")
+    @ResponseBody
+    public List<MyPayAndOrderDTO> myPagePayData(Model model,@RequestParam(defaultValue = "0") int level) {
+
+        log.info("myPayPage Paging Infinity, level = {}", level);
+
+        List<MyPayAndOrderDTO> myPayAndOrderList = memberService.myPayAndOrderList(level);
+
+        log.info("myPayPage Paging Infinity, List = {}", myPayAndOrderList);
+
+
+        return myPayAndOrderList;
+    }
+
+
 }

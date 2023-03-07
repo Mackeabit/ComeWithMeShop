@@ -150,6 +150,7 @@ public class OrderService {
         paymentsVO.setMember_idx(member_idx);
         paymentsVO.setTotal_price(total_price);
         paymentsVO.setPay_code(pay_code);
+        paymentsVO.setShipping_code(shipping_code);
 
         int payRes = payRepository.save(paymentsVO);
 

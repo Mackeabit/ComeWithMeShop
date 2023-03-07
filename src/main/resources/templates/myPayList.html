@@ -35,6 +35,9 @@ Coded by www.creative-tim.com
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+
 </head>
 
 <body class="">
@@ -167,14 +170,14 @@ Coded by www.creative-tim.com
       </div>
     </nav>
       <!-- End Navbar -->
-      <div class="content">
+      <div id="myContent" class="content" style="padding: 0 30px 400px;">
         <!-- 상품 2개 미만일땐 padding 0 30 300, 없을땐 0 30 400-->
         <div class="row">
           <div class="col-md-8 ml-auto mr-auto">
             <div class="card card-upgrade">
               <div class="card-header text-center">
-                <h4 class="card-title">결제 목록</h4>
-                  <p class="card-category">주문 번호</p>
+                <h4 class="card-title">결제 내역</h4>
+                  <p class="card-category" th:text="${myPayList.get(0).order_mi}"></p>
               </div>
               <div class="card-body">
                 <div class="table-responsive table-upgrade">
@@ -184,47 +187,38 @@ Coded by www.creative-tim.com
                       <th class="text-center">상품 이름</th>
                       <th class="text-center">구매 수량</th>
                     </thead>
-                    <tbody>
+                    <tbody th:each="pay, stat:${myPayList}">
                     <tr>
-                      <td class="text-center"><img src="/img/product-img/acc-1cart.jpg"></td>
-                      <td class="text-center">테스트용 악세사리</td>
-                      <td class="text-center">3</td>
+                      <td class="text-center"><img th:src="|/${pay.sv_locCt}|"></td>
+                      <td class="text-center" th:text="${pay.pd_nm}"></td>
+                      <td class="text-center" th:text="${pay.order_cart_cnt}"></td>
                     </tr>
-                    <tr>
-                      <td class="text-center"><img src="/img/product-img/acctest-1cart.jpg"></td>
-                      <td class="text-center">테스트용 악세사리2</td>
-                      <td class="text-center">3</td>
-                    </tr>
-                    <tr>
-                      <td class="text-center"><img src="/img/product-img/acctest-2cart.jpg"></td>
-                      <td class="text-center">테스트용 악세사리3</td>
-                      <td class="text-center">2</td>
-                    </tr>
-                    <tr>
-                      <td class="text-center"><img src="/img/product-img/mantest-1cart.jpg"></td>
-                      <td class="text-center">테스트용 옷</td>
-                      <td class="text-center">1</td>
-                    </tr>
-                    <tr>
-                      <td class="text-center">배송료</td>
-                      <td class="text-center">1,000원</td>
+                    <tr th:if="${stat.last}">
+                      <th class="text-center">배송료</th>
                       <td></td>
+                      <td class="text-center" th:text="'&#8361;'+(${pay.shipping_code == 0}) ? 'Free' : (${pay.shipping_code == 1} ? '3,000' : '5,000')"></td>
+
                     </tr>
-                    <tr>
-                      <td class="text-center">총 결제 금액</td>
-                      <td class="text-center">21,000원</td>
+                    <tr th:if="${stat.last}">
+                      <th class="text-center">총 결제 금액</th>
                       <td></td>
+                      <td class="text-center" th:text="'&#8361;'+${#numbers.formatInteger(pay.total_price, 3, 'COMMA')}"></td>
                     </tr>
-                    <tr>
-                      <td class="text-center">결제 상태</td>
-                      <td class="text-center">결제 완료</td>
+                    <tr th:if="${stat.last}">
+                      <th class="text-center">결제 날짜</th>
                       <td></td>
+                      <td class="text-center" th:text="${pay.pay_date}"></td>
                     </tr>
-                    <tr>
+                    <tr th:if="${stat.last}">
+                      <th class="text-center">결제 상태</th>
+                      <td></td>
+                      <td class="text-center" th:text="(${pay.pay_status == -1}) ? '결제 완료' : (${pay.pay_status == 0} ? '반품 요청 중' : '결제 취소')"></td>
+                    </tr>
+                    <tr th:if="${stat.last}">
                       <td class="text-center"></td>
                       <td class="text-center"></td>
-                      <td class="text-center">
-                        <a href="#" class="btn btn-round btn-primary">환불 요청</a>
+                      <td class="text-center" style="display: flex; justify-content: center; position: absolute; align-items: center; top: 0; left: 0; right: 0; padding-top: 10px;">
+                        <a href="#" th:onclick="cancelFn([[${pay.pay_idx}]])" class="btn btn-round btn-primary">환불 요청</a>
                       </td>
                     </tr>
 
@@ -236,6 +230,183 @@ Coded by www.creative-tim.com
         </div>
       </div>
 
+    <script>
+
+      function cancelFn(pay_idx) {
+        alert(pay_idx);
+      };
+
+      function throttle(func, delay) {
+        let prev = 0;
+        return function(...args) {
+          const now = new Date().getTime();
+          if (now - prev > delay) {
+            prev = now;
+            func.apply(this, args);
+          }
+        };
+      }
+
+      $(document).ready(function() {
+        let level = 1; // 초기 페이지
+
+        $(window).scroll(throttle(function() {
+
+
+          if ($(window).scrollTop() + $(window).height() >= $(document).height() - 150) {
+
+
+            $.ajax({
+              url: "/myPage/pays/data?level=" + level,
+              type: "GET",
+              success: function(data) {
+
+                  if (data === null) {
+                    $(window).off('scroll');
+                    return;
+                  }
+
+                  let newRow = $('<div class="row"></div>');
+                  let newCol = $('<div class="col-md-8 ml-auto mr-auto"></div>');
+                  let newCard = $('<div class="card card-upgrade"></div>');
+                  let newCardHeader = $('<div class="card-header text-center"></div>');
+                  let newCardHeaderTitle = $('<h4 class="card-title">결제 내역</h4>');
+                  let newCardHeaderCategory = $('<p class="card-category"></p>');
+                  let newCardBody = $('<div class="card-body"></div>');
+                  let newTableResponsive = $('<div class="table-responsive table-upgrade"></div>');
+                  let newTable = $('<table class="table"></table>');
+                  let newTableHead = $('<thead></thead>');
+                  let newTableHeadRow = $('<tr></tr>');
+                  let newTableHeadCell1 = $('<th class="text-center">구매 상품</th>');
+                  let newTableHeadCell2 = $('<th class="text-center">상품 이름</th>');
+                  let newTableHeadCell3 = $('<th class="text-center">구매 수량</th>');
+                  let newTableBody = $('<tbody></tbody>');
+
+                  newCardHeaderCategory.text(data[0].order_mi);
+                  newTableHeadRow.append(newTableHeadCell1);
+                  newTableHeadRow.append(newTableHeadCell2);
+                  newTableHeadRow.append(newTableHeadCell3);
+
+                  $.each(data, function(i, order) {
+
+
+                    let newTableRow = $('<tr></tr>');
+                    let newTableCell1 = $('<td class="text-center"></td>');
+                    let newTableCell2 = $('<td class="text-center"></td>');
+                    let newTableCell3 = $('<td class="text-center"></td>');
+
+                    let newImg = $('<img>');
+                    newImg.attr('src', '/' + order.sv_locCt);
+
+                    newTableCell1.append(newImg);
+                    newTableCell2.text(order.pd_nm);
+                    newTableCell3.text(order.order_cart_cnt);
+
+                    newTableRow.append(newTableCell1);
+                    newTableRow.append(newTableCell2);
+                    newTableRow.append(newTableCell3);
+
+                    newTableBody.append(newTableRow);
+                  });
+
+                  let pay_idx = data[0].pay_idx;
+
+                  let newTableFootRow1 = $('<tr></tr>');
+                  let newTableFootRow2 = $('<tr></tr>');
+                  let newTableFootRow3 = $('<tr></tr>');
+                  let newTableFootRow4 = $('<tr></tr>');
+                  let newTableFootRow5 = $('<tr></tr>');
+                  let newTableFootCell1 = $('<th class="text-center">배송료</th>');
+                  let newTableFootCell2 = $('<td></td>');
+                  let newTableFootCell3 = $('<td class="text-center"></td>');
+                  let newTableFootCell4 = $('<th class="text-center">총 결제 금액</th>');
+                  let newTableFootCell5 = $('<td></td>');
+                  let newTableFootCell6 = $('<td class="text-center"></td>');
+                  let newTableFootCell7 = $('<th class="text-center">결제 날짜</th>');
+                  let newTableFootCell8 = $('<td></td>');
+                  let newTableFootCell9 = $('<td class="text-center"></td>');
+                  let newTableFootCell10 = $('<th class="text-center">결제 상태</th>');
+                  let newTableFootCell11 = $('<td></td>');
+                  let newTableFootCell12 = $('<td class="text-center"></td>');
+                  let newTableFootCell13 = $('<td class="text-center"></td>');
+                  let newTableFootCell14 = $('<td class="text-center"></td>');
+                  let newTableFootCell15 = $('<td class="text-center" style="display: flex; justify-content: center; position: absolute; align-items: center; top: 0; left: 0; right: 0; padding-top: 10px;"></td>');
+                  let newATagCell16 = $('<a href="#" onclick="cancelFn('+pay_idx+')" class="btn btn-round btn-primary">환불 요청</a>');
+
+
+
+                  if (data[0].shipping_code == 0) {
+                    newTableFootCell3.text("Free");
+                  } else {
+                    let shippingPriceText = data[0].shipping_code == 1 ? "3,000" : "5,000";
+                    newTableFootCell3.text(shippingPriceText);
+                  }
+                  newTableFootCell6.text('₩' + data[0].total_price.toLocaleString());
+                  newTableFootCell9.text(moment(data[0].pay_date).format('ddd MMM DD HH:mm:ss zzz YYYY'));
+                  //th:text="(${pay.pay_status == -1}) ? '결제 완료' : (${pay.shipping_code == 0} ? '반품 요청 중' : '결제 취소')"
+
+                  if (data[0].pay_status == -1) {
+                    newTableFootCell12.text("결제 완료");
+                  } else {
+                    let payStatusText = data[0].pay_status == 0 ? "반품 요청 중" : "결제 취소";
+                    newTableFootCell12.text(payStatusText);
+                  }
+
+                  newTableFootCell15.append(newATagCell16);
+
+                  newTableFootRow1.append(newTableFootCell1);
+                  newTableFootRow1.append(newTableFootCell2);
+                  newTableFootRow1.append(newTableFootCell3);
+                  newTableFootRow2.append(newTableFootCell4);
+                  newTableFootRow2.append(newTableFootCell5);
+                  newTableFootRow2.append(newTableFootCell6);
+                  newTableFootRow3.append(newTableFootCell7);
+                  newTableFootRow3.append(newTableFootCell8);
+                  newTableFootRow3.append(newTableFootCell9);
+                  newTableFootRow4.append(newTableFootCell10);
+                  newTableFootRow4.append(newTableFootCell11);
+                  newTableFootRow4.append(newTableFootCell12);
+                  newTableFootRow5.append(newTableFootCell13);
+                  newTableFootRow5.append(newTableFootCell14);
+                  newTableFootRow5.append(newTableFootCell15);
+
+                  newTable.append(newTableHead);
+                  newTableHead.append(newTableHeadRow);
+                  newTable.append(newTableBody);
+                  newTable.append(newTableFootRow1);
+                  newTable.append(newTableFootRow2);
+                  newTable.append(newTableFootRow3);
+                  newTable.append(newTableFootRow4);
+                  newTable.append(newTableFootRow5);
+
+                  newTableResponsive.append(newTable);
+
+                  newCardBody.append(newTableResponsive);
+
+                  newCardHeader.append(newCardHeaderTitle);
+                  newCardHeader.append(newCardHeaderCategory);
+
+                  newCard.append(newCardHeader);
+                  newCard.append(newCardBody);
+
+                  newCol.append(newCard);
+
+                  newRow.append(newCol);
+
+                  $('#myContent').append(newRow);
+
+
+                level++; // 다음 페이지로 이동
+              },
+              error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+              }
+            });
+          }
+        }, 60));
+      });
+
+    </script>
 
     <footer class="footer footer-black  footer-white ">
       <div class="container-fluid">

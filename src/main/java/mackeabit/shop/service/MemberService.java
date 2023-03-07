@@ -3,10 +3,7 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.MemberRepository;
-import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.dto.MyOrdersDTO;
-import mackeabit.shop.dto.MyPagePayDTO;
-import mackeabit.shop.dto.SignUpDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
@@ -17,10 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -205,4 +199,45 @@ public class MemberService {
         return repository.myOrdersList(params);
     }
 
+    public List<MyPayAndOrderDTO> myPayAndOrderList(int level) {
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        //주문 번호 가져오기(중복 제거)
+        List<String> order_mi = repository.findOrder_mi(attribute.getMember_idx());
+
+        log.info("level = {}", level);
+        log.info("order_mi.size = {}", order_mi.size());
+
+        if (level + 1 > order_mi.size()) {
+            return null;
+        }
+
+        /* ex List<String> order_mi
+        * merchant_1678114143117, merchant_1678108223709, merchant_1678108168180
+        * */
+
+        //받아온 주문 번호 중 원하는 level (인덱스)에 해당하는 결제+주문 내역 갖고 오기
+        //인덱스 0 -> 가장 최근 주문번호, 1 -> 최근에서 두번째 주문번호
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_idx", attribute.getMember_idx());
+        params.put("order_mi", order_mi.get(level));
+
+        log.info("현재 조회 중인 주문번호 = {}", order_mi.get(level));
+
+        List<MyPayAndOrderDTO> findList = repository.findPayAndOrder(params);
+
+        if (findList == null) {
+
+            //null 이면
+            MyPayAndOrderDTO myPayAndOrderDTO = new MyPayAndOrderDTO();
+            myPayAndOrderDTO.setOrder_mi("결제 내역이 없습니다.");
+            findList = new ArrayList<>();
+            findList.add(myPayAndOrderDTO);
+
+        }
+
+        return findList;
+    }
 }

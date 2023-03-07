@@ -5,7 +5,7 @@
 <mapper namespace="mackeabit.shop.mapper.PaymentMapper">
 
     <insert id="save" parameterType="map" useGeneratedKeys="true" keyProperty="pay_idx">
-        insert into payments values(0, #{order_mi}, #{member_idx}, #{total_price}, -1, #{pay_code})
+        insert into payments values(0, #{order_mi}, #{member_idx}, #{total_price}, -1, #{pay_code}, #{shipping_code}, now())
     </insert>
 
 

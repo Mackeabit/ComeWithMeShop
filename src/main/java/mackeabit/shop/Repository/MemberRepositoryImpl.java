@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.MyOrdersDTO;
 import mackeabit.shop.dto.MyPagePayDTO;
+import mackeabit.shop.dto.MyPayAndOrderDTO;
 import mackeabit.shop.mapper.MemberMapper;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
@@ -104,6 +105,16 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public List<MyOrdersDTO> myOrdersList(Map<String, Object> params) {
         return memberMapper.myOrdersList(params);
+    }
+
+    @Override
+    public List<String> findOrder_mi(Long member_idx) {
+        return memberMapper.findOrder_mi(member_idx);
+    }
+
+    @Override
+    public List<MyPayAndOrderDTO> findPayAndOrder(Map<String, Object> params) {
+        return memberMapper.findPayAndOrder(params);
     }
 
 

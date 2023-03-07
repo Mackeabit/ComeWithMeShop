@@ -214,15 +214,6 @@ Coded by www.creative-tim.com
       });
     </script>-->
 
-
-    <script>
-
-
-
-
-
-    </script>
-
     <script>
       $(document).ready(function() {
         let offset = 2; // 초기 페이지
@@ -239,7 +230,8 @@ Coded by www.creative-tim.com
                   tr.append($("<td>").addClass("text-center").append($("<img>").attr("src", "/" + order.sv_locCt)));
                   tr.append($("<td>").addClass("text-center").text(order.pd_nm));
                   tr.append($("<td>").addClass("text-center").text(order.order_mi));
-                  tr.append($("<td>").addClass("text-center").text(order.sell_price));
+                  var sellPrice = order.sell_price >= 1000 ? order.sell_price.toLocaleString() : order.sell_price;
+                  tr.append($("<td>").addClass("text-center").text(sellPrice));
                   tr.append($("<td>").addClass("text-center").text(order.order_cart_cnt));
                   tr.append($("</tr>"));
                   $("#order_tbody").append(tr);
