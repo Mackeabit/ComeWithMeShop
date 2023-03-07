@@ -25,4 +25,6 @@ public interface SuBMapper {
     int countMainPageProducts();
 
     CategorysVO findCategories(int category_code);
+
+    int cancelRequestPay(Long pay_idx);
 }

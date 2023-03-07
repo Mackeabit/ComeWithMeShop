@@ -53,4 +53,9 @@ public class SubRepositoryImpl implements SubRepository{
     public CategorysVO findCategories(int category_code) {
         return suBMapper.findCategories(category_code);
     }
+
+    @Override
+    public int cancelRequestPay(Long pay_idx) {
+        return suBMapper.cancelRequestPay(pay_idx);
+    }
 }

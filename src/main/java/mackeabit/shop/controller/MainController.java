@@ -159,6 +159,10 @@ public class MainController {
         return "redirect:/login";
     }
 
+    @PostMapping("/cancelRequestPay")
+    public String cancelRequestPay(Long pay_idx) {
+        return subService.cancelRequestPay(pay_idx);
+    }
 
     //메인화면 장바구니 추가
     @RequestMapping("/cartInsert")

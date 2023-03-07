@@ -214,7 +214,7 @@ Coded by www.creative-tim.com
                       <td></td>
                       <td class="text-center" th:text="(${pay.pay_status == -1}) ? '결제 완료' : (${pay.pay_status == 0} ? '반품 요청 중' : '결제 취소')"></td>
                     </tr>
-                    <tr th:if="${stat.last}">
+                    <tr th:if="${stat.last and pay.pay_status == -1}">
                       <td class="text-center"></td>
                       <td class="text-center"></td>
                       <td class="text-center" style="display: flex; justify-content: center; position: absolute; align-items: center; top: 0; left: 0; right: 0; padding-top: 10px;">
@@ -234,6 +234,21 @@ Coded by www.creative-tim.com
 
       function cancelFn(pay_idx) {
         alert(pay_idx);
+
+        $.ajax({
+          url:"/cancelRequestPay",
+          type: "POST",
+          data: {pay_idx:pay_idx},
+          success: function (data) {
+            if (data == "Y") {
+              alert("정상적으로 처리 되었습니다.");
+              location.replace("/myPage/pays");
+            } else {
+              alert("처리 중 오류가 발생하였습니다, 잠시 후 재시도 해주세요.")
+            }
+          },
+        })
+
       };
 
       function throttle(func, delay) {
@@ -310,6 +325,7 @@ Coded by www.creative-tim.com
                   });
 
                   let pay_idx = data[0].pay_idx;
+                  let pay_status = data[0].pay_status;
 
                   let newTableFootRow1 = $('<tr></tr>');
                   let newTableFootRow2 = $('<tr></tr>');
@@ -328,10 +344,17 @@ Coded by www.creative-tim.com
                   let newTableFootCell10 = $('<th class="text-center">결제 상태</th>');
                   let newTableFootCell11 = $('<td></td>');
                   let newTableFootCell12 = $('<td class="text-center"></td>');
+
+                if (pay_status == -1) {
                   let newTableFootCell13 = $('<td class="text-center"></td>');
                   let newTableFootCell14 = $('<td class="text-center"></td>');
                   let newTableFootCell15 = $('<td class="text-center" style="display: flex; justify-content: center; position: absolute; align-items: center; top: 0; left: 0; right: 0; padding-top: 10px;"></td>');
-                  let newATagCell16 = $('<a href="#" onclick="cancelFn('+pay_idx+')" class="btn btn-round btn-primary">환불 요청</a>');
+                  let newATagCell16 = $('<a href="#" onclick="cancelFn(' + pay_idx + ')" class="btn btn-round btn-primary">환불 요청</a>');
+                  newTableFootCell15.append(newATagCell16);
+                  newTableFootRow5.append(newTableFootCell13);
+                  newTableFootRow5.append(newTableFootCell14);
+                  newTableFootRow5.append(newTableFootCell15);
+                }
 
 
 
@@ -348,11 +371,10 @@ Coded by www.creative-tim.com
                   if (data[0].pay_status == -1) {
                     newTableFootCell12.text("결제 완료");
                   } else {
-                    let payStatusText = data[0].pay_status == 0 ? "반품 요청 중" : "결제 취소";
+                    let payStatusText = data[0].pay_status == 0 ? "환불 요청 중" : "결제 취소";
                     newTableFootCell12.text(payStatusText);
                   }
 
-                  newTableFootCell15.append(newATagCell16);
 
                   newTableFootRow1.append(newTableFootCell1);
                   newTableFootRow1.append(newTableFootCell2);
@@ -366,9 +388,7 @@ Coded by www.creative-tim.com
                   newTableFootRow4.append(newTableFootCell10);
                   newTableFootRow4.append(newTableFootCell11);
                   newTableFootRow4.append(newTableFootCell12);
-                  newTableFootRow5.append(newTableFootCell13);
-                  newTableFootRow5.append(newTableFootCell14);
-                  newTableFootRow5.append(newTableFootCell15);
+
 
                   newTable.append(newTableHead);
                   newTableHead.append(newTableHeadRow);

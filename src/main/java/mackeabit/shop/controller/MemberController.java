@@ -94,7 +94,7 @@ public class MemberController {
             }
 
             if (payList.get(i).getPay_status() == -1 && check1) {
-                complete_date = payList.get(i).getOrder_date();
+                complete_date = payList.get(i).getPay_date();
             } else if (payList.get(i).getPay_status() == 1 & check2) {
                 cancel_date = payList.get(i).getOrder_date();
             }

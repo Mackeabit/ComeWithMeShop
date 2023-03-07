@@ -53,4 +53,16 @@ public class SubService {
         CategorysVO categorysVO = subRepository.findCategories(category_code);
         return categorysVO;
     }
+
+    public String cancelRequestPay(Long pay_idx) {
+
+        String data = "N";
+        int res = subRepository.cancelRequestPay(pay_idx);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }

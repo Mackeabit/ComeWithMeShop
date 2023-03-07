@@ -48,4 +48,8 @@
         where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
     </select>
 
+    <update id="cancelRequestPay" parameterType="Long">
+        UPDATE payments SET pay_status = 0 WHERE pay_idx = #{pay_idx}
+    </update>
+
 </mapper>
