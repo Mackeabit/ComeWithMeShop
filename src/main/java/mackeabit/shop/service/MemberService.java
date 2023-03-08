@@ -298,4 +298,11 @@ public class MemberService {
         return repository.realDeleteInfo(member);
     }
 
+    public List<MembersVO> findRestCandidates(LocalDateTime restTime) {
+        return repository.findRestCandidates(restTime);
+    }
+
+    public int changeStatusAtRest(MembersVO member) {
+        return repository.changeStatusAtRest(member);
+    }
 }

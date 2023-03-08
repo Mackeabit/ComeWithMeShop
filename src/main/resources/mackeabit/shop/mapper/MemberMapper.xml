@@ -105,8 +105,19 @@
         WHERE member_status = 2 OR member_status = -1 AND delete_date IS NOT NULL AND delete_date &lt; #{deleteCutoffTime}
     </select>
 
+    <select id="findRestCandidates" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT * FROM members WHERE member_status = 1
+         AND(
+         (login_date IS NOT NULL AND login_date &lt; #{restTime}) OR (login_date IS NULL AND sign_date &lt; #{restTime})
+        )
+    </select>
+
     <update id="delete" parameterType="mackeabit.shop.vo.MembersVO">
         UPDATE members SET member_status = -1 WHERE member_idx = ${member_idx}
+    </update>
+
+    <update id="changeStatusAtRest" parameterType="mackeabit.shop.vo.MembersVO">
+        UPDATE members SET member_status = 0 WHERE member_idx = ${member_idx}
     </update>
 
 <!--

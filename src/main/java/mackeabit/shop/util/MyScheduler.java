@@ -20,7 +20,7 @@ public class MyScheduler {
     // * 을 입력할경우 모두(항상)으로 설정함.
     //                 초  분  시  일  월  요일
     // 매일 자정에 실행
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 47 10 * * ?")
     public void deleteInactiveMembers() {
 
         log.info("MyScheduler 실행");
@@ -68,6 +68,20 @@ public class MyScheduler {
 
         // 휴면 계정 전환 (현재로 부터 1개월 전)
         LocalDateTime restTime = now.minusMonths(1);
+        List<MembersVO> restCandidates = memberService.findRestCandidates(restTime);
+
+        int changeCnt = 0;
+
+        for (MembersVO member : restCandidates) {
+            /* 검색된 계정들을 휴면 계정으로 상태 변경 */
+            changeCnt = memberService.changeStatusAtRest(member);
+        }
+
+        if (changeCnt > 0) {
+            log.info("휴면 계정 전환한 계정 수 = {}", changeCnt);
+        } else {
+            log.info("휴면 계정으로 바뀐 계정이 없습니다.");
+        }
 
 
     }

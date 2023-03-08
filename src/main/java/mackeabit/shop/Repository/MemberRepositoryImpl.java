@@ -156,5 +156,15 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.updateMemberLogin_date(membersVO);
     }
 
+    @Override
+    public List<MembersVO> findRestCandidates(LocalDateTime restTime) {
+        return memberMapper.findRestCandidates(restTime);
+    }
+
+    @Override
+    public int changeStatusAtRest(MembersVO member) {
+        return memberMapper.changeStatusAtRest(member);
+    }
+
 
 }

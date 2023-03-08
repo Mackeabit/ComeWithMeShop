@@ -61,4 +61,8 @@ public interface MemberRepository {
 
 
     int updateMemberLogin_date(MembersVO membersVO);
+
+    List<MembersVO> findRestCandidates(LocalDateTime restTime);
+
+    int changeStatusAtRest(MembersVO member);
 }

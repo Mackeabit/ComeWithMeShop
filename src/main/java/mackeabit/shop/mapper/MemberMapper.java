@@ -61,4 +61,8 @@ public interface MemberMapper {
     int realDeleteInfo(MembersVO member);
 
     int updateMemberLogin_date(MembersVO membersVO);
+
+    List<MembersVO> findRestCandidates(LocalDateTime restTime);
+
+    int changeStatusAtRest(MembersVO member);
 }
