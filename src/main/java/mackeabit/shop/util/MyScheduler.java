@@ -20,7 +20,7 @@ public class MyScheduler {
     // * 을 입력할경우 모두(항상)으로 설정함.
     //                 초  분  시  일  월  요일
     // 매일 자정에 실행
-    @Scheduled(cron = "0 47 10 * * ?")
+    @Scheduled(cron = "0 0 0 * * ?")
     public void deleteInactiveMembers() {
 
         log.info("MyScheduler 실행");

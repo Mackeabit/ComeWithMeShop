@@ -166,5 +166,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.changeStatusAtRest(member);
     }
 
+    @Override
+    public int restoreMemberStatus(SignUpDTO signUpDTO) {
+        return memberMapper.restoreMemberStatus(signUpDTO);
+    }
+
 
 }

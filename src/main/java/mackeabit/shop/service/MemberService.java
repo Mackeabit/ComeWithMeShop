@@ -87,31 +87,51 @@ public class MemberService {
             //비밀번호 체크(암호화 비교)
             if (membersVO.getPwd().equals(collect)) {
 
-                //Member_log 작성 (로그인 기록, IP)
-                String ipAddress = request.getRemoteAddr();
+                /* 아이디(이메일), 비밀번호 검사 모두 끝내고 실행 */
 
-                Members_logVO members_logVO = new Members_logVO();
-                members_logVO.setMember_idx(membersVO.getMember_idx());
-                members_logVO.setLogin_ip(ipAddress);
+                // 계정의 status 에 따른 코드 실행
+                int status = membersVO.getMember_status();
 
-                int result = repository.saveMember_log(members_logVO);
-                result += repository.updateMemberLogin_date(membersVO);
-
-                log.info("login_date cnt = {}", result);
-
-                messages = "no_logSave";
-
-                // result 가 무조건 2개++ 를 처리하기 때문에 조건문 변형
-                if (result > 1) {
-                    messages = "Y";
+                if(status == -1){
+                    //탈퇴 계정 : -1
+                    messages = "del_account";
+                } else if (status == 0) {
+                    //휴면 계정 : 0
+                    messages = "rest_account";
                 } else {
-                    log.error("no_logSave METHOD IS checkID");
-                }
+                    //정상 계정 : 1 , 탈퇴 대기 : 2
 
-            }
-        }
+                    //IP
+                    String ipAddress = request.getRemoteAddr();
+
+                    //Data Setting
+                    Members_logVO members_logVO = new Members_logVO();
+                    members_logVO.setMember_idx(membersVO.getMember_idx());
+                    members_logVO.setLogin_ip(ipAddress);
+
+                    //member_log 작성(로그인 기록, IP)
+                    int result = repository.saveMember_log(members_logVO);
+
+                    //members.login_date 작성 (최근 로그인)
+                    result += repository.updateMemberLogin_date(membersVO);
+
+                    log.info("login_date cnt = {}", result);
+
+                    // result 가 정상 실행시 무조건 2++ 를 처리
+                    if (result > 1) {
+                        messages = "Y";
+                    } else {
+                        messages = "no_logSave";
+                        log.error("no_logSave METHOD IS checkID");
+                    }
+
+                }//계정 status. else
+
+
+            }//비밀번호 체크 if
+        }//이메일 체크 if
         
-        //결과 리턴
+        //결과값 리턴
         return messages;
     }
 
@@ -304,5 +324,19 @@ public class MemberService {
 
     public int changeStatusAtRest(MembersVO member) {
         return repository.changeStatusAtRest(member);
+    }
+
+    public String restoreMemberStatus(SignUpDTO signUpDTO) {
+
+        String data = "N";
+
+        int res = repository.restoreMemberStatus(signUpDTO);
+
+        //UPDATE 쿼리가 정상 실행 되었는지 체크
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
     }
 }

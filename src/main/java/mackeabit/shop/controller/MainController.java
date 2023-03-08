@@ -135,6 +135,68 @@ public class MainController {
         return "login";
     }
 
+    @PostMapping("/restPage")
+    @ResponseBody
+    public String restPageByPost(Model model, SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
+
+        String data = memberService.checkID(signUpDTO);
+
+        //이메일, 비밀번호(암호화)를 통한 계정 인증
+        if (!data.equals("Y")) {
+            //인증 실패시 실패 결과 전송
+
+            return data;
+        }
+
+        //계정 인증이 완료되면 MembersVO 받아오기
+        MembersVO membersVO = memberService.findByEmail(signUpDTO.getEmail());
+
+        //Members_detail 받아오기
+        MemberDetailVO memberDetailVO = memberService.findMemberDetailByMemberIdx(membersVO.getMember_idx());
+
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(300); //5분 세션 생성(휴면페이지)
+        session.setAttribute("Members", membersVO);
+        session.setAttribute("Members_detail", memberDetailVO);
+
+        return data;
+    }
+
+    @GetMapping("/restPage")
+    public String restPageByGet() {
+        return "restPage";
+    }
+
+    @PostMapping("restStatusRestore")
+    public String restStatusRestore() {
+        HttpSession session = request.getSession(false);
+        MembersVO members = (MembersVO) session.getAttribute("Members");
+
+        SignUpDTO signUpDTO = new SignUpDTO();
+        signUpDTO.setEmail(members.getEmail());
+
+        String data = memberService.restoreMemberStatus(signUpDTO);
+
+        session.invalidate();
+
+        return data;
+    }
+
+
+    @PostMapping("/delRestore")
+    public String delRestore(SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
+        String data = memberService.checkID(signUpDTO);
+
+        //이메일, 비밀번호(암호화)를 통한 계정 인증
+        if (!data.equals("Y")) {
+            //인증 실패시 실패 결과 전송
+            return data;
+        }
+
+        //Members Table 의 member_status = 1 (정상계정) UPDATE -> "Y" or "N"
+        return memberService.restoreMemberStatus(signUpDTO);
+    }
+
     @GetMapping("/loginSession")
     public String loginSession(String email) {
 

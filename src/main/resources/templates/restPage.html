@@ -21,7 +21,7 @@ Coded by www.creative-tim.com
   <link rel="icon" type="image/png" href="/img/core-img/favicon.ico">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Come With Me | My Page
+    Come With Me | Rest
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -52,53 +52,8 @@ Coded by www.creative-tim.com
 
 <body class="">
   <div class="wrapper ">
-    <div class="sidebar" data-color="white" data-active-color="danger">
-      <div class="logo">
-        <a href="/myPage/memberInfo" class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="/assets/img/logo-small.png">
-          </div>
-          <!-- <p>CT</p> -->
-        </a>
-        <a href="/myPage/memberInfo" class="simple-text logo-normal" th:text="${session.loginMember.email.substring(0, session.loginMember.email.indexOf('@'))}">
-        </a>
-      </div>
-      <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li>
-            <a href="/myPage">
-              <i class="nc-icon nc-bank"></i>
-              <p>마이 페이지</p>
-            </a>
-          </li>
-          <li>
-            <a href="/myPage/orders">
-              <i class="nc-icon nc-bell-55"></i>
-              <p>주문 목록</p>
-            </a>
-          </li>
-          <li>
-            <a href="/myPage/pays">
-              <i class="nc-icon nc-diamond"></i>
-              <p>결제 내역</p>
-            </a>
-          </li>
-          <li class="active ">
-            <a href="/myPage/memberInfo">
-              <i class="nc-icon nc-single-02"></i>
-              <p>개인정보 수정</p>
-            </a>
-          </li>
-          <li class="active-pro">
-            <a href="/delMember">
-              <i class="nc-icon nc-spaceship"></i>
-              <p>회원 탈퇴</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="main-panel">
+
+    <div class="main-panel" style="width: 100%;">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
         <div class="container-fluid">
@@ -122,7 +77,7 @@ Coded by www.creative-tim.com
             <span class="navbar-toggler-bar navbar-kebab"></span>
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
+<!--          <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <ul class="navbar-nav">
               <li class="nav-item btn-rotate dropdown">
                 <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -137,16 +92,16 @@ Coded by www.creative-tim.com
                 </div>
               </li>
             </ul>
-          </div>
+          </div>-->
         </div>
       </nav>
       <!-- End Navbar -->
       <div class="content">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-8" style="display: block; justify-content: center; position: relative; align-items: center; top: 0; left: 200px; right: 0; padding-top: 40px;">
             <div class="card card-user">
               <div class="card-header">
-                <h5 class="card-title">개인정보 수정</h5>
+                <h5 class="card-title">휴면 계정 해제</h5>
               </div>
               <div class="card-body">
 
@@ -154,7 +109,7 @@ Coded by www.creative-tim.com
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
                         <label>Email (변경불가)</label>
-                        <input type="text" class="form-control" disabled="" placeholder="Email" th:value="${session.loginMember.email}" value="">
+                        <input type="text" class="form-control" th:value="${session.Members.email}" disabled="" placeholder="Email" value="">
                       </div>
                     </div>
                   </div>
@@ -169,62 +124,39 @@ Coded by www.creative-tim.com
                     <div class="col-md-4 px-1">
                       <div class="form-group">
                         <label>회원 포인트</label>
-                        <input type="text" class="form-control" th:value="${session.loginMember.member_point}" value="0" disabled="">
+                        <input type="text" class="form-control" th:value="${session.Members.member_point}" value="0" disabled="">
                       </div>
                     </div>
                   </div>
 
-                  <script type="text/javascript" defer>
-                    function setNextGrade() {
-                      var gradeCode = [[${session.loginMember.grade_code}]];
-                      switch (gradeCode) {
-                        case 0:
-                          $('#gradeName').val('NORMAL');
-                          break;
-                        case 1:
-                          $('#gradeName').val('SILVER');
-                          break;
-                        case 2:
-                          $('#gradeName').val('GOLD');
-                          break;
-                        case 3:
-                          $('#gradeName').val('VIP');
-                          break;
-                        default:
-                          $('#gradeName').val('UNKNOWN');
-                          break;
-                      }
+                <script type="text/javascript" defer>
+                  function setNextGrade() {
+                    var gradeCode = [[${Members.grade_code}]];
+                    switch (gradeCode) {
+                      case 0:
+                        $('#gradeName').val('NORMAL');
+                        break;
+                      case 1:
+                        $('#gradeName').val('SILVER');
+                        break;
+                      case 2:
+                        $('#gradeName').val('GOLD');
+                        break;
+                      case 3:
+                        $('#gradeName').val('VIP');
+                        break;
+                      default:
+                        $('#gradeName').val('UNKNOWN');
+                        break;
                     }
-                  </script>
-
-                  <!--                  <div class="row">
-                                      <div class="col-md-6 pr-1">
-                                        <div class="form-group">
-                                          <label>First Name</label>
-                                          <input type="text" class="form-control" placeholder="Company" value="Chet">
-                                        </div>
-                                      </div>
-                                      <div class="col-md-6 pl-1">
-                                        <div class="form-group">
-                                          <label>Last Name</label>
-                                          <input type="text" class="form-control" placeholder="Last Name" value="Faker">
-                                        </div>
-                                      </div>
-                                    </div>-->
-                  <hr>
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label id="info">변경이 필요한 문항만 입력해주세요.</label>
-                      </div>
-                    </div>
-                  </div>
+                  }
+                </script>
 
                   <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>PassWord</label>
-                        <input type="password" id="pwd" class="form-control" placeholder="변경하실 비밀번호를 입력해주세요.">
+                        <input type="password" id="pwd" th:value="${session.Members.pwd}" class="form-control" placeholder="사용 중인 비밀번호" readonly>
                       </div>
                     </div>
                   </div>
@@ -243,7 +175,7 @@ Coded by www.creative-tim.com
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Address</label>
-                        <input type="text" id="street_address" name="address" th:value="${members_detail.address}" class="form-control" placeholder="주소 찾기">
+                        <input type="text" id="street_address" th:value="${session.Members_detail.address}" name="address" class="form-control" placeholder="주소 찾기" readonly>
                       </div>
                     </div>
                   </div>
@@ -252,103 +184,54 @@ Coded by www.creative-tim.com
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
 <!--                        <label>Address</label>-->
-                        <input type="text" id="street_address2" name="address_detail" th:value="${members_detail.address_detail}" class="form-control" placeholder="상세 주소">
+                        <input type="text" id="street_address2" th:value="${session.Members_detail.address_detail}" name="address_detail" class="form-control" placeholder="상세 주소" readonly>
                       </div>
                     </div>
                     <div class="col-md-4 pl-1">
                       <div class="form-group">
-                        <input type="text" id="postcode" name="post_code" th:attr="value=${(members_detail.post_code == null) ? '' : members_detail.post_code}" class="form-control" placeholder="우편 번호" readonly>
+                        <input type="text" id="postcode" th:value="${session.Members_detail.post_code}" name="post_code" class="form-control" placeholder="우편 번호" readonly>
                       </div>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button id="update_btn" type="button" class="btn btn-primary btn-round">Update Profile</button>
+                      <button id="restore_btn" type="button" class="btn btn-primary btn-round">복구하기</button>
                     </div>
                   </div>
                 </form>
 
                 <script>
 
-                  let add_ck = true;
 
-                  document.getElementById("street_address").addEventListener("click", function(){ //주소입력칸을 클릭하면
-                    //카카오 지도 발생
-                    new daum.Postcode({
-                      oncomplete: function(data) { //선택시 입력값 세팅
-                        document.getElementById("postcode").value = data.zonecode;//우편번호
-                        document.getElementById("street_address").value = data.address; // 주소 넣기
-                        document.getElementById("street_address2").value = '';
-                        $('#street_address2').focus(); //상세입력 포커싱
-                      }
-                    }).open();
-                  });
+                  $('#restore_btn').on('click', function () {
 
-                  function send() {
-                    new daum.Postcode({
-                      oncomplete: function(data) { //선택시 입력값 세팅
-                        document.getElementById("postcode").value = data.zonecode;//우편번호
-                        document.getElementById("street_address").value = data.address; // 주소 넣기
-                        document.getElementById("street_address2").value = '';
-                        $("#street_address2").focus(); //상세입력 포커싱
-                      }
-                    }).open();
-                  }
-
-                  /* 비밀번호 체크 */
-                  $('#pwd_check').focusout(function (){
                     let pwd = $('#pwd').val();
                     let pwd_check = $('#pwd_check').val();
 
-                    if (pwd == pwd_check) {
-                      add_ck = true;
-                    }else {
-                      add_ck = false;
-                      alert("비밀번호를 확인해주세요.");
-                    }
-
-                  });
-
-
-                  $('#update_btn').on('click', function () {
-
-                    let pwd = $('#pwd').val();
-                    let pwd2 = $('#pwd_check').val();
-
-                    if (!add_ck) {
-                      alert("비밀번호를 확인해주세요.");
+                    if (pwd != pwd_check) {
+                      alert("비밀번호가 틀렸습니다.");
                       return false;
                     }
 
-                    //주소 정보
-                    let formDate = $('#memberInfoForm').serialize();
 
-                    if (pwd != '' && pwd2 != '' && add_ck) {
-                      formDate += '&pwd=' + pwd;
-                    }
-
-                    //검증 및 성공 로직처리 ajax
                     $.ajax({
-                      url   : "/myPage/memberInfo",
-                      method: "POST",
-                      data  : formDate,
-                    })
-                      .done(function (result) {
-
-                          //결제 성공 알림 메세지 및 메인페이지로 이동
+                      type : "POST",
+                      url : "/restStatusRestore",
+                      success: function (data) {
+                        if(data == "Y"){
                           swal({
-                            text: result,
+                            text: "휴면 상태가 해제 되었습니다.",
                             closeOnClickOutside: false
                           })
-                        .then(function (){
-                          window.location.href = "/myPage/memberInfo";
-                        })
-                      })//done
-                      .fail(function (){
-                        alert("정보 수정 중 오류가 발생하였습니다. 잠시 후 재시도 해주세요.");
-                        // location.replace("/");
-                      })
+                          location.href="/login";
+                        }
+                      },
+                      error: function(data){
+                        alert("계정 복구 중 오류가 발생하였습니다. 잠시 후 재시도 해주세요.");
+                        console.log(data);
+                      }
+                    });
 
 
                   });//클릭 처리
@@ -366,7 +249,7 @@ Coded by www.creative-tim.com
             <nav class="footer-nav">
               <ul>
                 <li><a href="/" target="_blank">Main</a></li>
-                <li><a href="/" target="_blank">Product</a></li>
+                <li><a href="/products" target="_blank">Product</a></li>
               </ul>
             </nav>
             <div class="credits ml-auto">

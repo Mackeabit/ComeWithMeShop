@@ -65,4 +65,6 @@ public interface MemberMapper {
     List<MembersVO> findRestCandidates(LocalDateTime restTime);
 
     int changeStatusAtRest(MembersVO member);
+
+    int restoreMemberStatus(SignUpDTO signUpDTO);
 }

@@ -114,8 +114,16 @@
 						alert("비밀번호가 틀렸습니다.");
 					}else if(data == "Y"){
 						location.href="/loginSession?email="+$('#email').val();
-					}else{
-						alert("시스템 오류가 발생하였습니다");
+					}else if(data == "del_account"){
+						let checkDel = confirm("탈퇴하신 계정입니다. 복구를 진행하시겠습니까?");
+						if (checkDel) {
+							restoreDelAccount();
+						}
+					}else if (data == "rest_account") {
+						let checkRest = confirm("장기 미접속으로 계정이 비활성화되었습니다. 계정을 활성화 하시겠습니까?");
+						if (checkRest) {
+							goRestPage();
+						}
 					}
 				},
 				error: function(data){
@@ -125,6 +133,62 @@
 			});
 
 		}
+
+
+		//탈퇴 계정 복구 처리
+		function restoreDelAccount() {
+
+			let formData = $('#form_ck').serialize();
+
+			$.ajax({
+				type : "POST",
+				url : "/delRestore",
+				data : formData,
+				success: function (data) {
+					if(data == "no_email"){
+						alert("존재하지 않는 이메일 입니다.");
+					}else if(data == "no_pwd"){
+						alert("비밀번호가 틀렸습니다.");
+					}else if(data == "Y"){
+						alert("계정 복구가 완료되었습니다.");
+						location.href = "/login";
+					}
+				},
+				error: function(data){
+					alert("복원 오류");
+					console.log(data);
+				}
+			});
+
+		}
+
+
+		//휴면 계정 해제 처리
+		function goRestPage() {
+
+			let formData = $('#form_ck').serialize();
+
+			$.ajax({
+				type : "POST",
+				url : "/restPage",
+				data : formData,
+				success: function (data) {
+					if(data == "no_email"){
+						alert("존재하지 않는 이메일 입니다.");
+					}else if(data == "no_pwd"){
+						alert("비밀번호가 틀렸습니다.");
+					}else if(data == "Y"){
+						location.href="/restPage";
+					}
+				},
+				error: function(data){
+					alert("로그인 오류");
+					console.log(data);
+				}
+			});
+
+		}
+
 
 	</script>
 

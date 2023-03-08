@@ -65,4 +65,6 @@ public interface MemberRepository {
     List<MembersVO> findRestCandidates(LocalDateTime restTime);
 
     int changeStatusAtRest(MembersVO member);
+
+    int restoreMemberStatus(SignUpDTO signUpDTO);
 }
