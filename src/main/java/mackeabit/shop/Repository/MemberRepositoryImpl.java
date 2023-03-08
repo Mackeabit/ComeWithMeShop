@@ -151,5 +151,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.realDeleteInfo(member);
     }
 
+    @Override
+    public int updateMemberLogin_date(MembersVO membersVO) {
+        return memberMapper.updateMemberLogin_date(membersVO);
+    }
+
 
 }

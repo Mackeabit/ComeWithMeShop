@@ -95,10 +95,14 @@ public class MemberService {
                 members_logVO.setLogin_ip(ipAddress);
 
                 int result = repository.saveMember_log(members_logVO);
+                result += repository.updateMemberLogin_date(membersVO);
+
+                log.info("login_date cnt = {}", result);
 
                 messages = "no_logSave";
 
-                if (result > 0) {
+                // result 가 무조건 2개++ 를 처리하기 때문에 조건문 변형
+                if (result > 1) {
                     messages = "Y";
                 } else {
                     log.error("no_logSave METHOD IS checkID");
@@ -293,4 +297,5 @@ public class MemberService {
 
         return repository.realDeleteInfo(member);
     }
+
 }

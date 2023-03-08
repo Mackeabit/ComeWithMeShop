@@ -9,8 +9,12 @@
     </select>
 
     <insert id="save" parameterType="mackeabit.shop.vo.MembersVO" useGeneratedKeys="true" keyProperty="member_idx">
-        insert into Members values (0, #{email}, #{pwd}, default, default, default, now(), default, null)
+        insert into Members values (0, #{email}, #{pwd}, default, default, default, now(), default, null, null)
     </insert>
+
+    <update id="updateMemberLogin_date" parameterType="mackeabit.shop.vo.MembersVO">
+        UPDATE Members SET login_date = now() WHERE member_idx = #{member_idx}
+    </update>
 
     <select id="emailCheck" parameterType="String" resultType="int">
         SELECT COUNT(email) FROM Members WHERE email = #{email}

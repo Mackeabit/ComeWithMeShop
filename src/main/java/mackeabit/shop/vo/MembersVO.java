@@ -16,6 +16,6 @@ public class MembersVO {
     private String email, pwd;
     private Integer grade_code, member_point, member_status, email_ck;
     private Long member_idx;
-    private Date sign_date, delete_date;
+    private Date sign_date, delete_date, login_date;
 
 }

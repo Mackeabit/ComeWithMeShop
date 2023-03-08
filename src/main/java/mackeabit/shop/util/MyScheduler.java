@@ -48,7 +48,7 @@ public class MyScheduler {
         }
 
 
-        // 3개월이 지난 탈퇴 회원 정보는 삭제
+        // 탈퇴시간 3개월이 지난 탈퇴 회원 정보는 삭제
         LocalDateTime deleteCutoffTime = now.minusMonths(3);
         List<MembersVO> deleteCandidates = memberService.findDeleteCandidates(deleteCutoffTime);
 
@@ -64,6 +64,11 @@ public class MyScheduler {
         } else {
             log.info("개인정보 삭제 계정이 없습니다.");
         }
+
+
+        // 휴면 계정 전환 (현재로 부터 1개월 전)
+        LocalDateTime restTime = now.minusMonths(1);
+
 
     }
 

@@ -58,4 +58,7 @@ public interface MemberRepository {
     int saveMember_log(Members_logVO members_logVO);
 
     int realDeleteInfo(MembersVO member);
+
+
+    int updateMemberLogin_date(MembersVO membersVO);
 }
