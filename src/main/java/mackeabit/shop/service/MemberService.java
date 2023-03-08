@@ -288,6 +288,9 @@ public class MemberService {
     }
 
     public int realDelete(MembersVO member) {
-        return repository.realDelete(member);
+
+        //Members_detail Table Delete
+
+        return repository.realDeleteInfo(member);
     }
 }

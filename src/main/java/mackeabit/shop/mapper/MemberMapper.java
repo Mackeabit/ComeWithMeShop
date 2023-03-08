@@ -57,4 +57,6 @@ public interface MemberMapper {
     int realDelete(MembersVO member);
 
     int saveMember_log(Members_logVO members_logVO);
+
+    int realDeleteInfo(MembersVO member);
 }

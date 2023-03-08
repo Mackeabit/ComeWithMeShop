@@ -98,15 +98,21 @@
     <select id="findDeleteCandidates" resultType="mackeabit.shop.vo.MembersVO">
         SELECT *
         FROM members
-        WHERE member_status = 2 AND delete_date IS NOT NULL AND delete_date &lt; #{deleteCutoffTime}
+        WHERE member_status = 2 OR member_status = -1 AND delete_date IS NOT NULL AND delete_date &lt; #{deleteCutoffTime}
     </select>
 
     <update id="delete" parameterType="mackeabit.shop.vo.MembersVO">
         UPDATE members SET member_status = -1 WHERE member_idx = ${member_idx}
     </update>
 
+<!--
     <delete id="realDelete" parameterType="mackeabit.shop.vo.MembersVO">
         DELETE FROM members WHERE member_idx=#{member_idx}
+    </delete>
+-->
+
+    <delete id="realDeleteInfo" parameterType="mackeabit.shop.vo.MembersVO">
+        DELETE FROM members_detail WHERE member_idx=#{member_idx}
     </delete>
 
 </mapper>

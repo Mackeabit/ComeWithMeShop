@@ -146,5 +146,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.saveMember_log(members_logVO);
     }
 
+    @Override
+    public int realDeleteInfo(MembersVO member) {
+        return memberMapper.realDeleteInfo(member);
+    }
+
 
 }

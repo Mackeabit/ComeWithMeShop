@@ -23,6 +23,8 @@ public class MyScheduler {
     @Scheduled(cron = "0 0 0 * * ?")
     public void deleteInactiveMembers() {
 
+        log.info("MyScheduler 실행");
+
         // 현재 시간
         LocalDateTime now = LocalDateTime.now();
 
@@ -53,13 +55,14 @@ public class MyScheduler {
         int resReal = 0;
 
         for (MembersVO member : deleteCandidates) {
+            /* 구매, 주문 등은 삭제하지 않고 개인정보만 삭제 */
             resReal = memberService.realDelete(member);
         }
 
         if (resReal > 0) {
-            log.info("회원 삭제 계정 수 = {}", resReal);
+            log.info("개인정보 삭제 계정 수 = {}", resReal);
         } else {
-            log.info("회원 삭제 계정이 없습니다.");
+            log.info("개인정보 삭제 계정이 없습니다.");
         }
 
     }
