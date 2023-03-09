@@ -905,6 +905,73 @@
     </script>
 
 
+    <!-- Review Modal -->
+    <th:block th:each="rv:${reviews}">
+        <div class="modal fade" th:attr="id='quickview'+${rv.pd_idx}+${rv.review_idx}" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="modal-body">
+                        <div class="quickview_body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12 col-lg-5">
+                                        <div class="quickview_pro_img">
+                                            <img th:src="|/${product.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-7">
+                                        <div class="quickview_pro_des">
+                                            <h4 class="title" th:text="${rv.pd_nm}"></h4>
+                                            <br>
+                                            <div class="widget size mb-15">
+                                                <h6 class="widget-title" th:text="'제목 : '+${rv.title}"></h6>
+                                                <div class="widget-desc">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="top_seller_product_rating mb-15">
+                                                <h6 class="widget-title" style="display: inline">별점 : </h6>
+                                                <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                                                    <th:block th:if="${count <= rv.stars.intValue()}">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </th:block>
+                                                    <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    </th:block>
+                                                </th:block>
+                                            </div>
+                                            <hr>
+                                            <p th:text="${rv.contents}">상품 설명란</p>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                        </div>
+
+
+                                        <div class="share_wf mt-30">
+                                        <p th:text="'작성일 : '+${#dates.format(rv.date, 'yyyy-MM-dd')}">작성일</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <!-- Review Modal End -->
+
+
+
+
     <div class="tab">
         <ul class="tabnav" style="display: flex; justify-content: center; align-items: center; top: 0; left: 0; right: 0; padding-top: 10px;">
             <li><a href="#tab01">상품문의</a></li>
@@ -923,22 +990,22 @@
                     <th:block>
                         <tr class="qna_board">
                             <td>12312414113123</td>
-                            <td><a href="#" onclick="qna_openPopup();">팝업창</a></td>
+                            <td><a href="#">팝업창</a></td>
                             <td>작성 날짜</td>
                         </tr>
                         <tr class="qna_board">
                             <td>12312414113123</td>
-                            <td><a href="#" onclick="qna_openPopup();">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
+                            <td><a href="#">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
                             <td>2023.03.09</td>
                         </tr>
                         <tr class="qna_board">
                             <td>12312414113123</td>
-                            <td><a href="#" onclick="qna_openPopup();">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
+                            <td><a href="#">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
                             <td>2023.03.09</td>
                         </tr>
                         <tr class="qna_board">
                             <td>12312414113123</td>
-                            <td><a href="#" onclick="qna_openPopup();">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
+                            <td><a href="#">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
                             <td>2023.03.09</td>
                         </tr>
                     </th:block>
@@ -951,22 +1018,23 @@
                 <table class="qna">
                     <tr class="caption">
                         <th>no.</th>
-                        <th>리뷰내용</th>
-                        <th>날짜</th>
+                        <th>제목</th>
+                        <th>작성일</th>
                     </tr>
-                    <th:block>
+                    <th:block th:each="rv:${reviews}">
                         <tr class="qna_board">
-                            <td>리뷰 번호</td>
-                            <td><a href="#" onclick="openPopup();" data-target="#review">리뷰</a></td>
-                            <td>리뷰 작성일</td>
+                            <td th:text="${rv.review_idx}">리뷰 번호</td>
+                            <td><a href="#" data-toggle="modal" th:attr="data-target='#quickview'+${rv.pd_idx}+${rv.review_idx}" th:text="${rv.contents}">리뷰</a></td>
+                            <td th:text="${#dates.format(rv.date, 'yyyy-MM-dd')}">리뷰 작성일</td>
                         </tr>
                     </th:block>
                 </table>
                 <!-- 리뷰 tab 끝 -->
-                <input type="button" class="writeBtn" value="리뷰작성" onclick="writePopup()">
+                <input type="button" class="writeBtn" value="리뷰작성">
             </div>
         </div>
     </div><!--tab-->
+
 
 
 
