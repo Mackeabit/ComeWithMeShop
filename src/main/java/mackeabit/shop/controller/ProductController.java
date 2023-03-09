@@ -9,6 +9,7 @@ import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
 import mackeabit.shop.vo.CategorysVO;
+import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -177,6 +178,9 @@ public class ProductController {
         List<SizesDTO> productSizes = productService.findSizes();
         model.addAttribute("findSizes", productSizes);
 
+        //리뷰
+        List<ReviewsVO> reviewsVOList = productService.findReviewsByPd_nm(pd_nm);
+        model.addAttribute("reviews", reviewsVOList);
 
         return "product-details";
     }

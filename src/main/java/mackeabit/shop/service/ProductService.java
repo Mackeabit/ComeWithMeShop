@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,5 +76,9 @@ public class ProductService {
 
     public List<MainProductsDTO> findRecommendProducts(Integer category_code) {
         return repository.findRecommendProducts(category_code);
+    }
+
+    public List<ReviewsVO> findReviewsByPd_nm(String pd_nm) {
+        return repository.findReviewsByPd_nm(pd_nm);
     }
 }

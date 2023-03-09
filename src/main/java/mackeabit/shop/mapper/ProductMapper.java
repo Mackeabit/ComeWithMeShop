@@ -2,6 +2,7 @@ package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.ReviewsVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -44,4 +45,6 @@ public interface ProductMapper {
     List<MainProductsDTO> findByPd_nm(String pd_nm);
 
     List<MainProductsDTO> findRecommendProducts(Integer category_code);
+
+    List<ReviewsVO> findReviewsByPd_nm(String pd_nm);
 }

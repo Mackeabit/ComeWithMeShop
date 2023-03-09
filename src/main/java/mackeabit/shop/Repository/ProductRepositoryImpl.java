@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.ProductMapper;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -106,6 +107,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<MainProductsDTO> findRecommendProducts(Integer category_code) {
         return productMapper.findRecommendProducts(category_code);
+    }
+
+    @Override
+    public List<ReviewsVO> findReviewsByPd_nm(String pd_nm) {
+        return productMapper.findReviewsByPd_nm(pd_nm);
     }
 
 

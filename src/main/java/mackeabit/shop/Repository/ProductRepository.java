@@ -2,6 +2,7 @@ package mackeabit.shop.Repository;
 
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.ReviewsVO;
 
 import java.util.List;
 import java.util.Map;
@@ -44,4 +45,6 @@ public interface ProductRepository {
     List<MainProductsDTO> findByPd_nm(String pd_nm);
 
     List<MainProductsDTO> findRecommendProducts(Integer category_code);
+
+    List<ReviewsVO> findReviewsByPd_nm(String pd_nm);
 }

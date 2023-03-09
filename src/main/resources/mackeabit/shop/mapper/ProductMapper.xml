@@ -22,6 +22,10 @@
         select distinct pd_nm, pd_size from products order by cast(pd_size AS unsigned), substring(pd_size, 1) DESC;
     </select>
 
+    <select id="findReviewsByPd_nm" resultType="mackeabit.shop.vo.ReviewsVO">
+        SELECT * FROM reviews WHERE pd_nm = #{pd_nm} ORDER BY review_idx DESC
+    </select>
+
     <select id="findPd_idx" parameterType="mackeabit.shop.dto.CartInsertDTO" resultType="Long">
         select pd_idx from products
         <where>
