@@ -183,7 +183,7 @@ public class OrderService {
     }
 
 
-
-
-
+    public int reviewCheck(Long order_idx) {
+        return orderRepository.reviewCheck(order_idx);
+    }
 }

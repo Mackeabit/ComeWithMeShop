@@ -6,6 +6,7 @@ import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.mapper.SuBMapper;
 import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
+import mackeabit.shop.vo.ReviewsVO;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
@@ -57,5 +58,11 @@ public class SubRepositoryImpl implements SubRepository{
     @Override
     public int cancelRequestPay(Long pay_idx) {
         return suBMapper.cancelRequestPay(pay_idx);
+    }
+
+    @Override
+    public Long insertReview(ReviewsVO reviewsVO) {
+        suBMapper.insertReview(reviewsVO);
+        return reviewsVO.getReview_idx();
     }
 }

@@ -158,4 +158,10 @@
           AND p.pd_idx IN (SELECT MAX(pd_idx) FROM products GROUP BY pd_nm)
     </select>
 
+    <update id="updateProductStars" parameterType="String">
+        UPDATE products_stars SET stars = (
+            SELECT AVG(stars) FROM reviews WHERE pd_nm=#{pd_nm}
+            ) WHERE pd_nm = #{pd_nm}
+    </update>
+
 </mapper>

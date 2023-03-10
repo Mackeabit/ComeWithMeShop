@@ -1,0 +1,181 @@
+body{
+background-color: #f6f6f6;
+}
+
+ul, li{
+  list-style: none;
+  margin: 0;
+}
+
+hr{
+  border: 1px solid #e7e7e7;
+}
+
+.popup_container{
+  width: 500px;
+  height: 940px;
+  background-color: white;
+  margin: 0 auto;
+  border: 1px solid #e7e7e7;
+}
+
+.main_caption{
+  text-align: center;
+}
+
+.main_title{
+  color: #484545;
+}
+
+/* 구매 상품 정보 */
+.main_product_name{
+  position: relative;
+  border-top: 1px solid #bdbdbd;
+  border-bottom: 1px solid #bdbdbd;
+  background-color: #f8f8f8;
+}
+
+.main_product_name img{
+  margin-top: 10px;
+  border: 1px solid #f1f1f1;
+  margin-left: 20px;
+  margin-bottom: 5px;
+}
+
+.product_info{
+  display: inline-block;
+  position: absolute;
+  top:20px;
+}
+
+.prd_name{
+  font-size: 18px;
+}
+
+.prd_option{
+  font-size: 13px;
+  color: #989898;
+}
+
+/*별점*/
+.star_grade{
+  text-align: center;
+  height: 150px;
+  position: relative;
+}
+.star_grade > h2{
+  margin-top: 30px;
+}
+.star_grade > p{
+  margin-top: 20px;
+}
+.star-rating {
+  text-align: center;
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 3.25rem;
+  line-height: 2.5rem;
+  justify-content: space-around;
+  padding: 0 0.2em;
+  text-align: center;
+  width: 5em;
+  margin: 0 auto;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 0.5px;
+  -webkit-text-stroke-color: #a1a1a1;
+  cursor: pointer;
+}
+
+.star-rating :checked ~ label {
+  -webkit-text-fill-color: gold;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  -webkit-text-fill-color: #fff58c;
+}
+
+/*리뷰 타이틀*/
+.review_title{
+  margin-top: 10px;
+  margin-left: 20px;
+}
+.review_title p{
+  font-size: 20px;
+  font-weight: bold;
+  margin: 20px auto;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+}
+
+.wr_title{
+  width:300px;
+  height:30px;
+  border: 1px solid #a9a9a9;
+  color:black;
+}
+
+/*리뷰입력칸*/
+.input_write{
+  margin: 10px auto;
+  text-align: center;
+}
+
+.input_review{
+  width: 450px;
+  height: 300px;
+  border:1px solid #a9a9a9;
+}
+
+/*사진업로드 버튼*/
+.photo_uproad_btn{
+  text-align: center;
+}
+.photo_btn{
+  width: 450px;
+  height: 40px;
+  background-color: white;
+  border: 1px solid lightgray;
+}
+
+.photo_btn:active{
+  background-color: lightgray;
+}
+
+/*마지막 버튼*/
+.final_btn{
+  text-align: center;
+  margin: 10px auto;
+  padding: 10px;
+}
+.send-btn{
+  width:220px;
+  height: 40px;
+  font-size: 15px;
+  border-style: none;
+}
+
+.send{
+  color:white;
+  background-color: #333335;
+}
+
+.send:active{
+  background-color: black;
+}
+
+.cancel{
+  color: #787878;
+}
+
+.cancel:active{
+  background-color: lightgray;
+}

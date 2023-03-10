@@ -47,4 +47,6 @@ public interface ProductRepository {
     List<MainProductsDTO> findRecommendProducts(Integer category_code);
 
     List<ReviewsVO> findReviewsByPd_nm(String pd_nm);
+
+    void updateProductStars(String pd_nm);
 }

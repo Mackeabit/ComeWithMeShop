@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link href="/popup/review_write.css" rel="stylesheet">
+  <!-- 제이쿼리 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    button:hover{
+      cursor: pointer;
+    }
+    .prd_option{
+      display: inline;
+    }
+    #od_date{
+      display: block;
+    }
+
+    #photo_input{
+      visibility: hidden;
+    }
+  </style>
+
+</head>
+<body>
+<div class="popup_container">
+  <div class="main_caption">
+    <h1 class="main_title">리뷰 작성</h1>
+  </div>
+  <div class="main_product_name">
+    <img th:src="|/${reviewList.get(0).sv_locCt}|" src="/img/product-img/mantest-1cart.jpg" alt="">
+    <ul class="product_info">
+      <li class="prd_name" th:text="${reviewList.get(0).pd_nm}">상품 이름</li>
+          <li th:if="${reviewList.size() != 0 or reviewList != null}" class="prd_option">Size :
+            <select id="pd_size" onchange="selectIdx(this.value);">
+              <option value="사이즈를 선택해주세요.">사이즈, 색상을 선택해주세요.</option>
+              <th:block th:each="pd, idx:${reviewList}">
+                <option th:if="${pd.pd_color != null && pd.pd_size != null}" th:value="${idx.index}" th:text="|${pd.pd_size}(${pd.pd_color})|"></option>
+                <option th:if="${pd.pd_color == null && pd.pd_size != null}" th:value="${idx.index}" th:text="|${pd.pd_size}(색상없음)|"></option>
+                <option th:if="${pd.pd_color != null && pd.pd_size == null}" th:value="${idx.index}" th:text="|${pd.pd_color}(사이즈없음)|"></option>
+                <option th:if="${pd.pd_color == null && pd.pd_size == null}" th:value="${idx.index}">사이즈와 색상이 존재하지 않는 상품입니다.</option>
+              </th:block>
+            </select>
+          </li>
+      <li th:if="${reviewList.get(0).pd_size == '' or reviewList.get(0).pd_size == null}" class="prd_option">Size : 해당 없음</li><br>
+      <li id="pd_date" class="prd_option">주문날짜 : </li>
+          <input type="hidden" value="pd_nm">
+      <!-- 옵션 선택 끝 -->
+    </ul>
+  </div>
+  <div class="star_grade">
+    <h2>상품 평점</h2>
+    <div class="star-rating">
+      <input type="radio" id="5-stars" name="rating" value="5" onclick="star(this.value);"/>
+      <label for="5-stars" class="star">&#9733;</label>
+      <input type="radio" id="4-stars" name="rating" value="4" onclick="star(this.value);"/>
+      <label for="4-stars" class="star">&#9733;</label>
+      <input type="radio" id="3-stars" name="rating" value="3" onclick="star(this.value);"/>
+      <label for="3-stars" class="star">&#9733;</label>
+      <input type="radio" id="2-stars" name="rating" value="2" onclick="star(this.value);"/>
+      <label for="2-stars" class="star">&#9733;</label>
+      <input type="radio" id="1-star" name="rating" value="1" onclick="star(this.value);"/>
+      <label for="1-star" class="star">&#9733;</label>
+    </div>
+    <p>별점을 선택해 주세요</p>
+    <hr>
+  </div>
+  <form id="reviewForm" method="POST" action="/reviewPhotos" enctype="multipart/form-data">
+    <div id="preview" class="review_title">
+      <p>리뷰 작성</p>
+      <div class="write_title">
+        <input type="text" name="title" id="wr_title" class="wr_title"
+               placeholder="제목을 입력해주세요."
+               onFocus="a(this);" >
+      </div>
+    </div>
+    <div class="input_write">
+      <textarea class="input_review" name="contents" style="resize: none;"></textarea>
+    </div>
+    <div class="photo_uproad_btn">
+      <button id="photo_btn" type="button" class="photo_btn" onclick="upload();">사진 선택</button>
+    </div>
+    <div class="final_btn">
+      <button type="button" class="send-btn send" onclick="send();">등록</button>
+      <button type="button" class="send-btn cancel" onclick="self.close();">취소</button>
+    </div>
+
+    <input type="file" id="photo_input" name="photo" accept=".gif, .jpg, .png">
+    <input type="hidden" id="pd_idx" name="pd_idx">
+    <input type="hidden" id="od_idx" name="order_idx">
+    <input type="hidden" id="member_idx" name="member_idx">
+    <input type="hidden" id="pd_nm" name="pd_nm">
+    <input type="hidden" id="rv_score" name="stars">
+    <input type="hidden" id="check_upload" name="uploadingCheck" value="-1">
+  </form>
+</div>
+
+
+  <script th:inline="javascript">
+
+    let idx = 0;
+
+    function upload() {
+      $('#photo_input').click();
+      $('#photo_input').on('change', function() {
+        if (this.files && this.files[0]) {
+          $('#check_upload').val(0);
+          $('#photo_btn').text(this.files[0].name);
+        }
+      });
+    }
+
+
+
+    function a(y){
+      if (y.defaultValue==y.value) {y.value = ""; } }
+
+
+    function selectIdx(value) {
+
+      let index = parseInt(value);
+
+      let selectedObj = [[${reviewList}]];
+      let firstObj = selectedObj[index];
+      let date = firstObj.order_date;
+
+      let formattedDate = new Date(firstObj.order_date).toISOString().replace(/[TZ]/g, ' ').trim().substring(0, 19).replace(' ', '-').replace(' ', '-');
+
+      //주문날짜 자동 작성
+      $('#pd_date').text("주문날짜 : "+formattedDate);
+
+      $('#pd_idx').val(firstObj.pd_idx);
+      $('#od_idx').val(firstObj.order_idx);
+
+      idx = -1;
+
+    }
+
+
+
+    function star(value) {
+      $("#rv_score").val(value);
+    }
+
+    function send() {
+
+      let member_idx = [[${session.loginMember.member_idx}]];
+      let pd_nm = [[${reviewList.get(0).pd_nm}]];
+
+      $('#pd_nm').val(pd_nm);
+
+      $('#member_idx').val(member_idx)
+
+      if(idx == 0){
+        alert("사이즈를 선택해주세요.");
+        return false;
+      }
+
+      if($("#rv_score").val() == ''){
+        alert("별점을 선택해주세요");
+        return false;
+      }
+
+
+
+      if(!confirm("리뷰 등록 후엔 환불이 불가능합니다. 리뷰를 등록하시겠습니까?")){
+        return false;
+      }
+
+
+      let form = $('#reviewForm')[0];
+      let formData = new FormData(form);
+
+      // 사진 파일 추가
+      let photoFile = $('#photo_input')[0].files[0];
+      formData.append('photo', photoFile);
+
+      $.ajax({
+        url: '/reviewPhotos',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          if (data == "N") {
+            alert("저장 중 오류가 생겼습니다. 다시 한번 시도해주세요.");
+          } else if (data == "Y") {
+            alert("리뷰가 저장되었습니다.")
+            self.close();
+          }
+          console.log(data);
+        },
+        error: function (xhr, status, error) {
+          // 오류 발생
+          console.log('오류 발생: ' + error);
+        }
+      });
+
+
+    }
+
+  </script>
+</body>
+</html>

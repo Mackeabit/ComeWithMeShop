@@ -81,4 +81,8 @@ public class ProductService {
     public List<ReviewsVO> findReviewsByPd_nm(String pd_nm) {
         return repository.findReviewsByPd_nm(pd_nm);
     }
+
+    public void updateProductStars(String pd_nm) {
+        repository.updateProductStars(pd_nm);
+    }
 }

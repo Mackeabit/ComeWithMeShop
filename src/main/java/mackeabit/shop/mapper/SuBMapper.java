@@ -3,6 +3,7 @@ package mackeabit.shop.mapper;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
+import mackeabit.shop.vo.ReviewsVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -27,4 +28,6 @@ public interface SuBMapper {
     CategorysVO findCategories(int category_code);
 
     int cancelRequestPay(Long pay_idx);
+
+    Long insertReview(ReviewsVO reviewsVO);
 }

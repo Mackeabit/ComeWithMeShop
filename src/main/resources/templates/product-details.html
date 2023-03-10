@@ -861,6 +861,7 @@
 
         function addToCart(id) {
             let idx = id;
+            alert(id);
             let f = $('#cart' + id);
             let formData = f.serialize();
             formData += '&pd_color=' + colorPick + '&pd_size=' + sizePick;
@@ -1029,8 +1030,26 @@
                         </tr>
                     </th:block>
                 </table>
+                <script th:inline="javascript">
+                    function reviewPopUp(){
+
+                        let id_ck = [[${session.loginMember}]];
+
+                        let pd_nm = /*[[${product.pd_nm}]]*/;
+
+
+                        if (id_ck == null || id_ck == '') {
+                            alert("로그인이 필요한 서비스 입니다.");
+                            return false;
+                        }
+
+
+                        window.open("/WriteReview?pd_nm="+pd_nm, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=525, height=960, left=600, top=100" );
+
+                    }
+                </script>
                 <!-- 리뷰 tab 끝 -->
-                <input type="button" class="writeBtn" value="리뷰작성">
+                <input type="button" class="writeBtn" onclick="reviewPopUp();" value="리뷰작성">
             </div>
         </div>
     </div><!--tab-->

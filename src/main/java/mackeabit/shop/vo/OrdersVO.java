@@ -9,6 +9,6 @@ public class OrdersVO {
 
     private Long order_idx, member_idx, pd_idx;
     private String address, address_detail, order_date, order_mi;
-    private Integer now_price, shipping_code, order_cart_cnt;
+    private Integer now_price, shipping_code, order_cart_cnt, review_ck;
 
 }

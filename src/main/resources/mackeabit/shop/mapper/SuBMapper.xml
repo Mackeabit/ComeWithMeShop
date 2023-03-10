@@ -52,4 +52,9 @@
         UPDATE payments SET pay_status = 0 WHERE pay_idx = #{pay_idx}
     </update>
 
+    <insert id="insertReview" parameterType="mackeabit.shop.vo.ReviewsVO" useGeneratedKeys="true" keyProperty="review_idx">
+        INSERT INTO reviews (member_idx, pd_idx, title, contents, date, stars, pd_nm)
+        VALUES (#{member_idx}, #{pd_idx}, #{title}, #{contents}, now(), #{stars}, #{pd_nm})
+    </insert>
+    
 </mapper>

@@ -3,6 +3,7 @@ package mackeabit.shop.Repository;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.Photos_toMainVO;
+import mackeabit.shop.vo.ReviewsVO;
 
 import java.util.List;
 import java.util.Map;
@@ -25,4 +26,6 @@ public interface SubRepository {
     CategorysVO findCategories(int category_code);
 
     int cancelRequestPay(Long pay_idx);
+
+    Long insertReview(ReviewsVO reviewsVO);
 }

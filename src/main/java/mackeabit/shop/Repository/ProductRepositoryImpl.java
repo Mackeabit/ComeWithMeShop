@@ -114,5 +114,10 @@ public class ProductRepositoryImpl implements ProductRepository {
         return productMapper.findReviewsByPd_nm(pd_nm);
     }
 
+    @Override
+    public void updateProductStars(String pd_nm) {
+        productMapper.updateProductStars(pd_nm);
+    }
+
 
 }
