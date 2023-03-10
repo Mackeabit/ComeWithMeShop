@@ -67,4 +67,8 @@ public interface MemberRepository {
     int changeStatusAtRest(MembersVO member);
 
     int restoreMemberStatus(SignUpDTO signUpDTO);
+
+    List<MyReviewsDTO> enableMyReviews(Long member_idx);
+
+    List<MyReviewsDTO> disableMyReviews(Long member_idx);
 }

@@ -339,4 +339,12 @@ public class MemberService {
 
         return data;
     }
+
+    public List<MyReviewsDTO> enableMyReviews(Long member_idx) {
+        return repository.enableMyReviews(member_idx);
+    }
+
+    public List<MyReviewsDTO> disableMyReviews(Long member_idx) {
+        return repository.disableMyReviews(member_idx);
+    }
 }

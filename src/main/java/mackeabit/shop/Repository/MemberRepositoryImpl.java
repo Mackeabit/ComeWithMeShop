@@ -171,5 +171,15 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.restoreMemberStatus(signUpDTO);
     }
 
+    @Override
+    public List<MyReviewsDTO> enableMyReviews(Long member_idx) {
+        return memberMapper.enableMyReviews(member_idx);
+    }
+
+    @Override
+    public List<MyReviewsDTO> disableMyReviews(Long member_idx) {
+        return memberMapper.disableMyReviews(member_idx);
+    }
+
 
 }

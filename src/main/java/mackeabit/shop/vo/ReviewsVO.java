@@ -11,7 +11,7 @@ import java.util.Date;
 @ToString
 public class ReviewsVO {
 
-    private Long review_idx, member_idx, img_idx, pd_idx;
+    private Long review_idx, member_idx, img_idx, pd_idx, order_idx;
     private Integer cnt;
     private Float stars;
     private String title, contents, pd_nm;

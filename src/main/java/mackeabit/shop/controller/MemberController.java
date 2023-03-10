@@ -91,7 +91,6 @@ public class MemberController {
     }
 
 
-
     @GetMapping("/myPage")
     public String myPage(Model model) {
 
@@ -223,7 +222,7 @@ public class MemberController {
     }
 
     @GetMapping("myPage/pays")
-    public String myPagePayList(Model model,@RequestParam(defaultValue = "0") int level) {
+    public String myPagePayList(Model model, @RequestParam(defaultValue = "0") int level) {
 
         List<MyPayAndOrderDTO> myPayAndOrderList = memberService.myPayAndOrderList(level);
 
@@ -238,7 +237,7 @@ public class MemberController {
 
     @GetMapping("myPage/pays/data")
     @ResponseBody
-    public List<MyPayAndOrderDTO> myPagePayData(Model model,@RequestParam(defaultValue = "0") int level) {
+    public List<MyPayAndOrderDTO> myPagePayData(Model model, @RequestParam(defaultValue = "0") int level) {
 
         log.info("myPayPage Paging Infinity, level = {}", level);
 
@@ -250,5 +249,21 @@ public class MemberController {
         return myPayAndOrderList;
     }
 
+    @GetMapping("/myPage/myReviews")
+    public String myReviews(Model model) {
 
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        //작성 가능한 리뷰 가져오기 (주문 목록)
+        List<MyReviewsDTO> myReviewsList = memberService.enableMyReviews(attribute.getMember_idx());
+        model.addAttribute("enableReviews", myReviewsList);
+
+        //작성한 리뷰 가져오기
+        List<MyReviewsDTO> myReviewsListNo = memberService.disableMyReviews(attribute.getMember_idx());
+        model.addAttribute("disableReviews", myReviewsListNo);
+
+
+        return "myReviews";
+    }
 }

@@ -10,7 +10,7 @@ import java.util.Date;
 public class PopUpWriteReviewDTO {
 
     private Long member_idx, order_idx, pd_idx;
-    private String pd_nm, pd_color, pd_size, sv_locCt;
+    private String pd_nm, pd_color, pd_size, sv_locCt, order_mi;
     private Date order_date;
 
 }
