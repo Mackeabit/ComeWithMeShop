@@ -10,6 +10,6 @@ import java.util.Date;
 public class PopUpWriteQnaDTO {
 
     private Long pd_idx;
-    private String pd_nm, pd_color, pd_size, sv_locCt;
+    private String pd_nm, pd_color, pd_size, sv_loc, sv_locCt;
 
 }

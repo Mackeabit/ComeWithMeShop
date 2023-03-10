@@ -10,7 +10,7 @@ import java.util.Date;
 public class NoticesVO {
 
     private Long notice_idx, member_idx;
-    private String title, contents, pd_nm;
+    private String title, contents, pd_nm, qna_reply, sv_loc, sv_locCt;
     private Integer secret_ck;
     private Date date;
 

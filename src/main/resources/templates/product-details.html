@@ -958,6 +958,7 @@
                                             <br>
                                             <br>
 
+
                                         </div>
 
 
@@ -1014,7 +1015,14 @@
                                             <br>
                                             <br>
 
+                                            <th:block th:if="${qna.qna_reply != null and qna.qna_reply != ''}">
+                                            <a href="#" onclick="toggleAnswer(event)">답변 보기</a>
+                                            <div class="form-group answer" style="display:none;">
+                                                <textarea class="form-control" rows="3" style="resize: none" disabled></textarea>
+                                            </div>
+                                            </th:block>
                                         </div>
+
 
 
                                         <div class="share_wf mt-30">
@@ -1031,7 +1039,14 @@
         </div>
     </th:block>
     <!-- Qna Modal End -->
-
+    <script>
+        //qna 답변 접히고 열리는 기능
+        function toggleAnswer(event) {
+            event.preventDefault();
+            var answerDiv = event.target.parentElement.querySelector('.answer');
+            answerDiv.style.display = (answerDiv.style.display === 'none') ? 'block' : 'none';
+        }
+    </script>
 
 
     <div class="tab">

@@ -8,6 +8,7 @@ import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.Members_logVO;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -346,5 +347,9 @@ public class MemberService {
 
     public List<MyWriteReviewsDTO> disableMyReviews(Long member_idx) {
         return repository.disableMyReviews(member_idx);
+    }
+
+    public List<NoticesVO> findMyNoticesByMember_idx(Long member_idx) {
+        return repository.findMyNoticesByMember_idx(member_idx);
     }
 }

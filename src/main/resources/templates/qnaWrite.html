@@ -41,6 +41,8 @@
       </div>
       <input type="hidden" id="pd_idx" name="pd_nm" th:value="${qnaList.get(0).pd_nm}">
       <input type="hidden" id="qna_secret" name="secret_ck">
+      <input type="hidden" id="sv_locCt" name="sv_locCt" th:value="${qnaList.get(0).sv_locCt}">
+      <input type="hidden" id="sv_loc" name="sv_loc" th:value="${qnaList.get(0).sv_loc}">
       <div class="final_btn">
         <button type="button" class="send-btn send" onclick="send();">등록</button>
         <button type="button" class="send-btn cancel" onclick="self.close();">취소</button>

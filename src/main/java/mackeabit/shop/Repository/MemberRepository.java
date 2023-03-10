@@ -4,6 +4,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.Members_logVO;
+import mackeabit.shop.vo.NoticesVO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -71,4 +72,6 @@ public interface MemberRepository {
     List<MyReviewsDTO> enableMyReviews(Long member_idx);
 
     List<MyWriteReviewsDTO> disableMyReviews(Long member_idx);
+
+    List<NoticesVO> findMyNoticesByMember_idx(Long member_idx);
 }

@@ -7,6 +7,7 @@ import mackeabit.shop.mapper.MemberMapper;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.Members_logVO;
+import mackeabit.shop.vo.NoticesVO;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -179,6 +180,11 @@ public class MemberRepositoryImpl implements MemberRepository {
     @Override
     public List<MyWriteReviewsDTO> disableMyReviews(Long member_idx) {
         return memberMapper.disableMyReviews(member_idx);
+    }
+
+    @Override
+    public List<NoticesVO> findMyNoticesByMember_idx(Long member_idx) {
+        return memberMapper.findMyNoticesByMember_idx(member_idx);
     }
 
 

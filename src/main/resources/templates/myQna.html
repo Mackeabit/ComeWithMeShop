@@ -77,13 +77,13 @@ Coded by www.creative-tim.com
             <p>결제 내역</p>
           </a>
         </li>
-        <li class="active ">
+        <li>
           <a href="/myPage/myReviews">
             <i class="nc-icon nc-tile-56"></i>
             <p>My Review</p>
           </a>
         </li>
-        <li>
+        <li class="active ">
           <a href="/myPage/myQna">
             <i class="nc-icon nc-email-85"></i>
             <p>My QnA</p>
@@ -152,32 +152,43 @@ Coded by www.creative-tim.com
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title"> 작성 가능한 리뷰</h4>
+              <h4 class="card-title"> 작성한 문의 내역</h4>
             </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table">
                   <thead class=" text-primary">
                   <th>
-                    구매 상품
+                    문의 상품
                   </th>
                   <th>
                     상품명
                   </th>
                   <th>
-                    주문 번호
+                    제목
+                  </th>
+                  <th>
+                    답변 여부
                   </th>
                   <th class="text-right">
-                    리뷰 작성
+                    작성일
                   </th>
                   </thead>
                   <tbody>
 
-                  <th:block th:if="${enableReviews == null}">
+                  <th:block th:if="${myNoticesList == null}">
                   <tr></tr>
                   <tr></tr>
                   <tr><td>
-                    <p>작성 가능한 리뷰가 없습니다.</p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <p>작성한 문의가 없습니다.</p>
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <br>
@@ -186,145 +197,76 @@ Coded by www.creative-tim.com
                   </th:block>
 
 
-                  <script th:inline="javascript">
 
-                    function rvPop(pd_nm){
-
-                      alert(pd_nm);
-
-                      let id_ck = [[${session.loginMember}]];
-
-
-                      let popup = window.open("/WriteReview?pd_nm="+pd_nm, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=525, height=960, left=600, top=100" );
-
-                      popup.onbeforeunload = function(){
-                        window.location.reload();
-                      };
-
-                    }
-
-                  </script>
-
-
-                  <th:block th:if="${enableReviews != null}" th:each="erv:${enableReviews}">
+                  <th:block th:if="${myNoticesList != null}" th:each="qna:${myNoticesList}">
                     <tr>
                       <td>
-                        <img th:src="|/${erv.sv_locCt}|">
+                        <img th:src="|/${qna.sv_locCt}|">
                       </td>
-                      <td th:text="${erv.pd_nm}">
-                        Niger
+                      <td th:text="${qna.pd_nm}">
                       </td>
-                      <td th:text="${erv.order_mi}">
-                        Oud-Turnhout
+                      <td th:text="${qna.title}">
                       </td>
-                      <td class="text-right">
-                        <a href="#" th:onclick="rvPop([[${erv.pd_nm}]])">작성 가능</a>
+                      <td>
+                        <a th:if="${qna.qna_reply != null}" href="#" data-toggle="modal" th:attr="data-target='#qnaview'+${qna.notice_idx}">답변 보기</a>
+                        <a th:if="${qna.qna_reply == null}" href="#" data-toggle="modal" th:attr="data-target='#qnaview'+${qna.notice_idx}">미답변</a>
+                      </td>
+                      <td class="text-right" th:text="${#dates.format(qna.date, 'yyyy-MM-dd')}">
                       </td>
                     </tr>
-                  </th:block>
 
+                    <!-- Qna Modal -->
+                      <div class="modal fade" th:attr="id='qnaview'+${qna.notice_idx}" tabindex="-1" role="dialog" aria-labelledby="qnaview" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                          <div class="modal-content">
 
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-12">
-          <div class="card card-plain">
-            <div class="card-header">
-              <h4 class="card-title"> 작성한 리뷰</h4>
-              <p class="card-category"> 작성 완료한 리뷰 입니다.</p>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table">
-                  <thead class=" text-primary">
-                  <th>
-                    구매 상품
-                  </th>
-                  <th>
-                    상품명
-                  </th>
-                  <th>
-                    주문 번호
-                  </th>
-                  <th class="text-right">
-                    리뷰 작성
-                  </th>
-                  </thead>
-                  <tbody>
+                            <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
 
-                  <th:block th:if="${disableReviews == null}">
-                  <tr></tr>
-                  <tr></tr>
-                  <tr><td>
-                    <p>작성 완료한 리뷰가 없습니다.</p>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                  </td></tr>
-                  </th:block>
-
-
-                  <th:block th:if="${disableReviews != null}" th:each="rv:${disableReviews}">
-
-
-
-
-
-                    <div class="modal fade" th:attr="id='reviewview'+${rv.order_idx}" tabindex="-1" role="dialog" aria-labelledby="reviewview" aria-hidden="true">
-                      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                        <div class="modal-content">
-
-                          <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-
-                          <div class="modal-body">
-                            <div class="quickview_body">
-                              <div class="container">
-                                <div class="row">
-                                  <div class="col-12 col-lg-5">
-                                    <div class="quickview_pro_img">
-                                      <img th:src="|/${rv.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
-                                    </div>
-                                  </div>
-                                  <div class="col-12 col-lg-7">
-                                    <div class="quickview_pro_des">
-                                      <h4 class="title" th:text="${rv.pd_nm}"></h4>
-                                      <br>
-                                      <div class="widget size mb-15">
-                                        <h6 class="widget-title" th:text="'제목 : '+${rv.title}"></h6>
-                                        <div class="widget-desc">
-                                        </div>
+                            <div class="modal-body">
+                              <div class="quickview_body">
+                                <div class="container">
+                                  <div class="row">
+                                    <div class="col-12 col-lg-5">
+                                      <div class="quickview_pro_img">
+                                        <img th:src="|/${qna.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
                                       </div>
-                                      <hr>
-                                      <div class="top_seller_product_rating mb-15">
-                                        <h6 class="widget-title" style="display: inline">별점 : </h6>
-                                        <th:block th:each="count : ${#numbers.sequence(1, 5)}">
-                                          <th:block th:if="${count <= rv.stars.intValue()}">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                          </th:block>
-                                          <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
-                                            <i class="fa fa-star-o" aria-hidden="true"></i>
-                                          </th:block>
+                                    </div>
+                                    <div class="col-12 col-lg-7">
+                                      <div class="quickview_pro_des">
+                                        <h4 class="title" th:text="${qna.pd_nm}"></h4>
+                                        <br>
+                                        <div class="widget size mb-15">
+                                          <h6 class="widget-title" th:text="'제목 : '+${qna.title}"></h6>
+                                          <div class="widget-desc">
+                                          </div>
+                                        </div>
+                                        <hr>
+                                        <div class="top_seller_product_rating mb-15">
+                                          <h6 class="widget-title" style="display: inline">별점 : </h6>
+                                        </div>
+                                        <hr>
+                                        <p th:text="${qna.contents}">상품 설명란</p>
+                                        <br>
+                                        <br>
+                                        <br>
+
+                                        <th:block th:if="${qna.qna_reply != null and qna.qna_reply != ''}">
+                                          <a href="#" onclick="toggleAnswer(event)">답변 보기</a>
+                                          <div class="form-group answer" style="display:none;">
+                                            <textarea class="form-control" rows="3" style="resize: none" disabled></textarea>
+                                          </div>
                                         </th:block>
                                       </div>
-                                      <hr>
-                                      <p th:text="${rv.contents}">상품 설명란</p>
-                                      <br>
-                                      <br>
-                                      <br>
+
+
+
+                                      <div class="share_wf mt-30">
+                                        <p th:text="'작성일 : '+${#dates.format(qna.date, 'yyyy-MM-dd')}">작성일</p>
+                                      </div>
 
                                     </div>
-
-
-                                    <div class="share_wf mt-30">
-                                      <p th:text="'작성일 : '+${#dates.format(rv.date, 'yyyy-MM-dd')}">작성일</p>
-                                    </div>
-
                                   </div>
                                 </div>
                               </div>
@@ -332,27 +274,11 @@ Coded by www.creative-tim.com
                           </div>
                         </div>
                       </div>
-                    </div>
-
-
-                    <tr>
-                      <td>
-                        <img th:src="|/${rv.sv_locCt}|">
-                      </td>
-                      <td th:text="${rv.pd_nm}">
-                        Niger
-                      </td>
-                      <td th:text="${rv.order_mi}">
-                        Oud-Turnhout
-                      </td>
-                      <td class="text-right">
-                        <a href="#" data-toggle="modal" th:attr="data-target='#reviewview'+${rv.order_idx}">리뷰 보기</a>
-                      </td>
-                    </tr>
-
+                    <!-- Qna Modal End -->
 
 
                   </th:block>
+
 
                   </tbody>
                 </table>

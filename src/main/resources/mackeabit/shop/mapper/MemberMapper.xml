@@ -145,4 +145,8 @@
                  where rv.member_idx = #{member_idx} ORDER BY review_idx DESC;
     </select>
 
+    <select id="findMyNoticesByMember_idx" parameterType="Long" resultType="mackeabit.shop.vo.NoticesVO">
+        SELECT * FROM notices WHERE member_idx = #{member_idx}
+    </select>
+
 </mapper>

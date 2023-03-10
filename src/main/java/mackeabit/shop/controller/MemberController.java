@@ -6,6 +6,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.MemberDetailVO;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -266,4 +267,21 @@ public class MemberController {
 
         return "myReviews";
     }
+
+    @GetMapping("/myPage/myQna")
+    public String myQna(Model model) {
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        //작성한 QnA 가져오기
+        List<NoticesVO> myNoticesList = memberService.findMyNoticesByMember_idx(attribute.getMember_idx());
+        model.addAttribute("myNoticesList", myNoticesList);
+
+
+        return "myQna";
+    }
+
+
+
 }
