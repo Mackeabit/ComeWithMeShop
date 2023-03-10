@@ -35,6 +35,13 @@ Coded by www.creative-tim.com
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-latest.js"></script>
 
+  <style>
+    .top_seller_product_rating > i {
+      color: #ff9800;
+      font-size: 13px;
+    }
+  </style>
+
 </head>
 
 <body class="">
@@ -172,25 +179,12 @@ Coded by www.creative-tim.com
                   </td></tr>
                   </th:block>
 
-                  <th:block th:if="${enableReviews != null}" th:each="erv:${enableReviews}">
-                    <tr>
-                      <td th:text="${erv.sv_locCt}">
-                        Dakota Rice
-                      </td>
-                      <td th:text="${erv.pd_nm}">
-                        Niger
-                      </td>
-                      <td th:text="${erv.order_mi}">
-                        Oud-Turnhout
-                      </td>
-                      <td class="text-right">
-                        <a href="#" th:onclick="reviewPopUp([[${erv.pd_nm}]]);">작성 가능</a>
-                      </td>
-                    </tr>
-                  </th:block>
 
-                  <script>
-                    function reviewPopUp(pd_nm){
+                  <script th:inline="javascript">
+
+                    function rvPop(pd_nm){
+
+                      alert(pd_nm);
 
                       let id_ck = [[${session.loginMember}]];
 
@@ -202,7 +196,27 @@ Coded by www.creative-tim.com
                       };
 
                     }
+
                   </script>
+
+
+                  <th:block th:if="${enableReviews != null}" th:each="erv:${enableReviews}">
+                    <tr>
+                      <td>
+                        <img th:src="|/${erv.sv_locCt}|">
+                      </td>
+                      <td th:text="${erv.pd_nm}">
+                        Niger
+                      </td>
+                      <td th:text="${erv.order_mi}">
+                        Oud-Turnhout
+                      </td>
+                      <td class="text-right">
+                        <a href="#" th:onclick="rvPop([[${erv.pd_nm}]])">작성 가능</a>
+                      </td>
+                    </tr>
+                  </th:block>
+
 
                   </tbody>
                 </table>
@@ -249,20 +263,10 @@ Coded by www.creative-tim.com
 
 
                   <th:block th:if="${disableReviews != null}" th:each="rv:${disableReviews}">
-                    <tr>
-                      <td th:text="${rv.sv_locCt}">
-                        Dakota Rice
-                      </td>
-                      <td th:text="${rv.pd_nm}">
-                        Niger
-                      </td>
-                      <td th:text="${rv.order_mi}">
-                        Oud-Turnhout
-                      </td>
-                      <td class="text-right">
-                        <a href="#" th:attr="data-target='#reviewview'+${rv.order_idx}">리뷰 보기</a>
-                      </td>
-                    </tr>
+
+
+
+
 
                     <div class="modal fade" th:attr="id='reviewview'+${rv.order_idx}" tabindex="-1" role="dialog" aria-labelledby="reviewview" aria-hidden="true">
                       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -323,6 +327,23 @@ Coded by www.creative-tim.com
                         </div>
                       </div>
                     </div>
+
+
+                    <tr>
+                      <td>
+                        <img th:src="|/${rv.sv_locCt}|">
+                      </td>
+                      <td th:text="${rv.pd_nm}">
+                        Niger
+                      </td>
+                      <td th:text="${rv.order_mi}">
+                        Oud-Turnhout
+                      </td>
+                      <td class="text-right">
+                        <a href="#" data-toggle="modal" th:attr="data-target='#reviewview'+${rv.order_idx}">리뷰 보기</a>
+                      </td>
+                    </tr>
+
 
 
                   </th:block>

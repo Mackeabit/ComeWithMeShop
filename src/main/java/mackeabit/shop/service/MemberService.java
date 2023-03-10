@@ -344,7 +344,7 @@ public class MemberService {
         return repository.enableMyReviews(member_idx);
     }
 
-    public List<MyReviewsDTO> disableMyReviews(Long member_idx) {
+    public List<MyWriteReviewsDTO> disableMyReviews(Long member_idx) {
         return repository.disableMyReviews(member_idx);
     }
 }

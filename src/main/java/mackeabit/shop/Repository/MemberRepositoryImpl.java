@@ -177,7 +177,7 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public List<MyReviewsDTO> disableMyReviews(Long member_idx) {
+    public List<MyWriteReviewsDTO> disableMyReviews(Long member_idx) {
         return memberMapper.disableMyReviews(member_idx);
     }
 

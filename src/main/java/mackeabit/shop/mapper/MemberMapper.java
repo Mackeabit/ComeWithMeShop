@@ -70,5 +70,5 @@ public interface MemberMapper {
 
     List<MyReviewsDTO> enableMyReviews(Long member_idx);
 
-    List<MyReviewsDTO> disableMyReviews(Long member_idx);
+    List<MyWriteReviewsDTO> disableMyReviews(Long member_idx);
 }

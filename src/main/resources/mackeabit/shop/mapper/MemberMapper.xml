@@ -137,8 +137,12 @@
         SELECT * FROM orders o JOIN products p ON o.pd_idx = p.pd_idx JOIN product_img pi ON p.pd_idx = pi.pd_idx WHERE member_idx = #{member_idx} and o.review_ck = -1
     </select>
 
-    <select id="disableMyReviews" parameterType="Long" resultType="mackeabit.shop.dto.MyReviewsDTO">
-        SELECT * FROM orders o JOIN products p ON o.pd_idx = p.pd_idx JOIN product_img pi ON p.pd_idx = pi.pd_idx WHERE member_idx = #{member_idx} and o.review_ck = 0
+    <select id="disableMyReviews" parameterType="Long" resultType="mackeabit.shop.dto.MyWriteReviewsDTO">
+        select rv.review_idx, p.pd_idx, rv.title, rv.contents, rv.date, rv.stars, p.pd_nm, o.order_idx, p.pd_nm, o.order_mi, pi.sv_loc, pi.sv_locct from reviews rv
+            JOIN products p ON rv.pd_idx = p.pd_idx
+            JOIN orders o ON o.order_idx = rv.order_idx
+            JOIN product_img pi ON p.pd_idx = pi.pd_idx
+                 where rv.member_idx = #{member_idx} ORDER BY review_idx DESC;
     </select>
 
 </mapper>

@@ -260,7 +260,7 @@ public class MemberController {
         model.addAttribute("enableReviews", myReviewsList);
 
         //작성한 리뷰 가져오기
-        List<MyReviewsDTO> myReviewsListNo = memberService.disableMyReviews(attribute.getMember_idx());
+        List<MyWriteReviewsDTO> myReviewsListNo = memberService.disableMyReviews(attribute.getMember_idx());
         model.addAttribute("disableReviews", myReviewsListNo);
 
 
