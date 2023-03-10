@@ -72,7 +72,6 @@ public class PhotoController {
         // 파일 이름 생성
         String originalFilename = file.getOriginalFilename();
 
-        log.info("origianlFileName = {}", originalFilename);
 
         String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
         String uuid = UUID.randomUUID().toString();

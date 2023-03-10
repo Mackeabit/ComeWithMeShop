@@ -3,8 +3,10 @@ package mackeabit.shop.Repository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.dto.PopUpWriteQnaDTO;
 import mackeabit.shop.mapper.SuBMapper;
 import mackeabit.shop.vo.CategorysVO;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.apache.ibatis.session.RowBounds;
@@ -64,5 +66,15 @@ public class SubRepositoryImpl implements SubRepository{
     public Long insertReview(ReviewsVO reviewsVO) {
         suBMapper.insertReview(reviewsVO);
         return reviewsVO.getReview_idx();
+    }
+
+    @Override
+    public List<PopUpWriteQnaDTO> popUpQna(String pd_nm) {
+        return suBMapper.popUpQna(pd_nm);
+    }
+
+    @Override
+    public int insertQna(NoticesVO noticesVO) {
+        return suBMapper.insertQna(noticesVO);
     }
 }

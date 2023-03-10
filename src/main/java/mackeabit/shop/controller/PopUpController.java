@@ -2,13 +2,18 @@ package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.dto.PopUpWriteQnaDTO;
 import mackeabit.shop.dto.PopUpWriteReviewDTO;
+import mackeabit.shop.service.QnaService;
 import mackeabit.shop.service.ReviewService;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +28,7 @@ import java.util.Map;
 public class PopUpController {
 
     private final ReviewService reviewService;
+    private final QnaService qnaService;
 
     @GetMapping("/WriteReview")
     public String writeReview(Model model, String pd_nm, HttpServletRequest request) {
@@ -42,6 +48,33 @@ public class PopUpController {
         model.addAttribute("reviewList", popUpWriteReviewDTOList);
 
         return "reviewWrite";
+    }
+
+    @GetMapping("/WriteQna")
+    public String writeQna(Model model, String pd_nm) {
+
+        log.info("Write Qna pd_nm = {}", pd_nm);
+
+        //상품명을 받아서 문의글에 필요한 정보들을 갖고 온다.
+        //이미지, 사이즈, 색상
+        List<PopUpWriteQnaDTO> popUpWriteReviewDTOList = qnaService.popUpQna(pd_nm);
+
+        model.addAttribute("qnaList", popUpWriteReviewDTOList);
+
+        return "qnaWrite";
+    }
+
+    @PostMapping("/WriteQna")
+    @ResponseBody
+    public String writeQnaAfter(HttpServletRequest request, NoticesVO noticesVO) {
+
+        log.info("NoticesVo = {}", noticesVO);
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        noticesVO.setMember_idx(attribute.getMember_idx());
+
+        return qnaService.insertQna(noticesVO);
     }
 
 }

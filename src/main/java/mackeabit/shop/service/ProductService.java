@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
 import mackeabit.shop.dto.*;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.ProductsVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Service;
@@ -78,11 +79,23 @@ public class ProductService {
         return repository.findRecommendProducts(category_code);
     }
 
-    public List<ReviewsVO> findReviewsByPd_nm(String pd_nm) {
+    public List<ReviewsVO> findReviewsByPd_nm(Map<String, Object> pd_nm) {
         return repository.findReviewsByPd_nm(pd_nm);
     }
 
     public void updateProductStars(String pd_nm) {
         repository.updateProductStars(pd_nm);
+    }
+
+    public List<NoticesVO> findQnaByPd_nm(Map<String, Object> pd_nm) {
+        return repository.findQnaByPd_nm(pd_nm);
+    }
+
+    public int countReviews(String pd_nm) {
+        return repository.countReviews(pd_nm);
+    }
+
+    public int countQnas(String pd_nm) {
+        return repository.countQnas(pd_nm);
     }
 }

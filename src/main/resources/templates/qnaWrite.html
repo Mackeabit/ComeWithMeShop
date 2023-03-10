@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Come With Me | 상품 문의</title>
+  <link href="/popup/qna_write.css" rel="stylesheet">
+  <!-- 제이쿼리 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <style>
+    button:hover{
+      cursor: pointer;
+    }
+    .prd_option{
+      display: inline;
+    }
+  </style>
+
+</head>
+<body>
+<div class="popup_container">
+  <div class="main_caption">
+    <h1 class="main_title">상품 문의</h1>
+  </div>
+  <div class="main_product_name">
+    <img th:src="|/${qnaList.get(0).sv_locCt}|" src="/img/product-img/mantest-1cart.jpg" alt="">
+    <ul class="product_info">
+      <li class="prd_name" style="padding-top: 15px;" th:text="'상품명 : '+${qnaList.get(0).pd_nm}"></li>
+    </ul>
+  </div>
+    <div class="review_title">
+      <p>문의 작성</p>
+      <form id="qnaForm">
+      <div class="input_title">
+        <input type="text" id="qna_title" name="title" class="input_tit" placeholder="제목을 입력해주세요">
+        <input type='checkbox' id='checkbox-btn-2'/>
+        <span class="input-label radio-label" style="color: rgb(102, 102, 102);">비공개</span>
+      </div>
+      <div class="input_write">
+        <textarea class="input_review" id="qna_content" name="contents" style="resize: none;"></textarea>
+      </div>
+      <input type="hidden" id="pd_idx" name="pd_nm" th:value="${qnaList.get(0).pd_nm}">
+      <input type="hidden" id="qna_secret" name="secret_ck">
+      <div class="final_btn">
+        <button type="button" class="send-btn send" onclick="send();">등록</button>
+        <button type="button" class="send-btn cancel" onclick="self.close();">취소</button>
+      </div>
+      </form>
+</div>
+
+  <script type="text/javascript">
+
+    let secret = false;
+    let idx = -1;
+    let qna_title = '';
+    let qna_content = '';
+
+
+    $("#checkbox-btn-2").click(function() {
+      secret = !secret;
+      if(secret){
+        $("#qna_secret").val(-1);
+      }else{
+        $("#qna_secret").val(0);
+      }
+    });
+
+    function a(y){
+      if (y.defaultValue==y.value) {y.value = ""; } }
+
+
+    function send() {
+
+      qna_title = $("#qna_title").val();
+      qna_content = $("#qna_content").val();
+
+      if(secret){
+        $("#qna_secret").val(-1);
+      }else{
+        $("#qna_secret").val(0);
+      }
+
+
+      if( qna_title == ''){
+        alert("제목을 입력해주세요.");
+        return false;
+      }
+      if( qna_content == ''){
+        alert("내용을 입력해주세요.");
+        return false;
+      }
+
+
+      let formData = $('#qnaForm').serialize();
+
+      alert(formData);
+
+      $.ajax({
+        type   : "POST",
+        url    : "/WriteQna",
+        data   : formData,
+        success: function (data) {
+          if (data == "Y") {
+            alert("등록되었습니다.");
+            self.close();
+          } else {
+            alert("글 등록에 실패하였습니다. 잠시 후에 재시도 해주세요.");
+          }
+        },
+        error: function (data) {
+          alert("에러 발생");
+          console.log(data);
+        }
+      });
+
+    }
+
+  </script>
+</body>
+</html>

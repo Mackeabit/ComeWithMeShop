@@ -56,5 +56,15 @@
         INSERT INTO reviews (member_idx, pd_idx, title, contents, date, stars, pd_nm)
         VALUES (#{member_idx}, #{pd_idx}, #{title}, #{contents}, now(), #{stars}, #{pd_nm})
     </insert>
-    
+
+    <select id="popUpQna" parameterType="String" resultType="mackeabit.shop.dto.PopUpWriteQnaDTO">
+        select p.pd_idx, p.pd_nm, p.pd_color, p.pd_size, pi.sv_locCt from products p
+            JOIN product_img pi ON p.pd_idx = pi.pd_idx where pd_nm=#{pd_nm} order by cast(pd_size AS unsigned), substring(pd_size, 1) DESC;
+    </select>
+
+    <insert id="insertQna" parameterType="mackeabit.shop.vo.NoticesVO" useGeneratedKeys="true" keyProperty="notice_idx">
+        INSERT INTO notices (member_idx, title, contents, date, secret_ck, pd_nm)
+        VALUES (#{member_idx}, #{title}, #{contents}, now(), #{secret_ck}, #{pd_nm})
+    </insert>
+
 </mapper>

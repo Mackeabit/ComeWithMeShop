@@ -9,6 +9,7 @@ import mackeabit.shop.dto.SizesDTO;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
 import mackeabit.shop.vo.CategorysVO;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -32,6 +34,7 @@ public class ProductController {
 
 
     public static final int PAGE_SIZE = 9;
+    public static final int REVIEW_QNA_PAGE_SIZE = 5;
 
     @GetMapping
     public String productAll(Model model,@RequestParam(defaultValue = "1") int page) {
@@ -146,7 +149,7 @@ public class ProductController {
 
     //상품별 페이지
     @GetMapping("/{pd_nm}")
-    public String product_detail(@PathVariable String  pd_nm, Model model) {
+    public String product_detail(@PathVariable String  pd_nm, Model model, @RequestParam(defaultValue = "1") int reviewPage, @RequestParam(defaultValue = "1") int qnaPage) {
         log.info("pd_nm = {}", pd_nm);
 
         //해당하는 이름의 상품들 가져오기 (List 뽑아오기)
@@ -178,9 +181,65 @@ public class ProductController {
         List<SizesDTO> productSizes = productService.findSizes();
         model.addAttribute("findSizes", productSizes);
 
+        // 페이징 처리 (리뷰, 문의)
+        int startReview = (reviewPage - 1) * REVIEW_QNA_PAGE_SIZE;
+        int startQna = (qnaPage - 1) * REVIEW_QNA_PAGE_SIZE;
+
+        // Map 생성 (리뷰, 문의)
+        Map<String, Object> reviewParams = new ConcurrentHashMap<>();
+        reviewParams.put("pageSize", REVIEW_QNA_PAGE_SIZE);
+        reviewParams.put("startIndex", startReview);
+        reviewParams.put("pd_nm", pd_nm);
+
+        Map<String, Object> qnaParams = new ConcurrentHashMap<>();
+        qnaParams.put("pageSize", REVIEW_QNA_PAGE_SIZE);
+        qnaParams.put("startIndex", startQna);
+        qnaParams.put("pd_nm", pd_nm);
+
+
+        // 해당 상품의 리뷰, 문의 테이블의 총 갯수 구하기
+        int reviewTotalCount = productService.countReviews(pd_nm);
+        int qnaTotalCount = productService.countQnas(pd_nm);
+
+        log.info("reviewTotalCount = {}", reviewTotalCount);
+        log.info("qnaTotalCount = {}", qnaTotalCount);
+
+        // 페이지 정보 (총페이지 반올림, 현재 페이지)
+        int reviewTotalPages = (int) Math.ceil((double) reviewTotalCount / REVIEW_QNA_PAGE_SIZE);
+        int qnaTotalPages = (int) Math.ceil((double) qnaTotalCount / REVIEW_QNA_PAGE_SIZE);
+
+        // 현재 페이지
+        int reviewCurrentPage = reviewPage;
+        int qnaCurrentPage = qnaPage;
+
+        List<Integer> reviewPageNumbers = IntStream.rangeClosed(1, reviewTotalPages).boxed().collect(Collectors.toList());
+        List<Integer> qnaPageNumbers = IntStream.rangeClosed(1, qnaTotalPages).boxed().collect(Collectors.toList());
+
         //리뷰
-        List<ReviewsVO> reviewsVOList = productService.findReviewsByPd_nm(pd_nm);
+        List<ReviewsVO> reviewsVOList = productService.findReviewsByPd_nm(reviewParams);
         model.addAttribute("reviews", reviewsVOList);
+
+        model.addAttribute("reviewTotalPages", reviewTotalPages);
+        model.addAttribute("reviewCurrentPage", reviewCurrentPage);
+        model.addAttribute("reviewPageNumbers", reviewPageNumbers);
+        model.addAttribute("reviewNowURL", "products/"+pd_nm+"/");
+
+        log.info("reviewTotalPages = {}", reviewTotalPages);
+        log.info("reviewCurrentPage = {}", reviewCurrentPage);
+        log.info("reviewPageNumbers = {}", reviewPageNumbers);
+
+        //문의
+        List<NoticesVO> noticesVOList = productService.findQnaByPd_nm(qnaParams);
+        model.addAttribute("qnaList", noticesVOList);
+
+        model.addAttribute("qnaTotalPages", qnaTotalPages);
+        model.addAttribute("qnaCurrentPage", qnaCurrentPage);
+        model.addAttribute("qnaPageNumbers", qnaPageNumbers);
+        model.addAttribute("qnaNowURL", "products/"+pd_nm+"/");
+
+        log.info("qnaTotalPages = {}", qnaTotalPages);
+        log.info("qnaCurrentPage = {}", qnaCurrentPage);
+        log.info("qnaPageNumbers = {}", qnaPageNumbers);
 
         return "product-details";
     }

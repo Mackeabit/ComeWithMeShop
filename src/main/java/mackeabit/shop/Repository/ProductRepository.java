@@ -1,6 +1,7 @@
 package mackeabit.shop.Repository;
 
 import mackeabit.shop.dto.*;
+import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.ProductsVO;
 import mackeabit.shop.vo.ReviewsVO;
 
@@ -46,7 +47,13 @@ public interface ProductRepository {
 
     List<MainProductsDTO> findRecommendProducts(Integer category_code);
 
-    List<ReviewsVO> findReviewsByPd_nm(String pd_nm);
+    List<ReviewsVO> findReviewsByPd_nm(Map<String, Object> pd_nm);
 
     void updateProductStars(String pd_nm);
+
+    List<NoticesVO> findQnaByPd_nm(Map<String, Object> pd_nm);
+
+    int countReviews(String pd_nm);
+
+    int countQnas(String pd_nm);
 }

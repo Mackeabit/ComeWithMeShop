@@ -22,9 +22,6 @@
         select distinct pd_nm, pd_size from products order by cast(pd_size AS unsigned), substring(pd_size, 1) DESC;
     </select>
 
-    <select id="findReviewsByPd_nm" resultType="mackeabit.shop.vo.ReviewsVO">
-        SELECT * FROM reviews WHERE pd_nm = #{pd_nm} ORDER BY review_idx DESC
-    </select>
 
     <select id="findPd_idx" parameterType="mackeabit.shop.dto.CartInsertDTO" resultType="Long">
         select pd_idx from products
@@ -163,5 +160,21 @@
             SELECT AVG(stars) FROM reviews WHERE pd_nm=#{pd_nm}
             ) WHERE pd_nm = #{pd_nm}
     </update>
+
+    <select id="findQnaByPd_nm" parameterType="map" resultType="mackeabit.shop.vo.NoticesVO">
+        SELECT * FROM notices WHERE pd_nm = #{pd_nm} ORDER BY notice_idx DESC limit #{pageSize} offset #{startIndex}
+    </select>
+
+    <select id="findReviewsByPd_nm" parameterType="map" resultType="mackeabit.shop.vo.ReviewsVO">
+        SELECT * FROM reviews WHERE pd_nm = #{pd_nm} ORDER BY review_idx DESC limit #{pageSize} offset #{startIndex}
+    </select>
+
+    <select id="countReviews" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM reviews WHERE pd_nm = #{pd_nm}
+    </select>
+
+    <select id="countQnas" parameterType="String" resultType="Integer">
+        SELECT COUNT(*) FROM notices WHERE pd_nm = #{pd_nm}
+    </select>
 
 </mapper>

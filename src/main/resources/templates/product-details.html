@@ -908,7 +908,7 @@
 
     <!-- Review Modal -->
     <th:block th:each="rv:${reviews}">
-        <div class="modal fade" th:attr="id='quickview'+${rv.pd_idx}+${rv.review_idx}" tabindex="-1" role="dialog" aria-labelledby="quickview" aria-hidden="true">
+        <div class="modal fade" th:attr="id='reviewview'+${rv.pd_idx}+${rv.review_idx}" tabindex="-1" role="dialog" aria-labelledby="reviewview" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
 
@@ -970,6 +970,61 @@
     </th:block>
     <!-- Review Modal End -->
 
+    <!-- Qna Modal -->
+    <th:block th:each="qna:${qnaList}">
+        <div class="modal fade" th:attr="id='qnaview'+${qna.notice_idx}" tabindex="-1" role="dialog" aria-labelledby="qnaview" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
+
+                    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <div class="modal-body">
+                        <div class="quickview_body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12 col-lg-5">
+                                        <div class="quickview_pro_img">
+                                            <img th:src="|/${product.sv_loc}|" src="/img/product-img/product-1.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-7">
+                                        <div class="quickview_pro_des">
+                                            <h4 class="title" th:text="${qna.pd_nm}"></h4>
+                                            <br>
+                                            <div class="widget size mb-15">
+                                                <h6 class="widget-title" th:text="'제목 : '+${qna.title}"></h6>
+                                                <div class="widget-desc">
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="top_seller_product_rating mb-15">
+                                                <h6 class="widget-title" style="display: inline">별점 : </h6>
+                                            </div>
+                                            <hr>
+                                            <p th:text="${qna.contents}">상품 설명란</p>
+                                            <br>
+                                            <br>
+                                            <br>
+
+                                        </div>
+
+
+                                        <div class="share_wf mt-30">
+                                            <p th:text="'작성일 : '+${#dates.format(qna.date, 'yyyy-MM-dd')}">작성일</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+    <!-- Qna Modal End -->
 
 
 
@@ -984,35 +1039,68 @@
                 <table class="qna">
                     <tr class="caption">
                         <th>no.</th>
-                        <th>문의내용</th>
-                        <th>날짜</th>
+                        <th>제목</th>
+                        <th>작성일</th>
                     </tr>
                     <!-- 문의 내용 -->
-                    <th:block>
+                    <th:block th:if="${session.loginMember == null}" th:each="qna:${qnaList}">
                         <tr class="qna_board">
-                            <td>12312414113123</td>
-                            <td><a href="#">팝업창</a></td>
-                            <td>작성 날짜</td>
+                            <td th:text="${qna.notice_idx}"></td>
+                            <td th:if="${qna.secret_ck == -1}" th:text="'비밀글 입니다.'"><a href="#"></a></td>
+                            <td th:if="${qna.secret_ck == 0}"><a href="#" data-toggle="modal" th:attr="data-target='#qnaview'+${qna.notice_idx}" th:text="${qna.title}"></a></td>
+                            <td th:text="${#dates.format(qna.date, 'yyyy-MM-dd')}">작성 날짜</td>
                         </tr>
+                    </th:block>
+                    <th:block th:if="${session.loginMember != null}" th:each="qna:${qnaList}">
                         <tr class="qna_board">
-                            <td>12312414113123</td>
-                            <td><a href="#">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
-                            <td>2023.03.09</td>
-                        </tr>
-                        <tr class="qna_board">
-                            <td>12312414113123</td>
-                            <td><a href="#">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
-                            <td>2023.03.09</td>
-                        </tr>
-                        <tr class="qna_board">
-                            <td>12312414113123</td>
-                            <td><a href="#">문의 내용이 기ㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㅣㄹ면??????????????</a></td>
-                            <td>2023.03.09</td>
+                            <td th:text="${qna.notice_idx}"></td>
+                            <td th:if="${qna.secret_ck == -1 and session.loginMember.member_idx != qna.member_idx}" th:text="'비밀글 입니다.'"><a href="#"></a></td>
+                            <td th:if="${qna.secret_ck == -1 and session.loginMember.member_idx == qna.member_idx}"><a href="#" data-toggle="modal" th:attr="data-target='#qnaview'+${qna.notice_idx}" th:text="${qna.title}"></a></td>
+                            <td th:if="${qna.secret_ck == 0}"><a href="#" data-toggle="modal" th:attr="data-target='#qnaview'+${qna.notice_idx}" th:text="${qna.title}"></a></td>
+                            <td th:text="${#dates.format(qna.date, 'yyyy-MM-dd')}">작성 날짜</td>
                         </tr>
                     </th:block>
                 </table>
+
+                <!-- 페이징 처리 시작-->
+                <div class="shop_pagination_area wow fadeInUp" data-wow-delay="0.5s" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <nav th:with="url=${'/' + qnaNowURL + '#tab01'}" aria-label="Page navigation">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item" th:classappend="${qnaCurrentPage == 1} ? 'disabled' : ''">
+                                <a class="page-link"
+                                   th:href="@{${url}(qnaPage=1)}">&laquo;</a>
+                            </li>
+                            <li class="page-item" th:classappend="${qnaCurrentPage == 1} ? 'disabled' : ''">
+                                <a class="page-link"
+                                   th:href="@{${url}(qnaPage=${qnaCurrentPage - 1})}">&lt;</a>
+                            </li>
+                            <li th:if="${qnaTotalPages >= 1}">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"
+                                        th:classappend="${qnaCurrentPage == pageNumber} ? 'active' : ''"
+                                        th:each="pageNumber : ${#numbers.sequence(1, qnaTotalPages)}">
+                                        <a class="page-link"
+                                           th:href="@{${url}(qnaPage=${pageNumber})}"
+                                           th:text="${pageNumber}"></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="page-item"
+                                th:classappend="${qnaCurrentPage >= qnaTotalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{${url}(qnaPage=${qnaCurrentPage + 1})}">&gt;</a>
+                            </li>
+                            <li class="page-item"
+                                th:classappend="${qnaCurrentPage >= qnaTotalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{${url}(qnaPage=${qnaTotalPages})}">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- 페이징 처리 끝-->
+
+
                 <!-- 문의 tab 끝 -->
-                <input type="button" value="문의하기" class="writeBtn" onclick="qna_writePopup();">
+                <input type="button" value="문의하기" class="writeBtn" onclick="qnaWritePopup();">
             </div>
             <div id="tab02">
                 <!-- 리뷰 tab -->
@@ -1025,29 +1113,48 @@
                     <th:block th:each="rv:${reviews}">
                         <tr class="qna_board">
                             <td th:text="${rv.review_idx}">리뷰 번호</td>
-                            <td><a href="#" data-toggle="modal" th:attr="data-target='#quickview'+${rv.pd_idx}+${rv.review_idx}" th:text="${rv.contents}">리뷰</a></td>
+                            <td><a href="#" data-toggle="modal" th:attr="data-target='#reviewview'+${rv.pd_idx}+${rv.review_idx}" th:text="${rv.title}">리뷰</a></td>
                             <td th:text="${#dates.format(rv.date, 'yyyy-MM-dd')}">리뷰 작성일</td>
                         </tr>
                     </th:block>
                 </table>
-                <script th:inline="javascript">
-                    function reviewPopUp(){
 
-                        let id_ck = [[${session.loginMember}]];
+                <!-- 페이징 처리 시작-->
+                <div class="shop_pagination_area wow fadeInUp" data-wow-delay="0.5s" style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <nav th:with="url=${'/' + reviewNowURL + '#tab02'}" aria-label="Page navigation">
+                        <ul class="pagination pagination-sm">
+                            <li class="page-item" th:classappend="${reviewCurrentPage == 1} ? 'disabled' : ''">
+                                <a class="page-link"
+                                   th:href="@{${url}(reviewPage=1)}">&laquo;</a>
+                            </li>
+                            <li class="page-item" th:classappend="${reviewCurrentPage == 1} ? 'disabled' : ''">
+                                <a class="page-link"
+                                   th:href="@{${url}(reviewPage=${reviewCurrentPage - 1})}">&lt;</a>
+                            </li>
+                            <li th:if="${reviewTotalPages >= 1}">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"
+                                        th:classappend="${reviewCurrentPage == pageNumber} ? 'active' : ''"
+                                        th:each="pageNumber : ${#numbers.sequence(1, reviewTotalPages)}">
+                                        <a class="page-link"
+                                           th:href="@{${url}(reviewPage=${pageNumber})}"
+                                           th:text="${pageNumber}"></a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="page-item"
+                                th:classappend="${reviewCurrentPage >= reviewTotalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{${url}(reviewPage=${reviewCurrentPage + 1})}">&gt;</a>
+                            </li>
+                            <li class="page-item"
+                                th:classappend="${reviewCurrentPage >= reviewTotalPages} ? 'disabled' : ''">
+                                <a class="page-link" th:href="@{${url}(reviewPage=${reviewTotalPages})}">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <!-- 페이징 처리 끝-->
 
-                        let pd_nm = /*[[${product.pd_nm}]]*/;
-
-
-                        if (id_ck == null || id_ck == '') {
-                            alert("로그인이 필요한 서비스 입니다.");
-                            return false;
-                        }
-
-
-                        window.open("/WriteReview?pd_nm="+pd_nm, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=525, height=960, left=600, top=100" );
-
-                    }
-                </script>
                 <!-- 리뷰 tab 끝 -->
                 <input type="button" class="writeBtn" onclick="reviewPopUp();" value="리뷰작성">
             </div>
@@ -1055,7 +1162,49 @@
     </div><!--tab-->
 
 
+    <script th:inline="javascript">
 
+        function qnaWritePopup() {
+
+            let id_ck = [[${session.loginMember}]];
+
+            let pd_nm = /*[[${product.pd_nm}]]*/;
+
+
+            if (id_ck == null || id_ck == '') {
+                alert("로그인이 필요한 서비스 입니다.");
+                return false;
+            }
+
+            let popup = window.open("/WriteQna?pd_nm="+pd_nm, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=525, height=960, left=600, top=100" );
+
+            popup.onbeforeunload = function(){
+                window.location.reload();
+            };
+
+        }
+
+        function reviewPopUp(){
+
+            let id_ck = [[${session.loginMember}]];
+
+            let pd_nm = /*[[${product.pd_nm}]]*/;
+
+
+            if (id_ck == null || id_ck == '') {
+                alert("로그인이 필요한 서비스 입니다.");
+                return false;
+            }
+
+
+            let popup = window.open("/WriteReview?pd_nm="+pd_nm, "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=525, height=960, left=600, top=100" );
+
+            popup.onbeforeunload = function(){
+                window.location.reload();
+            };
+
+        }
+    </script>
 
 
     <!-- ****** Footer Area Start ****** -->
