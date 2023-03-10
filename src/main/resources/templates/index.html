@@ -412,11 +412,14 @@
                                                         <div class="quickview_pro_des">
                                                             <h4 class="title" th:text="${pd.pd_nm}">QuickView 상품명</h4>
                                                             <div class="top_seller_product_rating mb-15">
-                                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                                <i class="fa fa-star" aria-hidden="true"></i>
-                                                                <i class="fa fa-star" aria-hidden="true"></i>
+                                                                <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                                                                    <th:block th:if="${count <= pd.stars.intValue()}">
+                                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                                    </th:block>
+                                                                    <th:block th:if="${count > pd.stars.intValue()} and ${count &lt;= 5}">
+                                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                                    </th:block>
+                                                                </th:block>
                                                             </div>
 
                                                             <h5 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">$120.99 상품원가 <span>$130 할인가격</span></h5>
@@ -602,9 +605,9 @@
                             <p>* 2023년 4월 1일까지 무료 배송</p>
                             <div class="offer-product-price">
                                 <!-- 앞이 원래 금액, 뒤가 할인금액 -->
-                                <h3><span class="regular-price">$25.90</span> $15.90</h3>
+<!--                                <h3><span class="regular-price">$25.90</span> $15.90</h3>-->
                             </div>
-                            <a href="#" class="btn karl-btn mt-30">Buy Now</a>
+                            <a href="/products/WHITE T-SHIRT" class="btn karl-btn mt-30">Buy Now</a>
                         </div>
                     </div>
                 </div>
@@ -627,50 +630,30 @@
                     <div class="col-12 col-md-8">
                         <div class="karl-testimonials-slides owl-carousel">
 
+                            <th:block th:each="rv:${mainReviews}">
                             <!-- Single Testimonial Area -->
                             <div class="single-testimonial-area text-center">
                                 <span class="quote">"</span>
-                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
+                                <h6 th:text="${rv.contents}">리뷰 내용</h6>
                                 <div class="testimonial-info d-flex align-items-center justify-content-center">
-                                    <div class="tes-thumbnail">
-                                        <img src="img/bg-img/tes-1.jpg" alt="">
-                                    </div>
                                     <div class="testi-data">
-                                        <p>Michelle Williams</p>
-                                        <span>Client, Los Angeles</span>
+                                        <div class="single_product_desc">
+                                        <div class="single_product_ratings mb-15">
+                                            <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                                                <th:block th:if="${count <= rv.stars.intValue()}">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                </th:block>
+                                                <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                </th:block>
+                                            </th:block>
+                                        </div>
+                                        </div>
+                                        <p th:text="'작성일 : '+${#dates.format(rv.date, 'yyyy-MM-dd')}">작성일</p>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Single Testimonial Area -->
-                            <div class="single-testimonial-area text-center">
-                                <span class="quote">"</span>
-                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
-                                <div class="testimonial-info d-flex align-items-center justify-content-center">
-                                    <div class="tes-thumbnail">
-                                        <img src="img/bg-img/tes-1.jpg" alt="">
-                                    </div>
-                                    <div class="testi-data">
-                                        <p>Michelle Williams</p>
-                                        <span>Client, Los Angeles</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Single Testimonial Area -->
-                            <div class="single-testimonial-area text-center">
-                                <span class="quote">"</span>
-                                <h6>Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
-                                <div class="testimonial-info d-flex align-items-center justify-content-center">
-                                    <div class="tes-thumbnail">
-                                        <img src="img/bg-img/tes-1.jpg" alt="">
-                                    </div>
-                                    <div class="testi-data">
-                                        <p>Michelle Williams</p>
-                                        <span>Client, Los Angeles</span>
-                                    </div>
-                                </div>
-                            </div>
+                            </th:block>
 
                         </div>
                     </div>

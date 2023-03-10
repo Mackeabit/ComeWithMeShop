@@ -3,6 +3,7 @@ package mackeabit.shop.mapper;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.Products_starsVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -56,4 +57,6 @@ public interface ProductMapper {
     int countReviews(String pd_nm);
 
     int countQnas(String pd_nm);
+
+    Products_starsVO findStarsByPd_nm(String pd_nm);
 }

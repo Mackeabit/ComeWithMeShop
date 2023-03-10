@@ -77,4 +77,9 @@ public class SubRepositoryImpl implements SubRepository{
     public int insertQna(NoticesVO noticesVO) {
         return suBMapper.insertQna(noticesVO);
     }
+
+    @Override
+    public List<ReviewsVO> findReviewsMain() {
+        return suBMapper.findReviewsMain();
+    }
 }

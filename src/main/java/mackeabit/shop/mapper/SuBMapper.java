@@ -36,4 +36,6 @@ public interface SuBMapper {
     List<PopUpWriteQnaDTO> popUpQna(String pd_nm);
 
     int insertQna(NoticesVO noticesVO);
+
+    List<ReviewsVO> findReviewsMain();
 }

@@ -403,11 +403,14 @@
 <!--                            <p class="available">재고 수량: <span class="text-muted" id="pd_cnt"></span></p>-->
 
                             <div class="single_product_ratings mb-15">
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star" aria-hidden="true"></i>
-                                <i class="fa fa-star-o" aria-hidden="true"></i>
+                                <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                                    <th:block th:if="${count <= products_stars.stars.intValue()}">
+                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                    </th:block>
+                                    <th:block th:if="${count > products_stars.stars.intValue()} and ${count &lt;= 5}">
+                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                    </th:block>
+                                </th:block>
                             </div>
                             <div th:if="${product.pd_size != null} or ${product.pd_color != null}"
                                  class="widget size mb-50">
@@ -617,11 +620,14 @@
                                     <div class="quickview_pro_des">
                                         <h4 class="title" th:text="${pd.pd_nm}"></h4>
                                         <div class="top_seller_product_rating mb-15">
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
-                                            <i class="fa fa-star" aria-hidden="true"></i>
+                                            <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                                                <th:block th:if="${count <= pd.stars.intValue()}">
+                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                                </th:block>
+                                                <th:block th:if="${count > pd.stars.intValue()} and ${count &lt;= 5}">
+                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                </th:block>
+                                            </th:block>
                                         </div>
                                         <h5 class="price"
                                             data-th-text="'&#8361;'+${#numbers.formatInteger(pd.sell_price, 3, 'COMMA')}">

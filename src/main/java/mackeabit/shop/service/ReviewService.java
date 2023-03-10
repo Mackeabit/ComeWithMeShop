@@ -36,4 +36,8 @@ public class ReviewService {
     public Long insertReview(ReviewsVO reviewsVO) {
         return subRepository.insertReview(reviewsVO);
     }
+
+    public List<ReviewsVO> findReviewsMain() {
+        return subRepository.findReviewsMain();
+    }
 }

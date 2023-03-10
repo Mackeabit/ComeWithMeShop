@@ -6,6 +6,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.ProductMapper;
 import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.Products_starsVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Repository;
 
@@ -133,6 +134,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public int countQnas(String pd_nm) {
         return productMapper.countQnas(pd_nm);
+    }
+
+    @Override
+    public Products_starsVO findStarsByPd_nm(String pd_nm) {
+        return productMapper.findStarsByPd_nm(pd_nm);
     }
 
 

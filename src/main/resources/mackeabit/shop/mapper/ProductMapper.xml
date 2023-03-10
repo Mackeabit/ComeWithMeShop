@@ -65,7 +65,7 @@
     <select id="countBestProducts" parameterType="map" resultType="java.lang.Integer">
         select count(*) as total
         from products p
-                 JOIN product_img pi ON p.pd_idx = pi.pd_idx and pd_kind=#{pd_kind}
+                 JOIN product_img pi ON p.pd_idx = pi.pd_idx and pd_kind=#{pd_kind} and pd_value=#{pd_value}
         where p.pd_idx in (select max(pd_idx) from products group by pd_nm);
     </select>
 
@@ -150,7 +150,7 @@
         SELECT *
         FROM products p
                  JOIN product_img pi ON p.pd_idx = pi.pd_idx
-                 JOIN categorys c ON p.category_code = c.category_code
+                 JOIN categorys c ON p.category_code = c.category_code JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         WHERE p.category_code IN (SELECT category_code FROM categorys WHERE category_ref = #{category_code} OR category_code = #{category_code})
           AND p.pd_idx IN (SELECT MAX(pd_idx) FROM products GROUP BY pd_nm)
     </select>
@@ -175,6 +175,10 @@
 
     <select id="countQnas" parameterType="String" resultType="Integer">
         SELECT COUNT(*) FROM notices WHERE pd_nm = #{pd_nm}
+    </select>
+
+    <select id="findStarsByPd_nm" parameterType="String" resultType="mackeabit.shop.vo.Products_starsVO">
+        SELECT * FROM products_stars WHERE pd_nm = #{pd_nm}
     </select>
 
 </mapper>

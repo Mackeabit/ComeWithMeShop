@@ -6,6 +6,7 @@ import mackeabit.shop.Repository.ProductRepository;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.NoticesVO;
 import mackeabit.shop.vo.ProductsVO;
+import mackeabit.shop.vo.Products_starsVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Service;
 
@@ -97,5 +98,9 @@ public class ProductService {
 
     public int countQnas(String pd_nm) {
         return repository.countQnas(pd_nm);
+    }
+
+    public Products_starsVO findStarsByPd_nm(String pd_nm) {
+        return repository.findStarsByPd_nm(pd_nm);
     }
 }

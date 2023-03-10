@@ -10,6 +10,7 @@ import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.SubService;
 import mackeabit.shop.vo.CategorysVO;
 import mackeabit.shop.vo.NoticesVO;
+import mackeabit.shop.vo.Products_starsVO;
 import mackeabit.shop.vo.ReviewsVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -112,6 +113,8 @@ public class ProductController {
         List<MainProductsDTO> findProducts = productService.bestProducts(params);
         int totalCount = productService.countBestProducts(params);
 
+        log.info("totalCount = {}", totalCount);
+
         // 페이지 정보 (총페이지 반올림, 현재 페이지)
         int totalPages = (int) Math.ceil((double) totalCount / PAGE_SIZE);
         int currentPage = page;
@@ -151,6 +154,10 @@ public class ProductController {
     @GetMapping("/{pd_nm}")
     public String product_detail(@PathVariable String  pd_nm, Model model, @RequestParam(defaultValue = "1") int reviewPage, @RequestParam(defaultValue = "1") int qnaPage) {
         log.info("pd_nm = {}", pd_nm);
+
+        //상품 별점 구해오기
+        Products_starsVO products_starsVO = productService.findStarsByPd_nm(pd_nm);
+        model.addAttribute("products_stars", products_starsVO);
 
         //해당하는 이름의 상품들 가져오기 (List 뽑아오기)
         List<MainProductsDTO> productsDTOList = productService.findByPd_nm(pd_nm);
@@ -354,6 +361,8 @@ public class ProductController {
 
         // Query 정보를 담을 Map
         Map<String, Object> params = new HashMap<>();
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        params.put("pd_kind", 1);
 
         // Query 에 따라 나온 count를 담는다.
         int totalCount = 0;
@@ -373,7 +382,6 @@ public class ProductController {
             //최상위 카테고리일 경우
 
             // 현재 페이지와 한번에 표시할 제품 수량
-            //pd_kind -> 0:남자, 1:여자, 2:남녀
             log.info("최상위 카테고리 코드 = {}", category_code);
 
             params.put("pageSize", PAGE_SIZE);
@@ -393,7 +401,6 @@ public class ProductController {
             //하위 카테고리 코드 일 경우
 
             // 현재 페이지와 한번에 표시할 제품 수량
-            //pd_kind -> 0:남자, 1:여자, 2:남녀
             log.info("하위 카테고리 코드 = {}", category_code);
 
             params.put("pageSize", PAGE_SIZE);
@@ -454,6 +461,8 @@ public class ProductController {
 
         // Query 정보를 담을 Map
         Map<String, Object> params = new HashMap<>();
+        //pd_kind -> 0:남자, 1:여자, 2:남녀
+        params.put("pd_kind", 0);
 
         // Query 에 따라 나온 count를 담는다.
         int totalCount = 0;

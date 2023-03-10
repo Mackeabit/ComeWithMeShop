@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.*;
-import mackeabit.shop.service.CartService;
-import mackeabit.shop.service.MemberService;
-import mackeabit.shop.service.ProductService;
-import mackeabit.shop.service.SubService;
+import mackeabit.shop.service.*;
 import mackeabit.shop.vo.*;
 import mackeabit.shop.web.DiscountPercent;
 import mackeabit.shop.web.SessionConst;
@@ -32,6 +29,7 @@ public class MainController {
     private final MemberService memberService;
 
     private final ProductService productService;
+    private final ReviewService reviewService;
     private final SubService subService;
     private final CartService cartService;
     private final HttpServletRequest request;
@@ -69,13 +67,20 @@ public class MainController {
         //신상품 받아서 model
         List<MainProductsDTO> findProducts = subService.mainPageProducts(1);
         model.addAttribute("newProducts", findProducts);
-
         log.info("new Products = {}", findProducts);
+
+        //리뷰 담아오기 (3개)
+        List<ReviewsVO> reviewsVOList = reviewService.findReviewsMain();
+        log.info("reviewsList = {}",reviewsVOList);
+        model.addAttribute("mainReviews", reviewsVOList);
+
 
 
         if (membersVO == null) {
             return "index";
         }
+
+
 
         /** 회원은 session, model 에 정보 담아서 홈화면으로 이동
          * 회원정보 - members

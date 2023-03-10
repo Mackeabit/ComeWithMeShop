@@ -34,4 +34,6 @@ public interface SubRepository {
     List<PopUpWriteQnaDTO> popUpQna(String pd_nm);
 
     int insertQna(NoticesVO noticesVO);
+
+    List<ReviewsVO> findReviewsMain();
 }

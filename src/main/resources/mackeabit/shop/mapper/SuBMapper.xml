@@ -19,7 +19,7 @@
 
 
     <select id="mainPageProducts" parameterType="Integer" resultType="mackeabit.shop.dto.MainProductsDTO">
-        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         <where>
             <if test="pd_value == 4">
                 and p.pd_idx in (select max(pd_idx) from products group by pd_nm)
@@ -66,5 +66,9 @@
         INSERT INTO notices (member_idx, title, contents, date, secret_ck, pd_nm)
         VALUES (#{member_idx}, #{title}, #{contents}, now(), #{secret_ck}, #{pd_nm})
     </insert>
+
+    <select id="findReviewsMain" resultType="mackeabit.shop.vo.ReviewsVO">
+        SELECT * FROM reviews ORDER BY stars DESC limit 3
+    </select>
 
 </mapper>
