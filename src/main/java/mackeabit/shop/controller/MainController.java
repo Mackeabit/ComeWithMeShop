@@ -75,6 +75,7 @@ public class MainController {
         model.addAttribute("mainReviews", reviewsVOList);
 
 
+        log.info("membersVO = {}", membersVO);
 
         if (membersVO == null) {
             return "index";

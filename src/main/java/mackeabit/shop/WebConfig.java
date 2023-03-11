@@ -1,5 +1,6 @@
 package mackeabit.shop;
 
+import mackeabit.shop.argument.AdminLoginArgument;
 import mackeabit.shop.argument.LoginMemberArgument;
 import mackeabit.shop.interceptor.LogInterceptor;
 import mackeabit.shop.interceptor.LoginCheckInterceptor;
@@ -33,6 +34,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new LoginMemberArgument());
+        resolvers.add(new AdminLoginArgument());
     }
 
 }
