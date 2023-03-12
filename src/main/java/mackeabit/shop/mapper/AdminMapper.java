@@ -2,11 +2,9 @@ package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.AdminMainOrderListDTO;
 import mackeabit.shop.dto.AdminMainPayListDTO;
+import mackeabit.shop.dto.MembersAllInfoDTO;
 import mackeabit.shop.dto.SignCountWeekDTO;
-import mackeabit.shop.vo.AdminVO;
-import mackeabit.shop.vo.Annual_SalesVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.SalesVO;
+import mackeabit.shop.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Date;
@@ -47,4 +45,8 @@ public interface AdminMapper {
     List<AdminVO> findAll();
 
     List<MembersVO> findAllMembers();
+
+    MembersAllInfoDTO findMemberAllInfo(Long member_idx);
+
+    List<Members_logVO> findMemberLog(Long member_idx);
 }

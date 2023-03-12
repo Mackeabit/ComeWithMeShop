@@ -4,12 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.AdminMainOrderListDTO;
 import mackeabit.shop.dto.AdminMainPayListDTO;
+import mackeabit.shop.dto.MembersAllInfoDTO;
 import mackeabit.shop.dto.SignCountWeekDTO;
 import mackeabit.shop.mapper.AdminMapper;
-import mackeabit.shop.vo.AdminVO;
-import mackeabit.shop.vo.Annual_SalesVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.SalesVO;
+import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -82,5 +80,13 @@ public class AdminRepository {
 
     public List<MembersVO> findAllMembers() {
         return adminMapper.findAllMembers();
+    }
+
+    public MembersAllInfoDTO findMemberAllInfo(Long member_idx) {
+        return adminMapper.findMemberAllInfo(member_idx);
+    }
+
+    public List<Members_logVO> findMemberLog(Long member_idx) {
+        return adminMapper.findMemberLog(member_idx);
     }
 }

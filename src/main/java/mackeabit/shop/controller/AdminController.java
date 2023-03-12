@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.AdminLogin;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.service.AdminService;
-import mackeabit.shop.vo.AdminVO;
-import mackeabit.shop.vo.Annual_SalesVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.SalesVO;
+import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -216,10 +213,16 @@ public class AdminController {
             return "adminLogin";
         }
 */
+        // 회원 정보
+        MembersAllInfoDTO findMember = adminService.findMemberAllInfo(member_idx);
 
+        // 회원 로그
+        List<Members_logVO> membersLogList = adminService.findMemberLog(member_idx);
 
+        model.addAttribute("memberInfo", findMember)
+                .addAttribute("memberLogList", membersLogList);
 
-        return "";
+        return "adminDetailPage";
     }
 
 

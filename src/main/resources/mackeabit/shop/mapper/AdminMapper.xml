@@ -81,4 +81,12 @@
         SELECT * FROM members
     </select>
 
+    <select id="findMemberAllInfo" parameterType="Long" resultType="mackeabit.shop.dto.MembersAllInfoDTO">
+        SELECT * FROM members m JOIN members_detail md ON m.member_idx = md.member_idx WHERE member_idx = #{member_idx}
+    </select>
+
+    <select id="findMemberLog" parameterType="Long" resultType="mackeabit.shop.vo.Members_logVO">
+        SELECT * FROM members_log WHERE member_idx = #{member_idx}
+    </select>
+
 </mapper>

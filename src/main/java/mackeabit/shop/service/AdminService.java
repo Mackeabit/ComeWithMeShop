@@ -3,15 +3,9 @@ package mackeabit.shop.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.AdminRepository;
-import mackeabit.shop.dto.AdminCheckDTO;
-import mackeabit.shop.dto.AdminMainOrderListDTO;
-import mackeabit.shop.dto.AdminMainPayListDTO;
-import mackeabit.shop.dto.SignCountWeekDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.security256.SHA256;
-import mackeabit.shop.vo.AdminVO;
-import mackeabit.shop.vo.Annual_SalesVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.SalesVO;
+import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
@@ -124,5 +118,13 @@ public class AdminService {
 
     public List<MembersVO> findAllMembers() {
         return repository.findAllMembers();
+    }
+
+    public MembersAllInfoDTO findMemberAllInfo(Long member_idx) {
+        return repository.findMemberAllInfo(member_idx);
+    }
+
+    public List<Members_logVO> findMemberLog(Long member_idx) {
+        return repository.findMemberLog(member_idx);
     }
 }
