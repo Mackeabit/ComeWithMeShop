@@ -340,7 +340,6 @@ Coded by www.creative-tim.com
                       formDate += '&pwd=' + pwd;
                     }
 
-                    //검증 및 성공 로직처리 ajax
                     $.ajax({
                       url   : "/myPage/memberInfo",
                       method: "POST",
@@ -348,7 +347,7 @@ Coded by www.creative-tim.com
                     })
                       .done(function (result) {
 
-                          //결제 성공 알림 메세지 및 메인페이지로 이동
+                          //성공 알림 메세지 및 메인페이지로 이동
                           swal({
                             text: result,
                             closeOnClickOutside: false

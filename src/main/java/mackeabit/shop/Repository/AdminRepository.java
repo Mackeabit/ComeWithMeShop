@@ -89,4 +89,20 @@ public class AdminRepository {
     public List<Members_logVO> findMemberLog(Long member_idx) {
         return adminMapper.findMemberLog(member_idx);
     }
+
+    public int updateMembers(MembersAllInfoDTO membersAllInfoDTO) {
+        return adminMapper.updateMembers(membersAllInfoDTO);
+    }
+
+    public int updateMemberDetails(MembersAllInfoDTO membersAllInfoDTO) {
+        return adminMapper.updateMemberDetails(membersAllInfoDTO);
+    }
+
+    public MembersVO findByEmail(String email) {
+        return adminMapper.findByEmail(email);
+    }
+
+    public int delMemberByMember_idx(Long member_idx) {
+        return adminMapper.delMemberByMember_idx(member_idx);
+    }
 }

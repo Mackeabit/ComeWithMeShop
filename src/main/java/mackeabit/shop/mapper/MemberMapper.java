@@ -74,4 +74,6 @@ public interface MemberMapper {
     List<MyWriteReviewsDTO> disableMyReviews(Long member_idx);
 
     List<NoticesVO> findMyNoticesByMember_idx(Long member_idx);
+
+    void insertMembersDetails(MembersVO membersVO);
 }

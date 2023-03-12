@@ -234,7 +234,7 @@
                         <span class="text-secondary text-xs font-weight-bold" th:text="${#dates.format(member.sign_date, 'yy/MM/dd')}">23/04/18</span>
                       </td>
                       <td class="align-middle">
-                        <a href="#" th:href="@{/admin/member(member_idx=${member.member_idx})}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                        <a href="#" th:href="@{/admin/memberInfo(member_idx=${member.member_idx})}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                           Edit
                         </a>
                       </td>

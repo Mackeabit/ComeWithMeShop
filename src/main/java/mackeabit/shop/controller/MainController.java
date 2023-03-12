@@ -123,14 +123,20 @@ public class MainController {
     }
 
 
-    //트랜잭션 적용 전
     @PostMapping("/signup")
     @ResponseBody
     public String signUpCheck(SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
 
         int res = memberService.saveMembers(signUpDTO);
+
+
         String data = "N";
         if (res > 0) {
+
+            /* members_detail 생성 */
+            MembersVO membersVO = memberService.findByEmail(signUpDTO.getEmail());
+            memberService.insertMembersDetails(membersVO);
+
             data = "Y";
         }
         return data;

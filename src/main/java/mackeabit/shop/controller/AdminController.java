@@ -1,10 +1,13 @@
 package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.AdminLogin;
 import mackeabit.shop.dto.*;
+import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.service.AdminService;
+import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
@@ -29,6 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AdminController {
 
     private final AdminService adminService;
+    private final MemberService memberService;
 
     @GetMapping()
     public String adminMain(@AdminLogin AdminVO adminVO, Model model) {
@@ -43,18 +47,18 @@ public class AdminController {
 */
 
         /* 관리자 페이지 메인에 필요한 정보
-        *
-        *  연간 매출 현황 (작년 매출) v
-        *  일간 가입자 수 (전일 대비) v
-        *  오늘 방문자 수 (전일 대비) v
-        *  월간 매출 현황 (전월 대비) v
-        *  일주일 가입자 수 리스트 (일일) v
-        *  일주일 방문자 수 리스트 (일일) v
-        *  일주일 매출 그래프 (일일) v
-        *  최근 결제 내역 (7건, sv_locCt, pd_nm, email, total_price, pay_status) v
-        *  최근 주문 내역 (6건, order_mi, date) v
-        *
-        *  */
+         *
+         *  연간 매출 현황 (작년 매출) v
+         *  일간 가입자 수 (전일 대비) v
+         *  오늘 방문자 수 (전일 대비) v
+         *  월간 매출 현황 (전월 대비) v
+         *  일주일 가입자 수 리스트 (일일) v
+         *  일주일 방문자 수 리스트 (일일) v
+         *  일주일 매출 그래프 (일일) v
+         *  최근 결제 내역 (7건, sv_locCt, pd_nm, email, total_price, pay_status) v
+         *  최근 주문 내역 (6건, order_mi, date) v
+         *
+         *  */
 
         // 작년 매출 현황 (인자 -1 : 작년)
         LocalDate now = LocalDate.now();
@@ -89,7 +93,7 @@ public class AdminController {
         int lastMonth = now.minusMonths(1).getMonthValue(); //저번달
 
         // 이번달 매출 현황
-        Map<String , Integer> yearMonth = new ConcurrentHashMap<>();
+        Map<String, Integer> yearMonth = new ConcurrentHashMap<>();
         yearMonth.put("year", year);
         yearMonth.put("month", month);
         Integer nowMonthPrice = adminService.monthPrice(yearMonth);
@@ -97,10 +101,10 @@ public class AdminController {
         // 저번달 매출 현황
         LocalDate localDate = now.minusMonths(1);
         if (localDate.getYear() != year) { // 년도가 다르면
-            year = localDate.getYear() ; // 년도를 1년 빼줌
+            year = localDate.getYear(); // 년도를 1년 빼줌
         }
 
-        Map<String , Integer> lastYearMonth = new ConcurrentHashMap<>();
+        Map<String, Integer> lastYearMonth = new ConcurrentHashMap<>();
         lastYearMonth.put("year", year);
         lastYearMonth.put("month", lastMonth);
         Integer lastMonthPrice = adminService.lastMonthPrice(lastYearMonth);
@@ -111,7 +115,7 @@ public class AdminController {
         Date startDate = Date.from(aWeekAgo.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Date endDate = Date.from(today.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-        Map<String , Date> selectDate = new ConcurrentHashMap<>();
+        Map<String, Date> selectDate = new ConcurrentHashMap<>();
         selectDate.put("startDate", startDate);
         selectDate.put("endDate", endDate);
 
@@ -168,7 +172,7 @@ public class AdminController {
         if (findAdmin.getAdmin_level() == 0) {
             //최고 관리자
             session.setAttribute(SessionConst.SUPER_ADMIN, findAdmin);
-        } else if (findAdmin.getAdmin_level() == -1){
+        } else if (findAdmin.getAdmin_level() == -1) {
             //일반 관리자
             session.setAttribute(
                     SessionConst.LOGIN_ADMIN,
@@ -191,8 +195,8 @@ public class AdminController {
 */
 
         /* 관리자 계정
-        *  일반 유저 계정 담기 (member_idx, email, grade_code, member_status, sign_date)
-        *   */
+         *  일반 유저 계정 담기 (member_idx, email, grade_code, member_status, sign_date)
+         *   */
 
         List<AdminVO> adminVOList = adminService.findAll();
         List<MembersVO> membersVOList = adminService.findAllMembers();
@@ -204,7 +208,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/member")
+    @GetMapping("/memberInfo")
     public String adminMemberInfo(@AdminLogin AdminVO adminVO, Model model, @RequestParam Long member_idx) {
 
 /*
@@ -213,11 +217,49 @@ public class AdminController {
             return "adminLogin";
         }
 */
+
+        log.info("member_idx = {}", member_idx);
+
         // 회원 정보
         MembersAllInfoDTO findMember = adminService.findMemberAllInfo(member_idx);
 
         // 회원 로그
         List<Members_logVO> membersLogList = adminService.findMemberLog(member_idx);
+
+        if (findMember == null) {
+            //members_detail 이 없는 회원(주소 작성X)
+
+            MembersVO membersVO = memberService.findByIdx(member_idx);
+
+            findMember = new MembersAllInfoDTO();
+            findMember.setMember_idx(member_idx);
+            findMember.setEmail(membersVO.getEmail());
+            findMember.setPwd(membersVO.getPwd());
+            findMember.setAddress("");
+            findMember.setAddress_detail("");
+            findMember.setLogin_date(membersVO.getLogin_date());
+            findMember.setGrade_code(membersVO.getGrade_code());
+            findMember.setEmail_ck(membersVO.getEmail_ck());
+            findMember.setSign_date(membersVO.getSign_date());
+
+        }
+
+
+        log.info("membersLogList = {}", membersLogList);
+        log.info("membersLogList.size() = {}", membersLogList.size());
+
+        if (membersLogList.size() == 0 || membersLogList == null) {
+
+            Members_logVO members_logVO = new Members_logVO();
+
+            members_logVO.setLogin_ip("접속 기록 없음");
+            members_logVO.setMember_idx(member_idx);
+
+            membersLogList.add(members_logVO);
+        }
+
+        log.info("memberInfo.sign_date = {}", findMember.getSign_date());
+        log.info("memberInfo.getMember_idx() = {}", findMember.getMember_idx());
 
         model.addAttribute("memberInfo", findMember)
                 .addAttribute("memberLogList", membersLogList);
@@ -226,7 +268,61 @@ public class AdminController {
     }
 
 
+    @PostMapping("/updateMembers")
+    @ResponseBody
+    public String updateMembers(MembersAllInfoDTO membersAllInfoDTO) throws NoSuchAlgorithmException {
+
+        /* 넘어오는 정보
+        *  member_idx
+        *  email
+        *  address
+        *  address_detail
+        *  post_code
+        *  pwd
+        *  */
+
+        log.info("memberVO = {}", membersAllInfoDTO);
+
+        String data = "no_email";
+
+        MembersVO findMember = memberService.findByIdx(membersAllInfoDTO.getMember_idx());
+
+
+        if (membersAllInfoDTO.getEmail() != "") {
+            //이메일을 변경하기 원했을 때, 중복체크
+            MembersVO emailCheck = adminService.findByEmail(membersAllInfoDTO.getEmail());
+            if (emailCheck != null) {
+                return data;
+            }
+        }
+
+        if (membersAllInfoDTO.getEmail() == "") {
+            //이메일 변경을 원치 않을때 기존 이메일을 세팅
+            membersAllInfoDTO.setEmail(findMember.getEmail());
+        }
+
+        if (membersAllInfoDTO.getPwd() == "") {
+            //비밀번호 변경을 원치 않을때 기존 비밀번호 세팅
+            membersAllInfoDTO.setPwd(findMember.getPwd());
+        } else {
+            String pwd = membersAllInfoDTO.getPwd();
+            SHA256 sha256 = new SHA256();
+            //비밀번호 암호화 저장
+            membersAllInfoDTO.setPwd(sha256.encrypt(pwd+sha256.getSALT()));
+        }
+
+        return adminService.updateMembers(membersAllInfoDTO);
+    }
+
+    @PostMapping("/deleteMembers")
+    @ResponseBody
+    public String deleteMembers(Long member_idx) {
+        /* 계정상태를 -1로 바꿈 */
+        return adminService.delMemberByMember_idx(member_idx);
+    }
+
     @GetMapping("/test")
+
     public String test() {
         return "adminDetailPage";
     }

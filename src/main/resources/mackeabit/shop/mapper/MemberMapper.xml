@@ -8,6 +8,10 @@
         select * from Members
     </select>
 
+    <select id="findByIdx" parameterType="Long" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT * FROM members WHERE member_idx = #{member_idx}
+    </select>
+
     <insert id="save" parameterType="mackeabit.shop.vo.MembersVO" useGeneratedKeys="true" keyProperty="member_idx">
         insert into Members values (0, #{email}, #{pwd}, default, default, default, now(), default, null, null)
     </insert>
@@ -34,6 +38,10 @@
 
     <insert id="insertDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
         insert into Members_detail values (#{member_idx}, #{post_code}, #{address}, #{address_detail})
+    </insert>
+
+    <insert id="insertMembersDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
+        insert into Members_detail values (#{member_idx}, null, null, null)
     </insert>
 
     <insert id="saveMember_log" parameterType="mackeabit.shop.vo.Members_logVO" useGeneratedKeys="true" keyProperty="ml_idx">

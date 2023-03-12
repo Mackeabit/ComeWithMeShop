@@ -7,6 +7,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
@@ -127,4 +128,41 @@ public class AdminService {
     public List<Members_logVO> findMemberLog(Long member_idx) {
         return repository.findMemberLog(member_idx);
     }
+
+    @Transactional
+    public String updateMembers(MembersAllInfoDTO membersAllInfoDTO) {
+
+        String data = "N";
+
+        int res = repository.updateMembers(membersAllInfoDTO);
+
+        res += repository.updateMemberDetails(membersAllInfoDTO);
+
+
+        log.info("res = {}", res);
+        if (res > 1) {
+            data = "Y";
+        }
+
+        return data;
+    }
+
+    public MembersVO findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    public String delMemberByMember_idx(Long member_idx) {
+
+        String data = "N";
+
+        int res = repository.delMemberByMember_idx(member_idx);
+
+        if (res > 0) {
+            log.info("삭제된 멤버 idx = {}, 삭제 횟수 = {}", member_idx, res);
+            data = "Y";
+        }
+
+        return data;
+    }
+
 }

@@ -36,7 +36,7 @@
     </select>
 
     <select id="countVisit" resultType="Integer">
-        SELECT count(DISTINCT login_ip) FROM members_log WHERE DATE(login_date) = #{day};
+        SELECT count(DISTINCT member_idx) FROM members_log WHERE DATE(login_date) = #{day};
     </select>
 
     <select id="signCountWeek" parameterType="map" resultType="mackeabit.shop.dto.SignCountWeekDTO">
@@ -82,11 +82,27 @@
     </select>
 
     <select id="findMemberAllInfo" parameterType="Long" resultType="mackeabit.shop.dto.MembersAllInfoDTO">
-        SELECT * FROM members m JOIN members_detail md ON m.member_idx = md.member_idx WHERE member_idx = #{member_idx}
+        SELECT * FROM members m JOIN members_detail md ON m.member_idx = md.member_idx WHERE m.member_idx = #{member_idx}
     </select>
 
     <select id="findMemberLog" parameterType="Long" resultType="mackeabit.shop.vo.Members_logVO">
-        SELECT * FROM members_log WHERE member_idx = #{member_idx}
+        SELECT * FROM members_log WHERE member_idx = #{member_idx} ORDER BY login_date DESC
     </select>
+
+    <update id="updateMembers" parameterType="mackeabit.shop.dto.MembersAllInfoDTO">
+        UPDATE members SET email=#{email}, pwd=#{pwd} WHERE member_idx=#{member_idx}
+    </update>
+
+    <update id="updateMemberDetails" parameterType="mackeabit.shop.dto.MembersAllInfoDTO">
+        UPDATE members_detail SET post_code=#{post_code}, address=#{address}, address_detail=#{address_detail} WHERE member_idx=#{member_idx}
+    </update>
+
+    <select id="findByEmail" parameterType="String" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT * FROM members WHERE email=#{email}
+    </select>
+
+    <update id="delMemberByMember_idx" parameterType="Long">
+        UPDATE members SET member_status = -1 WHERE member_idx = #{member_idx}
+    </update>
 
 </mapper>

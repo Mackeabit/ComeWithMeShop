@@ -352,4 +352,12 @@ public class MemberService {
     public List<NoticesVO> findMyNoticesByMember_idx(Long member_idx) {
         return repository.findMyNoticesByMember_idx(member_idx);
     }
+
+    public MembersVO findByIdx(Long member_idx) {
+        return repository.findByIdx(member_idx);
+    }
+
+    public void insertMembersDetails(MembersVO membersVO) {
+        repository.insertMembersDetails(membersVO);
+    }
 }

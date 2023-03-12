@@ -49,4 +49,12 @@ public interface AdminMapper {
     MembersAllInfoDTO findMemberAllInfo(Long member_idx);
 
     List<Members_logVO> findMemberLog(Long member_idx);
+
+    int updateMembers(MembersAllInfoDTO membersAllInfoDTO);
+
+    int updateMemberDetails(MembersAllInfoDTO membersAllInfoDTO);
+
+    MembersVO findByEmail(String email);
+
+    int delMemberByMember_idx(Long member_idx);
 }

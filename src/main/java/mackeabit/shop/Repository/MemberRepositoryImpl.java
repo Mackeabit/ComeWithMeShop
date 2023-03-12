@@ -187,5 +187,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.findMyNoticesByMember_idx(member_idx);
     }
 
+    @Override
+    public void insertMembersDetails(MembersVO membersVO) {
+        memberMapper.insertMembersDetails(membersVO);
+    }
+
 
 }
