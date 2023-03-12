@@ -4,11 +4,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.AdminRepository;
 import mackeabit.shop.dto.AdminCheckDTO;
+import mackeabit.shop.dto.AdminMainOrderListDTO;
+import mackeabit.shop.dto.AdminMainPayListDTO;
+import mackeabit.shop.dto.SignCountWeekDTO;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.AdminVO;
+import mackeabit.shop.vo.Annual_SalesVO;
+import mackeabit.shop.vo.SalesVO;
 import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -53,5 +61,59 @@ public class AdminService {
         }
 
         return null;
+    }
+
+    public Annual_SalesVO findAnnualSales(int year, int check) {
+
+        if (check == 0) {
+            //올해 매출 구하기
+            Annual_SalesVO annual_salesVO = repository.findNowYearSales(year);
+            return annual_salesVO;
+        }
+
+        // 작년 매출 구하기
+        Annual_SalesVO annual_salesVO = repository.findLastYearSales(year);
+
+        return annual_salesVO;
+    }
+
+    public Integer findMemberTodaySignUp(String todayStr) {
+        return repository.findMemberTodaySignUp(todayStr);
+    }
+
+    public Integer findMemberYesterdaySignUp(String yesterdayStr) {
+        return repository.findMemberYesterdaySignUp(yesterdayStr);
+    }
+
+    public Integer monthPrice(Map<String , Integer> yearMonth) {
+        return repository.monthPrice(yearMonth);
+    }
+
+    public Integer countVisit(String day) {
+        return repository.countVisit(day);
+    }
+
+    public List<SignCountWeekDTO> signCountWeek(Map<String , Date> selectDate) {
+        return repository.signCountWeek(selectDate);
+    }
+
+    public List<SignCountWeekDTO> visitCountWeek(Map<String , Date> selectDate) {
+        return repository.visitCountWeek(selectDate);
+    }
+
+    public List<SalesVO> weekSales(Map<String , Date> selectDate) {
+        return repository.weekSales(selectDate);
+    }
+
+    public List<AdminMainPayListDTO> findAdminMainPayList() {
+        return repository.findAdminMainPayList();
+    }
+
+    public List<AdminMainOrderListDTO> findAdminMainOrderList() {
+        return repository.findAdminMainOrderList();
+    }
+
+    public Integer lastMonthPrice(Map<String, Integer> yearMonth) {
+        return repository.lastMonthPrice(yearMonth);
     }
 }

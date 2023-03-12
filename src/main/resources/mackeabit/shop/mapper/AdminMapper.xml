@@ -9,8 +9,68 @@
         SELECT * FROM admins WHERE id = #{id}
     </select>
 
+    <select id="findNowYearSales" parameterType="Integer" resultType="mackeabit.shop.vo.Annual_SalesVO">
+        SELECT SUM(total_sales) AS total_sales FROM sales WHERE YEAR(date) = #{year}
+    </select>
 
+    <select id="findLastYearSales" parameterType="Integer" resultType="mackeabit.shop.vo.Annual_SalesVO">
+        SELECT * FROM annual_sales WHERE year = #{year}
+    </select>
 
+    <select id="findMemberTodaySignUp" resultType="Integer">
+        SELECT COUNT(*) FROM members
+        WHERE DATE(sign_date) = #{today}
+    </select>
 
+    <select id="findMemberYesterdaySignUp" resultType="Integer">
+        SELECT COUNT(*) FROM members
+        WHERE DATE(sign_date) = #{yesterday}
+    </select>
+
+    <select id="monthPrice" parameterType="map" resultType="Integer">
+        SELECT SUM(total_sales) FROM sales WHERE YEAR(date) = #{year} AND MONTH(date) = #{month}
+    </select>
+
+    <select id="lastMonthPrice" parameterType="map" resultType="Integer">
+        SELECT SUM(total_sales) FROM monthly_sales WHERE year=#{year} AND month=#{month}
+    </select>
+
+    <select id="countVisit" resultType="Integer">
+        SELECT count(DISTINCT login_ip) FROM members_log WHERE DATE(login_date) = #{day};
+    </select>
+
+    <select id="signCountWeek" parameterType="map" resultType="mackeabit.shop.dto.SignCountWeekDTO">
+        SELECT DATE(sign_date) AS date, COUNT(*) AS count
+        FROM members
+        WHERE sign_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY DATE(sign_date)
+    </select>
+
+    <select id="visitCountWeek" parameterType="map" resultType="mackeabit.shop.dto.SignCountWeekDTO">
+        SELECT DATE(login_date) AS date, COUNT(DISTINCT login_ip) AS count
+        FROM members_log
+        WHERE login_date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY DATE(login_date)
+    </select>
+
+    <select id="weekSales" parameterType="map" resultType="mackeabit.shop.vo.SalesVO">
+        SELECT * FROM sales
+        WHERE date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY date;
+    </select>
+
+    <select id="findAdminMainPayList" resultType="mackeabit.shop.dto.AdminMainPayListDTO">
+        SELECT p.pd_nm, pi.sv_loc, pi.sv_locct, m.email, pay.total_price, pay.pay_status
+        from payments pay
+            JOIN orders o ON pay.order_mi = o.order_mi
+            JOIN products p ON p.pd_idx = o.pd_idx
+            JOIN product_img pi ON p.pd_idx = pi.pd_idx
+            JOIN members m ON m.member_idx = pay.member_idx
+        ORDER BY pay.pay_idx DESC limit 7;
+    </select>
+
+    <select id="findAdminMainOrderList" resultType="mackeabit.shop.dto.AdminMainOrderListDTO">
+        SELECT order_mi, order_date FROM orders ORDER BY order_idx DESC limit 6;
+    </select>
 
 </mapper>
