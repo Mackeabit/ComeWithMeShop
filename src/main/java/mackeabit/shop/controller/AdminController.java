@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.AdminLogin;
 import mackeabit.shop.dto.*;
-import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.service.AdminService;
 import mackeabit.shop.vo.AdminVO;
 import mackeabit.shop.vo.Annual_SalesVO;
@@ -183,9 +182,50 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+
+    @GetMapping("/members")
+    public String adminMembers(@AdminLogin AdminVO adminVO, Model model) {
+
+/*
+        //AdminVO 값이 없으면 로그인 화면
+        if (adminVO == null) {
+            return "adminLogin";
+        }
+*/
+
+        /* 관리자 계정
+        *  일반 유저 계정 담기 (member_idx, email, grade_code, member_status, sign_date)
+        *   */
+
+        List<AdminVO> adminVOList = adminService.findAll();
+        List<MembersVO> membersVOList = adminService.findAllMembers();
+
+        model.addAttribute("adminList", adminVOList)
+                .addAttribute("memberList", membersVOList);
+
+        return "adminPageAllMembers";
+    }
+
+
+    @GetMapping("/member")
+    public String adminMemberInfo(@AdminLogin AdminVO adminVO, Model model, @RequestParam Long member_idx) {
+
+/*
+        //AdminVO 값이 없으면 로그인 화면
+        if (adminVO == null) {
+            return "adminLogin";
+        }
+*/
+
+
+
+        return "";
+    }
+
+
     @GetMapping("/test")
     public String test() {
-        return "tables";
+        return "adminDetailPage";
     }
 
 }

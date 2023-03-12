@@ -5,6 +5,7 @@ import mackeabit.shop.dto.AdminMainPayListDTO;
 import mackeabit.shop.dto.SignCountWeekDTO;
 import mackeabit.shop.vo.AdminVO;
 import mackeabit.shop.vo.Annual_SalesVO;
+import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.SalesVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -42,4 +43,8 @@ public interface AdminMapper {
     List<AdminMainOrderListDTO> findAdminMainOrderList();
 
     Integer lastMonthPrice(Map<String, Integer> yearMonth);
+
+    List<AdminVO> findAll();
+
+    List<MembersVO> findAllMembers();
 }

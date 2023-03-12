@@ -8,6 +8,7 @@ import mackeabit.shop.dto.SignCountWeekDTO;
 import mackeabit.shop.mapper.AdminMapper;
 import mackeabit.shop.vo.AdminVO;
 import mackeabit.shop.vo.Annual_SalesVO;
+import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.SalesVO;
 import org.springframework.stereotype.Repository;
 
@@ -73,5 +74,13 @@ public class AdminRepository {
 
     public Integer lastMonthPrice(Map<String, Integer> yearMonth) {
         return adminMapper.lastMonthPrice(yearMonth);
+    }
+
+    public List<AdminVO> findAll() {
+        return adminMapper.findAll();
+    }
+
+    public List<MembersVO> findAllMembers() {
+        return adminMapper.findAllMembers();
     }
 }

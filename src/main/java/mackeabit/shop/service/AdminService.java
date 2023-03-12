@@ -10,6 +10,7 @@ import mackeabit.shop.dto.SignCountWeekDTO;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.vo.AdminVO;
 import mackeabit.shop.vo.Annual_SalesVO;
+import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.SalesVO;
 import org.springframework.stereotype.Service;
 
@@ -115,5 +116,13 @@ public class AdminService {
 
     public Integer lastMonthPrice(Map<String, Integer> yearMonth) {
         return repository.lastMonthPrice(yearMonth);
+    }
+
+    public List<AdminVO> findAll() {
+        return repository.findAll();
+    }
+
+    public List<MembersVO> findAllMembers() {
+        return repository.findAllMembers();
     }
 }

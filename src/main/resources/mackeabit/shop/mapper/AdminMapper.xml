@@ -73,4 +73,12 @@
         SELECT order_mi, order_date FROM orders ORDER BY order_idx DESC limit 6;
     </select>
 
+    <select id="findAll" resultType="mackeabit.shop.vo.AdminVO">
+        SELECT * FROM admins
+    </select>
+
+    <select id="findAllMembers" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT * FROM members
+    </select>
+
 </mapper>
