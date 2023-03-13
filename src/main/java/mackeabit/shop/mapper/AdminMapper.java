@@ -69,4 +69,8 @@ public interface AdminMapper {
     List<SalesVO> selectByMonth(Map<String, Object> monthlyParams);
 
     void monthlySaleInsert(Monthly_SalesVO monthlySales);
+
+    List<Monthly_SalesVO> selectMonthlySalesByYear(int year);
+
+    void insertAnnualSales(Annual_SalesVO annualSales);
 }

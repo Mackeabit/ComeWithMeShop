@@ -129,4 +129,12 @@ public class AdminRepository {
     public void monthlySaleInsert(Monthly_SalesVO monthlySales) {
         adminMapper.monthlySaleInsert(monthlySales);
     }
+
+    public List<Monthly_SalesVO> selectMonthlySalesByYear(int year) {
+        return adminMapper.selectMonthlySalesByYear(year);
+    }
+
+    public void insertAnnualSales(Annual_SalesVO annualSales) {
+        adminMapper.insertAnnualSales(annualSales);
+    }
 }

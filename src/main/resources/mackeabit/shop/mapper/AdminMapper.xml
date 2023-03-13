@@ -133,4 +133,15 @@
         VALUES (#{year}, #{month}, #{total_sales}, #{avr_sales})
     </insert>
 
+    <select id="selectMonthlySalesByYear" parameterType="Integer" resultType="mackeabit.shop.vo.Monthly_SalesVO">
+        SELECT *
+        FROM monthly_sales
+        WHERE year = #{year}
+    </select>
+
+    <insert id="insertAnnualSales" parameterType="mackeabit.shop.vo.Annual_SalesVO" useGeneratedKeys="true" keyProperty="annual_sales_idx">
+        INSERT INTO annual_sales (year, total_sales, avr_sales)
+        VALUES (#{year}, #{totalSales}, #{avrSales})
+    </insert>
+
 </mapper>

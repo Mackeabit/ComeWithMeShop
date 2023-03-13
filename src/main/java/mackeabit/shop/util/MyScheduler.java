@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.service.AdminService;
 import mackeabit.shop.service.MemberService;
+import mackeabit.shop.vo.Annual_SalesVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.vo.Monthly_SalesVO;
 import mackeabit.shop.vo.SalesVO;
@@ -164,5 +165,27 @@ public class MyScheduler {
 
     }
 
+    // 매년 1월 1일 0시에 실행
+    @Scheduled(cron = "0 0 0 1 1 ?")
+    public void annualSalesScheduler() {
+        int year = LocalDate.now().getYear();
+
+        // 해당 연도의 매월 매출 데이터 조회
+        List<Monthly_SalesVO> monthlySalesList = adminService.selectMonthlySalesByYear(year);
+
+        // 해당 연도의 총 매출 및 평균 매출 계산
+        Long totalSales = Long.valueOf(0);
+        for (Monthly_SalesVO monthlySales : monthlySalesList) {
+            totalSales += monthlySales.getTotal_sales();
+        }
+        Long avrSales = totalSales / monthlySalesList.size();
+
+        // AnnualSales 객체 생성 및 DB에 저장
+        Annual_SalesVO annualSales = new Annual_SalesVO();
+        annualSales.setYear(year);
+        annualSales.setTotal_sales(totalSales);
+        annualSales.setAvr_sales(avrSales);
+        adminService.insertAnnualSales(annualSales);
+    }
 
 }

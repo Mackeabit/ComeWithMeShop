@@ -189,4 +189,12 @@ public class AdminService {
     public void monthlySaleInsert(Monthly_SalesVO monthlySales) {
         repository.monthlySaleInsert(monthlySales);
     }
+
+    public List<Monthly_SalesVO> selectMonthlySalesByYear(int year) {
+        return repository.selectMonthlySalesByYear(year);
+    }
+
+    public void insertAnnualSales(Annual_SalesVO annualSales) {
+        repository.insertAnnualSales(annualSales);
+    }
 }
