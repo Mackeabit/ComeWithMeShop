@@ -7,6 +7,7 @@ import mackeabit.shop.dto.*;
 import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.service.AdminService;
 import mackeabit.shop.service.MemberService;
+import mackeabit.shop.service.PaymentService;
 import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -32,6 +34,7 @@ public class AdminController {
 
     private final AdminService adminService;
     private final MemberService memberService;
+    private final PaymentService paymentService;
 
     @GetMapping()
     public String adminMain(@AdminLogin AdminVO adminVO, Model model) {
@@ -366,11 +369,43 @@ public class AdminController {
         return adminService.updateProduct(productsVO);
     }
 
+    @GetMapping("/ordersList")
+    public String ordersList(Model model) {
+
+        //주문 목록 (+ members, products JOIN)
+        List<AdminAllOrdersDTO> adminAllOrdersDTOList = adminService.findOrderListAll();
+
+
+        model.addAttribute("ordersList", adminAllOrdersDTOList);
+
+
+        return "adminOrdersList";
+    }
+
+    @GetMapping("/paymentsList")
+    public String paymentsList(Model model) {
+
+        //결제 목록 (+members JOIN)
+        List<AdminAllPaymentsDTO> adminAllPaymentsDTOList = adminService.findPaymentsListAll();
+
+        model.addAttribute("paymentList", adminAllPaymentsDTOList);
+
+        return "adminPaymentsList";
+    }
+
+    @PostMapping("/adminPaymentsCancel")
+    @ResponseBody
+    public String paymentsCancelByAdmin(PaymentsVO paymentsVO) throws IOException {
+
+        log.info("paymentsCancelByAdmin = {}", paymentsVO);
+
+        return adminService.paymentsCancel(paymentsVO);
+    }
 
     @GetMapping("/test")
 
     public String test() {
-        return "adminEditProduct";
+        return "adminOrdersList";
     }
 
 }

@@ -9,6 +9,7 @@ import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public class AdminService {
 
     private final AdminRepository repository;
+    private final PaymentService paymentService;
 
     private final SHA256 sha256;
 
@@ -220,6 +222,36 @@ public class AdminService {
         if (res > 1) {
             data = "Y";
         }
+
+        return data;
+    }
+
+    public List<AdminAllOrdersDTO> findOrderListAll() {
+        return repository.findOrderListAll();
+    }
+
+    public List<AdminAllPaymentsDTO> findPaymentsListAll() {
+        return repository.findPaymentsListAll();
+    }
+
+    @Transactional
+    public String paymentsCancel(PaymentsVO paymentsVO) throws IOException {
+
+        String data = "N";
+
+        int res = repository.updatePaymentsStatus(paymentsVO);
+
+        if (res > 0) {
+            //결제 DB 취소 처리 이후, 결제내역을 찾아와서 아임포트 취소 요청하기
+
+            PaymentsVO findPayments = repository.findPaymentsByIdx(paymentsVO.getPay_idx());
+
+            String token = paymentService.getToken();
+            paymentService.payMentCancle(token, findPayments.getPay_code(), findPayments.getTotal_price(), "결제 취소 요청");
+
+            data = "Y";
+        }
+
 
         return data;
     }

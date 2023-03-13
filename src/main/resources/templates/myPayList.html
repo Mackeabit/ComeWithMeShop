@@ -185,7 +185,7 @@ Coded by www.creative-tim.com
                     <tr th:if="${stat.last}">
                       <th class="text-center">결제 상태</th>
                       <td></td>
-                      <td class="text-center" th:text="(${pay.pay_status == -1}) ? '결제 완료' : (${pay.pay_status == 0} ? '반품 요청 중' : '결제 취소')"></td>
+                      <td class="text-center" th:text="(${pay.pay_status == -1}) ? '결제 완료' : (${pay.pay_status == 0} ? '환불 요청 중' : '결제 취소')"></td>
                     </tr>
                     <tr th:if="${stat.last and pay.pay_status == -1}">
                       <td class="text-center"></td>
@@ -214,7 +214,7 @@ Coded by www.creative-tim.com
           data: {pay_idx:pay_idx},
           success: function (data) {
             if (data == "Y") {
-              alert("정상적으로 처리 되었습니다.");
+              alert("신청 되었습니다.");
               location.replace("/myPage/pays");
             } else {
               alert("처리 중 오류가 발생하였습니다, 잠시 후 재시도 해주세요.")

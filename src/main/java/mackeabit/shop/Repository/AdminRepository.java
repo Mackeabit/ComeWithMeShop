@@ -150,4 +150,20 @@ public class AdminRepository {
     public int updateProductLog(Long pd_idx) {
         return adminMapper.updateProductLog(pd_idx);
     }
+
+    public List<AdminAllOrdersDTO> findOrderListAll() {
+        return adminMapper.findOrderListAll();
+    }
+
+    public List<AdminAllPaymentsDTO> findPaymentsListAll() {
+        return adminMapper.findPaymentsListAll();
+    }
+
+    public int updatePaymentsStatus(PaymentsVO paymentsVO) {
+        return adminMapper.updatePaymentsStatus(paymentsVO);
+    }
+
+    public PaymentsVO findPaymentsByIdx(Long pay_idx) {
+        return adminMapper.findPaymentsByIdx(pay_idx);
+    }
 }

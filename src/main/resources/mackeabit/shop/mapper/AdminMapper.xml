@@ -163,4 +163,20 @@
         UPDATE products_log SET modi_date=now() WHERE pd_idx=#{pd_idx}
     </update>
 
+    <select id="findOrderListAll" resultType="mackeabit.shop.dto.AdminAllOrdersDTO">
+        select o.*, m.email, p.pd_nm from orders o JOIN members m ON o.member_idx = m.member_idx JOIN products p ON o.pd_idx=p.pd_idx ORDER BY o.order_idx DESC
+    </select>
+
+    <select id="findPaymentsListAll" resultType="mackeabit.shop.dto.AdminAllPaymentsDTO">
+        SELECT p.*, m.email FROM payments p JOIN members m ON p.member_idx = m.member_idx ORDER BY p.pay_idx DESC
+    </select>
+
+    <select id="findPaymentsByIdx" resultType="mackeabit.shop.vo.PaymentsVO">
+        SELECT * FROM payments WHERE pay_idx = #{pay_idx}
+    </select>
+
+    <update id="updatePaymentsStatus" parameterType="mackeabit.shop.vo.PaymentsVO">
+        UPDATE payments SET pay_status = 1 WHERE pay_idx=#{pay_idx}
+    </update>
+
 </mapper>

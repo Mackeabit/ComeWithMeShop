@@ -78,4 +78,12 @@ public interface AdminMapper {
     int updateProduct(ProductsVO productsVO);
 
     int updateProductLog(Long pd_idx);
+
+    List<AdminAllOrdersDTO> findOrderListAll();
+
+    List<AdminAllPaymentsDTO> findPaymentsListAll();
+
+    int updatePaymentsStatus(PaymentsVO paymentsVO);
+
+    PaymentsVO findPaymentsByIdx(Long pay_idx);
 }
