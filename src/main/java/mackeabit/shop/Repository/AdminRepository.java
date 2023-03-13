@@ -139,4 +139,15 @@ public class AdminRepository {
         return adminMapper.findProductsList();
     }
 
+    public MainProductsDTO findProductByIdx(Long pd_idx) {
+        return adminMapper.findProductByIdx(pd_idx);
+    }
+
+    public int updateProduct(ProductsVO productsVO) {
+        return adminMapper.updateProduct(productsVO);
+    }
+
+    public int updateProductLog(Long pd_idx) {
+        return adminMapper.updateProductLog(pd_idx);
+    }
 }

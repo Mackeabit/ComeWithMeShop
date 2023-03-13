@@ -73,4 +73,9 @@ public interface AdminMapper {
 
     List<MainProductsDTO> findProductsList();
 
+    MainProductsDTO findProductByIdx(Long pd_idx);
+
+    int updateProduct(ProductsVO productsVO);
+
+    int updateProductLog(Long pd_idx);
 }

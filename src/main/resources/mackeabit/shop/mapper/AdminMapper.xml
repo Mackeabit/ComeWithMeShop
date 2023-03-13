@@ -150,4 +150,17 @@
             JOIN categorys c ON p.category_code = c.category_code
     </select>
 
+    <select id="findProductByIdx" resultType="mackeabit.shop.dto.MainProductsDTO">
+        SELECT * FROM products p JOIN product_img pi ON p.pd_idx = pi.pd_idx WHERE p.pd_idx = #{pd_idx}
+    </select>
+
+    <update id="updateProduct" parameterType="mackeabit.shop.vo.ProductsVO">
+        UPDATE products SET pd_nm=#{pd_nm}, pd_status=#{pd_status}, category_code=#{category_code}, pd_cnt=#{pd_cnt}, ori_price=#{ori_price},
+                            sell_price=#{sell_price}, pd_value=#{pd_value}, pd_kind=#{pd_kind}, pd_color=#{pd_color}, pd_size=#{pd_size}, pd_contents=#{pd_contents} WHERE pd_idx = #{pd_idx}
+    </update>
+
+    <update id="updateProductLog" parameterType="Long">
+        UPDATE products_log SET modi_date=now() WHERE pd_idx=#{pd_idx}
+    </update>
+
 </mapper>

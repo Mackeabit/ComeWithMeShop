@@ -290,7 +290,10 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex">
-                                            <h6 class="ms-3 my-auto" th:text="${pd.pd_nm}"></h6>
+                                            <h6 th:if="${pd.pd_size != null and pd.pd_color != null}" class="ms-3 my-auto" th:text="${pd.pd_nm}+'('+${pd.pd_color}+'/'+${pd.pd_size}+')'"></h6>
+                                            <h6 th:if="${pd.pd_size == null and pd.pd_color != null}" class="ms-3 my-auto" th:text="${pd.pd_nm}+'('+${pd.pd_color}+')'"></h6>
+                                            <h6 th:if="${pd.pd_size != null and pd.pd_color == null}" class="ms-3 my-auto" th:text="${pd.pd_nm}+'('+${pd.pd_size}+')'"></h6>
+                                            <h6 th:if="${pd.pd_size == null and pd.pd_color == null}" class="ms-3 my-auto" th:text="${pd.pd_nm}"></h6>
                                         </div>
                                     </td>
                                     <td class="text-sm" th:text="${pd.category_name}"></td>
@@ -304,10 +307,10 @@
                                     </td>
                                     <td class="text-sm">
                                         <a href="javascript:;" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit product">
-                                            <i class="material-icons text-secondary position-relative text-lg">drive_file_rename_outline</i>
+                                            <i class="material-icons text-secondary position-relative text-lg" th:onclick="|editProduct(${pd.pd_idx})|">drive_file_rename_outline</i>
                                         </a>
                                         <a href="javascript:;" data-bs-toggle="tooltip" data-bs-original-title="Delete product">
-                                            <i class="material-icons text-secondary position-relative text-lg">delete</i>
+                                            <i class="material-icons text-secondary position-relative text-lg" th:onclick="|delProduct(${pd.pd_idx})|">delete</i>
                                         </a>
                                     </td>
                                 </tr>
@@ -330,6 +333,27 @@
                 </div>
             </div>
         </div>
+
+        <script th:inline="javascript">
+
+            function editProduct(pd_idx) {
+                let editCheck = confirm("선택하신 상품을 수정하시겠습니까?");
+                if (editCheck) {
+                    location.href = '/admin/editProduct?pd_idx=' + pd_idx;
+                }
+            }
+
+            function delProduct(pd_idx) {
+                let delCheck = confirm("선택하신 상품을 삭제하시겠습니까?");
+                if (delCheck) {
+
+                    //삭제 ajax
+
+                }
+            }
+
+        </script>
+
         <footer class="footer py-4  ">
             <div class="container-fluid">
                 <div class="row align-items-center justify-content-lg-between">
@@ -395,19 +419,10 @@
 
 <script src="/adminV2/assets/js/plugins/dragula/dragula.min.js"></script>
 <script src="/adminV2/assets/js/plugins/jkanban/jkanban.js"></script>
-<script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-        var options = {
-            damping: '0.5'
-        }
-        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-</script>
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<script src="/adminV2/assets/js/material-dashboard.min.js?v=3.0.7"></script>
+<script src="/adminV2/assets/js/material-dashboard.js?v=3.0.7"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"7a7572f9cb071faf","version":"2023.2.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
 </body>
 

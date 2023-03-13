@@ -272,13 +272,13 @@ public class AdminController {
     public String updateMembers(MembersAllInfoDTO membersAllInfoDTO) throws NoSuchAlgorithmException {
 
         /* 넘어오는 정보
-        *  member_idx
-        *  email
-        *  address
-        *  address_detail
-        *  post_code
-        *  pwd
-        *  */
+         *  member_idx
+         *  email
+         *  address
+         *  address_detail
+         *  post_code
+         *  pwd
+         *  */
 
         log.info("memberVO = {}", membersAllInfoDTO);
 
@@ -307,7 +307,7 @@ public class AdminController {
             String pwd = membersAllInfoDTO.getPwd();
             SHA256 sha256 = new SHA256();
             //비밀번호 암호화 저장
-            membersAllInfoDTO.setPwd(sha256.encrypt(pwd+sha256.getSALT()));
+            membersAllInfoDTO.setPwd(sha256.encrypt(pwd + sha256.getSALT()));
         }
 
         return adminService.updateMembers(membersAllInfoDTO);
@@ -343,10 +343,34 @@ public class AdminController {
         return "adminProductsList";
     }
 
+    @GetMapping("/editProduct")
+    public String editProduct(Long pd_idx, Model model) {
+
+        log.info("editProduct By pd_idx = {}", pd_idx);
+
+        //넘겨받은 pd_idx 를 통해 상품 찾기 (+ 대표 이미지)
+        MainProductsDTO mainProductsDTO = adminService.findProductByIdx(pd_idx);
+        model.addAttribute("pd", mainProductsDTO);
+
+        //카테고리 넘겨주기(하위 목록)
+        List<CategorysVO> categorysVOList = adminService.findCategory();
+
+        model.addAttribute("categoriesList", categorysVOList);
+
+        return "adminEditProduct";
+    }
+
+    @PostMapping("/editProduct")
+    @ResponseBody
+    public String editProductPost(ProductsVO productsVO) {
+        return adminService.updateProduct(productsVO);
+    }
+
+
     @GetMapping("/test")
 
     public String test() {
-        return "adminProductsList";
+        return "adminEditProduct";
     }
 
 }

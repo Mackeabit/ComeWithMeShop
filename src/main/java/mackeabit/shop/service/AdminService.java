@@ -201,4 +201,26 @@ public class AdminService {
     public List<MainProductsDTO> findProductsList() {
         return repository.findProductsList();
     }
+
+    public MainProductsDTO findProductByIdx(Long pd_idx) {
+        return repository.findProductByIdx(pd_idx);
+    }
+
+    @Transactional
+    public String updateProduct(ProductsVO productsVO) {
+
+        String data = "N";
+
+        //상품 업데이트
+        int res = repository.updateProduct(productsVO);
+
+        //상품 로그 업데이트
+        res += repository.updateProductLog(productsVO.getPd_idx());
+
+        if (res > 1) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }
