@@ -109,4 +109,24 @@ public class AdminRepository {
     public List<CategorysVO> findCategory() {
         return adminMapper.findCategory();
     }
+
+    public void daySalesUpdate(SalesVO salesVO) {
+        adminMapper.daySalesUpdate(salesVO);
+    }
+
+    public Long daySaleTotal(Map<String, Object> params) {
+        return adminMapper.daySaleTotal(params);
+    }
+
+    public Long findAvrPrice(String twoAgo) {
+        return adminMapper.findAvrPrice(twoAgo);
+    }
+
+    public List<SalesVO> selectByMonth(Map<String, Object> monthlyParams) {
+        return adminMapper.selectByMonth(monthlyParams);
+    }
+
+    public void monthlySaleInsert(Monthly_SalesVO monthlySales) {
+        adminMapper.monthlySaleInsert(monthlySales);
+    }
 }

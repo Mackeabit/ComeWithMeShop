@@ -168,4 +168,25 @@ public class AdminService {
     public List<CategorysVO> findCategory() {
         return repository.findCategory();
     }
+
+    //일일 매출액 계산
+    public void daySalesUpdate(SalesVO salesVO) {
+        repository.daySalesUpdate(salesVO);
+    }
+
+    public Long daySaleTotal(Map<String, Object> params) {
+        return repository.daySaleTotal(params);
+    }
+
+    public Long findAvrPrice(String twoAgo) {
+        return repository.findAvrPrice(twoAgo);
+    }
+
+    public List<SalesVO> selectByMonth(Map<String, Object> monthlyParams) {
+        return repository.selectByMonth(monthlyParams);
+    }
+
+    public void monthlySaleInsert(Monthly_SalesVO monthlySales) {
+        repository.monthlySaleInsert(monthlySales);
+    }
 }

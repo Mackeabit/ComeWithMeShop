@@ -109,4 +109,28 @@
         SELECT * FROM categorys WHERE category_ref is not null ORDER BY category_code DESC
     </select>
 
+    <select id="daySaleTotal" parameterType="map" resultType="Long">
+        SELECT SUM(total_price)
+        FROM payments
+        WHERE pay_date BETWEEN #{startDate} AND #{endDate}
+    </select>
+
+    <select id="findAvrPrice" parameterType="String" resultType="Long">
+        SELECT avr_sales FROM sales WHERE date = #{twoAgo}
+    </select>
+
+    <insert id="daySalesUpdate" parameterType="mackeabit.shop.vo.SalesVO" useGeneratedKeys="true" keyProperty="sales_idx">
+        INSERT INTO sales (date, total_sales, avr_sales)
+        VALUES (DATE_SUB(NOW(), INTERVAL 1 DAY), #{total_sales}, #{avr_sales})
+    </insert>
+
+    <select id="selectByMonth" parameterType="map" resultType="mackeabit.shop.vo.SalesVO">
+        SELECT * FROM sales WHERE YEAR(date) = #{year} AND MONTH(date) = #{month}
+    </select>
+
+    <insert id="monthlySaleInsert" parameterType="mackeabit.shop.vo.Monthly_SalesVO" useGeneratedKeys="true" keyProperty="monthly_sales_idx">
+        INSERT INTO monthly_sales (year, month, total_sales, avr_sales)
+        VALUES (#{year}, #{month}, #{total_sales}, #{avr_sales})
+    </insert>
+
 </mapper>

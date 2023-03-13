@@ -10,6 +10,6 @@ import java.util.Date;
 @Setter
 @ToString
 public class SalesVO {
-    private Long sale_idx, total_sales, avr_sales;
+    private Long sales_idx, total_sales, avr_sales;
     private Date date;
 }

@@ -2,13 +2,21 @@ package mackeabit.shop.util;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.service.AdminService;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.MembersVO;
+import mackeabit.shop.vo.Monthly_SalesVO;
+import mackeabit.shop.vo.SalesVO;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
@@ -16,11 +24,12 @@ import java.util.List;
 public class MyScheduler {
 
     private final MemberService memberService;
+    private final AdminService adminService;
 
     // * 을 입력할경우 모두(항상)으로 설정함.
     //                 초  분  시  일  월  요일
     // 매일 자정에 실행
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 30 12 * * ?")
     public void deleteInactiveMembers() {
 
         log.info("MyScheduler 실행");
@@ -83,7 +92,77 @@ public class MyScheduler {
             log.info("휴면 계정으로 바뀐 계정이 없습니다.");
         }
 
+        //일일 매출액 계산
+        //0시 기준에 실행이 되므로 하루 전날짜의 총 일일매출 구하기
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String today = LocalDate.now().format(formatter);
+        String startDate = LocalDate.now().minusDays(1).format(formatter);
+        String endDate = today;
+
+        String twoAgo = LocalDate.now().minusDays(2).format(formatter);
+
+
+        Map<String, Object> params = new ConcurrentHashMap<>();
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+
+        //하루 동안의 총 매출액
+        Long total_sales = adminService.daySaleTotal(params);
+        if (total_sales == null) {
+            total_sales = Long.valueOf(0);
+        }
+
+        //그 전날의 평균 매출액
+        Long avr_sales = adminService.findAvrPrice(twoAgo);
+        if (avr_sales == null) {
+            avr_sales = Long.valueOf(0);
+        }
+
+        //입력해야 할 평균 매출액
+        Long insertAvrSales = (total_sales + avr_sales) / 2;
+
+        SalesVO salesVO = new SalesVO();
+        salesVO.setTotal_sales(total_sales);
+        salesVO.setAvr_sales(insertAvrSales);
+
+        adminService.daySalesUpdate(salesVO);
+
+    }// 매일 자정에 실행되는 스케쥴러
+
+
+    // 매월 1일 0시에 실행
+    @Scheduled(cron = "0 0 0 1 * ?")
+    public void monthlySalesScheduler() {
+        LocalDate today = LocalDate.now();
+        int year = today.getYear();
+        int month = today.getMonthValue();
+
+        Map<String, Object> monthlyParams = new ConcurrentHashMap<>();
+        monthlyParams.put("year", year);
+        monthlyParams.put("month", month);
+
+
+        // 해당월의 매출 데이터 조회
+        List<SalesVO> salesList = adminService.selectByMonth(monthlyParams);
+
+        // 해당월의 총 매출 및 평균 매출 계산
+        Long totalSales = Long.valueOf(0);
+        for (SalesVO sales : salesList) {
+            totalSales += sales.getTotal_sales();
+        }
+        Long avrSales = totalSales / salesList.size();
+
+        // MonthlySales 객체 생성
+        Monthly_SalesVO monthlySales = new Monthly_SalesVO();
+        monthlySales.setYear(year);
+        monthlySales.setMonth(month);
+        monthlySales.setTotal_sales(totalSales);
+        monthlySales.setAvr_sales(avrSales);
+
+        // 매월 DB 저장
+        adminService.monthlySaleInsert(monthlySales);
 
     }
+
 
 }

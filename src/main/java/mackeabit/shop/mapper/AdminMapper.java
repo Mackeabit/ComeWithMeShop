@@ -60,4 +60,13 @@ public interface AdminMapper {
 
     List<CategorysVO> findCategory();
 
+    void daySalesUpdate(SalesVO salesVO);
+
+    Long daySaleTotal(Map<String, Object> params);
+
+    Long findAvrPrice(String twoAgo);
+
+    List<SalesVO> selectByMonth(Map<String, Object> monthlyParams);
+
+    void monthlySaleInsert(Monthly_SalesVO monthlySales);
 }
