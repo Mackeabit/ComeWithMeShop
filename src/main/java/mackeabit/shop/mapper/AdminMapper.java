@@ -1,9 +1,6 @@
 package mackeabit.shop.mapper;
 
-import mackeabit.shop.dto.AdminMainOrderListDTO;
-import mackeabit.shop.dto.AdminMainPayListDTO;
-import mackeabit.shop.dto.MembersAllInfoDTO;
-import mackeabit.shop.dto.SignCountWeekDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -73,4 +70,7 @@ public interface AdminMapper {
     List<Monthly_SalesVO> selectMonthlySalesByYear(int year);
 
     void insertAnnualSales(Annual_SalesVO annualSales);
+
+    List<MainProductsDTO> findProductsList();
+
 }

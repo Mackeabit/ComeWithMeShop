@@ -197,4 +197,8 @@ public class AdminService {
     public void insertAnnualSales(Annual_SalesVO annualSales) {
         repository.insertAnnualSales(annualSales);
     }
+
+    public List<MainProductsDTO> findProductsList() {
+        return repository.findProductsList();
+    }
 }

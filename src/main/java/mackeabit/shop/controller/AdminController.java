@@ -12,8 +12,6 @@ import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -333,11 +331,22 @@ public class AdminController {
         return "adminProductsReg";
     }
 
+    @GetMapping("/productsList")
+    public String productsList(@AdminLogin AdminVO adminVO, Model model) {
+
+        //상품명 중복 제거를 하지 않고 리스트 갖고 오기
+        List<MainProductsDTO> allProductsList = adminService.findProductsList();
+
+
+        model.addAttribute("allProductsList", allProductsList);
+
+        return "adminProductsList";
+    }
 
     @GetMapping("/test")
 
     public String test() {
-        return "adminProductsReg";
+        return "adminProductsList";
     }
 
 }

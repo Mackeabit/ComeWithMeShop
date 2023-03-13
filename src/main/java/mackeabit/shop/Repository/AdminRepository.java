@@ -2,10 +2,7 @@ package mackeabit.shop.Repository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mackeabit.shop.dto.AdminMainOrderListDTO;
-import mackeabit.shop.dto.AdminMainPayListDTO;
-import mackeabit.shop.dto.MembersAllInfoDTO;
-import mackeabit.shop.dto.SignCountWeekDTO;
+import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.AdminMapper;
 import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Repository;
@@ -137,4 +134,9 @@ public class AdminRepository {
     public void insertAnnualSales(Annual_SalesVO annualSales) {
         adminMapper.insertAnnualSales(annualSales);
     }
+
+    public List<MainProductsDTO> findProductsList() {
+        return adminMapper.findProductsList();
+    }
+
 }
