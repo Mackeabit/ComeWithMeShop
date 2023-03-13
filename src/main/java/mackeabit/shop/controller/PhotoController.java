@@ -6,8 +6,7 @@ import mackeabit.shop.mapper.PhotoMapper;
 import mackeabit.shop.service.OrderService;
 import mackeabit.shop.service.ProductService;
 import mackeabit.shop.service.ReviewService;
-import mackeabit.shop.vo.PhotosVO;
-import mackeabit.shop.vo.ReviewsVO;
+import mackeabit.shop.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -60,6 +59,7 @@ public class PhotoController {
 
         //리뷰 등록
         Long review_idx = reviewService.insertReview(reviewsVO);
+
 
         log.info("review_idx = {}", review_idx);
 
@@ -124,5 +124,107 @@ public class PhotoController {
             return data;
         }
     }
+
+    @PostMapping(value = "/productImages", consumes = { "multipart/form-data" })
+    public String productImages(@RequestParam("files") MultipartFile[] files, ProductsVO productsVO) {
+
+        log.info("Start productImages Controller");
+        String data = "N";
+
+/*
+        log.info("{}",productsVO.getPd_cnt());
+        log.info("{}",productsVO.getOri_price());
+        log.info("{}",productsVO.getPd_kind());
+        log.info("{}",productsVO.getPd_size());
+        log.info("{}",productsVO.getPd_color());
+        log.info("{}",productsVO.getPd_contents());
+        log.info("{}",productsVO.getCategory_code());
+        log.info("{}",productsVO.getSell_price());
+*/
+
+
+        // 상품 등록
+        Long pd_idx = productService.insertProduct(productsVO);
+
+        log.info("Insert pd_idx = {}", pd_idx);
+
+        // 상품 로그 테이블 등록
+        Products_logVO products_logVO = new Products_logVO();
+        products_logVO.setPd_idx(pd_idx);
+        productService.insertProductLogByPd_idx(products_logVO);
+
+        // 상품 별점 셋팅 (기본값 셋팅)
+        Products_starsVO products_starsVO = new Products_starsVO();
+        products_starsVO.setPd_nm(productsVO.getPd_nm());
+        productService.insertProductStar(products_starsVO);
+
+        log.info("product = {}", productsVO);
+
+
+        // 상품 이미지를 저장할 객체 생성
+        Product_imgVO product_imgVO = new Product_imgVO();
+        product_imgVO.setPd_idx(pd_idx);
+
+        int checkLoop = 0;
+
+        for (MultipartFile file : files) {
+
+            // 파일 이름 생성
+            String originalFilename = file.getOriginalFilename();
+
+            if (checkLoop == 0) {
+                product_imgVO.setPd_img(originalFilename);
+            } else if (checkLoop == 1) {
+                product_imgVO.setPd_imgCt(originalFilename);
+            }
+
+            String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+            String uuid = UUID.randomUUID().toString();
+            String fileName = uuid + "." + extension;
+            String fileSaveDbName = "img/product-img/" + fileName; // DB에 저장할 파일 경로 이름(file_name)
+
+            // 파일 저장 경로 생성
+            Path filePath = Paths.get(uploadDir2+ fileName);
+
+            try {
+                // 파일 저장 경로에 해당하는 디렉토리가 존재하지 않으면 생성
+                if (!Files.exists(filePath.getParent())) {
+                    Files.createDirectories(filePath.getParent());
+                }
+
+                // 파일 저장
+                Files.write(filePath, file.getBytes());
+
+                // DB 에 저장할 이미지 경로 세팅
+                if (checkLoop == 0) {
+                    product_imgVO.setSv_loc(fileSaveDbName);
+                } else if (checkLoop == 1) {
+                    product_imgVO.setSv_locCt(fileSaveDbName);
+                }
+
+
+                checkLoop++;
+
+            } catch (IOException e) {
+                // 파일 저장 실패
+                log.info("저장 실패 = {}", e);
+            }
+
+        }//for문
+
+        log.info("checkLoop = {}",checkLoop);
+        log.info("setting product_img = {}", product_imgVO);
+
+        //Product_imgVO 세팅 끝난 후 DB 저장
+        productService.insertProductImg(product_imgVO);
+
+
+        return data;
+    }
+
+
+
+
+
 
 }

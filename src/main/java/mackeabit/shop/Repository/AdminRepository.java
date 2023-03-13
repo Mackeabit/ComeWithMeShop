@@ -105,4 +105,8 @@ public class AdminRepository {
     public int delMemberByMember_idx(Long member_idx) {
         return adminMapper.delMemberByMember_idx(member_idx);
     }
+
+    public List<CategorysVO> findCategory() {
+        return adminMapper.findCategory();
+    }
 }

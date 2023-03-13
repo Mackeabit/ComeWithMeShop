@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.ProductMapper;
-import mackeabit.shop.vo.NoticesVO;
-import mackeabit.shop.vo.ProductsVO;
-import mackeabit.shop.vo.Products_starsVO;
-import mackeabit.shop.vo.ReviewsVO;
+import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -139,6 +136,27 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Products_starsVO findStarsByPd_nm(String pd_nm) {
         return productMapper.findStarsByPd_nm(pd_nm);
+    }
+
+    @Override
+    public Long insertProduct(ProductsVO productsVO) {
+        productMapper.insertProduct(productsVO);
+        return productsVO.getPd_idx();
+    }
+
+    @Override
+    public void insertProductLogByPd_idx(Products_logVO products_logVO) {
+        productMapper.insertProductLogByPd_idx(products_logVO);
+    }
+
+    @Override
+    public void insertProductImg(Product_imgVO product_imgVO) {
+        productMapper.insertProductImg(product_imgVO);
+    }
+
+    @Override
+    public void insertProductStar(Products_starsVO products_starsVO) {
+        productMapper.insertProductStar(products_starsVO);
     }
 
 

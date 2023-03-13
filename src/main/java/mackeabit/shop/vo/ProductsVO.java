@@ -2,9 +2,11 @@ package mackeabit.shop.vo;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ProductsVO {
 
     private String pd_nm, pd_color, pd_size, pd_contents;

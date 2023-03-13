@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/core-img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/core-img/favicon.ico">
+  <title>
+    Come With Me | Admin Members Manage
+  </title>
+
+
+  <!--  <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />-->
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+
+  <link href="/adminV2/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/adminV2/assets/css/nucleo-svg.css" rel="stylesheet" />
+
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <link id="pagestyle" href="/adminV2/assets/css/material-dashboard.min.css" rel="stylesheet" />
+  <!-- 제이쿼리 -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <script src="/adminV2/assets/js/plugins/dropzone.min.js"></script>
+
+
+  <style>
+    .async-hide {
+      opacity: 0 !important
+    }
+  </style>
+  <script>
+    (function(a, s, y, n, c, h, i, d, e) {
+      s.className += ' ' + y;
+      h.start = 1 * new Date;
+      h.end = i = function() {
+        s.className = s.className.replace(RegExp(' ?' + y), '')
+      };
+      (a[n] = a[n] || []).hide = h;
+      setTimeout(function() {
+        i();
+        h.end = null
+      }, c);
+      h.timeout = c;
+    })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {
+      'GTM-K9BGS8K': true
+    });
+  </script>
+
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-46172202-22', 'auto', {
+      allowLinker: true
+    });
+    ga('set', 'anonymizeIp', true);
+    ga('require', 'GTM-K9BGS8K');
+    ga('require', 'displayfeatures');
+    ga('require', 'linker');
+    ga('linker:autoLink', ["2checkout.com", "avangate.com"]);
+  </script>
+
+
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s),
+              dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+              'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-NKDMSK6');
+  </script>
+
+</head>
+<body class="g-sidenav-show bg-gray-200">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+  <div class="sidenav-header">
+    <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+    <a class="navbar-brand m-0" href="/admin">
+      <img src="/img/core-img/favicon.ico" class="navbar-brand-img h-100" alt="main_logo">
+      <span class="ms-1 font-weight-bold text-white">Come With Me</span>
+    </a>
+  </div>
+  <hr class="horizontal light mt-0 mb-2">
+  <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">dashboard</i>
+          </div>
+          <span class="nav-link-text ms-1">전체 현황</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin/members">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">person</i>
+          </div>
+          <span class="nav-link-text ms-1">회원 관리</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white active bg-gradient-primary" href="/admin/productReg">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">receipt_long</i>
+          </div>
+          <span class="nav-link-text ms-1">상품 등록</span>
+        </a>
+      </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/admin/pages/notifications.html">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">notifications</i>
+            </div>
+            <span class="nav-link-text ms-1">Notifications</span>
+          </a>
+        </li>
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/admin/pages/profile.html">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">person</i>
+            </div>
+            <span class="nav-link-text ms-1">Profile</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/admin/pages/sign-in.html">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">login</i>
+            </div>
+            <span class="nav-link-text ms-1">Sign In</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="/admin/pages/sign-up.html">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">assignment</i>
+            </div>
+            <span class="nav-link-text ms-1">Sign Up</span>
+          </a>
+        </li>
+      </ul>
+  </div>
+  <div th:if="${session.superAdmin != null}" class="sidenav-footer position-absolute w-100 bottom-0 ">
+    <div class="mx-3">
+      <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">계정 관리</a>
+    </div>
+  </div>
+</aside>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl position-sticky blur shadow-blur mt-4 left-auto top-1 z-index-sticky" id="navbarBlur" data-scroll="true" checked>
+    <div class="container-fluid py-1 px-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin">Pages</a></li>
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/products">상품 등록</a></li>
+          <li class="breadcrumb-item text-sm text-dark active" aria-current="page">상품 등록</li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0">상품 등록</h6>
+      </nav>
+      <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          <div class="input-group input-group-outline">
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+
+  <div class="container-fluid py-4">
+    <div class="row min-vh-80">
+      <div class="col-lg-8 col-md-10 col-12 m-auto">
+        <h3 class="mt-3 mb-0 text-center">Add new Product</h3>
+        <p class="lead font-weight-normal opacity-8 mb-7 text-center">아래 절차에 맞게 새로운 상품을 등록해주세요.</p>
+        <div class="card">
+          <div class="card-header p-0 position-relative mt-n5 mx-3 z-index-2">
+            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <div class="multisteps-form__progress">
+                <button class="multisteps-form__progress-btn js-active" type="button" title="Product Info">
+                  <span>1. 상품 정보 입력</span>
+                </button>
+                <button class="multisteps-form__progress-btn" type="button" title="Media">2. 대표 이미지 등록</button>
+                <button class="multisteps-form__progress-btn" type="button" title="Socials">3. 장바구니용 이미지 등록</button>
+                <button class="multisteps-form__progress-btn" type="button" title="Pricing">4. 가격 및 기타 설정</button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form id="productForm" class="multisteps-form__form" enctype="multipart/form-data">
+
+              <div class="multisteps-form__panel pt-3 border-radius-xl bg-white js-active" data-animation="FadeIn">
+                <h5 class="font-weight-bolder">Product Information</h5>
+                <div class="multisteps-form__content">
+                  <div class="row mt-3">
+                    <div class="col-12 col-sm-6">
+                      <div class="input-group input-group-dynamic">
+                        <label for="exampleFormControlInput1" class="form-label" style="margin-top: 10px;">상품명</label>
+                        <input style="margin-top: 45px;" id="exampleFormControlInput1" name="pd_nm" class="multisteps-form__input form-control" type="text" />
+                      </div>
+                      <div class="col-12 col-sm-6">
+                        <div class="input-group input-group-dynamic">
+                          <label for="exampleFormControlInput1" style="margin-top: 5px;" class="form-label">Color</label>
+                          <input style="margin-top: 30px;" name="pd_color" class="multisteps-form__input form-control" type="text" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                      <label class="form-control ms-0">Category</label>
+                      <select class="form-control" name="category_code" id="choices-category">
+                        <th:block th:each="cate:${categoriesList}">
+                          <option th:value="${cate.category_code}" selected th:text="${cate.category_name}"></option>
+                        </th:block>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <label class="mt-4">상품 설명란</label>
+                      <p class="form-text text-muted text-xs ms-1 d-inline">
+                        (필수)
+                      </p>
+                      <input type="hidden" id="pd_contents" name="pd_contents">
+                      <div id="edit-deschiption" class="h-50">
+                      </div>
+                    </div>
+                    <div class="col-sm-6 mt-sm-3 mt-5">
+                      <label class="form-control ms-0">Sizes</label>
+                      <select class="form-control" name="pd_size" id="choices-sizes">
+                        <option value="FREE" selected>FREE</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="">사이즈없음</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="button-row d-flex mt-4">
+                    <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" type="button" title="Next">Next</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="multisteps-form__panel pt-3 border-radius-xl bg-white" data-animation="FadeIn">
+                <h5 class="font-weight-bolder">대표 이미지 등록</h5>
+                <div class="multisteps-form__content">
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <label class="form-control mb-0">Product images</label>
+                      <div action="/file-upload" class="form-control border dropzone" id="productImg1"></div>
+                    </div>
+                  </div>
+                  <div class="button-row d-flex mt-4">
+                    <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
+                    <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" type="button" title="Next">Next</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="multisteps-form__panel pt-3 border-radius-xl bg-white" data-animation="FadeIn">
+                <h5 class="font-weight-bolder">장바구니 이미지 등록</h5>
+                <div class="multisteps-form__content">
+                  <div class="row mt-3">
+                    <div class="col-12">
+                      <label class="form-control mb-0">Product images</label>
+                      <div action="/file-upload" class="form-control border dropzone" id="productImg2"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="button-row d-flex mt-4 col-12">
+                      <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
+                      <button class="btn bg-gradient-dark ms-auto mb-0 js-btn-next" type="button" title="Next">Next</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="multisteps-form__panel pt-3 border-radius-xl bg-white h-100" data-animation="FadeIn">
+                <h5 class="font-weight-bolder">가격 및 기타 설정</h5>
+                <div class="multisteps-form__content mt-3">
+                  <div class="row">
+                    <div class="col-2" style="width: 20%; margin-left: 20px;">
+                      <div class="input-group input-group-dynamic">
+                        <label class="form-label">가격(원가)</label>
+                        <input style="margin-top: 25px;" type="number" class="form-control w-100" id="ori_price" name="ori_price" aria-describedby="emailHelp">
+                      </div>
+                    </div>
+                    <div class="col-2" style="width: 20%; margin-left: 20px;">
+                      <div class="input-group input-group-dynamic">
+                        <label class="form-label">가격(판매가)</label>
+                        <input style="margin-top: 25px;" type="number" class="form-control w-100" id="sell_price" name="sell_price" aria-describedby="emailHelp">
+                      </div>
+                    </div>
+                    <div class="col-2" style="width: 20%; margin-left: 20px;">
+                      <div class="input-group input-group-dynamic">
+                        <label class="form-label">재고수량</label>
+                        <input style="margin-top: 25px;" type="number" class="form-control w-100" id="pd_cnt" name="pd_cnt" aria-describedby="emailHelp">
+                      </div>
+                    </div>
+                    <div class="col-2" style="width: 20%; margin-left: 40px;">
+                      <label class="form-label">상품 종류</label>
+                      <select style="margin-top: 10px;" class="form-control" name="pd_kind" id="choices-currency">
+                        <option value="2" selected="">공용</option>
+                        <option value="0">남자</option>
+                        <option value="1">여자</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12" style="margin-left: 20px;">
+                      <label class="mt-4 form-label">상품 상태</label>
+                      <select style="margin-top: 46px;" class="form-control" name="pd_value" id="choices-tags" multiple>
+                        <option value="1" selected>NEW</option>
+                        <option value="0">NORMAL</option>
+                        <option value="2">BEST</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="button-row d-flex mt-0 mt-md-4">
+                    <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Prev</button>
+                    <button id="send_btn" class="btn bg-gradient-dark ms-auto mb-0" type="button" title="Send">Send</button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+
+
+
+    </script>
+
+    <footer class="footer py-4  ">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-sm text-muted text-lg-start">
+              © <script>
+              document.write(new Date().getFullYear())
+            </script>,
+              made with <i class="fa fa-heart"></i> by
+              <a href="https://www.creative-tim.com" class="font-weight-bold">Creative Tim</a>
+              for a better web.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</main>
+
+
+
+<script src="/adminV2/assets/js/core/popper.min.js"></script>
+<script src="/adminV2/assets/js/core/bootstrap.min.js"></script>
+<script src="/adminV2/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/adminV2/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/adminV2/assets/js/plugins/choices.min.js"></script>
+<script src="/adminV2/assets/js/plugins/quill.min.js"></script>
+<script src="/adminV2/assets/js/plugins/multistep-form.js"></script>
+
+
+<script>
+
+    var myDropzone1 = new Dropzone("#productImg1");
+    var myDropzone2 = new Dropzone("#productImg2");
+
+    myDropzone1.on("addedfile", function(file) {
+      // 대기 상태의 파일을 클릭
+      file.previewElement.addEventListener("click", function() {
+        // 파일을 Dropzone에서 제거
+        myDropzone1.removeFile(file);
+      });
+    });
+
+    myDropzone2.on("addedfile", function(file) {
+      // 대기 상태의 파일을 클릭
+      file.previewElement.addEventListener("click", function() {
+        // 파일을 Dropzone에서 제거
+        myDropzone2.removeFile(file);
+      });
+    });
+
+
+
+    $('#send_btn').click(function () {
+
+
+      alert("시작");
+
+      $('#pd_contents').val($('#edit-deschiption').text());
+
+      //
+      myDropzone1.processQueue();
+      myDropzone2.processQueue();
+
+
+/*      const formData = new FormData(document.getElementById('productForm'));
+      formData.append("file1", myDropzone1.files[0]);
+      formData.append("file2", myDropzone2.files[0]);*/
+      let form = $('#productForm')[0];
+      var formData = new FormData(form);
+      formData.append('files', myDropzone1.files[0]);
+      formData.append('files', myDropzone2.files[0]);
+
+      $.ajax({
+        type: "POST",
+        enctype: 'multipart/form-data',
+        url: "/productImages",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          // 서버 응답 처리
+          if (data == 'Y') {
+            alert("등록되었습니다.");
+            location.href = '/admin/productReg';
+          } else if (data == 'N') {
+            alert("등록 중 문제가 생겼습니다. 잠시후 재시도 해주세요.");
+            location.href = '/admin/productReg';
+          }
+        },
+        error: function (e) {
+          // 오류 처리
+        }
+      });
+
+
+
+    });
+
+
+
+
+
+
+</script>
+
+
+
+<script>
+  if (document.getElementById('edit-deschiption')) {
+    var quill = new Quill('#edit-deschiption', {
+      theme: 'snow' // Specify theme in configuration
+    });
+  };
+
+  if (document.getElementById('choices-category')) {
+    var element = document.getElementById('choices-category');
+    const example = new Choices(element, {
+      searchEnabled: false
+    });
+  };
+
+  if (document.getElementById('choices-sizes')) {
+    var element = document.getElementById('choices-sizes');
+    const example = new Choices(element, {
+      searchEnabled: false
+    });
+  };
+
+  if (document.getElementById('choices-colors')) {
+    var element = document.getElementById('choices-colors');
+    const example = new Choices(element, {
+      searchEnabled: false
+    });
+  };
+
+  if (document.getElementById('choices-currency')) {
+    var element = document.getElementById('choices-currency');
+    const example = new Choices(element, {
+      searchEnabled: false
+    });
+  };
+
+  if (document.getElementById('choices-tags')) {
+    var tags = document.getElementById('choices-tags');
+    const examples = new Choices(tags, {
+      removeItemButton: true
+    });
+
+
+    // examples.setChoices(
+    //         [{
+    //           value: 'One',
+    //           label: 'New',
+    //           disabled: true
+    //         },
+    //         ],
+    //         'value',
+    //         'label',
+    //         false,
+    // );
+  }
+</script>
+
+<script src="/adminV2/assets/js/plugins/dragula/dragula.min.js"></script>
+<script src="/adminV2/assets/js/plugins/jkanban/jkanban.js"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<script src="/adminV2/assets/js/material-dashboard.min.js?v=3.0.7"></script>
+</body>
+</html>

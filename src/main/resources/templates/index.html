@@ -356,7 +356,7 @@
                     <!-- Single gallery Item Start -->
                     <div th:each="pd:${newProducts}" th:id="${pd.pd_idx}" th:classappend="|${pd.pd_kind} ${pd.category_code}|" class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
 
-                        <script>
+                        <script th:inline="javascript">
                             /*<![CDATA[*/
                             if ([[${pd.category_code}]] > 7 && [[${pd.category_code}]] < 16 ) {
                                 if ([[${pd.category_code}]] == 11) {
@@ -368,6 +368,11 @@
                                     $('#[[${pd.pd_idx}]]').removeClass('1');
                                     $('#[[${pd.pd_idx}]]').removeClass('2');
                                 }
+                            }
+                            if ([[${pd.pd_kind}]] == 0) {
+                                $('#[[${pd.pd_idx}]]').addClass('2');
+                            } else if ([[${pd.pd_kind}]] == 1) {
+                                $('#[[${pd.pd_idx}]]').addClass('1');
                             }
                             /*]]>*/
                         </script>

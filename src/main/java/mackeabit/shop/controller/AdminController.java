@@ -1,7 +1,6 @@
 package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.AdminLogin;
 import mackeabit.shop.dto.*;
@@ -13,6 +12,8 @@ import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -321,10 +322,22 @@ public class AdminController {
         return adminService.delMemberByMember_idx(member_idx);
     }
 
+    @GetMapping("/productReg")
+    public String productReg(@AdminLogin AdminVO adminVO, Model model) {
+
+        //카테고리 넘겨주기(하위 목록)
+        List<CategorysVO> categorysVOList = adminService.findCategory();
+
+        model.addAttribute("categoriesList", categorysVOList);
+
+        return "adminProductsReg";
+    }
+
+
     @GetMapping("/test")
 
     public String test() {
-        return "adminDetailPage";
+        return "adminProductsReg";
     }
 
 }

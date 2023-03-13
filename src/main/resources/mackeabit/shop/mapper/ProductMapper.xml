@@ -181,4 +181,22 @@
         SELECT * FROM products_stars WHERE pd_nm = #{pd_nm}
     </select>
 
+    <insert id="insertProductLogByPd_idx" parameterType="mackeabit.shop.vo.Products_logVO" useGeneratedKeys="true" keyProperty="pdl_idx">
+        INSERT INTO products_log (pd_idx, reg_date, modi_date) VALUES (#{pd_idx}, now(), null)
+    </insert>
+
+    <insert id="insertProduct" parameterType="mackeabit.shop.vo.ProductsVO" useGeneratedKeys="true" keyProperty="pd_idx">
+        INSERT INTO products (pd_nm, pd_status, category_code, pd_cnt, ori_price, sell_price, pd_value, pd_kind, pd_color, pd_size, pd_contents)
+        VALUES (#{pd_nm}, default, #{category_code}, #{pd_cnt}, #{ori_price}, #{sell_price}, #{pd_value}, #{pd_kind}, #{pd_color}, #{pd_size}, #{pd_contents} )
+    </insert>
+
+    <insert id="insertProductImg" parameterType="mackeabit.shop.vo.Product_imgVO" useGeneratedKeys="true" keyProperty="pd_img_idx">
+        INSERT INTO product_img (pd_idx, pd_img, pd_imgCt, sv_loc, sv_locCt)
+        VALUES (#{pd_idx}, #{pd_img}, #{pd_imgCt}, #{sv_loc}, #{sv_locCt})
+    </insert>
+
+    <insert id="insertProductStar" parameterType="mackeabit.shop.vo.Products_starsVO">
+        INSERT INTO products_stars (pd_nm, stars) VALUES (#{pd_nm}, default)
+    </insert>
+
 </mapper>

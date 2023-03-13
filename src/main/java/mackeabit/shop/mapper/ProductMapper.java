@@ -1,10 +1,7 @@
 package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.*;
-import mackeabit.shop.vo.NoticesVO;
-import mackeabit.shop.vo.ProductsVO;
-import mackeabit.shop.vo.Products_starsVO;
-import mackeabit.shop.vo.ReviewsVO;
+import mackeabit.shop.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -59,4 +56,12 @@ public interface ProductMapper {
     int countQnas(String pd_nm);
 
     Products_starsVO findStarsByPd_nm(String pd_nm);
+
+    Long insertProduct(ProductsVO productsVO);
+
+    void insertProductLogByPd_idx(Products_logVO products_logVO);
+
+    void insertProductImg(Product_imgVO product_imgVO);
+
+    void insertProductStar(Products_starsVO products_starsVO);
 }

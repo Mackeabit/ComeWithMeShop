@@ -105,4 +105,8 @@
         UPDATE members SET member_status = -1 WHERE member_idx = #{member_idx}
     </update>
 
+    <select id="findCategory" resultType="mackeabit.shop.vo.CategorysVO">
+        SELECT * FROM categorys WHERE category_ref is not null ORDER BY category_code DESC
+    </select>
+
 </mapper>

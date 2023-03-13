@@ -165,4 +165,7 @@ public class AdminService {
         return data;
     }
 
+    public List<CategorysVO> findCategory() {
+        return repository.findCategory();
+    }
 }

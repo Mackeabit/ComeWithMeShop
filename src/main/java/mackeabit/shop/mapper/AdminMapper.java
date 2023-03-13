@@ -57,4 +57,7 @@ public interface AdminMapper {
     MembersVO findByEmail(String email);
 
     int delMemberByMember_idx(Long member_idx);
+
+    List<CategorysVO> findCategory();
+
 }

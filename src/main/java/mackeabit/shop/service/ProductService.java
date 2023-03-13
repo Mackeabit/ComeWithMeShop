@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.ProductRepository;
 import mackeabit.shop.dto.*;
-import mackeabit.shop.vo.NoticesVO;
-import mackeabit.shop.vo.ProductsVO;
-import mackeabit.shop.vo.Products_starsVO;
-import mackeabit.shop.vo.ReviewsVO;
+import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -102,5 +99,21 @@ public class ProductService {
 
     public Products_starsVO findStarsByPd_nm(String pd_nm) {
         return repository.findStarsByPd_nm(pd_nm);
+    }
+
+    public Long insertProduct(ProductsVO productsVO) {
+        return repository.insertProduct(productsVO);
+    }
+
+    public void insertProductLogByPd_idx(Products_logVO products_logVO) {
+        repository.insertProductLogByPd_idx(products_logVO);
+    }
+
+    public void insertProductImg(Product_imgVO product_imgVO) {
+        repository.insertProductImg(product_imgVO);
+    }
+
+    public void insertProductStar(Products_starsVO products_starsVO) {
+        repository.insertProductStar(products_starsVO);
     }
 }
