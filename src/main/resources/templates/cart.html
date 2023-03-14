@@ -439,7 +439,8 @@
                                 <p>아래에 쿠폰 번호를 입력해주세요.</p>
                             </div>
                             <form id="couponForm" action="/coupon" method="get">
-                                <input id="coupon_code" type="search" name="coupon_number" placeholder="#569ab15">
+                                <input id="min_price" type="hidden" name="min_price">
+                                <input id="cp_nm" type="search" name="cp_nm" placeholder="#569ab15">
                                 <button id="coupon_check" type="button" style="cursor: pointer">등록하기</button>
                             </form>
                         </div>
@@ -477,7 +478,7 @@
                             <ul id="totalInfo" class="cart-total-chart">
                                 <li><span>전체 가격</span>
                                     <span id="checkPrice"></span>
-                                    <input type="hidden" id="checkPriceInput"></input>
+                                    <input type="hidden" id="checkPriceInput"/>
                                 </li>
                                 <li><span>회원 등급 할인</span>
                                     <span id="gradeSale"></span>
@@ -494,7 +495,7 @@
                                 </li>
                             </ul>
 
-                            <script>
+                            <script th:inline="javascript">
                                 // 배송 옵션 체크 유무 확인용
                                 let checkPointTax = false;
                                 let checkPointCoupon = false;
@@ -508,95 +509,7 @@
                                 //쿠폰 할인
                                 let coupon_price = 0;
 
-                                function throwInfo() {
 
-                                    let coupon = $('#coupon_code').val();
-
-                                    location.href = "/checkout?shipping_price="+shipping_price+"&coupon_code="+coupon+"&member_idx="+[[${session.loginMember.member_idx}]];
-
-                                }
-
-                                function totalCal() {
-                                    //전체 가격, 할인, 배송료, 쿠폰, 결제 금액
-
-                                    //전체 가격
-                                    let ori_price = $('#checkPriceInput').val();
-                                    let after_price = ori_price.replace(/,/g, "");
-
-                                    let totalCheckOut = (after_price - grade_price - shipping_price - coupon_price);
-
-                                    //총결제금액
-                                    $('#priceInit').text(totalCheckOut.toLocaleString() + "원");
-
-
-
-                                }
-
-
-
-                                function shipping(id) {
-
-                                    checkPointTax = true;
-
-                                    shipping_price = id;
-
-                                    $('#sendTax').text("-"+id.toLocaleString() + "원");
-                                    $('#liTax').show();
-
-                                    //총액 계산
-                                    totalCal();
-
-
-                                }
-
-                                function couponData(data) {
-
-                                    if (isNaN(data)) {
-                                        //true 일 경우 문자이므로 alert
-                                        alert("쿠폰 등록에 문제가 생겼습니다. 관리자에게 문의해주세요");
-                                        return false;
-                                    }
-
-                                    checkPointCoupon = true;
-
-                                    coupon_price = data;
-
-                                    $('#couponSale').text("-" + data.toLocaleString() + "원");
-                                    $('#liCoupon').show();
-
-                                    //총액 계산
-                                    totalCal();
-
-                                }
-
-                                $('#coupon_check').on('click', function () {
-
-                                    let formData = $('#couponForm').serialize();
-
-                                    $.ajax({
-                                        type   : "POST",
-                                        url    : "/coupon",
-                                        data   : formData,
-                                        success: function (data) {
-                                            if (data == "N") {
-                                                alert("등록되지 않은 쿠폰 번호 입니다.");
-                                                return false;
-                                            } else if (data == "exist") {
-                                                alert("이미 사용한 쿠폰 번호 입니다.");
-                                                return false;
-                                            } else {
-                                                alert("쿠폰이 정상적으로 등록되었습니다.");
-                                                couponData(data);
-                                                return false;
-                                            }
-                                        },
-                                        error  : function (data) {
-                                            alert("에러 발생!");
-                                            console.log(data);
-                                        }
-                                    });
-
-                                });
 
 
                                 $(document).ready(function(){
@@ -638,6 +551,125 @@
 
 
                                 });
+
+
+
+
+                                function throwInfo() {
+
+                                    let coupon = $('#cp_nm').val();
+
+                                    location.href = "/checkout?shipping_price="+shipping_price+"&cp_nm="+coupon+"&member_idx="+[[${session.loginMember.member_idx}]];
+
+                                }
+
+
+                                function shipping(id) {
+
+                                    checkPointTax = true;
+
+                                    shipping_price = id;
+
+                                    if (id == 0) {
+                                        $('#sendTax').text(id.toLocaleString() + "원");
+                                        $('#liTax').show();
+
+                                    }else {
+                                        $('#sendTax').text("+"+id.toLocaleString() + "원");
+                                        $('#liTax').show();
+                                    }
+
+
+                                    //총액 계산
+                                    totalCal();
+
+
+                                }
+
+
+                                function couponData(data) {
+
+                                    if (isNaN(data)) {
+                                        //true 일 경우 문자이므로 alert
+                                        alert("쿠폰 등록에 문제가 생겼습니다. 관리자에게 문의해주세요");
+                                        return false;
+                                    }
+
+                                    checkPointCoupon = true;
+
+                                    coupon_price = data;
+
+                                    $('#couponSale').text("-" + data.toLocaleString() + "원");
+                                    $('#liCoupon').show();
+
+                                    //총액 계산
+                                    totalCal();
+
+                                }
+
+
+                                function totalCal() {
+                                    //전체 가격, 할인, 배송료, 쿠폰, 결제 금액
+
+                                    //전체 가격
+                                    let ori_price = $('#checkPriceInput').val();
+                                    let after_price = ori_price.replace(/,/g, "");
+
+                                    let totalCheckOut = (after_price - grade_price + shipping_price - coupon_price);
+
+                                    //총결제금액
+                                    $('#priceInit').text(totalCheckOut.toLocaleString() + "원");
+
+
+
+                                }
+
+
+
+                                $('#coupon_check').on('click', function () {
+
+                                    //전체 가격
+                                    let ori_price = $('#checkPriceInput').val();
+                                    let after_price = ori_price.replace(/,/g, "");
+
+                                    let totalCheckOut = (after_price - grade_price + shipping_price - coupon_price);
+
+
+                                    $('#min_price').val(totalCheckOut);
+
+                                    let formData = $('#couponForm').serialize();
+
+                                    $.ajax({
+                                        type   : "POST",
+                                        url    : "/coupon",
+                                        data   : formData,
+                                        success: function (data) {
+                                            if (data == "N") {
+                                                alert("등록되지 않은 쿠폰 번호 입니다.");
+                                                return false;
+                                            } else if (data == "exist") {
+                                                alert("이미 사용한 쿠폰 번호 입니다.");
+                                                return false;
+                                            } else if (data == "no_min") {
+                                                alert("최소 금액을 넘어야 사용이 가능합니다.");
+                                                return false;
+                                            } else if (data == "no_more") {
+                                                alert("사용 기간이 지난 쿠폰 번호 입니다.");
+                                                return false;
+                                            } else {
+                                                alert("쿠폰이 정상적으로 등록되었습니다.");
+                                                couponData(data);
+                                                return false;
+                                            }
+                                        },
+                                        error  : function (data) {
+                                            alert("에러 발생!");
+                                            console.log(data);
+                                        }
+                                    });
+
+                                });
+
 
                             </script>
 

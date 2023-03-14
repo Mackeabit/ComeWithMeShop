@@ -399,24 +399,24 @@
                                 </li>
                                 <li th:if="${checkOutInfo.coupon_price != 0}">
                                     <span th:if="${checkOutInfo.coupon_price != 0}">쿠폰 할인</span>
-                                    <span th:if="${checkOutInfo.coupon_price != 0}" th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 3, 'COMMA')}+'원'"></span>
+                                    <span th:if="${checkOutInfo.coupon_price != 0}" th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 1, 'COMMA')}+'원'"></span>
                                 </li>
                                 <li>
                                     <span>배송료</span>
-                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 3, 'COMMA')}+'원'"></span>
+                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 1, 'COMMA')}+'원'"></span>
                                     <span th:if="${checkOutInfo.shipping_price == 'Free' or checkOutInfo.shipping_price == '0'}">Free</span>
                                     <input type="hidden" id="shipping_code" th:value="${checkOutInfo.shipping_code}">
                                 </li>
 
                                 <li>
                                     <span>회원 등급 할인</span>
-                                    <span th:if="${checkOutInfo.pd_price >= 1000}" th:text="${#numbers.formatInteger(checkOutInfo.grade_sale, 3, 'COMMA')}+'원'"></span>
+                                    <span th:if="${checkOutInfo.pd_price >= 1000}" th:text="${#numbers.formatInteger(checkOutInfo.grade_sale, 1, 'COMMA')}+'원'"></span>
                                     <span th:if="${checkOutInfo.pd_price <= 1000}" th:text="${checkOutInfo.grade_sale}+'원'"></span>
                                 </li>
 
                                 <li th:if="${checkOutInfo.total_price >= 1000}">
                                     <span>최종 결제 금액</span>
-                                    <span id="finTotalPrice" th:text="${#numbers.formatInteger(checkOutInfo.total_price, 3, 'COMMA')}+'원'"></span>
+                                    <span id="finTotalPrice" th:text="${#numbers.formatInteger(checkOutInfo.total_price, 1, 'COMMA')}+'원'"></span>
                                 </li>
                                 <li th:if="${checkOutInfo.total_price <= 1000}">
                                     <span>최종 결제 금액</span>
@@ -431,6 +431,7 @@
 
                             <form id="cart_pd_form">
                                 <input type="hidden" id="order_mi" name="order_mi">
+                                <input type="hidden" id="coupon_code" name="coupon_code" th:value="${checkOutInfo.cp_nm}">
                                 <input type="hidden" id="pay_code" name="pay_code">
                                 <input type="hidden" id="ttPrice" name="total_price" th:value="${checkOutInfo.total_price}">
                                 <input type="hidden" id="ttAddress" name="address">
@@ -470,10 +471,6 @@
                                     postcode  = $('#postcode').val();
                                     shipping_code  = $('#shipping_code').val();
 
-                                    alert(name);
-                                    alert(tel);
-                                    alert(address1);
-                                    alert(address2);
 
                                     let infoJson ={
                                         merchant_uid: 'merchant_' + new Date().getTime(),
@@ -520,10 +517,6 @@
                                             $('#postNumb').val(postcode);
 
 
-                                            alert("data = " + infoJson.buyer_addr2);
-                                            alert("rsp.imp_uid = " + rsp.imp_uid);
-                                            alert("rsp.merchant_uid = " + rsp.merchant_uid);
-
                                             //검증 및 검증 성공시 로직 처리
                                             paymentComplete(infoJson, payCode, order_mi);
 
@@ -532,33 +525,7 @@
                                             alert("결제에 실패하였습니다. 잠시 후 다시 시도해주세요.");
 
                                         }
-/*
-                                        console.log(rsp);
-                                        // 결제검증
-                                        $.ajax({
-                                            type : "POST",
-                                            url : "/verifyIamport/" + rsp.imp_uid
-                                        }).done(function(data) {
 
-                                            alert(data);
-                                            console.log(data);
-
-                                            // 위의 rsp.paid_amount 와 data.response.amount를 비교한후 로직 실행 (import 서버검증)
-                                            if(rsp.paid_amount == data.response.amount){
-                                                alert("결제 및 결제 검증완료");
-
-                                                let payCode = rsp.imp_uid;
-                                                let order_mi = rsp.merchant_uid;
-
-
-
-                                                order_forward(payCode, order_mi);
-
-                                            } else {
-                                                alert("결제 실패");
-                                                rsp.status(400).send();
-                                            }
-                                        });*/
                                     });
                                 }
                                 /*]]>*/
@@ -575,7 +542,6 @@
                                         if (response) {
 
                                             let detailForm = $('#insertDetail').serialize();
-                                            alert(detailForm);
 
                                             //OK버튼
                                             $.ajax({
@@ -600,40 +566,9 @@
 
 
 
-                                    /* 장바구니 -> 결제 페이지
-                                    *  1. memberCart 가 null 이 아니면 동작
-                                    *  2. memberCart.cart_idx 를 통해 결제가 모두 완료되었을 경우 장바구니 삭제
-                                    *  */
-
                                     let checkingForward = $('#checkMemberCart').val();
 
-                                    if (checkingForward != 0) {
-                                        //현재 페이지가 장바구니에서 넘어온 정보가 아닐 경우
-
-                                    }
-
                                     if (checkingForward == 0) {
-                                        //현재 페이지가 장바구니에서 넘어온 정보일 경우
-                                        /*
-                            <form id="cart_pd_form">
-                                <input type="hidden" id="order_mi" name="order_mi">
-                                <input type="hidden" id="pay_code" name="pay_code">
-                                <input type="hidden" id="ttPrice" name="total_price" th:value="${checkOutInfo.total_price}">
-                                <input type="hidden" id="ttAddress" name="address">
-                            </form>
-
-                                        */
-
-/*                                      merchant_uid: 'merchant_' + new Date().getTime(),
-                                        name : /!*[[${checkOutInfo.title}]]*!/,
-                                        amount : /!*[[${checkOutInfo.total_price}]]*!/,
-                                        buyer_email : /!*[[${session.loginMember.email}]]*!/,
-                                        buyer_name: name,
-                                        buyer_addr1: address1,
-                                        buyer_addr2: address2,
-                                        shipping_price:/!*[[${checkOutInfo.shipping_price}]]*!/,
-                                        buyer_tel: tel,
-                                        buyer_postcode: postcode*/
 
                                         //값 추가
                                         infoJson.order_mi = $('#order_mi').val();
@@ -642,35 +577,7 @@
                                         infoJson.address = $('#address1').val();
                                         infoJson.address_detail = $('#address2').val();
                                         infoJson.shipping_code = $('#shipping_code').val();
-/*
-
-
-
-                                        let formData = $('#cart_pd_form').serialize();
-
-                                        alert(formData);
-
-                                        $.ajax({
-                                            type : "POST",
-                                            url : "/payAndOrderCart",
-                                            data : formData,
-                                            success: function(data){
-                                                if(data == "Y"){
-                                                    alert("주문이 완료되었습니다.");
-                                                    location.href="/";
-                                                }else{
-                                                    alert("주문 실패");
-                                                }
-                                            },
-                                            error: function(data){
-                                                alert("주문 에러 발생!");
-                                                console.log(data);
-                                            }
-                                        });//cart_ajax
-
-                                    }//cart_if*/
-
-
+                                        infoJson.coupon_code = $('#coupon_code').val();
 
 
                                     //검증 및 성공 로직처리 ajax

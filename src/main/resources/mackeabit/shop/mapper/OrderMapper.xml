@@ -27,5 +27,23 @@
         UPDATE orders SET review_ck = 0 WHERE order_idx = #{order_idx}
     </update>
 
+    <update id="productCntManageAtOrder" parameterType="java.util.List">
+        <foreach collection="list" item="product" separator=";">
+            UPDATE products SET pd_cnt = pd_cnt + #{product.pd_cnt}
+            WHERE pd_idx = #{product.pd_idx}
+        </foreach>
+    </update>
+
+    <select id="findCoupon" parameterType="String" resultType="mackeabit.shop.dto.CouponMemberDTO">
+        SELECT * FROM coupons WHERE cp_nm=#{coupon_code}
+    </select>
+
+    <update id="usedCoupon" parameterType="map">
+        UPDATE members_coupon SET cp_ck = 0 WHERE member_idx = #{member_idx} and cp_idx=#{cp_idx}
+    </update>
+
+    <update id="minusCntCouponByIdx" parameterType="Long">
+        UPDATE coupons SET cp_cnt = cp_cnt-1 WHERE cp_idx=#{cp_idx}
+    </update>
 
 </mapper>

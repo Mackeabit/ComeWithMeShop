@@ -360,4 +360,8 @@ public class MemberService {
     public void insertMembersDetails(MembersVO membersVO) {
         repository.insertMembersDetails(membersVO);
     }
+
+    public CouponMemberDTO findCouponByNm(CouponMemberDTO search) {
+        return repository.findCouponByNm(search);
+    }
 }

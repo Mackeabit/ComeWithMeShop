@@ -346,14 +346,7 @@ public class MainController {
         //할인, 쿠폰 등 적용 후 금액
         int totalPrice = 0;
 
-        //1. 상품페이지에서 결제를 눌렀을 때 --> 배송, 쿠폰 적용페이지로 먼저 가기
-        if (pd_idx != null) {
-            //상품페이지에서 결제를 눌렀을 때(단일 상품 즉시 결제),
-            //productService.findByPd_idx(pd_idx);
 
-        }
-
-        //2. 장바구니에서 결제를 눌렀을 때,
         HttpSession session = request.getSession(false);
         MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
@@ -375,13 +368,20 @@ public class MainController {
             title = memberCart.get(0).getPd_nm();
         }
 
-        //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드 추가할 것.
+        //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드
+        CouponMemberDTO search = new CouponMemberDTO();
+        search.setMember_idx(attribute.getMember_idx());
+        search.setCp_nm(checkOutDTO.getCp_nm());
+
+        CouponMemberDTO couponDTO = memberService.findCouponByNm(search);
+
+        int coupon = couponDTO.getCp_price();
 
         //회원등급에 따른 할인
         int sales = calculateGrade(attribute.getGrade_code(), beforePrice);
 
         //모든 할인 적용한 결재 금액
-        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - sales;
+        totalPrice = beforePrice + Integer.parseInt(checkOutDTO.getShipping_price()) - coupon - sales;
 //        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - 쿠폰 - sales;
 
         /**
@@ -395,8 +395,7 @@ public class MainController {
          */
         checkOutDTO.setTitle(title);
         checkOutDTO.setPd_price(beforePrice);
-        checkOutDTO.setCoupon_price(0);
-//        checkOutDTO.setCoupon_price(-2000);
+        checkOutDTO.setCoupon_price(coupon);
         checkOutDTO.setGrade_sale(-sales);
         checkOutDTO.setTotal_price(totalPrice);
 

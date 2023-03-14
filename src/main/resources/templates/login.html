@@ -48,12 +48,12 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Enter email">
-						<input class="input100" type="text" id="email" name="email" placeholder="E-mail" autocomplete="off"/>
+						<input class="input100" type="text" id="email" name="email" placeholder="E-mail" autocomplete="off" onkeydown="if(event.keyCode === 13) enterKey();"/>
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pwd" placeholder="Password" autocomplete="off"/>
+						<input class="input100" type="password" name="pwd" placeholder="Password" autocomplete="off" onkeydown="if(event.keyCode === 13) enterKey();"/>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -89,6 +89,14 @@
 	<div id="dropDownSelect1"></div>
 
 	<script>
+
+
+		function enterKey() {
+			alert("엔터키");
+
+
+		}
+
 
 		/* 로그인 버튼 클릭 시 */
 		$('#login_btn').click(function() {

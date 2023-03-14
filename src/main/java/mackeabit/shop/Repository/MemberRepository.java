@@ -76,4 +76,6 @@ public interface MemberRepository {
     List<NoticesVO> findMyNoticesByMember_idx(Long member_idx);
 
     void insertMembersDetails(MembersVO membersVO);
+
+    CouponMemberDTO findCouponByNm(CouponMemberDTO search);
 }

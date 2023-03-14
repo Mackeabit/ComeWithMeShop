@@ -192,5 +192,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         memberMapper.insertMembersDetails(membersVO);
     }
 
+    @Override
+    public CouponMemberDTO findCouponByNm(CouponMemberDTO search) {
+        return memberMapper.findCouponByNm(search);
+    }
+
 
 }

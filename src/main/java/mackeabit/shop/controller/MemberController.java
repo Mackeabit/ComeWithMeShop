@@ -2,6 +2,7 @@ package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.vo.MemberDetailVO;
@@ -42,11 +43,11 @@ public class MemberController {
 
     @RequestMapping("/coupon")
     @ResponseBody
-    public String couponCK(String coupon_number) {
+    public String couponCK(@Login MembersVO membersVO, String cp_nm, Integer min_price) {
 
         String data = "N";
 
-        if (coupon_number.equals("") || coupon_number == null) {
+        if (cp_nm.equals("") || cp_nm == null) {
             return data;
         }
 
@@ -54,7 +55,33 @@ public class MemberController {
          *  쿠폰 조회 후, 할인 가격 String data 로 받아오는 로직 만들 것
          * */
 
-        data = "2000";
+        CouponMemberDTO search = new CouponMemberDTO();
+        search.setMember_idx(membersVO.getMember_idx());
+        search.setCp_nm(cp_nm);
+
+
+        CouponMemberDTO coupon = memberService.findCouponByNm(search);
+
+        if (coupon == null) {
+            return data;
+        }
+
+        if (coupon.getMin_price() > min_price) {
+            data = "no_min";
+            return data;
+        }
+
+        if (coupon.getCp_ck() != -1) {
+            data = "exist";
+            return data;
+        }
+
+        if (coupon.getCp_cnt() <= 0) {
+            data = "no_more";
+            return data;
+        }
+
+        data = coupon.getCp_price().toString();
 
         return data;
     }

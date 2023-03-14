@@ -2,11 +2,13 @@ package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.dto.CouponMemberDTO;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.dto.OrderInfo;
 import mackeabit.shop.service.CartService;
 import mackeabit.shop.service.OrderService;
 import mackeabit.shop.service.PaymentService;
+import mackeabit.shop.vo.CouponsVO;
 import mackeabit.shop.vo.MembersVO;
 import mackeabit.shop.web.DiscountPercent;
 import mackeabit.shop.web.SessionConst;
@@ -77,6 +79,7 @@ public class PayController {
             }
 
             //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드 추가할 것.
+            CouponMemberDTO couponMemberDTO = orderService.findCoupon(orderInfo.getCoupon_code());
 
             //회원등급에 따른 할인
             int sales = calculateGrade(attribute.getGrade_code(), beforePrice);
@@ -84,7 +87,7 @@ public class PayController {
             log.info("Shipping_price = {}", orderInfo.getShipping_price());
 
             //모든 할인 적용한 결제 금액 (DB)
-            int totalDBPrice = beforePrice - Integer.parseInt(orderInfo.getShipping_price()) - sales;
+            int totalDBPrice = beforePrice + Integer.parseInt(orderInfo.getShipping_price()) - sales - couponMemberDTO.getCp_price();
 
             // 스크립트 계산 금액과 DB 실제 금액이 다를 때
             if (totalDBPrice != amount) {
@@ -98,7 +101,7 @@ public class PayController {
 
             if (orderInfo.getPd_idx() == null) {
                 log.info("pd_idx = {}", orderInfo.getPd_idx());
-                data = orderService.saveAll(orderInfo.getOrder_mi(), orderInfo.getPay_code(), orderInfo.getAddress(), orderInfo.getAddress_detail(),orderInfo.getTotal_price(), orderInfo.getShipping_code());
+                data = orderService.saveAll(orderInfo.getOrder_mi(), orderInfo.getPay_code(), orderInfo.getAddress(), orderInfo.getAddress_detail(), orderInfo.getTotal_price(), orderInfo.getShipping_code(), orderInfo.getCoupon_code());
             } else if (orderInfo.getPd_idx() != null) {
                 data = "Not Yet";
             }

@@ -157,4 +157,8 @@
         SELECT * FROM notices WHERE member_idx = #{member_idx}
     </select>
 
+    <select id="findCouponByNm" parameterType="mackeabit.shop.dto.CouponMemberDTO" resultType="mackeabit.shop.dto.CouponMemberDTO">
+        SELECT * FROM members_coupon mc JOIN coupons c ON mc.cp_idx = c.cp_idx WHERE mc.member_idx = #{member_idx} AND c.cp_nm=#{cp_nm}
+    </select>
+
 </mapper>

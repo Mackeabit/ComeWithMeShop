@@ -5,12 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.OrderRepository;
 import mackeabit.shop.Repository.PayRepository;
 import mackeabit.shop.Repository.SubRepositoryImpl;
+import mackeabit.shop.dto.CouponMemberDTO;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.dto.MainProductsDTO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.OrdersVO;
-import mackeabit.shop.vo.PaymentsVO;
-import mackeabit.shop.vo.Photos_toMainVO;
+import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,44 +35,27 @@ public class OrderService {
     private final CartService cartService;
 
     @Transactional
-    public String saveAll(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code) {
+    public String saveAll(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code, String coupon_code) {
 
         String data = "RollbackCheck";
 
         log.info("Enter saveAll");
 
-        //주문서 작성, 결제 작성, 장바구니 비우기 로직 메서드
-        data = orderAndPayMethod(order_mi, pay_code, address, address_detail, total_price, shipping_code);
+        //주문서 작성, 결제 작성, 장바구니 비우기, 재고 관리, 회원 쿠폰 처리 로직 메서드
+        data = orderAndPayMethod(order_mi, pay_code, address, address_detail, total_price, shipping_code, coupon_code);
 
-//        data = rollbackCatch();
         log.info("out saveAll date is = {}", data);
 
         return data;
     }
 
-/*    private String rollbackCatch() {
-        String data = "";
-
-        TransactionSynchronizationManager.registerSynchronization(
-                new TransactionSynchronizationAdapter() {
-                    @Override
-                    public void afterCompletion(int status) {
-                        if (status == STATUS_ROLLED_BACK) {
-
-                        }
-                    }
-                });
-
-        return data;
-    }*/
-
-    private String orderAndPayMethod(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code) {
+    private String orderAndPayMethod(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code, String coupon_code) {
 
         log.info("Enter orderAndPayMethod");
 
         String data = "";
 
-        /* 주문서 작성
+        /* 주문서 작성 + 재고 관리
          *  1. order_idx --> 자동증가
          *  2. order_mi = order_mi
          *  3. member_idx = session memberIdx 값
@@ -109,6 +91,7 @@ public class OrderService {
 
 
         List<OrdersVO> createOrders = new ArrayList<>();
+        List<ProductsVO> cntManageProducts = new ArrayList<>();
 
         for (int i = 0; i < memberCart.size(); i++) {
 
@@ -122,8 +105,15 @@ public class OrderService {
             ordersVO.setShipping_code(shipping_code);
             ordersVO.setOrder_cart_cnt(memberCart.get(i).getCart_cnt());
 
-            //List 삽입
+            ProductsVO productsVO = new ProductsVO();
+            productsVO.setPd_idx(memberCart.get(i).getPd_idx());
+            productsVO.setPd_cnt(memberCart.get(i).getCart_cnt()*-1);
+
+            //List 삽입 (주문서)
             createOrders.add(ordersVO);
+
+            //List 삽입 (재고 관리)
+            cntManageProducts.add(productsVO);
 
             log.info("pd_idx = {}",memberCart.get(i).getPd_idx());
             log.info("List = {}", createOrders.get(i));
@@ -141,6 +131,10 @@ public class OrderService {
             log.error("payAndOrderCart Method Orders Insert Error -> Insert = {}, Success = {}", createOrders.size(), res);
 
         }
+
+        //상품 재고 관리
+        orderRepository.productCntManageAtOrder(cntManageProducts);
+
 
         /* 결제 작성 (무조건 한번만 작성, order_mi 를 기준으로 INSERT) */
         /* pay_idx (자동증가), order_mi, member_idx, total_price, pay_status, pay_code */
@@ -176,12 +170,29 @@ public class OrderService {
 
         }
 
+        //회원의 쿠폰 코드 사용으로 바꾸기
+        //사용한 쿠폰 찾기
+        CouponMemberDTO couponMemberDTO = orderRepository.findCoupon(coupon_code);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_idx", member_idx);
+        params.put("cp_idx", couponMemberDTO.getCp_idx());
+
+        orderRepository.usedCoupon(params);
+
+        //쿠폰 DB 의 사용횟수 차감
+        orderRepository.minusCntCouponByIdx(couponMemberDTO.getCp_idx());
+
+
         log.info("Last payRes = {}", payRes);
 
 
         return data;
     }
 
+    public CouponMemberDTO findCoupon(String coupon_code) {
+        return orderRepository.findCoupon(coupon_code);
+    }
 
     public int reviewCheck(Long order_idx) {
         return orderRepository.reviewCheck(order_idx);
