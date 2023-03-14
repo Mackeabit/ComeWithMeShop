@@ -285,7 +285,33 @@ public class AdminService {
         return repository.findAllQna();
     }
 
-    public NoticesVO findNoticeOneByIdx(Long notice_idx) {
+    public AdminNoticeDTO findNoticeOneByIdx(Long notice_idx) {
         return repository.findNoticeOneByIdx(notice_idx);
+    }
+
+    public String qnaReplyUpdate(NoticesVO noticesVO) {
+
+        String data = "N";
+
+        int res = repository.qnaReplyUpdate(noticesVO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
+
+    public String qnaDelByIdx(Long notice_idx) {
+
+        String data = "N";
+
+        int res = repository.qnaDelByIdx(notice_idx);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
     }
 }

@@ -2,6 +2,7 @@ package mackeabit.shop.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.PopUpWriteQnaDTO;
 import mackeabit.shop.dto.PopUpWriteReviewDTO;
 import mackeabit.shop.service.QnaService;
@@ -31,15 +32,13 @@ public class PopUpController {
     private final QnaService qnaService;
 
     @GetMapping("/WriteReview")
-    public String writeReview(Model model, String pd_nm, HttpServletRequest request) {
+    public String writeReview(@Login MembersVO membersVO, Model model, String pd_nm, HttpServletRequest request) {
 
         log.info("Write Review pd_nm = {}", pd_nm);
 
-        HttpSession session = request.getSession(false);
-        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         PopUpWriteReviewDTO popUpWriteReviewDTO = new PopUpWriteReviewDTO();
-        popUpWriteReviewDTO.setMember_idx(attribute.getMember_idx());
+        popUpWriteReviewDTO.setMember_idx(membersVO.getMember_idx());
         popUpWriteReviewDTO.setPd_nm(pd_nm);
 
         //주문서 중 review 를 쓰지 않은 것을 상품명을 통해 조회해서 받아온다.

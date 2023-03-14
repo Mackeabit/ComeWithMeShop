@@ -191,7 +191,15 @@ public class AdminRepository {
         return adminMapper.findAllQna();
     }
 
-    public NoticesVO findNoticeOneByIdx(Long notice_idx) {
+    public AdminNoticeDTO findNoticeOneByIdx(Long notice_idx) {
         return adminMapper.findNoticeOneByIdx(notice_idx);
+    }
+
+    public int qnaReplyUpdate(NoticesVO noticesVO) {
+        return adminMapper.qnaReplyUpdate(noticesVO);
+    }
+
+    public int qnaDelByIdx(Long notice_idx) {
+        return adminMapper.qnaDelByIdx(notice_idx);
     }
 }

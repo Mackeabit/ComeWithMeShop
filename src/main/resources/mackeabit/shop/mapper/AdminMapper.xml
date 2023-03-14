@@ -206,8 +206,18 @@
         SELECT n.*, m.email FROM notices n JOIN members m ON n.member_idx=m.member_idx;
     </select>
 
-    <select id="findNoticeOneByIdx" resultType="mackeabit.shop.vo.NoticesVO">
-        SELECT * FROM noitces WHERE notice_idx = #{notice_idx}
+    <select id="findNoticeOneByIdx" resultType="mackeabit.shop.dto.AdminNoticeDTO">
+        SELECT * FROM notices n
+            JOIN products_stars ps ON n.pd_nm = ps.pd_nm
+            JOIN products p ON n.pd_nm = p.pd_nm WHERE notice_idx = #{notice_idx} limit 1;
     </select>
+
+    <update id="qnaReplyUpdate" parameterType="mackeabit.shop.vo.NoticesVO">
+        UPDATE notices SET qna_reply = #{qna_reply} WHERE notice_idx = #{notice_idx}
+    </update>
+
+    <delete id="qnaDelByIdx" parameterType="Long">
+        DELETE FROM notices WHERE notice_idx=#{notice_idx}
+    </delete>
 
 </mapper>

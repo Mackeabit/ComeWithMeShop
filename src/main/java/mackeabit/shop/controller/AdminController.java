@@ -439,11 +439,25 @@ public class AdminController {
     public String qnaWriteAdmin(Model model, Long notice_idx) {
 
         //해당 문의글 조회
-        NoticesVO noticesVO = adminService.findNoticeOneByIdx(notice_idx);
+        AdminNoticeDTO adminNoticeDTO = adminService.findNoticeOneByIdx(notice_idx);
 
-        model.addAttribute("qna", noticesVO);
+        model.addAttribute("qna", adminNoticeDTO);
 
-        return "";
+        return "adminQnaAnswerPage";
+    }
+
+    @PostMapping("/answerQna")
+    @ResponseBody
+    public String answerQna(NoticesVO noticesVO) {
+        //update 코드 (qna_reply, notice_idx)
+        return adminService.qnaReplyUpdate(noticesVO);
+    }
+
+    @PostMapping("/delQna")
+    @ResponseBody
+    public String delQna(Long notice_idx) {
+        //삭제 코드
+        return adminService.qnaDelByIdx(notice_idx);
     }
 
 

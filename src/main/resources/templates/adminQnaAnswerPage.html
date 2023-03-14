@@ -171,7 +171,7 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
           <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin">Pages</a></li>
-          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/qnaList">상품 문의</a></li>
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/qnaList">문의 목록</a></li>
         </ol>
         <h6 class="font-weight-bolder mb-0">상품 문의</h6>
       </nav>
@@ -197,31 +197,35 @@
           <div class="card-body pt-2">
             <div class="row">
               <div class="col-xl-5 col-lg-6 text-center">
-                <img class="w-85 border-radius-lg shadow-lg mx-auto" src="/img/product-img/acc-1.jpg" alt="">
+                <img class="w-85 border-radius-lg shadow-lg mx-auto" th:src="'/'+${qna.sv_loc}" src="/img/product-img/acc-1.jpg" alt="">
                 <div class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
                 </div>
               </div>
               <div class="col-lg-5 mx-auto">
-                <h3 class="mt-lg-0 mt-4">Minimal Bar Stool</h3>
+                <h3 class="mt-lg-0 mt-4" th:text="${qna.pd_nm}">Minimal Bar Stool</h3>
                 <div class="rating">
-                  <i class="material-icons text-lg">grade</i>
-                  <i class="material-icons text-lg">grade</i>
-                  <i class="material-icons text-lg">grade</i>
-                  <i class="material-icons text-lg">grade</i>
-                  <i class="material-icons text-lg">star_outline</i>
+                  <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                    <th:block th:if="${count <= qna.stars.intValue()}">
+                      <i class="material-icons text-lg">grade</i>
+                    </th:block>
+                    <th:block th:if="${count > qna.stars.intValue()} and ${count &lt;= 5}">
+                      <i class="material-icons text-lg">star_outline</i>
+                    </th:block>
+                  </th:block>
                 </div>
                 <br>
                 <h6 class="mb-0 mt-3">Price</h6>
-                <h5>$1,419</h5>
-                <span class="badge badge-success">재고 있음</span>
+                <h5 th:text="'￦ '+${#numbers.formatInteger(qna.sell_price, 1, 'COMMA')}">$1,419</h5>
+                <span th:if="${qna.pd_cnt > 0}" class="badge badge-success">재고 있음</span>
+                <span th:if="${qna.pd_cnt <= 0}" class="badge badge-danger">재고 없음</span>
                 <br>
                 <label class="mt-4">상품 설명</label>
                 <ul>
-                  <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
+                  <li th:text="${qna.pd_contents}">The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
                 </ul>
                 <label class="mt-4">문의글 내용</label>
                 <ul>
-                  <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
+                  <li th:text="${qna.contents}">The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
                 </ul>
                 <div class="row mt-4">
                   <div class="col-lg-5 mt-lg-0 mt-2">
@@ -246,19 +250,99 @@
               </div>
             </div>
             <h5 class="mb-4">문의글 답변</h5>
-            <div id="editor">
+            <div id="editor" th:text="${qna.qna_reply} == null ? '': ${qna.qna_reply}">
               <p><br></p>
               <p><br></p>
               <p><br></p>
               <p><br></p>
             </div>
+
+            <form id="qna_write">
+              <input type="hidden" name="notice_idx" th:value="${qna.notice_idx}">
+              <input type="hidden" id="qna_reply" name="qna_reply">
+            </form>
+
             <div class="d-flex justify-content-end mt-4">
-              <button type="button" name="button" class="btn bg-gradient-dark m-0 ms-2">답변 등록</button>
+              <button id="del_btn" type="button" name="button" class="btn btn-light m-0">삭제</button>
+              <button id="write_btn" type="button" name="button" class="btn bg-gradient-dark m-0 ms-2">답변 등록</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script>
+
+
+      $('#del_btn').click(function () {
+
+        let delCheck = confirm("해당 게시글을 삭제하시겠습니까?");
+        if (!delCheck) {
+          return false;
+        }
+
+        let formData = $('#qna_write').serialize();
+
+        $.ajax({
+          type : "POST",
+          url : "/admin/delQna",
+          data : formData,
+          success: function (data) {
+            if(data == "N"){
+              alert("잠시 후 다시 시도해주세요.");
+              location.reload();
+            }else if(data == "Y"){
+              alert("게시글이 삭제되었습니다.")
+              location.href="/admin/qnaList";
+            }
+          },
+          error: function(data){
+            alert("오류");
+            console.log(data);
+          }
+        });
+
+      });// del AJAX function
+
+
+
+      $('#write_btn').click(function () {
+
+        let writeCheck = confirm("답변을 등록하시겠습니까?");
+        if (!writeCheck) {
+          return false;
+        }
+
+
+        $('#qna_reply').val($('#editor').text());
+
+        let formData = $('#qna_write').serialize();
+
+        alert(formData);
+
+        $.ajax({
+          type : "POST",
+          url : "/admin/answerQna",
+          data : formData,
+          success: function (data) {
+            if(data == "N"){
+              alert("잠시 후 다시 시도해주세요.");
+              location.reload();
+            }else if(data == "Y"){
+              alert("등록되었습니다.")
+              location.href="/admin/qnaList";
+            }
+          },
+          error: function(data){
+            alert("오류");
+            console.log(data);
+          }
+        });
+
+      });//write AJAX function
+
+    </script>
+
     <footer class="footer py-4  ">
       <div class="container-fluid">
         <div class="row align-items-center justify-content-lg-between">

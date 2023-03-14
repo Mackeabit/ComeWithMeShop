@@ -249,9 +249,11 @@
             </div>
         </div>
 
+<!--
         <form id="sendPayForm">
             <input type="hidden" id="pay_idx" name="pay_idx">
         </form>
+-->
 
         <footer class="footer py-4  ">
             <div class="container-fluid">
@@ -284,9 +286,39 @@
 <script th:inline="javascript">
 
     function writeQna(notice_idx) {
-        alert(notice_idx)
 
         location.href = "/admin/qnaWriteAdmin?notice_idx=" + notice_idx;
+
+    }
+
+    function delQna(notice_idx) {
+
+        alert(notice_idx);
+
+        let delCheck = confirm("해당 게시글을 삭제하시겠습니까?");
+        if (!delCheck) {
+            return false;
+        }
+
+        $.ajax({
+            type : "POST",
+            url : "/admin/delQna",
+            data : {notice_idx : notice_idx},
+            success: function (data) {
+                if(data == "N"){
+                    alert("잠시 후 다시 시도해주세요.");
+                    location.reload();
+                }else if(data == "Y"){
+                    alert("게시글이 삭제되었습니다.")
+                    location.href="/admin/qnaList";
+                }
+            },
+            error: function(data){
+                alert("오류");
+                console.log(data);
+            }
+        });
+
 
     }
 

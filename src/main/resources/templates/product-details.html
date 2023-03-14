@@ -1015,10 +1015,10 @@
                                             <br>
                                             <br>
 
-                                            <th:block th:if="${qna.qna_reply != null and qna.qna_reply != ''}">
+                                            <th:block th:if="${qna.qna_reply != null}">
                                             <a href="#" onclick="toggleAnswer(event)">답변 보기</a>
                                             <div class="form-group answer" style="display:none;">
-                                                <textarea class="form-control" rows="3" style="resize: none" disabled></textarea>
+                                                <textarea class="form-control" rows="3" style="resize: none" th:text="${qna.qna_reply}" disabled></textarea>
                                             </div>
                                             </th:block>
                                         </div>
@@ -1212,7 +1212,7 @@
             let pd_nm = /*[[${product.pd_nm}]]*/;
 
 
-            if (id_ck == null || id_ck == '') {
+            if (id_ck == null) {
                 alert("로그인이 필요한 서비스 입니다.");
                 return false;
             }

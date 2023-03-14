@@ -15,11 +15,11 @@
     <link rel="icon" href="/img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
-    <link rel="stylesheet" href="css/core-style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/core-style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Responsive CSS -->
-    <link href="css/responsive.css" rel="stylesheet">
+    <link href="/css/responsive.css" rel="stylesheet">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
@@ -51,8 +51,6 @@
             background-color: white;
             color: #fff;
         }
-
-
 
     </style>
 
@@ -357,7 +355,6 @@
                     <div th:each="pd:${newProducts}" th:id="${pd.pd_idx}" th:classappend="|${pd.pd_kind} ${pd.category_code}|" class="col-12 col-sm-6 col-md-4 single_gallery_item wow fadeInUpBig" data-wow-delay="0.2s">
 
                         <script th:inline="javascript">
-                            /*<![CDATA[*/
                             if ([[${pd.category_code}]] > 7 && [[${pd.category_code}]] < 16 ) {
                                 if ([[${pd.category_code}]] == 11) {
                                     $('#[[${pd.pd_idx}]]').addClass('shoes');
@@ -374,7 +371,6 @@
                             } else if ([[${pd.pd_kind}]] == 1) {
                                 $('#[[${pd.pd_idx}]]').addClass('1');
                             }
-                            /*]]>*/
                         </script>
 
                         <!-- Product Image -->
@@ -471,33 +467,21 @@
                                                             <button type="button" th:onclick="|addToCart(${pd.pd_idx})|" name="addtocart" value="5" class="cart-submit">Add to cart</button>
 
                                                         </form>
-
                                                         <div class="share_wf mt-30">
                                                             <p>Share With Friend</p>
                                                             <div class="_icon">
                                                                 <!--<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>-->
-                                                                <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
-                                                                        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
-                                                                <script>
-                                                                    Kakao.init('c089c8172def97eb00c07217cae17495'); // 사용하려는 앱의 JavaScript 키 입력
-                                                                </script>
-                                                                <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+                                                                <a id="copyBtn"
+                                                                   href="#" th:onclick="copyText([[${pd.pd_nm}]])">
                                                                     <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_small.png"
-                                                                         alt="카카오톡 공유 보내기 버튼" />
+                                                                         alt="카카오톡 공유 보내기 버튼"/>
                                                                 </a>
 
-                                                                <script>
-                                                                    function shareMessage() {
-                                                                        Kakao.Share.sendScrap({
-                                                                            requestUrl: 'https://developers.kakao.com',
-                                                                        });
-                                                                    }
-                                                                </script>
-                                                                <!--                                                <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                                                                                                <a href="#"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
-                                                                                                                <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>-->
+
                                                             </div>
                                                         </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -507,6 +491,18 @@
                             </div>
 
                         </div>
+
+                        <script type="text/javascript">
+
+                            function copyText(text) {
+                                var copyText = 'http://localhost:9387/products/'+text;
+                                navigator.clipboard.writeText(copyText).then(function() {
+                                    alert("텍스트가 복사되었습니다!");
+                                }, function() {
+                                    alert("복사에 실패하였습니다.");
+                                });
+                            }
+                        </script>
 
                         <!-- ****** Quick View Modal Area End ****** -->
                         <!--기존에 없었음-->
@@ -730,15 +726,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- /.wrapper end -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="/js/plugins.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/js/active.js"></script>
 
 </body>
 

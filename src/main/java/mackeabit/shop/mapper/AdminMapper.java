@@ -99,6 +99,10 @@ public interface AdminMapper {
 
     List<AdminNoticeDTO> findAllQna();
 
-    NoticesVO findNoticeOneByIdx(Long notice_idx);
+    AdminNoticeDTO findNoticeOneByIdx(Long notice_idx);
+
+    int qnaReplyUpdate(NoticesVO noticesVO);
+
+    int qnaDelByIdx(Long notice_idx);
 
 }
