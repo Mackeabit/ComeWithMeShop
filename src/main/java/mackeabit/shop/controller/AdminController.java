@@ -424,10 +424,32 @@ public class AdminController {
     }
 
 
+    @GetMapping("/qnaList")
+    public String adminQna(Model model) {
+
+        //모든 문의글 조회
+        List<AdminNoticeDTO> qnaList = adminService.findAllQna();
+
+        model.addAttribute("qnaList", qnaList);
+
+        return "adminQnaList";
+    }
+
+    @GetMapping("/qnaWriteAdmin")
+    public String qnaWriteAdmin(Model model, Long notice_idx) {
+
+        //해당 문의글 조회
+        NoticesVO noticesVO = adminService.findNoticeOneByIdx(notice_idx);
+
+        model.addAttribute("qna", noticesVO);
+
+        return "";
+    }
+
 
     @GetMapping("/test")
     public String test() {
-        return "tables";
+        return "adminQnaAnswerPage";
     }
 
 }

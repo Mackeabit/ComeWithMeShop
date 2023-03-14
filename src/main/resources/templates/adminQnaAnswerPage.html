@@ -6,7 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="/img/core-img/favicon.ico">
   <link rel="icon" type="image/png" href="/img/core-img/favicon.ico">
   <title>
-    Come With Me | Payments List
+    Come With Me | Q&A Answer
   </title>
   <!--    <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />-->
 
@@ -133,7 +133,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white active bg-gradient-primary" href="/admin/ordersList">
+        <a class="nav-link text-white" href="/admin/ordersList">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">view_list</i>
           </div>
@@ -149,7 +149,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="/admin/qnaList">
+        <a class="nav-link text-white active bg-gradient-primary" href="/admin/qnaList">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">rate_review</i>
           </div>
@@ -171,9 +171,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
           <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin">Pages</a></li>
-          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/ordersList">주문 목록</a></li>
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/qnaList">상품 문의</a></li>
         </ol>
-        <h6 class="font-weight-bolder mb-0">리뷰 보기</h6>
+        <h6 class="font-weight-bolder mb-0">상품 문의</h6>
       </nav>
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -184,193 +184,81 @@
     </div>
   </nav>
   <!-- End Navbar -->
-
   <div class="container-fluid py-4">
-    <div class="row">
-
-      <div class="col-12">
+    <div class="row mt-4">
+      <div class="col-lg-9 col-12 mx-auto position-relative">
         <div class="card">
-          <div class="card-body">
-            <h5 class="mb-4">Product Reviews</h5>
-            <br>
-
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-dark shadow text-center border-radius-xl mt-n4 me-3 float-start">
+              <i class="material-icons opacity-10">event</i>
+            </div>
+            <h6 class="mb-0">문의글 답변</h6>
+          </div>
+          <div class="card-body pt-2">
             <div class="row">
               <div class="col-xl-5 col-lg-6 text-center">
-
-                <figure th:if="${photos != null}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                  <a th:href="'/'+${photos.file_name}" href="/img/product-img/acc-1.jpg" target="_blank" itemprop="contentUrl" data-size="500X600">
-                    <img class="w-100 min-height-500 max-height-500 border-radius-lg shadow" th:src="'/'+${photos.file_name}" src="/img/product-img/acc-1.jpg">
-                  </a>
-                </figure>
-
-                <div th:if="${photos != null}" class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
-                  <figure th:href="'/'+${photos.file_name}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a th:href="'/'+${photos.file_name}" itemprop="contentUrl" data-size="500x600">
-                      <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" th:src="'/'+${photos.file_name}" src="/img/product-img/acc-1cart.jpg" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                  </figure>
-                </div>
-
-                <figure th:if="${photos == null}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                  <a th:href="'/'+${rv.sv_loc}" href="/img/product-img/acc-1.jpg" target="_blank" itemprop="contentUrl" data-size="500X600">
-                    <img class="w-100 min-height-500 max-height-500 border-radius-lg shadow" th:src="'/'+${rv.sv_loc}" src="/img/product-img/acc-1.jpg">
-                  </a>
-                </figure>
-
-                <div th:if="${photos == null}" class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
-                  <figure th:href="'/'+${rv.sv_loc}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                    <a th:href="'/'+${rv.sv_loc}" itemprop="contentUrl" data-size="500x600">
-                      <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" th:src="'/'+${rv.sv_locCt}" src="/img/product-img/acc-1cart.jpg" itemprop="thumbnail" alt="Image description" />
-                    </a>
-                  </figure>
-                </div>
-
-                <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-
-                  <div class="pswp__bg"></div>
-
-                  <div class="pswp__scroll-wrap">
-
-
-                    <div class="pswp__container">
-                      <div class="pswp__item"></div>
-                      <div class="pswp__item"></div>
-                      <div class="pswp__item"></div>
-                    </div>
-
-                    <div class="pswp__ui pswp__ui--hidden">
-                      <div class="pswp__top-bar">
-
-                        <div class="pswp__counter"></div>
-                        <button class="btn btn-white btn-sm pswp__button pswp__button--close">Close (Esc)</button>
-                        <button class="btn btn-white btn-sm pswp__button pswp__button--fs">Fullscreen</button>
-                        <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--left">Prev
-                        </button>
-                        <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--right">Next
-                        </button>
-
-
-                        <div class="pswp__preloader">
-                          <div class="pswp__preloader__icn">
-                            <div class="pswp__preloader__cut">
-                              <div class="pswp__preloader__donut"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                        <div class="pswp__share-tooltip"></div>
-                      </div>
-                      <div class="pswp__caption">
-                        <div class="pswp__caption__center"></div>
-                      </div>
-                    </div>
-                  </div>
+                <img class="w-85 border-radius-lg shadow-lg mx-auto" src="/img/product-img/acc-1.jpg" alt="">
+                <div class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
                 </div>
               </div>
               <div class="col-lg-5 mx-auto">
-                <h3 class="mt-lg-0 mt-4" th:text="${rv.pd_nm}">테스트 상품</h3>
+                <h3 class="mt-lg-0 mt-4">Minimal Bar Stool</h3>
                 <div class="rating">
-                  <th:block th:each="count : ${#numbers.sequence(1, 5)}">
-                    <th:block th:if="${count <= rv.stars.intValue()}">
-                      <i class="material-icons text-lg">grade</i>
-                    </th:block>
-                    <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
-                      <i class="material-icons text-lg">star_outline</i>
-                    </th:block>
-                  </th:block>
-
-                  <!--
-                                    <i class="material-icons text-lg">grade</i>
-                                    <i class="material-icons text-lg">grade</i>
-                                    <i class="material-icons text-lg">grade</i>
-                                    <i class="material-icons text-lg">grade</i>
-                                    <i class="material-icons text-lg">star_outline</i>
-                  -->
+                  <i class="material-icons text-lg">grade</i>
+                  <i class="material-icons text-lg">grade</i>
+                  <i class="material-icons text-lg">grade</i>
+                  <i class="material-icons text-lg">grade</i>
+                  <i class="material-icons text-lg">star_outline</i>
                 </div>
                 <br>
-                <h6 class="mb-0 mt-3">상품 가격</h6>
-                <h5 th:text="'￦ '+ ${#numbers.formatInteger(rv.sell_price, 1, 'COMMA')}">$1,419</h5>
+                <h6 class="mb-0 mt-3">Price</h6>
+                <h5>$1,419</h5>
+                <span class="badge badge-success">재고 있음</span>
                 <br>
-                <h6 class="mt-4" th:text="'제목 : '+${rv.title}"></h6>
-                <br>
-                  <li style="list-style: none; padding: 0; margin: 0;" th:text="${rv.contents}"></li>
-
+                <label class="mt-4">상품 설명</label>
+                <ul>
+                  <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
+                </ul>
+                <label class="mt-4">문의글 내용</label>
+                <ul>
+                  <li>The most beautiful curves of this swivel stool adds an elegant touch to any environment</li>
+                </ul>
                 <div class="row mt-4">
-                  <hr>
-                  <label class="mt-4">구매 상품 정보</label>
                   <div class="col-lg-5 mt-lg-0 mt-2">
                     <label class="ms-0">Size</label>
                     <select class="form-control" name="choices-material" id="choices-material">
-                      <option value="Choice 1" selected="" disabled th:text="${rv.pd_size} == null ? '-': ${rv.pd_size}"></option>
+                      <option value="Choice 1" selected="">-</option>
                     </select>
                   </div>
                   <div class="col-lg-5 mt-lg-0 mt-2">
                     <label class="ms-0">Color</label>
                     <select class="form-control" name="choices-colors" id="choices-colors">
-                      <option value="Choice 1" selected="" disabled th:text="${rv.pd_color} == null ? '-' : ${rv.pd_color}"></option>
+                      <option value="Choice 1" selected="">-</option>
                     </select>
                   </div>
                   <div class="col-lg-2">
-                    <label class="ms-0">수량</label>
+                    <label class="ms-0">Quantity</label>
                     <select class="form-control" name="choices-quantity" id="choices-quantity">
-                      <option value="Choice 1" selected="" disabled th:text="${rv.order_cart_cnt}"></option>
+                      <option value="Choice 1" selected="">-</option>
                     </select>
                   </div>
                 </div>
-                <label class="mt-4" th:text="'리뷰 작성일 : '+${rv.date}">리뷰 작성일 : 2023-03-12</label>
-
-                <form id="delForm">
-                  <input type="hidden" name="review_idx" th:value="${rv.review_idx}">
-                </form>
-
               </div>
-              <div class="col-lg-6 text-right d-flex flex-column justify-content-center">
-                <button id="delete_btn" type="button" class="btn bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Delete</button>
-              </div>
+            </div>
+            <h5 class="mb-4">문의글 답변</h5>
+            <div id="editor">
+              <p><br></p>
+              <p><br></p>
+              <p><br></p>
+              <p><br></p>
+            </div>
+            <div class="d-flex justify-content-end mt-4">
+              <button type="button" name="button" class="btn bg-gradient-dark m-0 ms-2">답변 등록</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <script th:inline="javascript">
-
-      $('#delete_btn').click(function () {
-
-        let delCheck = confirm("리뷰를 삭제하시겠습니까?");
-        if (!delCheck) {
-          return false;
-        }
-
-
-        let formData = $('#delForm').serialize();
-
-        alert(formData);
-
-        $.ajax({
-          type : "POST",
-          url : "/admin/delReview",
-          data : formData,
-          success: function (data) {
-            if(data == "N"){
-              alert("잠시 후 다시 시도해주세요.");
-            }else if(data == "Y"){
-              alert("삭제되었습니다.")
-              location.href="/admin/ordersList";
-            }
-          },
-          error: function(data){
-            alert("로그인 오류");
-            console.log(data);
-          }
-        });
-
-      });
-
-
-    </script>
-
     <footer class="footer py-4  ">
       <div class="container-fluid">
         <div class="row align-items-center justify-content-lg-between">
@@ -390,13 +278,67 @@
   </div>
 </main>
 
+
+<script src="/adminV2/assets/js/plugins/photoswipe.min.js"></script>
+<script src="/adminV2/assets/js/plugins/photoswipe-ui-default.min.js"></script>
 <script src="/adminV2/assets/js/core/popper.min.js"></script>
 <script src="/adminV2/assets/js/core/bootstrap.min.js"></script>
 <script src="/adminV2/assets/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="/adminV2/assets/js/plugins/smooth-scrollbar.min.js"></script>
 <script src="/adminV2/assets/js/plugins/choices.min.js"></script>
-<script src="/adminV2/assets/js/plugins/photoswipe.min.js"></script>
-<script src="/adminV2/assets/js/plugins/photoswipe-ui-default.min.js"></script>
+<script src="/adminV2/assets/js/plugins/quill.min.js"></script>
+<script src="/adminV2/assets/js/plugins/flatpickr.min.js"></script>
+<script src="/adminV2/assets/js/plugins/dropzone.min.js"></script>
+<script>
+  if (document.getElementById('editor')) {
+    var quill = new Quill('#editor', {
+      theme: 'snow' // Specify theme in configuration
+    });
+  }
+
+  if (document.getElementById('choices-multiple-remove-button')) {
+    var element = document.getElementById('choices-multiple-remove-button');
+    const example = new Choices(element, {
+      removeItemButton: true
+    });
+
+    example.setChoices(
+            [{
+              value: 'One',
+              label: 'Label One',
+              disabled: true
+            },
+              {
+                value: 'Two',
+                label: 'Label Two',
+                selected: true
+              },
+              {
+                value: 'Three',
+                label: 'Label Three'
+              },
+            ],
+            'value',
+            'label',
+            false,
+    );
+  }
+
+  if (document.querySelector('.datetimepicker')) {
+    flatpickr('.datetimepicker', {
+      allowInput: true
+    }); // flatpickr
+  }
+
+  Dropzone.autoDiscover = false;
+  var drop = document.getElementById('dropzone')
+  var myDropzone = new Dropzone(drop, {
+    url: "/file/post",
+    addRemoveLinks: true
+
+  });
+</script>
+
 <script>
   if (document.getElementById('choices-quantity')) {
     var element = document.getElementById('choices-quantity');
@@ -639,12 +581,23 @@
   initPhotoSwipeFromDOM('.my-gallery');
 </script>
 
+
+
 <script src="/adminV2/assets/js/plugins/dragula/dragula.min.js"></script>
 <script src="/adminV2/assets/js/plugins/jkanban/jkanban.js"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
+    }
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<script src="/adminV2/assets/js/material-dashboard.min.js?v=3.0.6"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"7a78309d18e0098f","version":"2023.2.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
+<script src="/adminV2/assets/js/material-dashboard.js?v=3.0.6"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"7a79378a29481fa3","version":"2023.2.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
 </body>
 </html>

@@ -97,4 +97,8 @@ public interface AdminMapper {
 
     int changeReviewCheck(Long order_idx);
 
+    List<AdminNoticeDTO> findAllQna();
+
+    NoticesVO findNoticeOneByIdx(Long notice_idx);
+
 }

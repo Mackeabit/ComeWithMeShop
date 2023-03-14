@@ -280,4 +280,12 @@ public class AdminService {
 
         return data;
     }
+
+    public List<AdminNoticeDTO> findAllQna() {
+        return repository.findAllQna();
+    }
+
+    public NoticesVO findNoticeOneByIdx(Long notice_idx) {
+        return repository.findNoticeOneByIdx(notice_idx);
+    }
 }

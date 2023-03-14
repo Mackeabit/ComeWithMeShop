@@ -202,4 +202,12 @@
         UPDATE orders SET review_ck = -1 WHERE order_idx=#{order_idx}
     </update>
 
+    <select id="findAllQna" resultType="mackeabit.shop.dto.AdminNoticeDTO">
+        SELECT n.*, m.email FROM notices n JOIN members m ON n.member_idx=m.member_idx;
+    </select>
+
+    <select id="findNoticeOneByIdx" resultType="mackeabit.shop.vo.NoticesVO">
+        SELECT * FROM noitces WHERE notice_idx = #{notice_idx}
+    </select>
+
 </mapper>

@@ -186,4 +186,12 @@ public class AdminRepository {
     public int changeReviewCheck(Long order_idx) {
         return adminMapper.changeReviewCheck(order_idx);
     }
+
+    public List<AdminNoticeDTO> findAllQna() {
+        return adminMapper.findAllQna();
+    }
+
+    public NoticesVO findNoticeOneByIdx(Long notice_idx) {
+        return adminMapper.findNoticeOneByIdx(notice_idx);
+    }
 }
