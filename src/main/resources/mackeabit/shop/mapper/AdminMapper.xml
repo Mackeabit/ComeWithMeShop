@@ -220,4 +220,8 @@
         DELETE FROM notices WHERE notice_idx=#{notice_idx}
     </delete>
 
+    <insert id="adminAdd" parameterType="mackeabit.shop.vo.AdminVO" useGeneratedKeys="true" keyProperty="admin_idx">
+        INSERT INTO admins (admin_level, id, pwd) VALUES (-1, #{id}, #{pwd})
+    </insert>
+
 </mapper>

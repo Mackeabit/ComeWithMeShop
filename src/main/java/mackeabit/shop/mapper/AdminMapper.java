@@ -105,4 +105,6 @@ public interface AdminMapper {
 
     int qnaDelByIdx(Long notice_idx);
 
+    int adminAdd(AdminVO adminVO);
+
 }

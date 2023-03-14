@@ -382,7 +382,6 @@ public class MainController {
 
         //모든 할인 적용한 결재 금액
         totalPrice = beforePrice + Integer.parseInt(checkOutDTO.getShipping_price()) - coupon - sales;
-//        totalPrice = beforePrice - Integer.parseInt(checkOutDTO.getShipping_price()) - 쿠폰 - sales;
 
         /**
          *  차례대로

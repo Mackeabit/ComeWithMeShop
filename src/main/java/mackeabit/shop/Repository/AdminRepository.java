@@ -202,4 +202,8 @@ public class AdminRepository {
     public int qnaDelByIdx(Long notice_idx) {
         return adminMapper.qnaDelByIdx(notice_idx);
     }
+
+    public int adminAdd(AdminVO adminVO) {
+        return adminMapper.adminAdd(adminVO);
+    }
 }

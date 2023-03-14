@@ -40,13 +40,11 @@ public class AdminController {
     public String adminMain(@AdminLogin AdminVO adminVO, Model model) {
 
         log.info("admin = {}", adminVO);
-/*
-테스트를 위해 잠시 주석 처리
+//테스트를 위해 잠시 주석 처리
         //AdminVO 값이 없으면 로그인 화면
         if (adminVO == null) {
             return "adminLogin";
         }
-*/
 
         /* 관리자 페이지 메인에 필요한 정보
          *
@@ -460,6 +458,35 @@ public class AdminController {
         return adminService.qnaDelByIdx(notice_idx);
     }
 
+    @PostMapping("/adminAdd")
+    @ResponseBody
+    public String adminAdd(AdminVO adminVO) throws NoSuchAlgorithmException {
+
+        return adminService.adminAdd(adminVO);
+    }
+
+    @GetMapping("/adminSign")
+    public String adminSign(@AdminLogin AdminVO adminVO) {
+
+        if (adminVO == null) {
+            return "adminLogin";
+        }
+
+        if (adminVO.getAdmin_level() != 0) {
+            return "adminLogin";
+        }
+
+        return "adminSignUp";
+    }
+
+    @GetMapping("/adminLogOut")
+    public String adminLogOut(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "adminLogin";
+    }
 
     @GetMapping("/test")
     public String test() {

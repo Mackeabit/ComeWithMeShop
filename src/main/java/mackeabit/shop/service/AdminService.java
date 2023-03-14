@@ -314,4 +314,22 @@ public class AdminService {
 
         return data;
     }
+
+    public String adminAdd(AdminVO adminVO) throws NoSuchAlgorithmException {
+
+        String data = "N";
+
+        //암호화
+        String collect = sha256.encrypt(adminVO.getPwd() + sha256.getSALT());
+        
+        adminVO.setPwd(collect);
+
+        int res = repository.adminAdd(adminVO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }
