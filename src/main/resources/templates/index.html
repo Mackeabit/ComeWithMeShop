@@ -71,7 +71,7 @@
                     <li data-toggle="collapse" data-target="#women" class="collapsed active">
                         <a href="#">Woman wear <span class="arrow"></span></a>
                         <ul class="sub-menu collapse" id="women">
-                            <li><a th:href="@{|products/best/2/1|}" href="#">여성 인기 상품</a></li>
+                            <li><a th:href="@{|/products/best/2/1|}" href="#">여성 인기 상품</a></li>
                             <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
                             <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
                             <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
@@ -627,6 +627,7 @@
                     </div>
                 </div>
 
+                <!-- 최소 2개의 리뷰 -->
                 <div class="row justify-content-center">
                     <div class="col-12 col-md-8">
                         <div class="karl-testimonials-slides owl-carousel">
@@ -635,26 +636,28 @@
                             <!-- Single Testimonial Area -->
                             <div class="single-testimonial-area text-center">
                                 <span class="quote">"</span>
-                                <h6 th:text="${rv.contents}">리뷰 내용</h6>
+                                <h6 th:text="${rv.contents}">Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. Aliquam finibus nulla quam, a iaculis justo finibus non. Suspendisse in fermentum nunc.Nunc pulvinar molestie sem id blandit. Nunc venenatis interdum mollis. </h6>
                                 <div class="testimonial-info d-flex align-items-center justify-content-center">
                                     <div class="testi-data">
                                         <div class="single_product_desc">
-                                        <div class="single_product_ratings mb-15">
-                                            <th:block th:each="count : ${#numbers.sequence(1, 5)}">
-                                                <th:block th:if="${count <= rv.stars.intValue()}">
-                                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                            <div class="single_product_ratings mb-15">
+                                                <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                                                    <th:block th:if="${count <= rv.stars.intValue()}">
+                                                        <i class="fa fa-star" aria-hidden="true"></i>
+                                                    </th:block>
+                                                    <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
+                                                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                                                    </th:block>
                                                 </th:block>
-                                                <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
-                                                    <i class="fa fa-star-o" aria-hidden="true"></i>
-                                                </th:block>
-                                            </th:block>
+                                            </div>
                                         </div>
-                                        </div>
-                                        <p th:text="'작성일 : '+${#dates.format(rv.date, 'yyyy-MM-dd')}">작성일</p>
+                                        <p th:text="'작성일 : '+${#dates.format(rv.date, 'yyyy-MM-dd')}">Michelle Williams</p>
                                     </div>
                                 </div>
                             </div>
                             </th:block>
+
+
 
                         </div>
                     </div>
@@ -725,7 +728,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </div>
     <!-- /.wrapper end -->
 
-    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
     <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
@@ -734,7 +737,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="/js/plugins.js"></script>
     <!-- Active js -->
     <script src="/js/active.js"></script>
-
 </body>
 
 </html>

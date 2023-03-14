@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,7 +74,21 @@ public class MainController {
         //리뷰 담아오기 (3개)
         List<ReviewsVO> reviewsVOList = reviewService.findReviewsMain();
         log.info("reviewsList = {}",reviewsVOList);
+
+        Date today = new Date();
+
+        if (reviewsVOList.size() < 2) {
+            ReviewsVO reviewsVO = new ReviewsVO();
+            reviewsVO.setDate(today);
+            reviewsVO.setContents("리뷰 많이 많이 작성해주세요!!");
+            reviewsVO.setStars(5F);
+
+            reviewsVOList.add(reviewsVO);
+
+        }
+
         model.addAttribute("mainReviews", reviewsVOList);
+
 
 
         log.info("membersVO = {}", membersVO);
@@ -153,18 +169,24 @@ public class MainController {
 
         String data = memberService.checkID(signUpDTO);
 
+        log.info("data1 = {}", data);
+
         //이메일, 비밀번호(암호화)를 통한 계정 인증
-        if (!data.equals("Y")) {
+        if (!data.equals("rest_account")) {
             //인증 실패시 실패 결과 전송
 
             return data;
         }
+
+        data = "Y";
 
         //계정 인증이 완료되면 MembersVO 받아오기
         MembersVO membersVO = memberService.findByEmail(signUpDTO.getEmail());
 
         //Members_detail 받아오기
         MemberDetailVO memberDetailVO = memberService.findMemberDetailByMemberIdx(membersVO.getMember_idx());
+
+        log.info("members = {}", membersVO);
 
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(300); //5분 세션 생성(휴면페이지)
@@ -180,6 +202,7 @@ public class MainController {
     }
 
     @PostMapping("restStatusRestore")
+    @ResponseBody
     public String restStatusRestore() {
         HttpSession session = request.getSession(false);
         MembersVO members = (MembersVO) session.getAttribute("Members");
@@ -196,11 +219,13 @@ public class MainController {
 
 
     @PostMapping("/delRestore")
+    @ResponseBody
     public String delRestore(SignUpDTO signUpDTO) throws NoSuchAlgorithmException {
         String data = memberService.checkID(signUpDTO);
 
+
         //이메일, 비밀번호(암호화)를 통한 계정 인증
-        if (!data.equals("Y")) {
+        if (!data.equals("del_account")) {
             //인증 실패시 실패 결과 전송
             return data;
         }

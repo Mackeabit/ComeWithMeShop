@@ -121,15 +121,15 @@
     </select>
 
     <update id="delete" parameterType="mackeabit.shop.vo.MembersVO">
-        UPDATE members SET member_status = -1 WHERE member_idx = ${member_idx}
+        UPDATE members SET member_status = -1 WHERE member_idx = #{member_idx}
     </update>
 
     <update id="changeStatusAtRest" parameterType="mackeabit.shop.vo.MembersVO">
-        UPDATE members SET member_status = 0 WHERE member_idx = ${member_idx}
+        UPDATE members SET member_status = 0 WHERE member_idx = #{member_idx}
     </update>
 
     <update id="restoreMemberStatus" parameterType="mackeabit.shop.dto.SignUpDTO">
-        UPDATE members SET member_status = 1 WHERE email = ${email}
+        UPDATE members SET member_status = 1 WHERE email = #{email}
     </update>
 <!--
     <delete id="realDelete" parameterType="mackeabit.shop.vo.MembersVO">

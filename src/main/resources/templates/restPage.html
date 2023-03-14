@@ -131,7 +131,7 @@ Coded by www.creative-tim.com
 
                 <script type="text/javascript" defer>
                   function setNextGrade() {
-                    var gradeCode = [[${Members.grade_code}]];
+                    var gradeCode = [[${session.Members.grade_code}]];
                     switch (gradeCode) {
                       case 0:
                         $('#gradeName').val('NORMAL');
@@ -161,26 +161,18 @@ Coded by www.creative-tim.com
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label>Check PassWord</label>
-                        <input type="password" id="pwd_check" class="form-control" placeholder="비밀번호 확인">
-                      </div>
-                    </div>
-                  </div>
 
                 <form id="memberInfoForm">
                 <div class="row">
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Address</label>
-                        <input type="text" id="street_address" th:value="${session.Members_detail.address}" name="address" class="form-control" placeholder="주소 찾기" readonly>
+                        <input type="text" id="street_address" th:value="${session.Members_detail.address}" name="address" class="form-control" placeholder="주소" readonly>
                       </div>
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="row" style="margin-bottom: 50px;">
                     <div class="col-md-5 pr-1">
                       <div class="form-group">
 <!--                        <label>Address</label>-->
@@ -194,7 +186,7 @@ Coded by www.creative-tim.com
                     </div>
                   </div>
 
-                  <div class="row">
+                  <div class="row" style="margin-bottom: 30px;">
                     <div class="update ml-auto mr-auto">
                       <button id="restore_btn" type="button" class="btn btn-primary btn-round">복구하기</button>
                     </div>
@@ -206,13 +198,6 @@ Coded by www.creative-tim.com
 
                   $('#restore_btn').on('click', function () {
 
-                    let pwd = $('#pwd').val();
-                    let pwd_check = $('#pwd_check').val();
-
-                    if (pwd != pwd_check) {
-                      alert("비밀번호가 틀렸습니다.");
-                      return false;
-                    }
 
 
                     $.ajax({
