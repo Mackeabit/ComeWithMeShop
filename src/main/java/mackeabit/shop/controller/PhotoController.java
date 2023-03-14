@@ -102,7 +102,7 @@ public class PhotoController {
 
             /* uploadingCheck == 0 업로딩 파일 있음
              *  uploadingCheck == -1 업로딩 파일 없음 */
-            if (uploadingCheck == "0") {
+            if (uploadingCheck.equals("0")) {
                 // 업로딩 파일이 있으면 Photo 객체 DB에 저장
                 photoMapper.saveReviewPhoto(photo);
             }

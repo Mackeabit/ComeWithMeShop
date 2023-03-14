@@ -86,4 +86,15 @@ public interface AdminMapper {
     int updatePaymentsStatus(PaymentsVO paymentsVO);
 
     PaymentsVO findPaymentsByIdx(Long pay_idx);
+
+    AdminReviewDTO findReviewByOrderIdx(Long order_idx);
+
+    PhotosVO findReviewPhoto(Long review_idx);
+
+    int delReview(Long review_idx);
+
+    ReviewsVO findReviewByIdx(Long review_idx);
+
+    int changeReviewCheck(Long order_idx);
+
 }

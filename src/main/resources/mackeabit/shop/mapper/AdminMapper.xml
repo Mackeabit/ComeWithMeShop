@@ -179,4 +179,27 @@
         UPDATE payments SET pay_status = 1 WHERE pay_idx=#{pay_idx}
     </update>
 
+    <select id="findReviewByOrderIdx" parameterType="Long" resultType="mackeabit.shop.dto.AdminReviewDTO">
+        SELECT rv.*, o.order_cart_cnt, p.pd_size, p.pd_color, pi.sv_loc, pi.sv_locct, p.sell_price FROM reviews rv
+            JOIN products p ON rv.pd_idx = p.pd_idx
+            JOIN product_img pi ON rv.pd_idx = pi.pd_idx
+            JOIN orders o ON rv.order_idx = o.order_idx WHERE rv.order_idx = #{order_idx};
+    </select>
+
+    <select id="findReviewPhoto" parameterType="Long" resultType="mackeabit.shop.vo.PhotosVO">
+        SELECT * FROM photos WHERE review_idx = #{review_idx}
+    </select>
+
+    <select id="findReviewByIdx" parameterType="Long" resultType="mackeabit.shop.vo.ReviewsVO">
+        SELECT * FROM reviews WHERE review_idx = #{review_idx}
+    </select>
+
+    <delete id="delReview" parameterType="Long">
+        DELETE FROM reviews WHERE review_idx = #{review_idx}
+    </delete>
+
+    <update id="changeReviewCheck" parameterType="Long">
+        UPDATE orders SET review_ck = -1 WHERE order_idx=#{order_idx}
+    </update>
+
 </mapper>

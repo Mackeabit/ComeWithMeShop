@@ -255,4 +255,29 @@ public class AdminService {
 
         return data;
     }
+
+    public AdminReviewDTO findReviewByOrderIdx(Long order_idx) {
+        return repository.findReviewByOrderIdx(order_idx);
+    }
+
+    public PhotosVO findReviewPhoto(Long review_idx) {
+        return repository.findReviewPhoto(review_idx);
+    }
+
+    public String delReview(Long review_idx) {
+
+        String data = "N";
+
+        //리뷰 지우고, orders 리뷰체크 바꾸기
+        ReviewsVO reviewsVO = repository.findReviewByIdx(review_idx);
+
+        int res = repository.delReview(review_idx);
+        res += repository.changeReviewCheck(reviewsVO.getOrder_idx());
+
+        if (res > 1) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }

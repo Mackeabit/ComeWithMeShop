@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/core-img/favicon.ico">
+  <link rel="icon" type="image/png" href="/img/core-img/favicon.ico">
+  <title>
+    Come With Me | Payments List
+  </title>
+  <!--    <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />-->
+
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+
+  <link href="/adminV2/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="/adminV2/assets/css/nucleo-svg.css" rel="stylesheet" />
+
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <link id="pagestyle" href="/adminV2/assets/css/material-dashboard.min.css?v=3.0.7" rel="stylesheet" />
+
+  <!-- 제이쿼리 -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+  <style>
+    .async-hide {
+      opacity: 0 !important
+    }
+  </style>
+  <script>
+    (function(a, s, y, n, c, h, i, d, e) {
+      s.className += ' ' + y;
+      h.start = 1 * new Date;
+      h.end = i = function() {
+        s.className = s.className.replace(RegExp(' ?' + y), '')
+      };
+      (a[n] = a[n] || []).hide = h;
+      setTimeout(function() {
+        i();
+        h.end = null
+      }, c);
+      h.timeout = c;
+    })(window, document.documentElement, 'async-hide', 'dataLayer', 4000, {
+      'GTM-K9BGS8K': true
+    });
+  </script>
+
+  <script>
+    (function(i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+              m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-46172202-22', 'auto', {
+      allowLinker: true
+    });
+    ga('set', 'anonymizeIp', true);
+    ga('require', 'GTM-K9BGS8K');
+    ga('require', 'displayfeatures');
+    ga('require', 'linker');
+    ga('linker:autoLink', ["2checkout.com", "avangate.com"]);
+  </script>
+
+
+  <script>
+    (function(w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+      var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s),
+              dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src =
+              'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-NKDMSK6');
+  </script>
+
+</head>
+<body class="g-sidenav-show  bg-gray-200">
+<aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+  <div class="sidenav-header">
+    <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+    <a class="navbar-brand m-0" href="/admin">
+      <img src="/img/core-img/favicon.ico" class="navbar-brand-img h-100" alt="main_logo">
+      <span class="ms-1 font-weight-bold text-white">Come With Me</span>
+    </a>
+  </div>
+  <hr class="horizontal light mt-0 mb-2">
+  <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">dashboard</i>
+          </div>
+          <span class="nav-link-text ms-1">Dash board</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white " href="/admin/members">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">person</i>
+          </div>
+          <span class="nav-link-text ms-1">회원 관리</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin/productReg">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">receipt_long</i>
+          </div>
+          <span class="nav-link-text ms-1">상품 등록</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin/productsList">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">checklist</i>
+          </div>
+          <span class="nav-link-text ms-1">상품 목록</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white active bg-gradient-primary" href="/admin/ordersList">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">view_list</i>
+          </div>
+          <span class="nav-link-text ms-1">주문 목록</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin/paymentsList">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">payments</i>
+          </div>
+          <span class="nav-link-text ms-1">결제 목록</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div th:if="${session.superAdmin != null}" class="sidenav-footer position-absolute w-100 bottom-0 ">
+    <div class="mx-3">
+      <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">계정 관리</a>
+    </div>
+  </div>
+</aside>
+<main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+  <!-- Navbar -->
+  <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl position-sticky blur shadow-blur mt-4 left-auto top-1 z-index-sticky" id="navbarBlur" data-scroll="true" checked>
+    <div class="container-fluid py-1 px-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin">Pages</a></li>
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/ordersList">주문 목록</a></li>
+        </ol>
+        <h6 class="font-weight-bolder mb-0">리뷰 보기</h6>
+      </nav>
+      <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+          <div class="input-group input-group-outline">
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+
+  <div class="container-fluid py-4">
+    <div class="row">
+
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="mb-4">Product Reviews</h5>
+            <br>
+
+            <div class="row">
+              <div class="col-xl-5 col-lg-6 text-center">
+
+                <figure th:if="${photos != null}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                  <a th:href="'/'+${photos.file_name}" href="/img/product-img/acc-1.jpg" target="_blank" itemprop="contentUrl" data-size="500X600">
+                    <img class="w-100 min-height-500 max-height-500 border-radius-lg shadow" th:src="'/'+${photos.file_name}" src="/img/product-img/acc-1.jpg">
+                  </a>
+                </figure>
+
+                <div th:if="${photos != null}" class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
+                  <figure th:href="'/'+${photos.file_name}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                    <a th:href="'/'+${photos.file_name}" itemprop="contentUrl" data-size="500x600">
+                      <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" th:src="'/'+${photos.file_name}" src="/img/product-img/acc-1cart.jpg" itemprop="thumbnail" alt="Image description" />
+                    </a>
+                  </figure>
+                </div>
+
+                <figure th:if="${photos == null}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                  <a th:href="'/'+${rv.sv_loc}" href="/img/product-img/acc-1.jpg" target="_blank" itemprop="contentUrl" data-size="500X600">
+                    <img class="w-100 min-height-500 max-height-500 border-radius-lg shadow" th:src="'/'+${rv.sv_loc}" src="/img/product-img/acc-1.jpg">
+                  </a>
+                </figure>
+
+                <div th:if="${photos == null}" class="my-gallery d-flex mt-4 pt-2" itemscope itemtype="http://schema.org/ImageGallery">
+                  <figure th:href="'/'+${rv.sv_loc}" class="ms-3" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                    <a th:href="'/'+${rv.sv_loc}" itemprop="contentUrl" data-size="500x600">
+                      <img class="w-100 min-height-100 max-height-100 border-radius-lg shadow" th:src="'/'+${rv.sv_locCt}" src="/img/product-img/acc-1cart.jpg" itemprop="thumbnail" alt="Image description" />
+                    </a>
+                  </figure>
+                </div>
+
+                <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+                  <div class="pswp__bg"></div>
+
+                  <div class="pswp__scroll-wrap">
+
+
+                    <div class="pswp__container">
+                      <div class="pswp__item"></div>
+                      <div class="pswp__item"></div>
+                      <div class="pswp__item"></div>
+                    </div>
+
+                    <div class="pswp__ui pswp__ui--hidden">
+                      <div class="pswp__top-bar">
+
+                        <div class="pswp__counter"></div>
+                        <button class="btn btn-white btn-sm pswp__button pswp__button--close">Close (Esc)</button>
+                        <button class="btn btn-white btn-sm pswp__button pswp__button--fs">Fullscreen</button>
+                        <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--left">Prev
+                        </button>
+                        <button class="btn btn-white btn-sm pswp__button pswp__button--arrow--right">Next
+                        </button>
+
+
+                        <div class="pswp__preloader">
+                          <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                              <div class="pswp__preloader__donut"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                        <div class="pswp__share-tooltip"></div>
+                      </div>
+                      <div class="pswp__caption">
+                        <div class="pswp__caption__center"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5 mx-auto">
+                <h3 class="mt-lg-0 mt-4" th:text="${rv.pd_nm}">테스트 상품</h3>
+                <div class="rating">
+                  <th:block th:each="count : ${#numbers.sequence(1, 5)}">
+                    <th:block th:if="${count <= rv.stars.intValue()}">
+                      <i class="material-icons text-lg">grade</i>
+                    </th:block>
+                    <th:block th:if="${count > rv.stars.intValue()} and ${count &lt;= 5}">
+                      <i class="material-icons text-lg">star_outline</i>
+                    </th:block>
+                  </th:block>
+
+                  <!--
+                                    <i class="material-icons text-lg">grade</i>
+                                    <i class="material-icons text-lg">grade</i>
+                                    <i class="material-icons text-lg">grade</i>
+                                    <i class="material-icons text-lg">grade</i>
+                                    <i class="material-icons text-lg">star_outline</i>
+                  -->
+                </div>
+                <br>
+                <h6 class="mb-0 mt-3">상품 가격</h6>
+                <h5 th:text="'￦ '+ ${#numbers.formatInteger(rv.sell_price, 1, 'COMMA')}">$1,419</h5>
+                <br>
+                <h6 class="mt-4" th:text="'제목 : '+${rv.title}"></h6>
+                <br>
+                  <li style="list-style: none; padding: 0; margin: 0;" th:text="${rv.contents}"></li>
+
+                <div class="row mt-4">
+                  <hr>
+                  <label class="mt-4">구매 상품 정보</label>
+                  <div class="col-lg-5 mt-lg-0 mt-2">
+                    <label class="ms-0">Size</label>
+                    <select class="form-control" name="choices-material" id="choices-material">
+                      <option value="Choice 1" selected="" disabled th:text="${rv.pd_size} == null ? '-': ${rv.pd_size}"></option>
+                    </select>
+                  </div>
+                  <div class="col-lg-5 mt-lg-0 mt-2">
+                    <label class="ms-0">Color</label>
+                    <select class="form-control" name="choices-colors" id="choices-colors">
+                      <option value="Choice 1" selected="" disabled th:text="${rv.pd_color} == null ? '-' : ${rv.pd_color}"></option>
+                    </select>
+                  </div>
+                  <div class="col-lg-2">
+                    <label class="ms-0">수량</label>
+                    <select class="form-control" name="choices-quantity" id="choices-quantity">
+                      <option value="Choice 1" selected="" disabled th:text="${rv.order_cart_cnt}"></option>
+                    </select>
+                  </div>
+                </div>
+                <label class="mt-4" th:text="'리뷰 작성일 : '+${rv.date}">리뷰 작성일 : 2023-03-12</label>
+
+                <form id="delForm">
+                  <input type="hidden" name="review_idx" th:value="${rv.review_idx}">
+                </form>
+
+              </div>
+              <div class="col-lg-6 text-right d-flex flex-column justify-content-center">
+                <button id="delete_btn" type="button" class="btn bg-gradient-primary mb-0 ms-lg-auto me-lg-0 me-auto mt-lg-0 mt-2">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:inline="javascript">
+
+      $('#delete_btn').click(function () {
+
+        let delCheck = confirm("리뷰를 삭제하시겠습니까?");
+        if (!delCheck) {
+          return false;
+        }
+
+
+        let formData = $('#delForm').serialize();
+
+        alert(formData);
+
+        $.ajax({
+          type : "POST",
+          url : "/admin/delReview",
+          data : formData,
+          success: function (data) {
+            if(data == "N"){
+              alert("잠시 후 다시 시도해주세요.");
+            }else if(data == "Y"){
+              alert("삭제되었습니다.")
+              location.href="/admin/ordersList";
+            }
+          },
+          error: function(data){
+            alert("로그인 오류");
+            console.log(data);
+          }
+        });
+
+      });
+
+
+    </script>
+
+    <footer class="footer py-4  ">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-sm text-muted text-lg-start">
+              © <script>
+              document.write(new Date().getFullYear())
+            </script>,
+              made with <i class="fa fa-heart"></i> by
+              <a href="https://www.creative-tim.com" class="font-weight-bold">Creative Tim</a>
+              for a better web.
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</main>
+
+<script src="/adminV2/assets/js/core/popper.min.js"></script>
+<script src="/adminV2/assets/js/core/bootstrap.min.js"></script>
+<script src="/adminV2/assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="/adminV2/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/adminV2/assets/js/plugins/choices.min.js"></script>
+<script src="/adminV2/assets/js/plugins/photoswipe.min.js"></script>
+<script src="/adminV2/assets/js/plugins/photoswipe-ui-default.min.js"></script>
+<script>
+  if (document.getElementById('choices-quantity')) {
+    var element = document.getElementById('choices-quantity');
+    const example = new Choices(element, {
+      searchEnabled: false,
+      itemSelectText: ''
+    });
+  };
+
+  if (document.getElementById('choices-material')) {
+    var element = document.getElementById('choices-material');
+    const example = new Choices(element, {
+      searchEnabled: false,
+      itemSelectText: ''
+    });
+  };
+
+  if (document.getElementById('choices-colors')) {
+    var element = document.getElementById('choices-colors');
+    const example = new Choices(element, {
+      searchEnabled: false,
+      itemSelectText: ''
+    });
+  };
+
+  // Gallery Carousel
+  if (document.getElementById('products-carousel')) {
+    var myCarousel = document.querySelector('#products-carousel')
+    var carousel = new bootstrap.Carousel(myCarousel)
+  }
+
+
+  // Products gallery
+
+  var initPhotoSwipeFromDOM = function(gallerySelector) {
+
+    // parse slide data (url, title, size ...) from DOM elements
+    // (children of gallerySelector)
+    var parseThumbnailElements = function(el) {
+      var thumbElements = el.childNodes,
+              numNodes = thumbElements.length,
+              items = [],
+              figureEl,
+              linkEl,
+              size,
+              item;
+
+      for (var i = 0; i < numNodes; i++) {
+
+        figureEl = thumbElements[i]; // <figure> element
+        // include only element nodes
+        if (figureEl.nodeType !== 1) {
+          continue;
+        }
+
+        linkEl = figureEl.children[0]; // <a> element
+
+        size = linkEl.getAttribute('data-size').split('x');
+
+        // create slide object
+        item = {
+          src: linkEl.getAttribute('href'),
+          w: parseInt(size[0], 10),
+          h: parseInt(size[1], 10)
+        };
+
+        if (figureEl.children.length > 1) {
+          // <figcaption> content
+          item.title = figureEl.children[1].innerHTML;
+        }
+
+        if (linkEl.children.length > 0) {
+          // <img> thumbnail element, retrieving thumbnail url
+          item.msrc = linkEl.children[0].getAttribute('src');
+        }
+
+        item.el = figureEl; // save link to element for getThumbBoundsFn
+        items.push(item);
+      }
+
+      return items;
+    };
+
+    // find nearest parent element
+    var closest = function closest(el, fn) {
+      return el && (fn(el) ? el : closest(el.parentNode, fn));
+    };
+
+    // triggers when user clicks on thumbnail
+    var onThumbnailsClick = function(e) {
+      e = e || window.event;
+      e.preventDefault ? e.preventDefault() : e.returnValue = false;
+
+      var eTarget = e.target || e.srcElement;
+
+      // find root element of slide
+      var clickedListItem = closest(eTarget, function(el) {
+        return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+      });
+
+      if (!clickedListItem) {
+        return;
+      }
+
+      // find index of clicked item by looping through all child nodes
+      // alternatively, you may define index via data- attribute
+      var clickedGallery = clickedListItem.parentNode,
+              childNodes = clickedListItem.parentNode.childNodes,
+              numChildNodes = childNodes.length,
+              nodeIndex = 0,
+              index;
+
+      for (var i = 0; i < numChildNodes; i++) {
+        if (childNodes[i].nodeType !== 1) {
+          continue;
+        }
+
+        if (childNodes[i] === clickedListItem) {
+          index = nodeIndex;
+          break;
+        }
+        nodeIndex++;
+      }
+
+
+
+      if (index >= 0) {
+        // open PhotoSwipe if valid index found
+        openPhotoSwipe(index, clickedGallery);
+      }
+      return false;
+    };
+
+    // parse picture index and gallery index from URL (#&pid=1&gid=2)
+    var photoswipeParseHash = function() {
+      var hash = window.location.hash.substring(1),
+              params = {};
+
+      if (hash.length < 5) {
+        return params;
+      }
+
+      var vars = hash.split('&');
+      for (var i = 0; i < vars.length; i++) {
+        if (!vars[i]) {
+          continue;
+        }
+        var pair = vars[i].split('=');
+        if (pair.length < 2) {
+          continue;
+        }
+        params[pair[0]] = pair[1];
+      }
+
+      if (params.gid) {
+        params.gid = parseInt(params.gid, 10);
+      }
+
+      return params;
+    };
+
+    var openPhotoSwipe = function(index, galleryElement, disableAnimation, fromURL) {
+      var pswpElement = document.querySelectorAll('.pswp')[0],
+              gallery,
+              options,
+              items;
+
+      items = parseThumbnailElements(galleryElement);
+
+      // define options (if needed)
+      options = {
+
+        // define gallery index (for URL)
+        galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+
+        getThumbBoundsFn: function(index) {
+          // See Options -> getThumbBoundsFn section of documentation for more info
+          var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
+                  pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                  rect = thumbnail.getBoundingClientRect();
+
+          return {
+            x: rect.left,
+            y: rect.top + pageYScroll,
+            w: rect.width
+          };
+        }
+
+      };
+
+      // PhotoSwipe opened from URL
+      if (fromURL) {
+        if (options.galleryPIDs) {
+          // parse real index when custom PIDs are used
+          // http://photoswipe.com/documentation/faq.html#custom-pid-in-url
+          for (var j = 0; j < items.length; j++) {
+            if (items[j].pid == index) {
+              options.index = j;
+              break;
+            }
+          }
+        } else {
+          // in URL indexes start from 1
+          options.index = parseInt(index, 10) - 1;
+        }
+      } else {
+        options.index = parseInt(index, 10);
+      }
+
+      // exit if index not found
+      if (isNaN(options.index)) {
+        return;
+      }
+
+      if (disableAnimation) {
+        options.showAnimationDuration = 0;
+      }
+
+      // Pass data to PhotoSwipe and initialize it
+      gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+      gallery.init();
+    };
+
+    // loop through all gallery elements and bind events
+    var galleryElements = document.querySelectorAll(gallerySelector);
+
+    for (var i = 0, l = galleryElements.length; i < l; i++) {
+      galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+      galleryElements[i].onclick = onThumbnailsClick;
+    }
+
+    // Parse URL and open gallery if it contains #&pid=3&gid=1
+    var hashData = photoswipeParseHash();
+    if (hashData.pid && hashData.gid) {
+      openPhotoSwipe(hashData.pid, galleryElements[hashData.gid - 1], true, true);
+    }
+  };
+
+  // execute above function
+  initPhotoSwipeFromDOM('.my-gallery');
+</script>
+
+<script src="/adminV2/assets/js/plugins/dragula/dragula.min.js"></script>
+<script src="/adminV2/assets/js/plugins/jkanban/jkanban.js"></script>
+
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<script src="/adminV2/assets/js/material-dashboard.min.js?v=3.0.6"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"7a78309d18e0098f","version":"2023.2.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
+</body>
+</html>

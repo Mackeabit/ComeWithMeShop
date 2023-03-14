@@ -285,7 +285,7 @@
                   <span class="my-2 text-xs" th:text="${order.order_date}">1 Nov, 10:20 AM</span>
                 </td>
 
-                <td th:if="${order.review_ck == 0}" class="text-xs font-weight-normal">
+                <td th:if="${order.review_ck == 0}" class="text-xs font-weight-normal" th:onclick="|cancelOrder(${order.order_idx})|">
                   <div class="d-flex align-items-center">
                     <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-2 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-sm" aria-hidden="true">done</i></button>
                     <span>작성 완료</span>
@@ -327,6 +327,17 @@
         </div>
       </div>
     </div>
+
+    <script th:inline="javascript">
+
+      function cancelOrder(order_idx) {
+
+        location.href = "/admin/adminReviewManage?order_idx=" + order_idx;
+
+      }
+
+    </script>
+
     <footer class="footer py-4  ">
       <div class="container-fluid">
         <div class="row align-items-center justify-content-lg-between">

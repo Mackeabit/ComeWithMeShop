@@ -402,10 +402,32 @@ public class AdminController {
         return adminService.paymentsCancel(paymentsVO);
     }
 
-    @GetMapping("/test")
+    @GetMapping("/adminReviewManage")
+    public String adminReviewManage(Long order_idx, Model model) {
 
+        //order_idx 로 리뷰 갖고 오기
+        AdminReviewDTO adminReviewDTO = adminService.findReviewByOrderIdx(order_idx);
+
+        //구해온 리뷰를 통해 등록한 사진이 갖고 오기
+        PhotosVO photosVO = adminService.findReviewPhoto(adminReviewDTO.getReview_idx());
+
+        model.addAttribute("rv", adminReviewDTO)
+                .addAttribute("photos", photosVO);
+
+        return "adminReviewManagePage";
+    }
+
+    @PostMapping("/delReview")
+    @ResponseBody
+    public String delReview(Long review_idx) {
+        return adminService.delReview(review_idx);
+    }
+
+
+
+    @GetMapping("/test")
     public String test() {
-        return "adminOrdersList";
+        return "tables";
     }
 
 }

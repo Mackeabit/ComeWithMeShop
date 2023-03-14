@@ -166,4 +166,24 @@ public class AdminRepository {
     public PaymentsVO findPaymentsByIdx(Long pay_idx) {
         return adminMapper.findPaymentsByIdx(pay_idx);
     }
+
+    public AdminReviewDTO findReviewByOrderIdx(Long order_idx) {
+        return adminMapper.findReviewByOrderIdx(order_idx);
+    }
+
+    public PhotosVO findReviewPhoto(Long review_idx) {
+        return adminMapper.findReviewPhoto(review_idx);
+    }
+
+    public int delReview(Long review_idx) {
+        return adminMapper.delReview(review_idx);
+    }
+
+    public ReviewsVO findReviewByIdx(Long review_idx) {
+        return adminMapper.findReviewByIdx(review_idx);
+    }
+
+    public int changeReviewCheck(Long order_idx) {
+        return adminMapper.changeReviewCheck(order_idx);
+    }
 }
