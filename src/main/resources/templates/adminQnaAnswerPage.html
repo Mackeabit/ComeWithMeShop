@@ -306,7 +306,6 @@
             }
           },
           error: function(data){
-            alert("오류");
             console.log(data);
           }
         });
@@ -327,7 +326,6 @@
 
         let formData = $('#qna_write').serialize();
 
-        alert(formData);
 
         $.ajax({
           type : "POST",
@@ -343,7 +341,7 @@
             }
           },
           error: function(data){
-            alert("오류");
+            alert("잠시 후 다시 시도해주세요.");
             console.log(data);
           }
         });

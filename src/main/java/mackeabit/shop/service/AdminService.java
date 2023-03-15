@@ -378,4 +378,17 @@ public class AdminService {
 
         return data;
     }
+
+    public String delAdmin(Long admin_idx) {
+
+        String data = "N";
+
+        int res = repository.delAdmin(admin_idx);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }

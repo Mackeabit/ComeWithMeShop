@@ -305,7 +305,6 @@
 
   function cancelPay(pay_idx) {
 
-    alert(pay_idx);
 
     let editCheck = confirm("결제 취소를 진행하시겠습니까?");
     if (editCheck) {
@@ -321,7 +320,6 @@
   function cancelAjax() {
 
     let formData = $('#sendPayForm').serialize();
-    alert(formData);
 
     $.ajax({
       type : "POST",

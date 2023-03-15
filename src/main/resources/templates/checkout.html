@@ -441,7 +441,6 @@
 
                                         } else {
                                             //단순 결제 실패
-                                            alert("결제에 실패하였습니다. 잠시 후 다시 시도해주세요.");
 
                                         }
 
@@ -476,7 +475,7 @@
                                                     }
                                                 },
                                                 error: function(data){
-                                                    alert("등록 에러 발생!");
+                                                    alert("문제가 발생하였습니다. 재시도 해주세요.");
                                                     console.log(data);
                                                 }
                                             });//response ajax

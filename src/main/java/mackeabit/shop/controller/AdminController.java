@@ -538,4 +538,11 @@ public class AdminController {
         return "adminCouponList";
     }
 
+    @PostMapping("/delAdmin")
+    @ResponseBody
+    public String delAdmin(Long admin_idx) {
+
+        return adminService.delAdmin(admin_idx);
+    }
+
 }

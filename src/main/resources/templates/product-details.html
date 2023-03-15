@@ -736,7 +736,8 @@
             navigator.clipboard.writeText(copyText).then(function() {
                 alert("텍스트가 복사되었습니다!");
             }, function() {
-                alert("복사에 실패하였습니다.");
+                alert("새로고침 이후 다시 시도해주세요.");
+
             });
         }
 
@@ -816,12 +817,10 @@
 
         function addToCart(id) {
             let idx = id;
-            alert(id);
             let f = $('#cart' + id);
             let formData = f.serialize();
             formData += '&pd_color=' + colorPick + '&pd_size=' + sizePick;
 
-            alert(formData);
 
             $.ajax({
                 type   : "POST",

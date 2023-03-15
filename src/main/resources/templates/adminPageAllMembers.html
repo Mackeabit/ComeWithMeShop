@@ -192,7 +192,7 @@
                       </td>
                       <td th:if="${session.superAdmin != null}" class="align-middle">
                         <a href="#" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" th:if="${admin.admin_level != 0}"  th:onclick="delAdmin([[${admin.admin_idx}]])">
-                          삭제하기
+                          Delete
                         </a>
                       </td>
                     </tr>
@@ -240,7 +240,25 @@
 
                       alert(admin_idx);
 
-                      // 관리자 삭제 ajax
+                      $.ajax({
+                        type : "POST",
+                        url : "/admin/delAdmin",
+                        data : {admin_idx:admin_idx},
+                        success: function (data) {
+                          if (data == 'Y') {
+                            alert("삭제되었습니다.");
+                            location.reload();
+                          }else if (data == 'N') {
+                            alert("잠시 후 재시도 해주세요.");
+                            location.reload();
+                          }
+                        },
+                        error: function(data){
+                          alert("잠시 후 재시도 해주세요.");
+                          console.log(data);
+                        }
+                      });
+
 
                     }
 

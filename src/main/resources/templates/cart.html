@@ -383,14 +383,14 @@
                                 if (data == 'no_id') {
                                     location.href = "/login";
                                 }else if (data == 'N') {
-                                    alert("로직 오류");
+                                    alert("잠시 후 재시도 해주세요.");
                                 } else {
                                     alert("삭제가 완료되었습니다.");
                                     location.href="/cart";
                                 }
                             },
                             error: function(data){
-                                alert('error : '+data);
+                                alert("잠시 후 재시도 해주세요.");
                             }
                         });
 
@@ -412,13 +412,13 @@
                                 if (data == 'no_id') {
                                     location.href = "/login";
                                 }else if (data == 'N') {
-                                    alert("로직 오류");
+                                    alert("잠시 후 재시도 해주세요.");
                                 } else {
                                     calMethod();
                                 }
                             },
                             error: function(data){
-                                alert('error : '+data);
+                                alert("잠시 후 재시도 해주세요.");
                             }
                         });
 
@@ -667,7 +667,7 @@
                                             }
                                         },
                                         error  : function (data) {
-                                            alert("에러 발생!");
+                                            alert("잠시 후 재시도 해주세요.");
                                             console.log(data);
                                         }
                                     });

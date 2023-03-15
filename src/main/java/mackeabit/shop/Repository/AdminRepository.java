@@ -226,4 +226,8 @@ public class AdminRepository {
     public int delCoupon(Long cp_idx) {
         return adminMapper.delCoupon(cp_idx);
     }
+
+    public int delAdmin(Long admin_idx) {
+        return adminMapper.delAdmin(admin_idx);
+    }
 }

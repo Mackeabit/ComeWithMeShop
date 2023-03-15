@@ -117,4 +117,6 @@ public interface AdminMapper {
 
     int delCoupon(Long cp_idx);
 
+    int delAdmin(Long admin_idx);
+
 }

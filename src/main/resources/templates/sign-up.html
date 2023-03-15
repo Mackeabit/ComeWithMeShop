@@ -61,7 +61,6 @@
 
 				//Form Data 합치기
 				let formData = $('#signForm').serialize();
-				alert(formData);
 
 				$.ajax({
 					type   : "POST",
@@ -72,12 +71,12 @@
 							alert("회원 가입이 완료되었습니다.");
 							location.href = "/login";
 						} else {
-							alert("회원 가입에 실패하였습니다.");
+							alert("회원 가입에 문제가 발생하였습니다. 관리자에게 문의해주세요.");
 							location.href = "redirect:/signup";
 						}
 					},
 					error: function (data) {
-						alert("에러 발생");
+						alert("잠시 후 재시도 해주세요.");
 						console.log(data);
 					}
 				});
@@ -120,7 +119,7 @@
 						}
 					},
 					error: function(data){
-						alert('error : '+data);
+						alert("잠시 후 재시도 해주세요.");
 					}
 				});
 			}

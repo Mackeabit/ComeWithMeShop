@@ -245,4 +245,8 @@
         DELETE FROM coupons WHERE cp_idx = #{cp_idx}
     </delete>
 
+    <delete id="delAdmin" parameterType="Long">
+        DELETE FROM admins WHERE admin_idx = #{admin_idx}
+    </delete>
+
 </mapper>

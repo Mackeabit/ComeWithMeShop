@@ -423,7 +423,6 @@
     $('#send_btn').click(function () {
 
 
-      alert("시작");
 
       $('#pd_contents').val($('#edit-deschiption').text());
 
@@ -458,7 +457,7 @@
           }
         },
         error: function (e) {
-          // 오류 처리
+          alert("잠시 후 다시 시도해주세요.");
         }
       });
 

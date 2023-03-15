@@ -287,7 +287,6 @@
         }
 
         let formData = $('#couponForm').serialize();
-        alert(formData);
 
         $.ajax({
           type : "POST",
@@ -304,7 +303,7 @@
             }
           },
           error: function(data){
-            alert('error : '+data);
+            alert("잠시 후 재시도 해주세요.");
           }
         });
 
