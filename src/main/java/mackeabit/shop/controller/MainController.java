@@ -56,6 +56,11 @@ public class MainController {
         List<SizesDTO> productSizes = productService.findSizes();
         model.addAttribute("findSizes", productSizes);
 
+        // 쿠폰
+        List<CouponsVO> couponsVOList = subService.findMainCoupon();
+        HttpSession couponSession = request.getSession();
+        couponSession.setAttribute("mainCouponList", couponsVOList);
+
         /**
          * pd_value
          * 0 : 보통

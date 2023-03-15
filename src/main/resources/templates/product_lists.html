@@ -253,16 +253,13 @@
                 <h5>오픈기념 무료 배송 &amp; 반품</h5>
                 <h6><a th:href="@{/products}" href="#">BUY NOW</a></h6>
             </div>
-            <!-- Single Discount Area -->
-            <div class="single-discount-area">
-                <h5>모든 상품 20% 할인 쿠폰</h5>
-                <h6>쿠폰번호 : CMWPR23</h6>
-            </div>
-            <!-- Single Discount Area -->
-            <div class="single-discount-area">
-                <h5>선착순 100명 50% 할인 쿠폰</h5>
-                <h6>쿠폰 번호 : CMW23PR</h6>
-            </div>
+            <th:block th:each="cp, iterStat : ${session.mainCouponList}" th:if="${iterStat.index lt 2}">
+                <!-- Single Discount Area -->
+                <div class="single-discount-area">
+                    <h5 th:text="${cp.cp_text}">모든 상품 20% 할인 쿠폰</h5>
+                    <h6 th:text="'쿠폰번호 : '+${cp.cp_nm}">쿠폰번호 : CMWPR23</h6>
+                </div>
+            </th:block>
         </section>
         <!-- ****** Top Discount Area End ****** -->
 
@@ -287,8 +284,6 @@
                     <button class="btn active" data-filter="*">ALL</button>
                     <button class="btn" data-filter=".1">WOMAN</button>
                     <button class="btn" data-filter=".2">MAN</button>
-                    <!--                    <button class="btn" data-filter=".women">WOMAN</button>-->
-<!--                    <button class="btn" data-filter=".man">MAN</button>-->
                     <button class="btn" data-filter=".access">ACCESSORIES</button>
                     <button class="btn" data-filter=".shoes">SHOES</button>
                 </div>

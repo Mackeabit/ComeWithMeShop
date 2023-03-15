@@ -71,4 +71,8 @@
         SELECT * FROM reviews ORDER BY stars DESC limit 3
     </select>
 
+    <select id="findMainCoupon" resultType="mackeabit.shop.vo.CouponsVO">
+        SELECT * FROM coupons WHERE cp_value = 0
+    </select>
+
 </mapper>

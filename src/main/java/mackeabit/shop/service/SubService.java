@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.SubRepositoryImpl;
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.vo.CategorysVO;
+import mackeabit.shop.vo.CouponsVO;
 import mackeabit.shop.vo.Photos_toMainVO;
 import org.springframework.stereotype.Service;
 
@@ -64,5 +65,9 @@ public class SubService {
         }
 
         return data;
+    }
+
+    public List<CouponsVO> findMainCoupon() {
+        return subRepository.findMainCoupon();
     }
 }

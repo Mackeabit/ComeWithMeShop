@@ -2,10 +2,7 @@ package mackeabit.shop.mapper;
 
 import mackeabit.shop.dto.MainProductsDTO;
 import mackeabit.shop.dto.PopUpWriteQnaDTO;
-import mackeabit.shop.vo.CategorysVO;
-import mackeabit.shop.vo.NoticesVO;
-import mackeabit.shop.vo.Photos_toMainVO;
-import mackeabit.shop.vo.ReviewsVO;
+import mackeabit.shop.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -38,4 +35,7 @@ public interface SuBMapper {
     int insertQna(NoticesVO noticesVO);
 
     List<ReviewsVO> findReviewsMain();
+
+    List<CouponsVO> findMainCoupon();
+
 }
