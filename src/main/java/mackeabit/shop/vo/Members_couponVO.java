@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class Members_couponVO {
 
-    private Long mc_idx, member_idx, cp_idx;
-    private Integer cp_ck;
+    private Long mc_idx, member_idx;
+    private String cp_nm;
 
 }

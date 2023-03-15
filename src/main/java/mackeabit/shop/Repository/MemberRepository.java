@@ -1,10 +1,7 @@
 package mackeabit.shop.Repository;
 
 import mackeabit.shop.dto.*;
-import mackeabit.shop.vo.MemberDetailVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.Members_logVO;
-import mackeabit.shop.vo.NoticesVO;
+import mackeabit.shop.vo.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -77,5 +74,8 @@ public interface MemberRepository {
 
     void insertMembersDetails(MembersVO membersVO);
 
-    CouponMemberDTO findCouponByNm(CouponMemberDTO search);
+    CouponsVO findCouponByNm(String cp_nm);
+
+    Members_couponVO findCouponByCp_nm(String cp_nm);
+
 }

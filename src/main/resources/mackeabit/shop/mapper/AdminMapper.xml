@@ -224,4 +224,25 @@
         INSERT INTO admins (admin_level, id, pwd) VALUES (-1, #{id}, #{pwd})
     </insert>
 
+    <insert id="couponReg" parameterType="mackeabit.shop.vo.CouponsVO" useGeneratedKeys="true" keyProperty="cp_idx">
+        INSERT INTO coupons (cp_nm, cp_price, cp_text, cp_value, min_price, cp_cnt)
+        VALUES (#{cp_nm}, #{cp_price}, #{cp_text}, #{cp_value}, #{min_price}, #{cp_cnt})
+    </insert>
+
+    <select id="findAllCoupon" resultType="mackeabit.shop.vo.CouponsVO">
+        SELECT * FROM coupons
+    </select>
+
+    <select id="findCouponOneByIdx" parameterType="Long" resultType="mackeabit.shop.vo.CouponsVO">
+        SELECT * FROM coupons WHERE cp_idx = #{cp_idx}
+    </select>
+
+    <update id="updateCoupon" parameterType="mackeabit.shop.vo.CouponsVO">
+        UPDATE coupons SET cp_nm=#{cp_nm}, cp_price=#{cp_price}, cp_text=#{cp_text}, cp_value=#{cp_value}, min_price=#{min_price}, cp_cnt=#{cp_cnt} WHERE cp_idx=#{cp_idx}
+    </update>
+
+    <delete id="delCoupon" parameterType="Long">
+        DELETE FROM coupons WHERE cp_idx = #{cp_idx}
+    </delete>
+
 </mapper>

@@ -107,4 +107,14 @@ public interface AdminMapper {
 
     int adminAdd(AdminVO adminVO);
 
+    int couponReg(CouponsVO couponsVO);
+
+    List<CouponsVO> findAllCoupon();
+
+    CouponsVO findCouponOneByIdx(Long cp_idx);
+
+    int updateCoupon(CouponsVO couponsVO);
+
+    int delCoupon(Long cp_idx);
+
 }

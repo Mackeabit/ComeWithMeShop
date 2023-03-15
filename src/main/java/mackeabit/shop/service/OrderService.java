@@ -176,8 +176,9 @@ public class OrderService {
 
         Map<String, Object> params = new HashMap<>();
         params.put("member_idx", member_idx);
-        params.put("cp_idx", couponMemberDTO.getCp_idx());
+        params.put("cp_nm", couponMemberDTO.getCp_nm());
 
+        //회원 쿠폰에 사용이력을 등록
         orderRepository.usedCoupon(params);
 
         //쿠폰 DB 의 사용횟수 차감

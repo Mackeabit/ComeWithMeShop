@@ -89,11 +89,11 @@
                 <form id="form_ck" role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">ID</label>
-                    <input type="text" id="id" name="id" class="form-control">
+                    <input type="text" id="id" name="id" class="form-control" onkeydown="if(event.keyCode === 13) enterKey();">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" name="pwd" class="form-control">
+                    <input type="password" name="pwd" class="form-control" onkeydown="if(event.keyCode === 13) enterKey();">
                   </div>
                   <div class="text-center">
                     <button id="login_btn" type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Log In</button>
@@ -106,6 +106,10 @@
       </div>
 
       <script>
+
+        function enterKey() {
+          login_check();
+        }
 
         /* 로그인 버튼 클릭 시 */
         $('#login_btn').click(function() {

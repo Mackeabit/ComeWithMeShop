@@ -5,10 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.Repository.MemberRepository;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.security256.SHA256;
-import mackeabit.shop.vo.MemberDetailVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.Members_logVO;
-import mackeabit.shop.vo.NoticesVO;
+import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -361,7 +358,11 @@ public class MemberService {
         repository.insertMembersDetails(membersVO);
     }
 
-    public CouponMemberDTO findCouponByNm(CouponMemberDTO search) {
-        return repository.findCouponByNm(search);
+    public CouponsVO findCouponByNm(String cp_nm) {
+        return repository.findCouponByNm(cp_nm);
+    }
+
+    public Members_couponVO findCouponByCp_nm(String cp_nm) {
+        return repository.findCouponByCp_nm(cp_nm);
     }
 }

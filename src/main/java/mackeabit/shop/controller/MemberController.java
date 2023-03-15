@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.argument.Login;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.service.MemberService;
-import mackeabit.shop.vo.MemberDetailVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.NoticesVO;
+import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,12 +53,21 @@ public class MemberController {
          *  쿠폰 조회 후, 할인 가격 String data 로 받아오는 로직 만들 것
          * */
 
+        //1. 회원에게 해당 쿠폰 사용 이력이 있는지 확인
+        Members_couponVO members_couponVO = memberService.findCouponByCp_nm(cp_nm);
+
+        // 조회 결과가 있다면 사용한 쿠폰이므로 return
+        if (members_couponVO != null) {
+            data = "exist";
+            return data;
+        }
+
         CouponMemberDTO search = new CouponMemberDTO();
         search.setMember_idx(membersVO.getMember_idx());
         search.setCp_nm(cp_nm);
 
 
-        CouponMemberDTO coupon = memberService.findCouponByNm(search);
+        CouponsVO coupon = memberService.findCouponByNm(cp_nm);
 
         if (coupon == null) {
             return data;
@@ -68,11 +75,6 @@ public class MemberController {
 
         if (coupon.getMin_price() > min_price) {
             data = "no_min";
-            return data;
-        }
-
-        if (coupon.getCp_ck() != -1) {
-            data = "exist";
             return data;
         }
 

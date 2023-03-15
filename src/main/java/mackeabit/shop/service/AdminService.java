@@ -332,4 +332,50 @@ public class AdminService {
 
         return data;
     }
+
+    public String couponReg(CouponsVO couponsVO) {
+
+        String data = "N";
+
+        int res = repository.couponReg(couponsVO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
+
+    public List<CouponsVO> findAllCoupon() {
+        return repository.findAllCoupon();
+    }
+
+    public CouponsVO findCouponOneByIdx(Long cp_idx) {
+        return repository.findCouponOneByIdx(cp_idx);
+    }
+
+    public String updateCoupon(CouponsVO couponsVO) {
+        String data = "N";
+
+        int res = repository.updateCoupon(couponsVO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
+
+    public String delCoupon(Long cp_idx) {
+
+        String data = "N";
+
+        int res = repository.delCoupon(cp_idx);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+        return data;
+    }
 }

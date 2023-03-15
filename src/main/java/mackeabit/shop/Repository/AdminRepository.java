@@ -206,4 +206,24 @@ public class AdminRepository {
     public int adminAdd(AdminVO adminVO) {
         return adminMapper.adminAdd(adminVO);
     }
+
+    public int couponReg(CouponsVO couponsVO) {
+        return adminMapper.couponReg(couponsVO);
+    }
+
+    public List<CouponsVO> findAllCoupon() {
+        return adminMapper.findAllCoupon();
+    }
+
+    public CouponsVO findCouponOneByIdx(Long cp_idx) {
+        return adminMapper.findCouponOneByIdx(cp_idx);
+    }
+
+    public int updateCoupon(CouponsVO couponsVO) {
+        return adminMapper.updateCoupon(couponsVO);
+    }
+
+    public int delCoupon(Long cp_idx) {
+        return adminMapper.delCoupon(cp_idx);
+    }
 }

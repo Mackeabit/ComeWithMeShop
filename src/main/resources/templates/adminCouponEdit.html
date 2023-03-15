@@ -6,7 +6,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="/img/core-img/favicon.ico">
   <link rel="icon" type="image/png" href="/img/core-img/favicon.ico">
   <title>
-    Come With Me | Payments List
+    Come With Me | Coupon Edit
   </title>
   <!--    <link rel="canonical" href="https://www.creative-tim.com/product/material-dashboard-pro" />-->
 
@@ -141,7 +141,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white active bg-gradient-primary" href="/admin/paymentsList">
+        <a class="nav-link text-white" href="/admin/paymentsList">
           <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">payments</i>
           </div>
@@ -154,6 +154,14 @@
             <i class="material-icons opacity-10">rate_review</i>
           </div>
           <span class="nav-link-text ms-1">문의 목록</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white active bg-gradient-primary" href="/admin/couponList">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">layers</i>
+          </div>
+          <span class="nav-link-text ms-1">쿠폰 관리</span>
         </a>
       </li>
     </ul>
@@ -171,9 +179,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
           <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin">Pages</a></li>
-          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/paymentsList">결제 목록</a></li>
+          <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/admin/couponList">쿠폰 관리</a></li>
         </ol>
-        <h6 class="font-weight-bolder mb-0">결제 목록</h6>
+        <h6 class="font-weight-bolder mb-0">쿠폰 수정</h6>
       </nav>
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -186,83 +194,154 @@
   <!-- End Navbar -->
 
   <div class="container-fluid py-4">
-    <div class="row">
-      <div class="col-12">
+    <div class="row mt-4">
+      <div class="col-lg-9 col-12 mx-auto position-relative">
+        <form id="couponForm">
         <div class="card">
-          <div class="card-header">
-            <h5 class="mb-0">Payments Table</h5>
-            <p class="text-sm mb-0">
-              모든 결제 목록입니다.
-            </p>
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-dark shadow text-center border-radius-xl mt-n4 me-3 float-start">
+              <i class="material-icons opacity-10">event</i>
+            </div>
+            <h6 class="mb-0">New Coupon</h6>
           </div>
-          <div class="table-responsive">
-            <table class="table table-flush" id="datatable-search">
-              <thead class="thead-light">
-              <tr>
-                <th>결제번호</th>
-                <th>결제날짜</th>
-                <th>결제상태</th>
-                <th>회원</th>
-                <th>주문번호</th>
-                <th>결제가격</th>
-              </tr>
-              </thead>
-              <tbody>
-              <th:block th:each="pay:${paymentList}">
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <p class="text-xs font-weight-normal ms-2 mb-0" th:text="${pay.pay_code}">#10421</p>
+          <div class="card-body pt-2">
+            <div class="input-group input-group-dynamic">
+              <label for="projectName" class="form-label">쿠폰 코드</label>
+              <input type="text" name="cp_nm" class="form-control" id="projectName" th:value="${cp.cp_nm}">
+            </div>
+            <div class="row mt-4">
+              <div class="col-12 col-md-6">
+                <div class="form-group">
+                  <label>
+                    전체 사용 여부
+                  </label>
+                  <p class="form-text text-muted ms-1">
+                    체크 시 메인페이지에 쿠폰 번호가 나오게 됩니다.
+                  </p>
+                  <div class="form-check form-switch ms-1">
+                    <input id="cp_value" type="hidden" name="cp_value">
+                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onclick="checking()">
+                    <label class="form-check-label" for="flexSwitchCheckDefault"></label>
                   </div>
-                </td>
-                <td class="font-weight-normal">
-                  <span class="my-2 text-xs" th:text="${pay.pay_date}">1 Nov, 10:20 AM</span>
-                </td>
+                </div>
+              </div>
+            </div>
+            <label class="mt-4">쿠폰 설명</label>
+            <p class="form-text text-muted ms-1">
+              이용자에게 어떤 쿠폰인지 보여집니다.
+            </p>
+            <input id="cp_text" type="hidden" name="cp_text">
+            <div id="editor" th:text="${cp.cp_text}">
+              <p><br></p>
+            </div>
 
-                <td th:if="${pay.pay_status == -1}" class="text-xs font-weight-normal">
-                  <div class="d-flex align-items-center">
-                    <button class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-2 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-sm" aria-hidden="true">done</i></button>
-                    <span>결제 완료</span>
-                  </div>
-                </td>
+            <div class="row mt-4">
+              <div class="col-3">
+                <div class="input-group input-group-dynamic">
+                  <label class="form-label">할인할 가격</label>
+                  <input type="number" class="form-control w-100" onfocus="focused(this)" onfocusout="defocused(this)" name="cp_price" th:value="${cp.cp_price}">
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="input-group input-group-dynamic">
+                  <label class="form-label">최소 주문 가격</label>
+                  <input type="number" class="form-control w-100" onfocus="focused(this)" onfocusout="defocused(this)" name="min_price" th:value="${cp.min_price}">
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="input-group input-group-dynamic">
+                  <label class="form-label">쿠폰 수량</label>
+                  <input type="number" class="form-control w-100" onfocus="focused(this)" onfocusout="defocused(this)" name="cp_cnt" th:value="${cp.cp_cnt}">
+                </div>
+              </div>
+            </div>
 
-                <td th:if="${pay.pay_status == 0}" class="text-xs font-weight-normal" th:onclick="|cancelPay(${pay.pay_idx})|">
-                  <div class="d-flex align-items-center">
-                    <button class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-2 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-sm" aria-hidden="true">refresh</i></button>
-                    <span>환불 요청</span>
-                  </div>
-                </td>
+            <div class="d-flex justify-content-end mt-4">
+              <button id="delCoupon_btn"type="button" name="button" class="btn btn-light m-0">삭제하기</button>
+              <button id="modi_btn" type="button" name="button" class="btn bg-gradient-dark m-0 ms-2">수정하기</button>
+            </div>
 
-                <td th:if="${pay.pay_status == 1}" class="text-xs font-weight-normal">
-                  <div class="d-flex align-items-center">
-                    <button class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-2 btn-sm d-flex align-items-center justify-content-center"><i class="material-icons text-sm" aria-hidden="true">clear</i></button>
-                    <span>결제 취소</span>
-                  </div>
-                </td>
-
-                <td class="text-xs font-weight-normal">
-                  <div class="d-flex align-items-center">
-                    <span th:text="${pay.email}">Orlando Imieto</span>
-                  </div>
-                </td>
-                <td class="text-xs font-weight-normal">
-                  <span class="my-2 text-xs" th:text="${pay.order_mi}">Nike Sport V2</span>
-                </td>
-                <td class="text-xs font-weight-normal">
-                  <span class="my-2 text-xs" th:text="${pay.total_price}">$140,20</span>
-                </td>
-              </tr>
-              </th:block>
-              </tbody>
-            </table>
           </div>
         </div>
+          <input type="hidden" name="cp_idx" th:value="${cp.cp_idx}">
+        </form>
+
       </div>
     </div>
 
-    <form id="sendPayForm">
-    <input type="hidden" id="pay_idx" name="pay_idx">
-    </form>
+    <script>
+
+      let check = true;
+
+      function checking() {
+        check = !check;
+      }
+
+
+      $('#delCoupon_btn').click(function () {
+
+        let formData = $('#couponForm').serialize();
+
+        $.ajax({
+          type : "POST",
+          url : "/admin/delCoupon",
+          data : formData,
+          success: function(data){
+            console.log(data);
+            if(data == 'Y'){
+              alert("삭제되었습니다.");
+              location.href='/admin/couponList';
+            }else{
+              alert("잠시 후 다시 시도해주세요.")
+              location.reload();
+            }
+          },
+          error: function(data){
+            alert('error : '+data);
+          }
+        });
+
+
+      });
+
+
+      $('#modi_btn').click(function () {
+
+        $('#cp_text').val($('#editor').text());
+
+        if (check) {
+          $('#cp_value').val(-1);
+        } else {
+          $('#cp_value').val(0);
+        }
+
+        let formData = $('#couponForm').serialize();
+        alert(formData);
+
+        $.ajax({
+          type : "POST",
+          url : "/admin/updateCoupon",
+          data : formData,
+          success: function(data){
+            console.log(data);
+            if(data == 'Y'){
+              alert("수정되었습니다.");
+              location.href='/admin/couponList';
+            }else{
+              alert("잠시 후 다시 시도해주세요.")
+              location.reload();
+            }
+          },
+          error: function(data){
+            alert('error : '+data);
+          }
+        });
+
+
+
+      });
+
+    </script>
 
     <footer class="footer py-4  ">
       <div class="container-fluid">
@@ -287,82 +366,65 @@
 <script src="/adminV2/assets/js/core/bootstrap.min.js"></script>
 <script src="/adminV2/assets/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="/adminV2/assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script src="/adminV2/assets/js/plugins/choices.min.js"></script>
+<script src="/adminV2/assets/js/plugins/quill.min.js"></script>
+<script src="/adminV2/assets/js/plugins/flatpickr.min.js"></script>
+<script src="/adminV2/assets/js/plugins/dropzone.min.js"></script>
+<script>
+  if (document.getElementById('editor')) {
+    var quill = new Quill('#editor', {
+      theme: 'snow' // Specify theme in configuration
+    });
+  }
+
+  if (document.getElementById('choices-multiple-remove-button')) {
+    var element = document.getElementById('choices-multiple-remove-button');
+    const example = new Choices(element, {
+      removeItemButton: true
+    });
+
+    example.setChoices(
+            [{
+              value: 'One',
+              label: 'Label One',
+              disabled: true
+            },
+              {
+                value: 'Two',
+                label: 'Label Two',
+                selected: true
+              },
+              {
+                value: 'Three',
+                label: 'Label Three'
+              },
+            ],
+            'value',
+            'label',
+            false,
+    );
+  }
+
+  if (document.querySelector('.datetimepicker')) {
+    flatpickr('.datetimepicker', {
+      allowInput: true
+    }); // flatpickr
+  }
+
+  Dropzone.autoDiscover = false;
+  var drop = document.getElementById('dropzone')
+  var myDropzone = new Dropzone(drop, {
+    url: "/file/post",
+    addRemoveLinks: true
+
+  });
+</script>
 
 <script src="/adminV2/assets/js/plugins/dragula/dragula.min.js"></script>
 <script src="/adminV2/assets/js/plugins/jkanban/jkanban.js"></script>
-<script src="/adminV2/assets/js/plugins/datatables.js"></script>
-
-<script th:inline="javascript">
-
-  function cancelPay(pay_idx) {
-
-    alert(pay_idx);
-
-    let editCheck = confirm("결제 취소를 진행하시겠습니까?");
-    if (editCheck) {
-
-      $('#pay_idx').val(pay_idx);
-
-      cancelAjax();
-    }
-
-  }
-
-
-  function cancelAjax() {
-
-    let formData = $('#sendPayForm').serialize();
-    alert(formData);
-
-    $.ajax({
-      type : "POST",
-      url : "/admin/adminPaymentsCancel",
-      data : formData,
-      success: function (data) {
-        if(data == "N"){
-          alert("잠시 후 다시 시도해주세요.");
-        }else if(data == "Y"){
-          alert("결제 취소 완료")
-          location.reload();
-        }
-      },
-      error: function(data){
-        alert("잠시 후 다시 시도해주세요.");
-        console.log(data);
-      }
-    });
-
-  }
-
-</script>
-
-<script>
-  const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
-    searchable: true,
-    fixedHeight: false
-  });
-
-  document.querySelectorAll(".export").forEach(function(el) {
-    el.addEventListener("click", function(e) {
-      var type = el.dataset.type;
-
-      var data = {
-        type: type,
-        filename: "material-" + type,
-      };
-
-      if (type === "csv") {
-        data.columnDelimiter = "|";
-      }
-
-      dataTableSearch.export(data);
-    });
-  });
-</script>
-
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<script src="/adminV2/assets/js/material-dashboard.min.js?v=3.0.6"></script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"7a7576374c6b2112","version":"2023.2.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
+<script src="/adminV2/assets/js/material-dashboard.js?v=3.0.6"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vaafb692b2aea4879b33c060e79fe94621666317369993" integrity="sha512-0ahDYl866UMhKuYcW078ScMalXqtFJggm7TmlUtp0UlD4eQk0Ixfnm5ykXKvGJNFjLMoortdseTfsRT8oCfgGA==" data-cf-beacon='{"rayId":"7a79378a29481fa3","version":"2023.2.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
 </body>
 </html>

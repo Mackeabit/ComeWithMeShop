@@ -488,9 +488,54 @@ public class AdminController {
         return "adminLogin";
     }
 
+    @GetMapping("/couponList")
+    public String couponList(Model model) {
+
+        List<CouponsVO> couponsVOList = adminService.findAllCoupon();
+        model.addAttribute("couponList", couponsVOList);
+
+        return "adminCouponList";
+    }
+
+    @GetMapping("/couponReg")
+    public String couponRegPage() {
+        return "adminCouponReg";
+    }
+
+    @PostMapping("/couponReg")
+    @ResponseBody
+    public String couponReg(CouponsVO couponsVO) {
+
+        log.info("coupon = {}", couponsVO);
+
+        return adminService.couponReg(couponsVO);
+    }
+
+    @GetMapping("/couponEdit")
+    public String couponEdit(Model model, Long cp_idx) {
+
+        CouponsVO couponsVO = adminService.findCouponOneByIdx(cp_idx);
+        model.addAttribute("cp", couponsVO);
+
+        return "adminCouponEdit";
+    }
+
+    @PostMapping("/updateCoupon")
+    @ResponseBody
+    public String updateCoupon(CouponsVO couponsVO) {
+        return adminService.updateCoupon(couponsVO);
+    }
+
+    @PostMapping("/delCoupon")
+    @ResponseBody
+    public String delCoupon(CouponsVO couponsVO) {
+        return adminService.delCoupon(couponsVO.getCp_idx());
+    }
+
+
     @GetMapping("/test")
     public String test() {
-        return "adminQnaAnswerPage";
+        return "adminCouponList";
     }
 
 }

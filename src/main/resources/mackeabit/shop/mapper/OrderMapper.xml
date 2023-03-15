@@ -38,9 +38,9 @@
         SELECT * FROM coupons WHERE cp_nm=#{coupon_code}
     </select>
 
-    <update id="usedCoupon" parameterType="map">
-        UPDATE members_coupon SET cp_ck = 0 WHERE member_idx = #{member_idx} and cp_idx=#{cp_idx}
-    </update>
+    <insert id="usedCoupon" parameterType="map" useGeneratedKeys="true" keyProperty="mc_idx">
+        INSERT INTO members_coupon (member_idx, cp_nm) VALUES (#{member_idx}, #{cp_nm})
+    </insert>
 
     <update id="minusCntCouponByIdx" parameterType="Long">
         UPDATE coupons SET cp_cnt = cp_cnt-1 WHERE cp_idx=#{cp_idx}

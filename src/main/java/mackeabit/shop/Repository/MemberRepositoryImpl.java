@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.*;
 import mackeabit.shop.mapper.MemberMapper;
-import mackeabit.shop.vo.MemberDetailVO;
-import mackeabit.shop.vo.MembersVO;
-import mackeabit.shop.vo.Members_logVO;
-import mackeabit.shop.vo.NoticesVO;
+import mackeabit.shop.vo.*;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -193,8 +190,13 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public CouponMemberDTO findCouponByNm(CouponMemberDTO search) {
-        return memberMapper.findCouponByNm(search);
+    public CouponsVO findCouponByNm(String cp_nm) {
+        return memberMapper.findCouponByNm(cp_nm);
+    }
+
+    @Override
+    public Members_couponVO findCouponByCp_nm(String cp_nm) {
+        return memberMapper.findCouponByCp_nm(cp_nm);
     }
 
 

@@ -369,13 +369,9 @@ public class MainController {
         }
 
         //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드
-        CouponMemberDTO search = new CouponMemberDTO();
-        search.setMember_idx(attribute.getMember_idx());
-        search.setCp_nm(checkOutDTO.getCp_nm());
+        CouponsVO couponsVO = memberService.findCouponByNm(checkOutDTO.getCp_nm());
 
-        CouponMemberDTO couponDTO = memberService.findCouponByNm(search);
-
-        int coupon = couponDTO.getCp_price();
+        int coupon = couponsVO.getCp_price();
 
         //회원등급에 따른 할인
         int sales = calculateGrade(attribute.getGrade_code(), beforePrice);
