@@ -36,6 +36,11 @@ public class AdminController {
     private final MemberService memberService;
     private final PaymentService paymentService;
 
+    @GetMapping("/login")
+    public String adminLogin() {
+        return "adminLogin";
+    }
+
     @GetMapping()
     public String adminMain(@AdminLogin AdminVO adminVO, Model model) {
 

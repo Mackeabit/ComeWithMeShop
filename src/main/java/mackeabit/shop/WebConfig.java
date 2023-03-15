@@ -2,6 +2,7 @@ package mackeabit.shop;
 
 import mackeabit.shop.argument.AdminLoginArgument;
 import mackeabit.shop.argument.LoginMemberArgument;
+import mackeabit.shop.interceptor.AdminLoginCheckInterceptor;
 import mackeabit.shop.interceptor.LogInterceptor;
 import mackeabit.shop.interceptor.LoginCheckInterceptor;
 import org.springframework.context.annotation.Bean;
@@ -24,12 +25,16 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
 
-/*
-        registry.addInterceptor(new LoginCheckInterceptor())
+        registry.addInterceptor(new AdminLoginCheckInterceptor())
                 .order(2)
-                .addPathPatterns("/**")
-                .excludePathPatterns("/","/login","/shop","/loginCheck","/loginSession"); //추후 예외 위치 추가
-*/
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin","/admin/login", "/admin/adminCheck", "/admin/adminSession");
+
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(3)
+                .addPathPatterns("/myPage/**");
+
+
     }
 
     //@Login 어노테이션 활용
