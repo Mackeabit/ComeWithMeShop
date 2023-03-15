@@ -53,16 +53,9 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pwd" placeholder="Password" autocomplete="off" onkeydown="if(event.keyCode === 13) enterKey();"/>
+						<input class="input100" type="password" id="pwd" name="pwd" placeholder="Password" autocomplete="off" onkeydown="if(event.keyCode === 13) enterKey();"/>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
-
-<!--					<div class="contact100-form-checkbox">
-						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-						<label class="label-checkbox100" for="ckb1">
-							Remember me
-						</label>
-					</div>-->
 
 					<div class="container-login100-form-btn">
 						<button type="button" id="login_btn" class="login100-form-btn">
@@ -92,6 +85,27 @@
 
 
 		function enterKey() {
+
+			let email = $('#email').val();
+			let pwd = $('#pwd').val();
+
+			if (!email) {
+				alert("이메일을 입력해주세요.");
+				return false;
+			}
+
+			let emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+			if (!emailRegExp.test(email)) {
+				alert("이메일을 입력해주세요.");
+				return false;
+			}
+
+			if (!pwd) {
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			}
+
+
 			login_check();
 
 		}
@@ -99,7 +113,29 @@
 
 		/* 로그인 버튼 클릭 시 */
 		$('#login_btn').click(function() {
-			/* 유효성 검사 */
+
+
+			let email = $('#email').val();
+			let pwd = $('#pwd').val();
+
+			if (!email) {
+				alert("이메일을 입력해주세요.");
+				return false;
+			}
+
+			let emailRegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+			if (!emailRegExp.test(email)) {
+				alert("이메일을 입력해주세요.");
+				return false;
+			}
+
+			if (!pwd) {
+				alert("비밀번호를 입력해주세요.");
+				return false;
+			}
+
+
+
 			login_check();
 
 		});

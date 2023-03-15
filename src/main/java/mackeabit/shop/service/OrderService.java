@@ -88,8 +88,6 @@ public class OrderService {
         //3. INSERT 객체 준비(주문서)
         /* order_idx (자동증가), order_mi, member_idx, pd_idx, now_price, address, address_detail, order_date */
 
-
-
         List<OrdersVO> createOrders = new ArrayList<>();
         List<ProductsVO> cntManageProducts = new ArrayList<>();
 
@@ -172,17 +170,22 @@ public class OrderService {
 
         //회원의 쿠폰 코드 사용으로 바꾸기
         //사용한 쿠폰 찾기
+        log.info("Pay Coupon Code check = {}", coupon_code);
         CouponMemberDTO couponMemberDTO = orderRepository.findCoupon(coupon_code);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("member_idx", member_idx);
-        params.put("cp_nm", couponMemberDTO.getCp_nm());
+        if (couponMemberDTO != null) {
 
-        //회원 쿠폰에 사용이력을 등록
-        orderRepository.usedCoupon(params);
+            Map<String, Object> params = new HashMap<>();
+            params.put("member_idx", member_idx);
+            params.put("cp_nm", couponMemberDTO.getCp_nm());
 
-        //쿠폰 DB 의 사용횟수 차감
-        orderRepository.minusCntCouponByIdx(couponMemberDTO.getCp_idx());
+            //회원 쿠폰에 사용이력을 등록
+            orderRepository.usedCoupon(params);
+
+            //쿠폰 DB 의 사용횟수 차감
+            orderRepository.minusCntCouponByIdx(couponMemberDTO.getCp_idx());
+
+        }
 
 
         log.info("Last payRes = {}", payRes);

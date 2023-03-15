@@ -156,11 +156,20 @@
           <span class="nav-link-text ms-1">문의 목록</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/admin/couponList">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i class="material-icons opacity-10">layers</i>
+          </div>
+          <span class="nav-link-text ms-1">쿠폰 관리</span>
+        </a>
+      </li>
     </ul>
   </div>
   <div th:if="${session.superAdmin != null}" class="sidenav-footer position-absolute w-100 bottom-0 ">
     <div class="mx-3">
       <a class="btn bg-gradient-primary mt-4 w-100" href="#" type="button">계정 관리</a>
+      <a class="btn bg-gradient-success mt-4 w-100" href="/admin/adminLogOut" type="button">로그아웃</a>
     </div>
   </div>
 </aside>
@@ -186,35 +195,6 @@
   <!-- End Navbar -->
 
   <div class="container-fluid py-4">
-<!--
-    <div class="d-sm-flex justify-content-between">
-      <div>
-        <a href="javascript:;" class="btn btn-icon bg-gradient-primary">
-          New order
-        </a>
-      </div>
-      <div class="d-flex">
-        <div class="dropdown d-inline">
-          <a href="javascript:;" class="btn btn-outline-dark dropdown-toggle " data-bs-toggle="dropdown" id="navbarDropdownMenuLink2">
-            Filters
-          </a>
-          <ul class="dropdown-menu dropdown-menu-lg-start px-2 py-3" aria-labelledby="navbarDropdownMenuLink2" data-popper-placement="left-start">
-            <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Paid</a></li>
-            <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Refunded</a></li>
-            <li><a class="dropdown-item border-radius-md" href="javascript:;">Status: Canceled</a></li>
-            <li>
-              <hr class="horizontal dark my-2">
-            </li>
-            <li><a class="dropdown-item border-radius-md text-danger" href="javascript:;">Remove Filter</a></li>
-          </ul>
-        </div>
-        <button class="btn btn-icon btn-outline-dark ms-2 export" data-type="csv" type="button">
-          <i class="material-icons text-xs position-relative">archive</i>
-          Export CSV
-        </button>
-      </div>
-    </div>
--->
     <div class="row">
       <div class="col-12">
         <div class="card">

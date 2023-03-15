@@ -34,18 +34,6 @@ public class PayController {
     private final HttpServletRequest request;
     private final OrderService orderService;
 
-/*    @RequestMapping("/payAndOrderCart")
-    @ResponseBody
-    public String payAndOrderCart(String order_mi, String pay_code, String address, Integer total_price) {
-
-        String data = "N";
-
-        data = orderService.saveAll(order_mi, pay_code, address, total_price);
-
-        return data;
-    }*/
-
-
 
     //결제 검증 성공 후
     @PostMapping("/completeOrders")
@@ -80,6 +68,11 @@ public class PayController {
 
             //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드 추가할 것.
             CouponMemberDTO couponMemberDTO = orderService.findCoupon(orderInfo.getCoupon_code());
+
+            if (couponMemberDTO == null) {
+                couponMemberDTO = new CouponMemberDTO();
+                couponMemberDTO.setCp_price(0);
+            }
 
             //회원등급에 따른 할인
             int sales = calculateGrade(attribute.getGrade_code(), beforePrice);

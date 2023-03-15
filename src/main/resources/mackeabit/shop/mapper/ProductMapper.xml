@@ -49,7 +49,7 @@
 
     <select id="bestProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
         select * from products p
-                          JOIN product_img pi ON p.pd_idx = pi.pd_idx
+                          JOIN product_img pi ON p.pd_idx = pi.pd_idx JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         <where>
             <if test="pd_kind == 2">
                 and p.pd_idx in (select max(pd_idx) from products group by pd_nm) and pd_value=#{pd_value}
@@ -98,7 +98,7 @@
     </select>
 
     <select id="categoryProducts" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
-        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx join categorys c ON p.category_code = c.category_code
+        select * from products p JOIN product_img pi ON p.pd_idx = pi.pd_idx join categorys c ON p.category_code = c.category_code JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         <where>
             <if test="pd_kind == null">
                 and p.category_code=#{category_code} and p.pd_idx in (select max(pd_idx) from products group by pd_nm) limit #{pageSize} offset #{startIndex}
@@ -119,6 +119,7 @@
         FROM products p
         JOIN product_img pi ON p.pd_idx = pi.pd_idx
         JOIN categorys c ON p.category_code = c.category_code
+        JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         WHERE p.category_code IN (SELECT category_code FROM categorys WHERE category_ref = #{category_code} OR category_code = #{category_code})
         AND p.pd_idx IN (SELECT MAX(pd_idx) FROM products GROUP BY pd_nm)
         <if test="pd_kind != null">
@@ -132,6 +133,7 @@
         from products p
         join product_img pi on p.pd_idx = pi.pd_idx
         join categorys c on p.category_code = c.category_code
+        JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         where (p.category_code = #{category_code}
         or c.category_ref = #{category_code})
         <if test="pd_kind != null">

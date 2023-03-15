@@ -114,7 +114,6 @@
         /* 로그인 버튼 클릭 시 */
         $('#login_btn').click(function() {
 
-          /* 유효성 검사 */
           login_check();
 
         });
@@ -126,7 +125,6 @@
 
           let formData = $('#form_ck').serialize();
 
-          alert(formData);
 
           $.ajax({
             type : "POST",

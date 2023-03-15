@@ -62,11 +62,6 @@ public class MemberController {
             return data;
         }
 
-        CouponMemberDTO search = new CouponMemberDTO();
-        search.setMember_idx(membersVO.getMember_idx());
-        search.setCp_nm(cp_nm);
-
-
         CouponsVO coupon = memberService.findCouponByNm(cp_nm);
 
         if (coupon == null) {
@@ -214,18 +209,6 @@ public class MemberController {
     }
 
 
-/*
-    @GetMapping("/myPage/orders")
-    public String myPageOrder(Model model) {
-
-        List<MyOrdersDTO> myOrderList = memberService.myOrdersList();
-
-        model.addAttribute("myOrderList", myOrderList);
-
-        return "myOrders";
-    }
-*/
-
     @GetMapping("/myPage/orders")
     public String myPageOrder(Model model, @RequestParam(defaultValue = "4") int limit, @RequestParam(defaultValue = "1") int offset) {
 
@@ -311,6 +294,11 @@ public class MemberController {
         return "myQna";
     }
 
+    @GetMapping("test")
+    public String test() {
+
+        return "userPasswordFind";
+    }
 
 
 }

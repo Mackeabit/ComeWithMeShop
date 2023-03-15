@@ -9,7 +9,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Come With Me | 상품 </title>
+    <title>Come With Me | 상품 상세 페이지 </title>
 
     <!-- Favicon  -->
     <link rel="icon" th:href="@{/img/core-img/favicon.ico}" href="/img/core-img/favicon.ico">
@@ -118,7 +118,7 @@
                 <li data-toggle="collapse" data-target="#women" class="collapsed active">
                     <a href="#">Woman wear <span class="arrow"></span></a>
                     <ul class="sub-menu collapse" id="women">
-                        <li><a th:href="@{|products/best/2/1|}" href="#">여성 인기 상품</a></li>
+                        <li><a th:href="@{|/products/best/2/1|}" href="#">여성 인기 상품</a></li>
                         <li><a th:href="@{|/products/woman/category/4|}" href="#">상의</a></li>
                         <li><a th:href="@{|/products/woman/category/5|}" href="#">하의</a></li>
                         <li><a th:href="@{|/products/woman/category/6|}" href="#">원피스</a></li>
@@ -187,9 +187,7 @@
                                     </a>
                                     <!-- Cart Area 장바구니 번호 구현 끝 -->
 
-                                    <!--th:if = "${session.loginMember != null}"-->
                                     <!-- Cart List Area Start 장바구니 안에 내용 -->
-
                                     <ul class="cart-list">
                                         <li th:each="cart:${session.memberCart}">
                                             <a th:href="@{|/products/${cart.pd_nm}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
@@ -281,21 +279,10 @@
 
                                 <div class="collapse navbar-collapse align-items-start collapse" id="karl-navbar">
                                     <ul class="navbar-nav animated" id="nav">
-                                        <li class="nav-item active"><a class="nav-link" th:href="@{|products/best/2/2|}" href="#">Best</a></li>
-                                        <li class="nav-item"><a class="nav-link" th:href="@{|products/category/1|}" href="#">Clothes</a></li>
-                                        <li class="nav-item"><a class="nav-link" th:href="@{|products/category/3|}" href="#">Bag & Shoes</a></li>
-                                        <li class="nav-item"><a class="nav-link" th:href="@{|products/category/2|}" href="#"><span class="karl-level">hot</span>Accessories</a></li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community</a>
-                                            <div class="dropdown-menu" aria-labelledby="karlDropdown">
-                                                <a class="dropdown-item" href="/">Home</a>
-                                                <a class="dropdown-item" href="shop.html">Q&A</a>
-                                                <a class="dropdown-item" href="product-details.html">Reviews</a>
-                                                <!--       <a class="dropdown-item" href="cart.html">Cart</a>
-                                                       <a class="dropdown-item" href="checkout.html">Checkout</a>-->
-                                            </div>
-                                        </li>
-
+                                        <li class="nav-item active"><a class="nav-link" th:href="@{|/products/best/2/2|}" href="#">Best</a></li>
+                                        <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/1|}" href="#">Clothes</a></li>
+                                        <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/3|}" href="#">Bag & Shoes</a></li>
+                                        <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/2|}" href="#"><span class="karl-level">hot</span>Accessories</a></li>
                                     </ul>
                                 </div>
                             </nav>
@@ -359,12 +346,6 @@
                                 <ol class="carousel-indicators">
                                     <li class="active" data-target="#product_details_slider" data-slide-to="0" th:style="'background-image: url(/'+${product.sv_loc}+')'" style="background-image: url(/img/product-img/product-9.jpg);">
                                     </li>
-<!--                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(/img/product-img/product-2.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(/img/product-img/product-3.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(/img/product-img/product-4.jpg);">
-                                    </li>-->
                                 </ol>
 
                                 <div class="carousel-inner">
@@ -373,21 +354,6 @@
                                         <img class="d-block w-100" th:src="'/'+${product.sv_loc}" src="/img/product-img/product-9.jpg" alt="First slide">
                                     </a>
                                     </div>
-<!--                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="/img/product-img/product-2.jpg">
-                                        <img class="d-block w-100" src="/img/product-img/product-2.jpg" alt="Second slide">
-                                    </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="/img/product-img/product-3.jpg">
-                                        <img class="d-block w-100" src="/img/product-img/product-3.jpg" alt="Third slide">
-                                    </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="/img/product-img/product-4.jpg">
-                                        <img class="d-block w-100" src="/img/product-img/product-4.jpg" alt="Fourth slide">
-                                    </a>
-                                    </div>-->
                                 </div>
                             </div>
                         </div>
@@ -399,8 +365,6 @@
                             <h4 class="title"><a href="#" th:text="${product.pd_nm}">Long Yellow Dress</a></h4>
 
                             <h4 class="price" data-th-text="'&#8361;'+${#numbers.formatInteger(product.sell_price, 3, 'COMMA')}"></h4>
-
-<!--                            <p class="available">재고 수량: <span class="text-muted" id="pd_cnt"></span></p>-->
 
                             <div class="single_product_ratings mb-15">
                                 <th:block th:each="count : ${#numbers.sequence(1, 5)}">
@@ -446,19 +410,6 @@
                                     </ul>
                                 </div>
                             </div>
-<!--                            <div class="widget size mb-50">
-                                <h6 class="widget-title">Size</h6>
-                                <div class="widget-desc">
-                                    <ul>
-                                        <li><a href="#">32</a></li>
-                                        <li><a href="#">34</a></li>
-                                        <li><a href="#">36</a></li>
-                                        <li><a href="#">38</a></li>
-                                        <li><a href="#">40</a></li>
-                                        <li><a href="#">42</a></li>
-                                    </ul>
-                                </div>
-                            </div>-->
 
                             <!-- Add to Cart Form -->
                             <form id="mainCart" class="cart"
@@ -552,8 +503,6 @@
                                 let formData = f.serialize();
                                 formData += '&pd_color=' + mainColorPick + '&pd_size=' + mainSizePick;
 
-                                alert(formData);
-
                                 $.ajax({
                                     type   : "POST",
                                     url    : "/cartInsert",
@@ -563,15 +512,15 @@
                                             alert("장바구니에 추가되었습니다.");
                                             location.href = "/";
                                         } else if (data == "NN") {
-                                            location.href = "/login";
+                                            alert("로그인 이후 이용하실 수 있습니다.")
                                         } else if (data == "exist") {
                                             alert("이미 장바구니에 추가되어있는 상품입니다.")
                                         } else if (data == "noIdx") {
-                                            alert("현재 상품에 대하여 관리자에게 문의해주세요.")
+                                            alert("상품 옵션을 선택해주세요.")
                                         }
                                     },
                                     error  : function (data) {
-                                        alert("에러 발생!");
+                                        alert("잠시 후 재시도 해주세요.");
                                         console.log(data);
                                     }
                                 });
@@ -797,7 +746,7 @@
         /*]]>*/
 
         //실제 도메인이 없어서 사용불가.
-        // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+        // SDK 초기화. 사용할 앱의 JavaScript 키 설정.
         /*
                                                         Kakao.init('b1ed3cf490b7a8f2ae5d33b76faec2ef');
                                                         function kakaoShare() {
@@ -883,15 +832,15 @@
                         alert("장바구니에 추가되었습니다.");
                         location.href = "/";
                     } else if (data == "NN") {
-                        location.href = "/login";
+                        alert("로그인 이후 이용하실 수 있습니다.")
                     } else if (data == "exist") {
                         alert("이미 장바구니에 추가되어있는 상품입니다.")
                     } else if (data == "noIdx") {
-                        alert("현재 상품에 대하여 관리자에게 문의해주세요.")
+                        alert("상품 옵션을 선택해주세요.")
                     }
                 },
                 error  : function (data) {
-                    alert("에러 발생!");
+                    alert("잠시 후 재시도 해주세요.");
                     console.log(data);
                 }
             });
@@ -1177,7 +1126,7 @@
                 <!-- 페이징 처리 끝-->
 
                 <!-- 리뷰 tab 끝 -->
-                <input type="button" class="writeBtn" onclick="reviewPopUp();" value="리뷰작성">
+                <input th:if="${productCheck != 0}" type="button" class="writeBtn" onclick="reviewPopUp();" value="리뷰작성">
             </div>
         </div>
     </div><!--tab-->
@@ -1249,8 +1198,6 @@
                 <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                     <div class="single_footer_area">
                         <ul class="footer_widget_menu">
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Faq</a></li>
                         </ul>
                     </div>
                 </div>
@@ -1258,8 +1205,6 @@
                 <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                     <div class="single_footer_area">
                         <ul class="footer_widget_menu">
-                            <li><a href="#">마이 페이지</a></li>
-                            <li><a href="#">Community</a></li>
                         </ul>
                     </div>
                 </div>

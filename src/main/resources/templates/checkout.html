@@ -12,14 +12,14 @@
     <title>Come With Me | Checkout</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="img/core-img/favicon.ico">
+    <link rel="icon" href="/img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
-    <link rel="stylesheet" href="css/core-style.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/core-style.css">
+    <link rel="stylesheet" href="/style.css">
 
     <!-- Responsive CSS -->
-    <link href="css/responsive.css" rel="stylesheet">
+    <link href="/css/responsive.css" rel="stylesheet">
 
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -65,7 +65,6 @@
                     </ul>
                 </li>
                 <!-- Single Item -->
-                <!-- Single Item -->
                 <li data-toggle="collapse" data-target="#bags" class="collapsed">
                     <a href="#">Bags &amp; SHOES <span class="arrow"></span></a>
                     <ul class="sub-menu collapse" id="bags">
@@ -90,8 +89,7 @@
     <div id="wrapper">
 
         <!-- ****** Header Area Start ****** -->
-        <!-- ****** Header Area Start ****** -->
-        <header class="header_area">
+        <header class="header_area bg-img background-overlay-white" style="background-image: url(/img/bg-img/bg-1.jpg);">
             <!-- Top Header Area Start -->
             <div class="top_header_area">
                 <div class="container h-100">
@@ -104,71 +102,6 @@
                                     <a href="/"><img src="/img/core-img/logo.png" alt=""></a>
                                 </div>
 
-                                <!-- Cart & Menu Area -->
-                                <div class="header-cart-menu d-flex align-items-center ml-auto">
-
-                                    <!-- Cart Area 장바구니 수량-->
-                                    <div class="cart">
-                                        <a th:if="${session.loginMember != null}" href="#" id="header-cart-btn" target="_blank">
-                                            <span th:if = "${session.loginMember != null}" th:text="${session.memberCart.size()}"
-                                                  class="cart_quantity">0</span>
-                                            <i class="ti-bag">
-                                            </i>
-                                            장바구니
-                                        </a>
-                                        <!-- Cart Area 장바구니 번호 구현 끝 -->
-
-                                        <!--th:if = "${session.loginMember != null}"-->
-                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
-
-                                        <ul class="cart-list">
-                                            <li th:each="cart:${session.memberCart}">
-                                                <a th:href="@{|/products/${cart.pd_idx}|}" href="#" class="image"><img th:src="|/${cart.sv_locCt}|" class="cart-thumb" alt=""></a>
-                                                <div class="cart-item-desc">
-                                                    <h6><a th:text="|${cart.pd_nm}|" th:href="@{|/products/${cart.pd_idx}|}">Women's Fashion</a></h6>
-                                                    <input type="hidden" th:name="${cart.pd_idx}" th:value="${cart.pd_idx}">
-                                                    <p>
-                                                        <span th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|size : ${cart.pd_size} / color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}!=null">
-                                                        <span th:if="${cart.pd_size}!=null and ${cart.pd_color}==null" style="font-size: x-small" th:text="|size : ${cart.pd_size}|"></span><br th:if="${cart.pd_size}!=null and ${cart.pd_color}==null">
-                                                        <span th:if="${cart.pd_size}==null and ${cart.pd_color}!=null" style="font-size: x-small" th:text="|color : ${cart.pd_color}|"></span><br th:if="${cart.pd_size}==null and ${cart.pd_color}!=null">
-                                                        <span class="price" th:name="${cart.pd_idx}" data-th-text="${#numbers.formatInteger(cart.sell_price, 3, 'COMMA') + '원 x '}+${cart.cart_cnt}">$10</span>
-                                                    </p>
-                                                </div>
-                                                <span class="dropdown-product-remove">
-                                                    <i class="icon-cross"></i>
-                                                </span>
-                                            </li>
-                                            <li class="total">
-                                                <span class="pull-right" id="priceInit"></span>
-                                                <a href="/cart" class="btn btn-sm btn-cart">장바구니</a>
-                                            </li>
-                                        </ul>
-                                        <!-- Cart List Area Start 장바구니 안에 내용 -->
-
-
-                                        <script th:inline="javascript">
-                                            let totalPrice = 0;
-                                            /*<![CDATA[*/
-                                            if ([[${session.loginMember}]] != null) {
-                                                let cart = [[${session.memberCart}]];
-                                                console.log(cart);
-                                                for (i = 0; i < cart.length; i++) {
-                                                    totalPrice+=cart[i].sell_price*cart[i].cart_cnt;
-                                                }
-                                                console.log(totalPrice);
-                                            }
-
-                                            /*]]>*/
-
-                                            $('#priceInit').text("TOTAL : "+totalPrice.toLocaleString());
-                                        </script>
-
-                                    </div>
-
-                                    <div class="header-right-side-menu ml-15">
-                                        <a href="#" id="sideMenuBtn"><i class="ti-menu" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -184,7 +117,7 @@
                             <!-- Header Social Area -->
                             <div class="header-social-area">
                                 <!--<a href="#"><span class="karl-level">Share</span> <i class="fa fa-pinterest" aria-hidden="true"></i></a>-->
-                                <a href="#"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                                <a href="/myPage"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
                                 <a th:if = "${session.loginMember != null}" href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a> <!-- 로그아웃 -->
                                 <a th:if = "${session.loginMember == null}" href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i></a> <!-- 로그인 -->
                                 <a href="#" id="scrollDown"><i class="fa fa-search" aria-hidden="true"></i></a> <!-- 검색 아이콘-->
@@ -216,17 +149,6 @@
                                             <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/1|}" href="#">Clothes</a></li>
                                             <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/3|}" href="#">Bag & Shoes</a></li>
                                             <li class="nav-item"><a class="nav-link" th:href="@{|/products/category/2|}" href="#"><span class="karl-level">hot</span>Accessories</a></li>
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" href="#" id="karlDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Community</a>
-                                                <div class="dropdown-menu" aria-labelledby="karlDropdown">
-                                                    <a class="dropdown-item" href="/">Home</a>
-                                                    <a class="dropdown-item" href="shop.html">Q&A</a>
-                                                    <a class="dropdown-item" href="product-details.html">Reviews</a>
-                                                    <!--       <a class="dropdown-item" href="cart.html">Cart</a>
-                                                           <a class="dropdown-item" href="checkout.html">Checkout</a>-->
-                                                </div>
-                                            </li>
-
                                         </ul>
                                     </div>
                                 </nav>
@@ -278,20 +200,16 @@
 
                             <form action="#" method="post">
                                 <div class="row">
-<!--                                    <div class="col-md-6 mb-3">
-                                        <label for="first_name">First Name <span>*</span></label>
-                                        <input type="text" class="form-control" id="first_name" value="" required>
-                                    </div>-->
 
-                                    <th:block id="check_email" th:if="${session.loginMember.email_ck} == -1">
-                                    <div class="col-md-6 mb-3">
+                                    <th:block id="check_email" th:if="${session.loginMember.email_ck == -1}">
+                                    <div id="email1" class="col-md-6 mb-3">
                                         <label for="email"><span>*</span> 이메일 인증 <span>(최초 1회만 진행하시면 됩니다.)</span></label>
                                         <input type="text" class="form-control" id="email" value="" autocomplete="off" style="width: 300px">
                                     </div>
-                                    <div class="col-md-6 mb-3" style="margin-top: 25px; padding-left: 50px">
+                                    <div id="email2" class="col-md-6 mb-3" style="margin-top: 25px; padding-left: 50px">
                                         <a href="#" class="btn karl-checkout-btn" id="email-verification-button">인증코드 받기</a>
                                     </div>
-                                    <div class="col-12 mb-3">
+                                    <div id="email3" class="col-12 mb-3">
                                         <label for="email_code"><span>*</span> 인증 번호</label>
                                         <input type="text" class="form-control" id="email_code" value="" autocomplete="off">
                                     </div>
@@ -360,21 +278,6 @@
                                         }
                                     </script>
 
-
-<!--                                    <div class="col-12">
-                                        <div class="custom-control custom-checkbox d-block mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                            <label class="custom-control-label" for="customCheck1">Terms and conitions</label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox d-block mb-2">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                            <label class="custom-control-label" for="customCheck2">Create an accout</label>
-                                        </div>
-                                        <div class="custom-control custom-checkbox d-block">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                            <label class="custom-control-label" for="customCheck3">Subscribe to our newsletter</label>
-                                        </div>
-                                    </div>-->
                                 </div>
                             </form>
                         </div>
@@ -399,11 +302,11 @@
                                 </li>
                                 <li th:if="${checkOutInfo.coupon_price != 0}">
                                     <span th:if="${checkOutInfo.coupon_price != 0}">쿠폰 할인</span>
-                                    <span th:if="${checkOutInfo.coupon_price != 0}" th:text="${#numbers.formatInteger(checkOutInfo.coupon_price, 1, 'COMMA')}+'원'"></span>
+                                    <span th:if="${checkOutInfo.coupon_price != 0}" th:text="'-'+${#numbers.formatInteger(checkOutInfo.coupon_price, 1, 'COMMA')}+'원'"></span>
                                 </li>
                                 <li>
                                     <span>배송료</span>
-                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'-'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 1, 'COMMA')}+'원'"></span>
+                                    <span th:if="${checkOutInfo.shipping_price != '0'}" th:text="'+'+ ${#numbers.formatInteger(checkOutInfo.shipping_price, 1, 'COMMA')}+'원'"></span>
                                     <span th:if="${checkOutInfo.shipping_price == 'Free' or checkOutInfo.shipping_price == '0'}">Free</span>
                                     <input type="hidden" id="shipping_code" th:value="${checkOutInfo.shipping_code}">
                                 </li>
@@ -443,10 +346,9 @@
                                 <input type="hidden" id="postNumb" name="post_code">
                             </form>
 
+                            <input type="hidden" id="postCK" th:attr="value=${(memberInfo.post_code != null) ? memberInfo.post_code : ''}">
 
                             <script th:inline="javascript">
-
-
 
                                 /*<![CDATA[*/
 
@@ -470,6 +372,24 @@
                                     address2 = $('#street_address2').val();
                                     postcode  = $('#postcode').val();
                                     shipping_code  = $('#shipping_code').val();
+
+
+
+                                    if (name == '') {
+                                        alert("이름을 입력해주세요.");
+                                        return false;
+                                    }
+
+                                    if (tel == '') {
+                                        alert("연락처를 입력해주세요.");
+                                        return false;
+                                    }
+
+                                    if (postcode == '') {
+                                        alert("주소를 입력해주세요.");
+                                        return false;
+                                    }
+
 
 
                                     let infoJson ={
@@ -534,9 +454,10 @@
 
                                     let checkingAddress = $('#checkAddress').val();
 
+                                    let postCK = $('#postCK').val();
 
                                     //주소지 등록 여부 ajax
-                                    if (checkingAddress == 0) {
+                                    if (postCK == '') {
 
                                         let response = confirm("기본 주소지로 등록하시겠습니까?");
                                         if (response) {
@@ -639,8 +560,6 @@
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Faq</a></li>
                             </ul>
                         </div>
                     </div>
@@ -648,8 +567,6 @@
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
-                                <li><a href="#">마이 페이지</a></li>
-                                <li><a href="#">Community</a></li>
                             </ul>
                         </div>
                     </div>
@@ -677,22 +594,23 @@
     <!-- /.wrapper end -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="/js/plugins.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/js/active.js"></script>
 
 <script>
 
 
+    let checkOK = true;
     let checkPoint = false;
     let check_code = "";
-    // 이메일 인증 버튼 요소를 가져옵니다.
+    // 이메일 인증 버튼 요소
     let emailVerificationButton = document.getElementById('email-verification-button');
 
     //이메일 체크
@@ -717,10 +635,15 @@
                     if (data == "N") {
                         alert("이메일 인증 중 오류가 발생하였습니다. 관리자에게 문의하세요.");
                     }else if (data == "Y") {
+                        $('#check_email').css('display', 'none');
+                        $('#email1').css('display', 'none');
+                        $('#email2').css('display', 'none');
+                        $('#email3').css('display', 'none');
                         alert("이메일 인증이 정상적으로 진행되었습니다.");
-                        emailVerificationButton.textContent = '인증 완료';
+
+                        checkOK = false;
+                        document.getElementById('email-verification-button').textContent = '인증 완료';
                         emailVerificationButton.removeEventListener('click', verifyEmail);
-                        $('#check_email').hide();
                         return false;
                     } else if (data == "diff id") {
                         alert("현재 계정 상태가 정상적이지 않습니다. 관리자에게 문의하세요.");
@@ -741,14 +664,10 @@
 
     });
 
-    // 이메일 인증 함수를 정의합니다.
+    // 이메일 인증 함수를 정의
     function verifyEmail() {
 
-        alert("verifyEmail");
-        alert(check_code);
-
-
-        // 이메일 입력 필드 요소를 가져옵니다.
+        // 이메일 입력 필드 요소
         let emailInput = document.getElementById('email');
 
         // 이메일 주소가 유효한지 확인합니다.
@@ -757,26 +676,29 @@
             return;
         }
 
+
+        alert('인증코드가 전송되었습니다.');
+
         // 인증 버튼 요소를 비활성화합니다.
         emailVerificationButton.removeEventListener('click', verifyEmail);
         // emailVerificationButton.classList.add('disabled');
 
-        // 남은 시간(3분)을 나타내는 변수를 선언합니다.
+        // 남은 시간(3분)을 나타내는 변수
         let remainingTime = 180;
 
         // 카운트다운 함수를 정의합니다.
         function countdown() {
-            // remainingTime을 1초 감소시킵니다.
+            // remainingTime을 1초 감소
             remainingTime--;
 
-            // 남은 시간을 분과 초로 분리합니다.
+            // 남은 시간을 분과 초로 분리
             let minutes = Math.floor(remainingTime / 60);
             let seconds = remainingTime % 60;
 
-            // 인증 버튼의 텍스트를 업데이트합니다.
+            // 인증 버튼의 텍스트를 업데이트
             emailVerificationButton.textContent = `${minutes}분 ${seconds}초`;
 
-            // 남은 시간이 0이면 카운트다운을 중지합니다.
+            // 남은 시간이 0이면 카운트다운을 중지
             if (remainingTime === 0) {
                 checkPoint = false;
                 check_code = "";
@@ -787,10 +709,12 @@
             }
         }
 
-        // 카운트다운 함수를 1초마다 실행합니다.
-        let intervalId = setInterval(countdown, 1000);
+        // 카운트다운 함수를 1초마다 실행
+        if (checkOK) {
+            let intervalId = setInterval(countdown, 1000);
+        }
 
-        // 인증 버튼을 한 번 더 클릭하면 카운트다운을 취소합니다.
+        // 인증 버튼을 한 번 더 클릭하면 카운트다운을 취소
         emailVerificationButton.addEventListener('click', () => {
             checkPoint = false;
             check_code = "";
@@ -806,9 +730,6 @@
 
     function serverEmail() {
 
-        alert("serverEmail");
-
-        // 이메일 입력 필드 요소를 가져옵니다.
         let emailInput = document.getElementById('email');
 
         let email = $('#email').val();
@@ -822,7 +743,7 @@
 
         checkPoint = true;
 
-        // 이메일 주소가 유효한지 확인합니다.
+        // 이메일 주소가 유효한지 확인
         if (!regExp.test(email)) {
             alert('유효한 이메일 주소를 입력해주세요.');
             return;
@@ -845,7 +766,7 @@
 
 
 
-    // 인증 버튼에 이벤트 리스너를 추가합니다.
+    // 인증 버튼에 이벤트 리스너를 추가
     emailVerificationButton.addEventListener('click', serverEmail);
 
 </script>

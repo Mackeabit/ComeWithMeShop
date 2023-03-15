@@ -24,10 +24,12 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/*.ico", "/error");
 
-//        registry.addInterceptor(new LoginCheckInterceptor())
-//                .order(2)
-//                .addPathPatterns("/")
-//                .excludePathPatterns("/","/login","/"); //추후 예외 위치 추가
+/*
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/","/login","/shop","/loginCheck","/loginSession"); //추후 예외 위치 추가
+*/
     }
 
     //@Login 어노테이션 활용

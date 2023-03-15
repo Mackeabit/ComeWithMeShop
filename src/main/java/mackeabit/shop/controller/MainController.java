@@ -17,11 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -94,7 +91,7 @@ public class MainController {
         log.info("membersVO = {}", membersVO);
 
         if (membersVO == null) {
-            return "index";
+            return "userMainPage";
         }
 
 
@@ -122,7 +119,7 @@ public class MainController {
 
         model.addAttribute("cartsList", cartService.findMemberCart(membersVO.getMember_idx()));
 
-        return "index";
+        return "userMainPage";
     }
 
 
@@ -299,15 +296,18 @@ public class MainController {
 
         log.info("second search = {}", search);
 
+
+        Long pd_idx = null;
         //2. 데이터를 통해 pd_idx 찾기(색상, 사이즈, 이름에 맞는)
-        Long pd_idx = productService.findPd_idx(search);
+        try {
+            pd_idx = productService.findPd_idx(search);
 
-
-        if (pd_idx == null) {
+        } catch (Exception e) {
             data = "noIdx";
             log.error("상품 인덱스 찾기 오류 발생");
             return data;
         }
+
 
         //3. CartsVO 셋팅
         CartsVO cartsVO = new CartsVO();
@@ -371,7 +371,13 @@ public class MainController {
         //쿠폰 코드로 해당 쿠폰의 가격 뽑아오는 코드
         CouponsVO couponsVO = memberService.findCouponByNm(checkOutDTO.getCp_nm());
 
-        int coupon = couponsVO.getCp_price();
+        int coupon = 0;
+
+        if (couponsVO != null) {
+
+            coupon = couponsVO.getCp_price();
+        }
+
 
         //회원등급에 따른 할인
         int sales = calculateGrade(attribute.getGrade_code(), beforePrice);

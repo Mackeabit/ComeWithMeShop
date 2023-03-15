@@ -36,7 +36,7 @@
 
     <select id="mainPageProductsPaged" parameterType="map" resultType="mackeabit.shop.dto.MainProductsDTO">
         select * from products p
-                          JOIN product_img pi ON p.pd_idx = pi.pd_idx
+                          JOIN product_img pi ON p.pd_idx = pi.pd_idx JOIN products_stars ps ON p.pd_nm = ps.pd_nm
         where p.pd_idx in (select max(pd_idx) from products group by pd_nm)
             limit #{pageSize} offset #{startIndex};
     </select>

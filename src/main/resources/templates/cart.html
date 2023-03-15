@@ -12,23 +12,18 @@
     <title>Come With Me | Cart</title>
 
     <!-- Favicon  -->
-    <link rel="icon" href="img/core-img/favicon.ico">
+    <link rel="icon" href="/img/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
-    <link rel="stylesheet" href="css/core-style.css">
+    <link rel="stylesheet" href="/css/core-style.css">
     <link rel="stylesheet" href="style.css">
 
     <!-- Responsive CSS -->
-    <link href="css/responsive.css" rel="stylesheet">
+    <link href="/css/responsive.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-latest.js"></script>
 
 
     <style>
-        /*        .widget.size .widget-desc a:visited {
-                             background-color: WHITE;
-                             color: RED;
-                         }*/
-
         .widget{
             border-bottom: none;
             padding-bottom: 0;
@@ -559,6 +554,11 @@
 
                                     let coupon = $('#cp_nm').val();
 
+                                    if (!checkPointTax) {
+                                        alert("배송 옵션을 체크해주세요.")
+                                        return false;
+                                    }
+
                                     location.href = "/checkout?shipping_price="+shipping_price+"&cp_nm="+coupon+"&member_idx="+[[${session.loginMember.member_idx}]];
 
                                 }
@@ -646,15 +646,19 @@
                                         success: function (data) {
                                             if (data == "N") {
                                                 alert("등록되지 않은 쿠폰 번호 입니다.");
+                                                $('#cp_nm').val('');
                                                 return false;
                                             } else if (data == "exist") {
                                                 alert("이미 사용한 쿠폰 번호 입니다.");
+                                                $('#cp_nm').val('');
                                                 return false;
                                             } else if (data == "no_min") {
                                                 alert("최소 금액을 넘어야 사용이 가능합니다.");
+                                                $('#cp_nm').val('');
                                                 return false;
                                             } else if (data == "no_more") {
                                                 alert("사용 기간이 지난 쿠폰 번호 입니다.");
+                                                $('#cp_nm').val('');
                                                 return false;
                                             } else {
                                                 alert("쿠폰이 정상적으로 등록되었습니다.");
@@ -702,10 +706,6 @@
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
-                                <li><a href="#">About</a></li>
-                                <!--<li><a href="#">Blog</a></li>-->
-                                <li><a href="#">Faq</a></li>
-                                <!--<li><a href="#">Returns</a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -713,11 +713,6 @@
                     <div class="col-12 col-sm-6 col-md-3 col-lg-2">
                         <div class="single_footer_area">
                             <ul class="footer_widget_menu">
-                                <li><a href="#">마이 페이지</a></li>
-                                <li><a href="#">Community</a></li>
-                                <!--<li><a href="#">Shipping</a></li>-->
-                                <!--<li><a href="#">Our Policies</a></li>-->
-                                <!--<li><a href="#">Afiliates</a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -743,15 +738,15 @@
     <!-- /.wrapper end -->
 
     <!-- jQuery (Necessary for All JavaScript Plugins) -->
-    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <script src="/js/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
-    <script src="js/popper.min.js"></script>
+    <script src="/js/popper.min.js"></script>
     <!-- Bootstrap js -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <!-- Plugins js -->
-    <script src="js/plugins.js"></script>
+    <script src="/js/plugins.js"></script>
     <!-- Active js -->
-    <script src="js/active.js"></script>
+    <script src="/js/active.js"></script>
 </body>
 
 </html>

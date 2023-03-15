@@ -224,6 +224,15 @@ public class ProductController {
 
         //리뷰
         List<ReviewsVO> reviewsVOList = productService.findReviewsByPd_nm(reviewParams);
+
+        int productCheck = 0;
+        if (reviewsVOList == null) {
+            productCheck = -1;
+        }
+
+        log.info("리뷰 리스트 = {}", reviewsVOList);
+
+        model.addAttribute("productCheck", productCheck);
         model.addAttribute("reviews", reviewsVOList);
 
         model.addAttribute("reviewTotalPages", reviewTotalPages);
