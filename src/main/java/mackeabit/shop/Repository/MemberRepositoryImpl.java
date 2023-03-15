@@ -199,5 +199,15 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.findCouponByCp_nm(cp_nm);
     }
 
+    @Override
+    public void changePwd(Map<String, Object> params) {
+        memberMapper.changePwd(params);
+    }
+
+    @Override
+    public MembersVO findEmailAtForgot(String email) {
+        return memberMapper.findEmailAtForgot(email);
+    }
+
 
 }

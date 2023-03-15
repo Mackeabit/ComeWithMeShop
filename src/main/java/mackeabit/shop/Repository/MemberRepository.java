@@ -78,4 +78,7 @@ public interface MemberRepository {
 
     Members_couponVO findCouponByCp_nm(String cp_nm);
 
+    void changePwd(Map<String, Object> params);
+
+    MembersVO findEmailAtForgot(String email);
 }

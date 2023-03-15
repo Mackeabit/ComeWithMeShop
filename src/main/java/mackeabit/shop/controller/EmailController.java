@@ -3,6 +3,7 @@ package mackeabit.shop.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mackeabit.shop.dto.EmailResponseDto;
+import mackeabit.shop.security256.SHA256;
 import mackeabit.shop.service.EmailService;
 import mackeabit.shop.service.MemberService;
 import mackeabit.shop.util.EmailMessage;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @Slf4j
@@ -65,5 +69,37 @@ public class EmailController {
 
         return data;
     }
+
+    //비밀 번호 찾기 요청 시
+    @PostMapping("/changePwd")
+    @ResponseBody
+    public ResponseEntity changePwd(String email) throws NoSuchAlgorithmException {
+        EmailMessage emailMessage = EmailMessage.builder()
+                .to(email)
+                .subject("[Come With Me] 임시 비밀번호 발급")
+                .build();
+
+        String code = emailService.sendMail(emailMessage, "change");
+
+        EmailResponseDto emailResponseDto = new EmailResponseDto();
+        emailResponseDto.setCode(code);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("email", email);
+
+        SHA256 sha256 = new SHA256();
+        String pwd = sha256.encrypt(code + sha256.getSALT());
+
+        params.put("pwd", pwd);
+
+        memberService.changePwd(params);
+
+        return ResponseEntity.ok(emailResponseDto);
+    }
+
+
+
+
+
 
 }

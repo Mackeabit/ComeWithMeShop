@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
+import java.time.Year;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class MemberController {
     private final MemberService memberService;
     private final HttpServletRequest request;
 
-    @RequestMapping("/emailCheck")
+    @RequestMapping("/emailCheckServer")
     @ResponseBody
     public int emailCheck(String email) {
         return memberService.emailCheck(email);
@@ -79,6 +80,24 @@ public class MemberController {
         }
 
         data = coupon.getCp_price().toString();
+
+        return data;
+    }
+
+    @PostMapping("/findMemberEmail")
+    @ResponseBody
+    public String findMemberEmail(String email) {
+        log.info("email = {}", email);
+
+        String data = "no_email";
+
+        MembersVO byEmail = memberService.findEmailAtForgot(email);
+
+        if (byEmail == null) {
+            return data;
+        }
+
+        data = "Y";
 
         return data;
     }

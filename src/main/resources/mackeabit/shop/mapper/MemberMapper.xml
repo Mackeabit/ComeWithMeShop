@@ -165,4 +165,12 @@
         SELECT * FROM members_coupon WHERE cp_nm = #{cp_nm}
     </select>
 
+    <update id="changePwd" parameterType="map">
+        UPDATE members SET pwd=#{pwd} WHERE email=#{email}
+    </update>
+
+    <select id="findEmailAtForgot" parameterType="String" resultType="mackeabit.shop.vo.MembersVO">
+        SELECT * FROM members WHERE email=#{email}
+    </select>
+
 </mapper>

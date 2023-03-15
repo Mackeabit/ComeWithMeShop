@@ -108,8 +108,8 @@
 				let email = $('#email').val();
 
 				$.ajax({
-					type : "GET",
-					url : "/emailCheck",
+					type : "Post",
+					url : "/emailCheckServer",
 					data : {email : email},
 					success: function(data){
 						console.log(data);

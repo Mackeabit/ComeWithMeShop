@@ -365,4 +365,12 @@ public class MemberService {
     public Members_couponVO findCouponByCp_nm(String cp_nm) {
         return repository.findCouponByCp_nm(cp_nm);
     }
+
+    public void changePwd(Map<String, Object> params) {
+        repository.changePwd(params);
+    }
+
+    public MembersVO findEmailAtForgot(String email) {
+        return repository.findEmailAtForgot(email);
+    }
 }
