@@ -313,7 +313,7 @@ public class MemberController {
         return "myQna";
     }
 
-    @GetMapping("test")
+    @GetMapping("/findPwd")
     public String test() {
 
         return "userPasswordFind";
