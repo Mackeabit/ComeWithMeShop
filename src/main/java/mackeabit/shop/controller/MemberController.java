@@ -19,6 +19,8 @@ import java.security.NoSuchAlgorithmException;
 import java.time.Year;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 @Slf4j
@@ -55,7 +57,10 @@ public class MemberController {
          * */
 
         //1. 회원에게 해당 쿠폰 사용 이력이 있는지 확인
-        Members_couponVO members_couponVO = memberService.findCouponByCp_nm(cp_nm);
+        Map<String, Object> params = new ConcurrentHashMap<>();
+        params.put("member_idx", membersVO.getMember_idx());
+        params.put("cp_nm", cp_nm);
+        Members_couponVO members_couponVO = memberService.findCouponByCp_nm(params);
 
         // 조회 결과가 있다면 사용한 쿠폰이므로 return
         if (members_couponVO != null) {
@@ -107,6 +112,12 @@ public class MemberController {
     @ResponseBody
     public String addressInsert(MemberDetailVO memberDetailVO) {
         return memberService.insertDetails(memberDetailVO);
+    }
+
+    @PostMapping("/addressUpdate")
+    @ResponseBody
+    public String addressUpdate(MemberDetailVO memberDetailVO) {
+        return memberService.updateDetails(memberDetailVO);
     }
 
     @GetMapping("/delMember")

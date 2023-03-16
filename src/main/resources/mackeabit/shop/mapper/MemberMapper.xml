@@ -13,7 +13,7 @@
     </select>
 
     <insert id="save" parameterType="mackeabit.shop.vo.MembersVO" useGeneratedKeys="true" keyProperty="member_idx">
-        insert into Members values (0, #{email}, #{pwd}, default, default, default, now(), default, null, null)
+        insert into Members values (0, #{email}, #{pwd}, default, default, now(), default, null, null)
     </insert>
 
     <update id="updateMemberLogin_date" parameterType="mackeabit.shop.vo.MembersVO">
@@ -39,6 +39,12 @@
     <insert id="insertDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
         insert into Members_detail values (#{member_idx}, #{post_code}, #{address}, #{address_detail})
     </insert>
+
+<!--
+    <update id="updateDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
+        UPDATE Members_detail SET post_code=#{post_code}, address=#{address}, address_detail=#{address_detail} WHERE member_idx=#{member_idx}
+    </update>
+-->
 
     <insert id="insertMembersDetails" parameterType="mackeabit.shop.vo.MemberDetailVO">
         insert into Members_detail values (#{member_idx}, null, null, null)
@@ -146,12 +152,21 @@
     </select>
 
     <select id="disableMyReviews" parameterType="Long" resultType="mackeabit.shop.dto.MyWriteReviewsDTO">
+        select rv.review_idx, p.pd_idx, rv.title, rv.contents, rv.date, rv.stars, p.pd_nm, o.order_idx, p.pd_nm, o.order_mi, photo.file_name from reviews rv
+            JOIN products p ON rv.pd_idx = p.pd_idx
+            JOIN orders o ON o.order_idx = rv.order_idx
+            JOIN photos photo ON rv.review_idx = photo.review_idx
+                 where rv.member_idx = #{member_idx} ORDER BY review_idx DESC;
+    </select>
+<!--
+    <select id="disableMyReviews" parameterType="Long" resultType="mackeabit.shop.dto.MyWriteReviewsDTO">
         select rv.review_idx, p.pd_idx, rv.title, rv.contents, rv.date, rv.stars, p.pd_nm, o.order_idx, p.pd_nm, o.order_mi, pi.sv_loc, pi.sv_locct from reviews rv
             JOIN products p ON rv.pd_idx = p.pd_idx
             JOIN orders o ON o.order_idx = rv.order_idx
             JOIN product_img pi ON p.pd_idx = pi.pd_idx
                  where rv.member_idx = #{member_idx} ORDER BY review_idx DESC;
     </select>
+-->
 
     <select id="findMyNoticesByMember_idx" parameterType="Long" resultType="mackeabit.shop.vo.NoticesVO">
         SELECT * FROM notices WHERE member_idx = #{member_idx}
@@ -161,8 +176,8 @@
         SELECT * FROM coupons WHERE cp_nm=#{cp_nm}
     </select>
 
-    <select id="findCouponByCp_nm" parameterType="String" resultType="mackeabit.shop.vo.Members_couponVO">
-        SELECT * FROM members_coupon WHERE cp_nm = #{cp_nm}
+    <select id="findCouponByCp_nm" parameterType="map" resultType="mackeabit.shop.vo.Members_couponVO">
+        SELECT * FROM members_coupon WHERE cp_nm = #{cp_nm} and member_idx=#{member_idx}
     </select>
 
     <update id="changePwd" parameterType="map">

@@ -176,7 +176,7 @@ Coded by www.creative-tim.com
                   </thead>
                   <tbody>
 
-                  <th:block th:if="${myNoticesList == null}">
+                  <th:block th:if="${myNoticesList.size() == 0}">
                   <tr></tr>
                   <tr></tr>
                   <tr><td>
@@ -186,7 +186,16 @@ Coded by www.creative-tim.com
                     <br>
                     <br>
                     <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <p>작성한 문의가 없습니다.</p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <br>
@@ -274,9 +283,17 @@ Coded by www.creative-tim.com
                         </div>
                       </div>
                     <!-- Qna Modal End -->
-
-
                   </th:block>
+
+                  <script>
+                    //qna 답변 접히고 열리는 기능
+                    function toggleAnswer(event) {
+                      event.preventDefault();
+                      var answerDiv = event.target.parentElement.querySelector('.answer');
+                      answerDiv.style.display = (answerDiv.style.display === 'none') ? 'block' : 'none';
+                    }
+                  </script>
+
 
 
                   </tbody>

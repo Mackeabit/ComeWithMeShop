@@ -372,9 +372,11 @@
                                     postcode  = $('#postcode').val();
                                     shipping_code  = $('#shipping_code').val();
 
+                                    let name1 = $('#last_name').val();
+                                    let name2 = $('#first_name').val();
 
 
-                                    if (name == '') {
+                                    if (name1 == '' || name2 == '') {
                                         alert("이름을 입력해주세요.");
                                         return false;
                                     }
@@ -465,7 +467,7 @@
                                             //OK버튼
                                             $.ajax({
                                                 type : "POST",
-                                                url : "/addressInsert",
+                                                url : "/addressUpdate",
                                                 data : detailForm,
                                                 success: function(data){
                                                     if(data == "Y"){

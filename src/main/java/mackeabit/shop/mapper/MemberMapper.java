@@ -76,7 +76,7 @@ public interface MemberMapper {
 
     CouponsVO findCouponByNm(String cp_nm);
 
-    Members_couponVO findCouponByCp_nm(String cp_nm);
+    Members_couponVO findCouponByCp_nm(Map<String, Object> params);
 
     void changePwd(Map<String, Object> params);
 

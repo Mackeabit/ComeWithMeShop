@@ -362,8 +362,8 @@ public class MemberService {
         return repository.findCouponByNm(cp_nm);
     }
 
-    public Members_couponVO findCouponByCp_nm(String cp_nm) {
-        return repository.findCouponByCp_nm(cp_nm);
+    public Members_couponVO findCouponByCp_nm(Map<String, Object> params) {
+        return repository.findCouponByCp_nm(params);
     }
 
     public void changePwd(Map<String, Object> params) {
@@ -380,5 +380,24 @@ public class MemberService {
 
     public void updateGrade(Map<String, Object> params) {
         repository.updateGrade(params);
+    }
+
+    public String updateDetails(MemberDetailVO memberDetailVO) {
+
+        String data = "N";
+
+        HttpSession session = request.getSession(false);
+        MembersVO attribute = (MembersVO) session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+        memberDetailVO.setMember_idx(attribute.getMember_idx());
+
+        int res = repository.updateDetails(memberDetailVO);
+
+        if (res > 0) {
+            data = "Y";
+        }
+
+
+        return data;
     }
 }

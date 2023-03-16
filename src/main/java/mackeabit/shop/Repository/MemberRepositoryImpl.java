@@ -195,8 +195,8 @@ public class MemberRepositoryImpl implements MemberRepository {
     }
 
     @Override
-    public Members_couponVO findCouponByCp_nm(String cp_nm) {
-        return memberMapper.findCouponByCp_nm(cp_nm);
+    public Members_couponVO findCouponByCp_nm(Map<String, Object> params) {
+        return memberMapper.findCouponByCp_nm(params);
     }
 
     @Override

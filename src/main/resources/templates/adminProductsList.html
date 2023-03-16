@@ -118,9 +118,9 @@
             </li>
         </ul>
     </div>
-    <div th:if="${session.superAdmin != null}" class="sidenav-footer position-absolute w-100 bottom-0 ">
+    <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
-            <a class="btn bg-gradient-primary mt-4 w-100" href="/admin/adminSign" type="button">계정 관리</a>
+            <a class="btn bg-gradient-primary mt-4 w-100" href="/admin/adminSign" type="button" th:if="${session.superAdmin != null}">계정 관리</a>
             <a class="btn bg-gradient-success mt-4 w-100" href="/admin/adminLogOut" type="button">로그아웃</a>
         </div>
     </div>

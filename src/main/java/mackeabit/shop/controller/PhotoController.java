@@ -129,7 +129,7 @@ public class PhotoController {
     public String productImages(@RequestParam("files") MultipartFile[] files, ProductsVO productsVO) {
 
         log.info("Start productImages Controller");
-        String data = "N";
+        String data = "Y";
 
 /*
         log.info("{}",productsVO.getPd_cnt());
