@@ -82,4 +82,8 @@ public interface MemberMapper {
 
     MembersVO findEmailAtForgot(String email);
 
+    Long findTotalPrice(Long member_idx);
+
+    void updateGrade(Map<String, Object> params);
+
 }

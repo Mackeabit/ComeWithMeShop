@@ -8,6 +8,7 @@ import mackeabit.shop.Repository.SubRepositoryImpl;
 import mackeabit.shop.dto.CouponMemberDTO;
 import mackeabit.shop.dto.MainCartDTO;
 import mackeabit.shop.dto.MainProductsDTO;
+import mackeabit.shop.util.GradePricePoint;
 import mackeabit.shop.vo.*;
 import mackeabit.shop.web.SessionConst;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
@@ -33,6 +35,7 @@ public class OrderService {
     private final PayRepository payRepository;
     private final HttpServletRequest request;
     private final CartService cartService;
+    private final MemberService memberService;
 
     @Transactional
     public String saveAll(String order_mi, String pay_code, String address, String address_detail, Integer total_price, Integer shipping_code, String coupon_code) {
@@ -187,6 +190,29 @@ public class OrderService {
 
         }
 
+        // 회원 등급 관리 (실버 : 10만, 골드 : 50만, VIP : 100만)
+        Long memberPrice = memberService.findTotalPrice(member_idx);
+
+        int checkGrade = 0;
+
+        if (memberPrice < GradePricePoint.VIP) {
+
+            checkGrade = 2;
+
+            if (memberPrice < GradePricePoint.GOLD) {
+                checkGrade = 1;
+            }
+
+        } else {
+            checkGrade = 3;
+        }
+
+        if (attribute.getGrade_code() < checkGrade) {
+            Map<String, Object> params = new ConcurrentHashMap<>();
+            params.put("member_idx", member_idx);
+            params.put("grade_code", checkGrade);
+            memberService.updateGrade(params);
+        }
 
         log.info("Last payRes = {}", payRes);
 

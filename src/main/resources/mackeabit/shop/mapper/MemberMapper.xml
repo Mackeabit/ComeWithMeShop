@@ -173,4 +173,12 @@
         SELECT * FROM members WHERE email=#{email}
     </select>
 
+    <select id="findTotalPrice" parameterType="Long" resultType="Long">
+        SELECT SUM(total_price) FROM payments WHERE member_idx=#{member_idx}
+    </select>
+
+    <update id="updateGrade" parameterType="map">
+        UPDATE members SET grade_code=#{grade_code} WHERE member_idx=#{member_idx}
+    </update>
+
 </mapper>

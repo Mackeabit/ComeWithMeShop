@@ -35,7 +35,6 @@ public class PayController {
     private final OrderService orderService;
 
 
-    //결제 검증 성공 후
     @PostMapping("/completeOrders")
     public ResponseEntity<String> paymentComplete(HttpSession session, OrderInfo orderInfo) throws IOException {
 

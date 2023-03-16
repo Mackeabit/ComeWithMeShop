@@ -81,4 +81,8 @@ public interface MemberRepository {
     void changePwd(Map<String, Object> params);
 
     MembersVO findEmailAtForgot(String email);
+
+    Long findTotalPrice(Long member_idx);
+
+    void updateGrade(Map<String, Object> params);
 }

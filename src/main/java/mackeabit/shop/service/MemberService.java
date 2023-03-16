@@ -373,4 +373,12 @@ public class MemberService {
     public MembersVO findEmailAtForgot(String email) {
         return repository.findEmailAtForgot(email);
     }
+
+    public Long findTotalPrice(Long member_idx) {
+        return repository.findTotalPrice(member_idx);
+    }
+
+    public void updateGrade(Map<String, Object> params) {
+        repository.updateGrade(params);
+    }
 }

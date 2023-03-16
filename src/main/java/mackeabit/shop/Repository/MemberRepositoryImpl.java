@@ -209,5 +209,15 @@ public class MemberRepositoryImpl implements MemberRepository {
         return memberMapper.findEmailAtForgot(email);
     }
 
+    @Override
+    public Long findTotalPrice(Long member_idx) {
+        return memberMapper.findTotalPrice(member_idx);
+    }
+
+    @Override
+    public void updateGrade(Map<String, Object> params) {
+        memberMapper.updateGrade(params);
+    }
+
 
 }
