@@ -254,7 +254,6 @@ Coded by www.creative-tim.com
                                         <hr>
                                         <div class="top_seller_product_rating mb-15">
                                         </div>
-                                        <hr>
                                         <p th:text="${qna.contents}">상품 설명란</p>
                                         <br>
                                         <br>
@@ -263,7 +262,7 @@ Coded by www.creative-tim.com
                                         <th:block th:if="${qna.qna_reply != null and qna.qna_reply != ''}">
                                           <a href="#" onclick="toggleAnswer(event)">답변 보기</a>
                                           <div class="form-group answer" style="display:none;">
-                                            <textarea class="form-control" rows="3" style="resize: none" disabled></textarea>
+                                            <textarea class="form-control" rows="3" style="resize: none" disabled th:text="${qna.qna_reply}"></textarea>
                                           </div>
                                         </th:block>
                                       </div>
