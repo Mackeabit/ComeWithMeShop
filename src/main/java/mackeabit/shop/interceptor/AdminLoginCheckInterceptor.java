@@ -22,6 +22,7 @@ public class AdminLoginCheckInterceptor implements HandlerInterceptor {
         if (session.getAttribute(SessionConst.SUPER_ADMIN) == null) {
             if (session.getAttribute(SessionConst.LOGIN_ADMIN) == null) {
                 log.info("미인증 관리자 요청");
+                session.invalidate();
                 response.sendRedirect("/admin/login?redirectURL=" + requestURI);
                 return false;
             }

@@ -37,13 +37,15 @@ public class AdminLoginArgument implements HandlerMethodArgumentResolver {
             return null;
         }
 
+        Object superAdmin = session.getAttribute(SessionConst.SUPER_ADMIN);
 
-        Object admin = session.getAttribute(SessionConst.LOGIN_ADMIN);
-        log.info("admin resolve = {}",admin);
-        if (admin == null) {
-            admin = session.getAttribute(SessionConst.SUPER_ADMIN);
+        if (superAdmin == null) {
+            Object admin = session.getAttribute(SessionConst.LOGIN_ADMIN);
+            log.info("admin resolve = {}",admin);
+            return admin;
+
         }
 
-        return admin;
+        return superAdmin;
     }
 }
