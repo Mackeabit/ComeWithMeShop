@@ -100,8 +100,7 @@ https://user-images.githubusercontent.com/105377279/225520479-745c9f73-9dd5-44fc
  ---
  
  **이용한 HTML 템플릿**
- - https://www.creative-tim.com/product/paper-dashboard-2
-- https://www.creative-tim.com/product/material-dashboard
+ - https://www.creative-tim.com
 - https://themewagon.com
  
  ---
